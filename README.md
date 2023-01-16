@@ -1,6 +1,6 @@
 # Project_Entasis
 
-(Entasis의 의미는 Hell 단계에 도달하시면 알 수 있습니다.)
+
 
 [https://youtu.be/PSVpth7uqb4?t=650](https://youtu.be/PSVpth7uqb4?t=650)
 
