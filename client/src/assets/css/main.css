@@ -1,0 +1,109 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style: none;
+    text-decoration: none;
+}
+
+:root{
+    /* Color */
+    --white-color   : #ffffff;
+    --black-color: #000000;
+    --gray-light-color: #b9b9b9;
+    --gray-dark-color: #484848;
+    --Primary-color: #0073c0;
+    --onPrimary-color: #005690;
+    --Secondary-color: #8d0000;
+    --onSecondary-color: #6a0000;
+}
+.main_page{
+    width: 1920px;
+    
+    background-color: var(--black-color);
+}
+.account_page{
+    
+    width: 490px;
+    
+    background-color: var(--black-color);
+}
+.deposit{
+    
+    background-color: var(--gray-dark-color);
+}
+.exchange{
+    
+    background-color: var(--gray-dark-color);
+}
+.footer{
+    
+    width: 1920px;
+    
+    background-color: var(--gray-dark-color);
+}
+.header{
+    
+    width: 1920px;
+    height: 100px;
+    background-color: var(--gray-dark-color);
+}
+.limit_order_book{
+    
+    width: 320px;
+    
+    background-color: var(--gray-dark-color);
+}
+.modal{
+    
+    width: 360px;
+    
+    background-color: var(--gray-dark-color);
+}
+.navigator{
+    
+    width: 1920px;
+    height: 100px;
+    
+    background-color: var(--gray-dark-color);
+}
+.order{
+    
+    width: 1920px;
+    
+    background-color: var(--gray-dark-color);
+}
+.order_list{
+    
+    width: 1920px;
+    
+    background-color: var(--gray-dark-color);
+}
+.position{
+    
+    width: 1920px;
+    
+    background-color: var(--gray-dark-color);
+}
+.transfer{
+    
+    width: 1920px;
+    
+    background-color: var(--gray-dark-color);
+}
+.withdraw{
+    
+    background-color: var(--gray-dark-color);
+}
+.chart{
+    
+    width: 1260px;
+    height: 720px;
+    background-color: var(--gray-dark-color);
+}
+.left_sidebar{
+    width: 490px;
+}
+.public_disclosure{
+    width: 490px;
+}
