@@ -37,7 +37,7 @@ STO를 통해 현재 증권 거래 비용에 포함된 브로커들의 수수료
     - BEBE는 ST를 매매하지 않는 것으로 가정
         - [유상증자, 무상증자, 유상감자, 무상감자](https://googlle.tistory.com/5)의 경우는 고려하지 않음
             
-            ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5fb76e3a-863f-4a4d-845b-e2bf7981e697/Untitled.png)
+           
             
         - 단, [Buy Back Rights](https://www.lawinsider.com/clause/buy-back-rights) (환매권)의 구현은 추후 결정
             - 환매권은 토큰을 배정 받은 후  일정 기간 내에 토큰을 STO 기업이 판매 가격으로 매입 해 줌을 보증해 주는 권리.(즉, 토큰 무상 반품 제도)
