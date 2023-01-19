@@ -12,98 +12,158 @@
     --black-color: #000000;
     --gray-light-color: #b9b9b9;
     --gray-dark-color: #484848;
-    --Primary-color: #0073c0;
+    --Primary-color: #00A4D8;
     --onPrimary-color: #005690;
     --Secondary-color: #8d0000;
     --onSecondary-color: #6a0000;
-}
-.main_page{
-    width: 1920px;
-    
+
     background-color: var(--black-color);
-}
-.account_page{
-    
-    width: 490px;
-    
-    background-color: var(--black-color);
-}
-.deposit{
-    
-    background-color: var(--gray-dark-color);
-}
-.exchange{
-    
-    background-color: var(--gray-dark-color);
-}
-.footer{
-    
-    width: 1920px;
-    
-    background-color: var(--gray-dark-color);
+    color: var(--white-color);
 }
 .header{
-    
-    width: 1920px;
+    margin: auto;
+    padding: 0 1%;
     height: 100px;
+    width: 100%;
+    background-color: var(--gray-dark-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+.header_CI a{
+    height: 80px;
+}
+.header_CI img, .header_CI a{
+    margin: auto;
+    align-items: center;
+}
+.myaccount{
+    position: relative;
+}
+.myaccount .myaccount_wrapper{
+    margin: 10% 1%;
+}
+.myaccount .deposit, .myaccount .exercise_of_voting_rights{
+    margin-top: 10%;
+
+}
+.myaccount .deposit_wrapper{
+    margin: 1%;
+}
+.myaccount h1{
+    color: var(--Primary-color);
+}
+.myaccount h2,.myaccount h3,.myaccount h4,.myaccount h5{
+    color: var(--gray-light-color);
+}
+.myaccount .vote_btn h5{
+    color:rgb(198, 87, 46);
     background-color: var(--gray-dark-color);
 }
-.limit_order_book{
-    
-    width: 320px;
-    
-    background-color: var(--gray-dark-color);
+.myaccount .user_name{
+    margin: 1%;
+
 }
-.modal{
-    
-    width: 360px;
-    
-    background-color: var(--gray-dark-color);
+.assets_wraper{
+    margin: 1%;
 }
+.myaccount .vote_value{
+    margin: 5.6%;
+    height: 20px;
+    text-align: center;
+}
+.myaccount .vote_btn{
+
+    height: 20px;
+    text-align: center;
+    margin: 5.8px 0;
+}
+
+
+.myaccount .vote_btn h5:hover{
+    color:var(--white-color);
+    background-color:rgb(198, 87, 46);
+}
+.myaccount .close{
+    position: absolute;
+    top: 0;
+    right: 0;
+    transition: 0.2s;
+    transform: scale(1);
+}
+.myaccount .close:hover{
+    transform: scale(1.2);
+}
+.exercise_of_voting_right, .deposit{
+    margin-top: 30%;
+}
+.exercise_of_voting_rights_wrapper{
+    bottom: 0%;
+    padding: 2%;
+    justify-content: space-between;
+}
+.exercise_of_voting_rights_wrapper .body{
+    display: flex;
+}
+.exercise_of_voting_rights_wrapper .head{
+    margin-top: 20px;
+    padding: 0 40%;
+}
+.up h5{
+    color: var(--Secondary-color);
+}
+.down h5{
+    color:var(--onPrimary-color);
+}
+.st_select{
+    width: 100%;
+    margin-top: 2%;
+    text-align-last: center;
+}
+.ratio_value{
+    display: flex;
+    justify-content: center;
+    margin: 15px;
+}
+
 .navigator{
-    
-    width: 1920px;
+    margin: 10px 0px 5px 0;
+    width: 100%;
     height: 100px;
-    
-    background-color: var(--gray-dark-color);
-}
-.order{
-    
-    width: 1920px;
-    
-    background-color: var(--gray-dark-color);
-}
-.order_list{
-    
-    width: 1920px;
-    
-    background-color: var(--gray-dark-color);
-}
-.position{
-    
-    width: 1920px;
-    
-    background-color: var(--gray-dark-color);
-}
-.transfer{
-    
-    width: 1920px;
-    
-    background-color: var(--gray-dark-color);
-}
-.withdraw{
-    
-    background-color: var(--gray-dark-color);
+    background-color:#242424;
 }
 .chart{
-    
-    width: 1260px;
+    margin: 5px;
+    width: 65.625%;
     height: 720px;
-    background-color: var(--gray-dark-color);
+    background-color:#242424;
 }
-.left_sidebar{
-    width: 490px;
+.limit_order_book{
+    margin: 5px;
+    width: 16.666%;
+    height: 720px;
+    background-color:#242424;
 }
-.public_disclosure{
-    width: 490px;
+.order{
+    margin: 5px;
+    width: 16.666%;
+    height: 720px;
+    background-color:#242424;
+}
+.position{
+    margin: 5px 0;
+    width: 82.7%;
+    height: 300px;
+    background-color:#242424;
+}
+.footer{
+    margin: 10px 0 0 0;
+    width: 100%;
+    height: 300px;
+    background-color:#242424;
+}
+.main_head{
+    display: flex;
 }

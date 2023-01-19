@@ -1,4 +1,4 @@
-import Chart from "../components/MainPage/Chart"
+import Chart from "../components/MainPage/Chart/Chart"
 import LimitOrderBook from "../components/MainPage/LimitOrderBook"
 import Order from "../components/MainPage/Order"
 import OrderList from "../components/MainPage/OrderList"
@@ -12,9 +12,11 @@ const MainPage =()=>{
     <div className="main_page">
         <Header/>
         <Navigator/>
-        <Chart/>
-        <LimitOrderBook/>
-        <Order/>
+        <div className="main_head">
+            <Chart/>
+            <LimitOrderBook/>
+            <Order/>
+        </div>
         <Position/>
         <Footer/>
     </div>
