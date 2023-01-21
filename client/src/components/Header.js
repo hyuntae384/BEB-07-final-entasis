@@ -1,7 +1,8 @@
 import {Link} from 'react-router-dom';
 import {useEffect, useState} from 'react'
-import '../assets/css/main.css';
 import Modal from "react-modal"
+import '../assets/css/main.css';
+
 const Header =()=> {
     const [userModalIsOpen, setUserModalIsOpen] = useState(false)
     const [isFaucet, setIsFaucet] = useState(false)
@@ -112,7 +113,7 @@ useEffect(()=>{},[userModalIsOpen])
                                 <div className='exercise_of_voting_rights_wrapper body'>
                                     
                                     <div className='left'>
-                                        <h4>Current Ratio</h4>
+                                        <h5>Current</h5>
                                         <div className='ratio_value'>
                                             <h4>{}5%</h4>
                                         </div>
@@ -124,7 +125,7 @@ useEffect(()=>{},[userModalIsOpen])
                                         <div className='vote_btn'><h5>Vote</h5></div>
                                     </div>
                                     <div className='middle'>
-                                        <h4>Voting Result</h4>
+                                        <h5>Result</h5>
                                         <div className='ratio_value'>
                                             <h4>{}0.03</h4>
                                         </div>
@@ -142,7 +143,7 @@ useEffect(()=>{},[userModalIsOpen])
 
                                     </div>
                                     <div className='right'>
-                                        <h4>Next Ratio</h4>
+                                        <h5>Next</h5>
                                         <div className='ratio_value'>
                                             <h4>{}5.49%</h4>
                                         </div>
