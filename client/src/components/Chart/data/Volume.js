@@ -3,52 +3,18 @@ import { useEffect, useState, useRef } from "react"
 import dataToArray from '../../../functions/data_to_array'
 import PublicDisclosure from '../../PublicDisclosure';
 
-const Volume =({ width, height, defaultLimit, dataLength, name,})=>{
-    const [stv, setStv] = useState(0);
-    const [incomeRatio, setIncomeRatio] = useState(0);
-    const [his, setHis] = useState([1,[]]);
-    const [formatLengthHis, setFormatLengthHis] = useState([]);
-    const [formatHis, setFormatHis] = useState([])
-
-    const stv_ref = useRef(1);
-    const incomeRatio_ref = useRef(0.05);
-    useEffect(() => {
-        const loop = setInterval(() => {
-            stv_ref.current = Math.random()*(6);
-            setStv(stv_ref.current);
-        if (stv_ref.current === 10) clearInterval(loop);
-        }, 50);
-    }, []);
-    useEffect(() => {
-        const loop = setInterval(() => {
-            incomeRatio_ref.current = Math.random()*(115);
-            setIncomeRatio(incomeRatio_ref.current);
-        if (incomeRatio_ref.current === 10) clearInterval(loop);
-        }, 500);
-    }, []);
-    let ST_CurrentVolume = his[0] * (1 + stv)*(1+incomeRatio)
-    let totalHisFrom = 0;
-    let totalHisTo = 0;
-
-    his[1].forEach(element => {totalHisTo+=element});
-    let data = [
-        0,
-        his[0],
-        totalHisTo,
-        totalHisFrom
-    ]
-    let CV_his =(e)=>{
-        his[1].push(e)
-        if(his[1].length >= 120 ){
-            formatHis.push(data);
-            totalHisTo=0
-            his[1].splice(0,his[1].length-1);
-        }
-        // return totalHisTo;
-    }
-    const date = dataToArray(formatHis,0)
-    const open = dataToArray(formatHis,1)
-    const his_to = dataToArray(formatHis,2)
+const Volume =({ 
+    volumeFormatHis,
+    volumeData,
+    width, 
+    height, 
+    defaultLimit, 
+    dataLength, 
+    name,
+    })=>{
+    const date = dataToArray(volumeFormatHis,0)
+    const open = dataToArray(volumeFormatHis,1)
+    const his_to = dataToArray(volumeFormatHis,2)
 
     let SVG_VOLUME_WIDTH =  typeof width === "number" ? width * 1 : 0;
     let SVG_VOLUME_HEIGHT = typeof height === "number" ? height * 0.3 : 0;
@@ -69,7 +35,7 @@ const Volume =({ width, height, defaultLimit, dataLength, name,})=>{
         );
     }
     const dataYMax = dataArray.reduce(
-        (max, [_, open, his_to, his_from]) => Math.max(his_to, totalHisTo, max),
+        (max, [_, open, his_to, his_from]) => Math.max(his_to, volumeData[2], max),
         -Infinity
     );
 
@@ -77,10 +43,9 @@ const Volume =({ width, height, defaultLimit, dataLength, name,})=>{
     const dataYRange = dataYMax;
     const numYTicks = 7;
     const barPlothWidth = xAxisLength / (dataArray.length+1.2);
-    dataArray[dataArray.length] = data;
+    dataArray[dataArray.length] = volumeData;
     return(
     <div className="volume">
-        {CV_his(ST_CurrentVolume)}
         <svg width={SVG_VOLUME_WIDTH} height={SVG_VOLUME_HEIGHT}>
         <line
             x1={x0}
@@ -111,7 +76,7 @@ const Volume =({ width, height, defaultLimit, dataLength, name,})=>{
                         y2={y}
                         stroke='#474747'
                     ></line>
-                    <text x={SVG_VOLUME_WIDTH - 60} y={y + 10} fontSize="10" stroke='#ffffff' >
+                    <text x={SVG_VOLUME_WIDTH - 60} y={y + 10} fontSize="10" stroke='#474747' >
                         {typeof yValue === 'number'?yValue.toLocaleString():0} 
                     </text>
                     </g>
@@ -127,14 +92,8 @@ const Volume =({ width, height, defaultLimit, dataLength, name,})=>{
                     ],
                     index
                 ) => {
-                    // 캔들 & 이동평균선
                     const x = x0 + index * barPlothWidth;
                     const sidePadding = xAxisLength * 0.0015;
-                    {/* const max = Math.max(his_from, his_to);
-                    const min = Math.min(his_from, his_to); */}
-                    // ** 여기도 나중에 real data가 오면 필요 없음
-                    // const bolGap =
-                    //********
                     let yRatio = 0;
                     const yRatioGenerator = () => {
                         yRatio = (his_to - dataYMin) / dataYMax;
@@ -144,7 +103,7 @@ const Volume =({ width, height, defaultLimit, dataLength, name,})=>{
                     };
 
                     const y = y0 + (1 - yRatioGenerator()) * yAxisLength;
-                    const fill = his_to < his_from ? "#E33F64" :"#00A4D8" ;
+                    const fill = his_to < his_from ? "#b8284a" : "#00A4D8" ;
                     return (
                     <g key={index}>
                         <rect
@@ -154,25 +113,6 @@ const Volume =({ width, height, defaultLimit, dataLength, name,})=>{
                         width={barPlothWidth - sidePadding}
                         height={height}
                         ></rect>
-                        {/* <line
-                        className="lineLight"
-                        x1={xAxisLength}
-                        x2={x0}
-                        y1={yAxisLength - scaleY(ST_CurrentVolume)}
-                        y2={yAxisLength - scaleY(ST_CurrentVolume)}
-                        stroke={open > his_to ? "#E33F64" : "#4AFA9A"}
-                        ></line>
-                        <text x={SVG_VOLUME_WIDTH - 60} y={typeof scaleY(ST_CurrentVolume)==='number'?yAxisLength - scaleY(ST_CurrentVolume):0} fontSize="10" stroke=
-                        {open > his_to ? "#E33F64" : "#4AFA9A"}
-                        >
-                        {typeof scaleY(ST_CurrentVolume)==='number'?ST_CurrentVolume.toLocaleString():0}
-                        </text> */}
-                        {/* {dataArray[dataArray.length]?
-                        <div> */}
-
-
-                        {/* </div>
-                        :<></>} */}
                     </g>
                     );
                 }

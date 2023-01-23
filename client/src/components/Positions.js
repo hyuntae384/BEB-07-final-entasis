@@ -1,4 +1,4 @@
-import Position from "./Chart/data/Position"
+import Position from "./Position"
 const Positions =()=>{
     return(
     <div className="positions">

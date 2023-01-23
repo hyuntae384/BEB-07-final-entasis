@@ -2,7 +2,15 @@ import React, { useState, useEffect } from "react";
 import Candle from "./data/Candle"
 import Volume from "./data/Volume"
 
-const Chart =({ width, height })=>{
+const Chart =({ 
+    candleFormatHis,
+    ST_CurrentPrice,
+    candleData,
+    volumeFormatHis,
+    volumeData,
+    width,
+    height 
+    })=>{
     const [name, setName] = useState("BEBE");
     const [defaultLimit, setdefaultLimit] = useState(1000);
     const [dataLength, setDataLength] = useState(900);
@@ -54,6 +62,9 @@ const Chart =({ width, height })=>{
     <div className="chart">
     <div onWheel={dataWheelHandler}>
         <Candle
+            candleFormatHis={candleFormatHis}
+            ST_CurrentPrice={ST_CurrentPrice} 
+            candleData={candleData}
             width={size.width}
             height={size.height}
             defaultLimit={defaultLimit}
@@ -61,6 +72,8 @@ const Chart =({ width, height })=>{
             name={name}
         />
         <Volume
+            volumeFormatHis={volumeFormatHis}
+            volumeData={volumeData}
             width={size.width} 
             height={size.height}
             defaultLimit={defaultLimit}
