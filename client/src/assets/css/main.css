@@ -16,7 +16,6 @@
     --onPrimary-color: #005690;
     --Secondary-color: #8d0000;
     --onSecondary-color: #6a0000;
-
     background-color: var(--black-color);
     color: var(--white-color);
 }

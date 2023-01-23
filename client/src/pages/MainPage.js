@@ -8,6 +8,7 @@ import Navigator from "../components/Navigator"
 import Header from "../components/Header"
 
 const MainPage =()=>{
+
     return(
     <div className="main_page">
         <Header/>
