@@ -1,6 +1,6 @@
 import {scaleLinear} from 'd3-scale'
-import { getSTChart } from '../../../../apis/chart';
 import { useEffect, useState, useRef } from "react"
+import dataToArray from '../../../functions/data_to_array'
 import PublicDisclosure from '../../PublicDisclosure';
 
 const Volume =({ width, height, defaultLimit, dataLength, name,})=>{
@@ -17,25 +17,22 @@ const Volume =({ width, height, defaultLimit, dataLength, name,})=>{
             stv_ref.current = Math.random()*(6);
             setStv(stv_ref.current);
         if (stv_ref.current === 10) clearInterval(loop);
-        }, 500);
+        }, 50);
     }, []);
     useEffect(() => {
         const loop = setInterval(() => {
             incomeRatio_ref.current = Math.random()*(115);
             setIncomeRatio(incomeRatio_ref.current);
         if (incomeRatio_ref.current === 10) clearInterval(loop);
-        }, 5000);
+        }, 500);
     }, []);
-    let ST_Corporation_Assets = 20000;
     let ST_CurrentVolume = his[0] * (1 + stv)*(1+incomeRatio)
-    let Short_Term_Volatility = stv;
-    let IncomeRatio = incomeRatio;
     let totalHisFrom = 0;
     let totalHisTo = 0;
 
     his[1].forEach(element => {totalHisTo+=element});
     let data = [
-        new Date().getHours()+ ':'+new Date().getMinutes()+ ':'+ new Date().getSeconds(),
+        0,
         his[0],
         totalHisTo,
         totalHisFrom
@@ -44,25 +41,17 @@ const Volume =({ width, height, defaultLimit, dataLength, name,})=>{
         his[1].push(e)
         if(his[1].length >= 120 ){
             formatHis.push(data);
-            his[1].splice(0,his[1].length-1);
             totalHisTo=0
+            his[1].splice(0,his[1].length-1);
         }
-        return totalHisTo;
+        // return totalHisTo;
     }
-    const dataToArray = (formatHis,order) => {
-        const resultArray =[]
-        formatHis
-            .map((item) => item[order])
-            .forEach((item) => 
-                resultArray.push(item));
-            return resultArray;
-        };
     const date = dataToArray(formatHis,0)
     const open = dataToArray(formatHis,1)
     const his_to = dataToArray(formatHis,2)
 
     let SVG_VOLUME_WIDTH =  typeof width === "number" ? width * 1 : 0;
-    let SVG_VOLUME_HEIGHT = typeof height === "number" ? height * 0.2 : 0;
+    let SVG_VOLUME_HEIGHT = typeof height === "number" ? height * 0.3 : 0;
 
     const xForPrice = 75;
     const xAxisLength = SVG_VOLUME_WIDTH - xForPrice;
@@ -79,12 +68,12 @@ const Volume =({ width, height, defaultLimit, dataLength, name,})=>{
         ]
         );
     }
-
     const dataYMax = dataArray.reduce(
-        (max, [_, open, his_to, his_from]) => Math.max(his_to, his_from, totalHisTo),
+        (max, [_, open, his_to, his_from]) => Math.max(his_to, totalHisTo, max),
         -Infinity
     );
-    const dataYMin = 10
+
+    const dataYMin = 0
     const dataYRange = dataYMax;
     const numYTicks = 7;
     const barPlothWidth = xAxisLength / (dataArray.length+1.2);
@@ -141,21 +130,21 @@ const Volume =({ width, height, defaultLimit, dataLength, name,})=>{
                     // 캔들 & 이동평균선
                     const x = x0 + index * barPlothWidth;
                     const sidePadding = xAxisLength * 0.0015;
-                    const max = Math.max(his_from, his_to);
-                    const min = Math.min(his_from, his_to);
+                    {/* const max = Math.max(his_from, his_to);
+                    const min = Math.min(his_from, his_to); */}
                     // ** 여기도 나중에 real data가 오면 필요 없음
                     // const bolGap =
                     //********
                     let yRatio = 0;
                     const yRatioGenerator = () => {
-                        yRatio = (his_to - dataYMin) / dataYRange;
+                        yRatio = (his_to - dataYMin) / dataYMax;
                         if (yRatio > 0) {
                         return yRatio;
                         } else return (yRatio = his_to / dataYRange / 2);
                     };
 
                     const y = y0 + (1 - yRatioGenerator()) * yAxisLength;
-                    const fill = his_to < his_from ? "#E33F64" :"#4AFA9A" ;
+                    const fill = his_to < his_from ? "#E33F64" :"#00A4D8" ;
                     return (
                     <g key={index}>
                         <rect
