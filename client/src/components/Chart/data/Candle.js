@@ -1,8 +1,6 @@
 import {scaleLinear} from 'd3-scale'
-import { getSTChart } from '../../../../apis/chart';
-import Volume from './Volume';
 import { useEffect, useState, useRef } from "react"
-import PublicDisclosure from '../../PublicDisclosure';
+import dataToArray from '../../../functions/data_to_array'
 
 const Candle =({ width, height, defaultLimit, dataLength, name,})=>{
     const [stv, setStv] = useState(0);
@@ -10,7 +8,6 @@ const Candle =({ width, height, defaultLimit, dataLength, name,})=>{
     const [his, setHis] = useState([1.2]);
     const [formatLengthHis, setFormatLengthHis] = useState([]);
     const [formatHis, setFormatHis] = useState([])
-    const [format, setFormat] = useState()
 
     const stv_ref = useRef(1);
     const incomeRatio_ref = useRef(0.05);
@@ -19,15 +16,16 @@ const Candle =({ width, height, defaultLimit, dataLength, name,})=>{
             stv_ref.current = Math.random()*(0.0003-(-0.0003))-0.0003;
             setStv(stv_ref.current);
         if (stv_ref.current === 10) clearInterval(loop);
-        }, 500);
+        }, 50);
     }, []);
     useEffect(() => {
         const loop = setInterval(() => {
             incomeRatio_ref.current = Math.random()*(0.0009-(-0.0009))-0.0009;
             setIncomeRatio(incomeRatio_ref.current);
         if (incomeRatio_ref.current === 10) clearInterval(loop);
-        }, 5000);
+        }, 500);
     }, []);
+    useEffect(()=>{},[formatLengthHis])
     let ST_Corporation_Assets = 20000;
     let ST_CurrentPrice = his[his.length-1] * (1 + stv)*(1+incomeRatio)
     let Short_Term_Volatility = stv;
@@ -57,19 +55,8 @@ const Candle =({ width, height, defaultLimit, dataLength, name,})=>{
     }
     formatHis
     ?.slice(dataLength, formatHis.length)
-    .forEach((item) => formatLengthHis.push(item));
-    // const readingData = async () => {
-    //     return !isLoading ? coinDataArray.push(data.Data.Data) : null;
-    // };
-    // readingData()
-    const dataToArray = (formatHis,order) => {
-        const resultArray =[]
-        formatHis
-            .map((item) => item[order])
-            .forEach((item) => 
-                resultArray.push(item));
-            return resultArray;
-        };
+    .forEach((item) => formatLengthHis.push(Array.value(item)));
+    // console.log(dataToArray(formatLengthHis,0))
     const date = dataToArray(formatHis,0)
     const open = dataToArray(formatHis,1)
     const close = dataToArray(formatHis,2)
@@ -106,7 +93,7 @@ const Candle =({ width, height, defaultLimit, dataLength, name,})=>{
     const dataYRange = dataYMax - dataYMin;
     const numYTicks = 7;
     const barPlothWidth = xAxisLength / (dataArray.length+1.2);
-    const numXTicks = dataArray.length;
+    const numXTicks = dataArray.length>12?12:dataArray.length;
 
     const xValue= [];
     const generateDate = () => {
@@ -125,12 +112,22 @@ const Candle =({ width, height, defaultLimit, dataLength, name,})=>{
         Short_Term_Volatility {Short_Term_Volatility}<br/>
         IncomeRatio {IncomeRatio}<br/>
         ST_Price  */}
-        <h1>
-        {CP_his(ST_CurrentPrice)}
-        </h1><br/>
+        <br/>
 
         <div>
             <svg width={SVG_CHART_WIDTH} height={SVG_CHART_HEIGHT+20}>
+                <text
+                x={x0 + 15}
+                y={y0 + yAxisLength * 0.06}
+                fontSize={
+                    SVG_CHART_WIDTH > 700
+                    ? SVG_CHART_WIDTH * 0.01
+                    : SVG_CHART_WIDTH * 0.02
+                }
+                stroke='#ffffff'
+                >
+                {name} {CP_his(ST_CurrentPrice.toLocaleString())}
+                </text>
                 <line
                 x1={x0}
                 y1={yAxisLength}
@@ -145,18 +142,7 @@ const Candle =({ width, height, defaultLimit, dataLength, name,})=>{
                 y2={yAxisLength}
                 stroke="gray"
                 />
-                <text
-                x={x0 + 15}
-                y={y0 + yAxisLength * 0.06}
-                fontSize={
-                    SVG_CHART_WIDTH > 700
-                    ? SVG_CHART_WIDTH * 0.01
-                    : SVG_CHART_WIDTH * 0.02
-                }
-                stroke='#ffffff'
-                >
-                {name}
-                </text>
+
                 {/* 세로선 작성 */}
                 {Array.from({ length: numXTicks }).map((_, index) => {
                 const x = x0 + index * (xAxisLength / numXTicks);
@@ -173,7 +159,7 @@ const Candle =({ width, height, defaultLimit, dataLength, name,})=>{
                     <text
                         x={x}
                         y={SVG_CHART_HEIGHT+10}
-                        textAnchor="right"
+                        textAnchor="middle"
                         stroke='#ffffff'
                         fontSize={SVG_CHART_WIDTH < 800 ? 8 : 10}
 
@@ -230,7 +216,7 @@ const Candle =({ width, height, defaultLimit, dataLength, name,})=>{
                     const scaleY = scaleLinear()
                     .domain([dataYMin, dataYMax])
                     .range([y0, yAxisLength]);
-                    const fill = close > open ? "#4AFA9A" : "#E33F64";
+                    const fill = close > open ? "#00A4D8" : "#E33F64";
                     return (
                     <g key={index}>
                         <line
@@ -238,7 +224,7 @@ const Candle =({ width, height, defaultLimit, dataLength, name,})=>{
                         x2={x + (barPlothWidth - sidePadding) / 2}
                         y1={yAxisLength - scaleY(low)}
                         y2={yAxisLength - scaleY(high)}
-                        stroke={open > close ? "#E33F64" : "#4AFA9A"}
+                        stroke={open > close ? "#E33F64" : "#00A4D8"}
                         />
 
                         <rect
@@ -256,10 +242,10 @@ const Candle =({ width, height, defaultLimit, dataLength, name,})=>{
                         x2={x0}
                         y1={yAxisLength - scaleY(ST_CurrentPrice)}
                         y2={yAxisLength - scaleY(ST_CurrentPrice)}
-                        stroke={open > close ? "#E33F64" : "#4AFA9A"}
+                        stroke={open > close ? "#E33F64" : "#00A4D8"}
                         ></line>
                         <text x={SVG_CHART_WIDTH - 60} y={typeof scaleY(ST_CurrentPrice)==='number'?yAxisLength - scaleY(ST_CurrentPrice):0} fontSize="10" stroke=
-                        {open > close ? "#E33F64" : "#4AFA9A"}
+                        {open > close ? "#E33F64" : "#00A4D8"}
                         >
                         {typeof scaleY(ST_CurrentPrice)==='number'?ST_CurrentPrice.toLocaleString():0} ETH
                         </text>
