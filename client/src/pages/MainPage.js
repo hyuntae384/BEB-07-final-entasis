@@ -24,7 +24,7 @@ const MainPage =()=>{
     const volume_incomeRatio_ref = useRef(0.05);
     useEffect(() => {
         const loop = setInterval(() => {
-            candle_stv_ref.current = Math.random()*(0.0003-(-0.0003))-0.0003;
+            candle_stv_ref.current = Math.random()*(0.003-(-0.003))-0.003;
             setCandleStv(candle_stv_ref.current);
             volume_stv_ref.current = Math.random()*(6);
             setVolumeStv(volume_stv_ref.current);
@@ -34,7 +34,7 @@ const MainPage =()=>{
     }, []);
     useEffect(() => {
         const loop = setInterval(() => {
-            candle_incomeRatio_ref.current = Math.random()*(0.0009-(-0.0009))-0.0009;
+            candle_incomeRatio_ref.current = Math.random()*(0.009-(-0.009))-0.009;
             setCandleIncomeRatio(candle_incomeRatio_ref.current);
             volume_incomeRatio_ref.current = Math.random()*(115);
             setVolumeIncomeRatio(volume_incomeRatio_ref.current);

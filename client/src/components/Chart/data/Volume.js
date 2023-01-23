@@ -6,7 +6,12 @@ import PublicDisclosure from '../../PublicDisclosure';
 const Volume =({ 
     volumeFormatHis,
     volumeData,
-    width, height, defaultLimit, dataLength, name,})=>{
+    width, 
+    height, 
+    defaultLimit, 
+    dataLength, 
+    name,
+    })=>{
     const date = dataToArray(volumeFormatHis,0)
     const open = dataToArray(volumeFormatHis,1)
     const his_to = dataToArray(volumeFormatHis,2)
@@ -98,7 +103,7 @@ const Volume =({
                     };
 
                     const y = y0 + (1 - yRatioGenerator()) * yAxisLength;
-                    const fill = his_to < his_from ? "#ab1c37" :"#0d6097" ;
+                    const fill = his_to < his_from ? "#b8284a" : "#00A4D8" ;
                     return (
                     <g key={index}>
                         <rect

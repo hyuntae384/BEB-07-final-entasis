@@ -1,5 +1,4 @@
 import {scaleLinear} from 'd3-scale'
-import { useEffect, useState, useRef } from "react"
 import dataToArray from '../../../functions/data_to_array'
 
 const Candle =({ 
@@ -149,15 +148,11 @@ const Candle =({
                     ],
                     index
                 ) => {
-                    // 캔들 & 이동평균선
                     const x = x0 + index * barPlothWidth;
                     const xX = x0 + (index + 1) * barPlothWidth;
                     const sidePadding = xAxisLength * 0.0015;
                     const max = Math.max(open, close);
                     const min = Math.min(open, close);
-                    // ** 여기도 나중에 real data가 오면 필요 없음
-                    // const bolGap =
-                    //********
                     const scaleY = scaleLinear()
                     .domain([dataYMin, dataYMax])
                     .range([y0, yAxisLength]);
@@ -183,13 +178,13 @@ const Candle =({
 
                         <line
                         className="lineLight"
-                        x1={xAxisLength}
+                        x1={xAxisLength+10}
                         x2={x0}
                         y1={yAxisLength - scaleY(ST_CurrentPrice)}
                         y2={yAxisLength - scaleY(ST_CurrentPrice)}
                         stroke={open > close ? "#E33F64" : "#00A4D8"}
                         ></line>
-                        <text x={SVG_CHART_WIDTH - 60} y={typeof scaleY(ST_CurrentPrice)==='number'?yAxisLength - scaleY(ST_CurrentPrice):0} fontSize="12" fill=
+                        <text x={SVG_CHART_WIDTH - 60} y={typeof scaleY(ST_CurrentPrice)==='number'?yAxisLength - scaleY(ST_CurrentPrice):0} fontSize="12" fill= 
                         {open > close ? "#E33F64" : "#00A4D8"} 
                         >
                         {typeof scaleY(ST_CurrentPrice)==='number'?ST_CurrentPrice.toLocaleString():0} ETH
