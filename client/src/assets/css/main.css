@@ -13,8 +13,8 @@
     --gray-light-color: #b9b9b9;
     --gray-dark-color: #484848;
     --Primary-color: #00A4D8;
-    --onPrimary-color: #005690;
-    --Secondary-color: #8d0000;
+    --onPrimary-color: #0d6097;
+    --Secondary-color: #ab1c37;
     --onSecondary-color: #6a0000;
     background-color: var(--black-color);
     color: var(--white-color);
@@ -138,6 +138,7 @@
 }
 .chart{
     margin: 2.5px;
+    padding: 0.5%;
     width: 65.625%;
     height: 620px;
     background-color:#242424;
@@ -154,11 +155,22 @@
     height: 620px;
     background-color:#242424;
 }
-.position{
+.positions{
     margin: 2.5px 0;
     width: 100%;
     height: 300px;
     background-color:#242424;
+}
+.position_menu{
+    width: 50%;
+    padding: 0 2%;
+
+    display: flex;
+    justify-content: space-between;
+
+}
+.positions h4{
+    padding: 1%;
 }
 .footer{
     margin: 2.5px 0 0 0;
@@ -181,4 +193,37 @@
 .right h5,.middle h5,.left h5{
     text-align: center;
     align-items: center;
+}
+
+.limit_order_buy{
+    color: var(--Primary-color);
+}
+
+.limit_order_sell{
+    color: #b8284a;
+}
+.limit_order_buy,.limit_order_sell{
+    margin: 11.5% 0;
+    display: flex;
+    justify-content: space-around;
+}
+.limit_order_book_menu{
+    margin: 5% 0 10% 0;
+    display: flex;
+    justify-content: space-around;
+    color: #474747;
+
+}
+.market_order{
+    margin: 10% 0;
+    display: flex;
+    justify-content: space-around;
+}
+.market_order h1{
+    width: 80px;
+    margin: auto;
+}
+.limit_order_buy div,.limit_order_sell div,.market_order div{
+    width: 40px;
+    text-align: center;
 }
