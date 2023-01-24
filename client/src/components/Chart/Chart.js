@@ -8,29 +8,35 @@ const Chart =({
     candleData,
     volumeFormatHis,
     volumeData,
-    width,
-    height 
     })=>{
     const [name, setName] = useState("BEBE");
-    const [defaultLimit, setdefaultLimit] = useState(1000);
-    const [dataLength, setDataLength] = useState(900);
+    const [dataLength, setDataLength] = useState(5);
     const dataDefaultMinusLength = 18;
 
-    const dataWheelHandler = () => {
-        window.onwheel = function (e) {
-        e.deltaY > 0
-            ? setDataLength(dataLength < 18 ? dataLength + 0 : dataLength - 8)
-            : setDataLength(
-                dataLength > defaultLimit ? dataLength + 0 : dataLength + 8
-            );
-        };
-    };
     const onClickListener = () => {
         setName("CECE");
     };
     const loadDataHandler = () => {
-        setdefaultLimit(defaultLimit + 500);
+        // setdefaultLimit(defaultLimit + 500);
     };
+    
+    const onMouseEnterHandler = () => {
+        document.body.style.overflow = 'hidden';
+    }
+    const defaultLimit  = volumeFormatHis.length;
+
+    const dataWheelHandler = () => {
+
+        window.onwheel = function (e) {
+        e.deltaY > 0
+            ? setDataLength(dataLength < 5 ? dataLength + 0 : dataLength - 1)
+            : setDataLength(dataLength > defaultLimit - 5 ? dataLength + 0 : dataLength + 1);
+    };
+    };
+    const onMouseLeaveHandler = () => {
+        document.body.style.overflow = 'unset';
+    }
+
     function useWindowSize(){
         const [windowSize, setWindowSize] = useState({
         width: 0,
@@ -55,12 +61,18 @@ const Chart =({
     
         return windowSize;
     }
-    
+
     const size = useWindowSize();
 
+
+
+
     return(
-    <div className="chart">
-    <div onWheel={dataWheelHandler}>
+    <div className="chart" 
+        onWheel={dataWheelHandler} 
+        onMouseEnter ={onMouseEnterHandler}
+        onMouseLeave = {onMouseLeaveHandler}
+        >
         <Candle
             candleFormatHis={candleFormatHis}
             ST_CurrentPrice={ST_CurrentPrice} 
@@ -80,7 +92,6 @@ const Chart =({
             dataLength={dataLength}
             name={name}
         />
-    </div>
     </div>
     )
 }

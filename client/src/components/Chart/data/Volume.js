@@ -12,9 +12,13 @@ const Volume =({
     dataLength, 
     name,
     })=>{
-    const date = dataToArray(volumeFormatHis,0)
-    const open = dataToArray(volumeFormatHis,1)
-    const his_to = dataToArray(volumeFormatHis,2)
+        const volume_array = [];
+        volumeFormatHis
+        .slice(dataLength, volumeFormatHis.length)
+        .forEach((item) => volume_array.push(item));
+    const date = dataToArray(volume_array,0)
+    const open = dataToArray(volume_array,1)
+    const his_to = dataToArray(volume_array,2)
 
     let SVG_VOLUME_WIDTH =  typeof width === "number" ? width * 1 : 0;
     let SVG_VOLUME_HEIGHT = typeof height === "number" ? height * 0.3 : 0;
@@ -77,7 +81,7 @@ const Volume =({
                         stroke='#474747'
                     ></line>
                     <text x={SVG_VOLUME_WIDTH - 60} y={y + 10} fontSize="10" stroke='#474747' >
-                        {typeof yValue === 'number'?yValue.toLocaleString():0} 
+                        {typeof yValue !== 'null'&&typeof yValue !== 'undefined'?yValue.toLocaleString():0} 
                     </text>
                     </g>
                 );
@@ -109,7 +113,7 @@ const Volume =({
                         <rect
                         {...{ fill }}
                         x={x}
-                        y={y}
+                        y={y!== null ?y:0}
                         width={barPlothWidth - sidePadding}
                         height={height}
                         ></rect>
