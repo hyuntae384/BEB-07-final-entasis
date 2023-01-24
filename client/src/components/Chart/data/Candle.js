@@ -32,11 +32,11 @@ const Candle =({
         ]);
     }
     const dataYMax = dataArray.reduce(
-        (max, [_, open, close, high, low]) => (Math.max(max, high, ST_CurrentPrice)+0.0005),
+        (max, [_, open, close, high, low]) => (Math.max(max, high, candleData[3])+0.0005),
         -Infinity
     );
     const dataYMin = dataArray.reduce(
-        (min, [_, open, close, high, low]) => (Math.min(min, low, ST_CurrentPrice)-0.0005),
+        (min, [_, open, close, high, low]) => (Math.min(min, low, candleData[4])-0.0005),
         +Infinity
     );
     const dataYRange = dataYMax - dataYMin;
@@ -53,7 +53,6 @@ const Candle =({
         };
         generateDate();
         dataArray[dataArray.length] = candleData;
-        // console.log(dataArray)
         
     return(
     <div className="candle">

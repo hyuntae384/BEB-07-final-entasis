@@ -51,9 +51,9 @@ const Navigator =()=>{
     <div className="navigator">
     <div className="public_disclosure">
         <div className="public_disclosure_wrapper">
-            <h2
+            <h4
             onClick={()=>setPdModalIsOpen(true)}
-            >Public Disclosure</h2>
+            >Public Disclosure</h4>
             {/* <select className='public_disclosure_select'>
                 <option disabled={false}>
                     Select Your Security Token
