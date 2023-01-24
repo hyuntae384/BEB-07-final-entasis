@@ -35,6 +35,15 @@ useEffect(()=>{},[userModalIsOpen])
             
         },
     };
+
+    let data ={
+        name:'', 
+        assets:{
+        total:'', 
+        st:[{st_name:'',st_price:'',st_amount:''},
+        {st_name:'',st_price:'',st_amount:''},
+        {st_name:'',st_price:'',st_amount:''},]},
+        deposit:{is_fauceted : true || false,}}
     const ST_1 = {
             name:'BEBE',
             price:'200',
@@ -44,12 +53,12 @@ useEffect(()=>{},[userModalIsOpen])
         name:'DEDE',
         price:'100',
         amount:'230'
-    };;
+    };
     const ST_3 = {
         name:'CECE',
         price:'400',
         amount:'10'
-    };;
+    };
     return(
         <div className="header">
         

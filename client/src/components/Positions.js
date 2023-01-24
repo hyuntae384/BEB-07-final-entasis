@@ -1,5 +1,10 @@
-import Position from "./Chart/data/Position"
+import Position from "./Position"
 const Positions =()=>{
+    // `/user/position/?address=${address}`
+
+    const positionArray = [
+
+    ];
     return(
     <div className="positions">
         <h4>Position</h4>
@@ -10,7 +15,16 @@ const Positions =()=>{
             <h5>Fee</h5>
             <h5>Date</h5>
         </div>
-            <Position></Position>
+            {positionArray.map((e)=>{
+                return (<Position
+                    order = {e.order}
+                    price = {e.price}
+                    amount = {e.amount}
+                    fee = {e.fee}
+                    date = {e.date}
+                />)
+                })}
+            
     </div>
     )
 }
