@@ -1,4 +1,8 @@
-const Position =()=>{
+const Position =({                    order,
+    price,
+    amount,
+    fee,
+    date,})=>{
     return(
     <div className="position">
         <div className="position_wrapper">

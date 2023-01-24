@@ -203,12 +203,14 @@
     color: #b8284a;
 }
 .limit_order_buy,.limit_order_sell{
-    margin: 11.5% 0;
+    margin: 1.5% 0;
+    padding: 6.6% 0 ;
     display: flex;
     justify-content: space-around;
+    background-color:#333333;
 }
 .limit_order_book_menu{
-    margin: 5% 0 10% 0;
+    margin: 5% 0;
     display: flex;
     justify-content: space-around;
     color: #474747;
@@ -218,10 +220,6 @@
     margin: 10% 0;
     display: flex;
     justify-content: space-around;
-}
-.market_order h1{
-    width: 80px;
-    margin: auto;
 }
 .limit_order_buy div,.limit_order_sell div,.market_order div{
     width: 40px;

@@ -54,8 +54,8 @@ const LimitOrderBook =({ST_CurrentPrice})=>{
             )
             })}
             <div className="market_order">
-                    <h1>Price</h1>
-                    <h1>{ST_CurrentPrice.toFixed(3)}</h1>
+                    <h3>Market Price</h3>
+                    <h3>{ST_CurrentPrice.toFixed(3)}</h3>
             </div>
                             {/*
 
