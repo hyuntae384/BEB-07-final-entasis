@@ -7,6 +7,7 @@ const Header =()=> {
     const [userModalIsOpen, setUserModalIsOpen] = useState(false)
     const [isFaucet, setIsFaucet] = useState(false)
 useEffect(()=>{},[userModalIsOpen])
+
     // const accounts = await web3.eth.getAccounts();
     const modalStyle = {
         overlay: {
@@ -16,13 +17,14 @@ useEffect(()=>{},[userModalIsOpen])
             right: 0,
             bottom: 0,
             backgroundColor: "rgba(0, 0, 0, 0.5)",
+            overflow: "hidden",
             zIndex: 10,
         },
         content: {
             display: "block",
             justifyContent: "center",
             background: "#2B2B2B",
-            overflow: "auto",
+            overflow: "hidden",
             top: "0",
             left: "80%",
             right: "0px",
@@ -59,6 +61,15 @@ useEffect(()=>{},[userModalIsOpen])
         price:'400',
         amount:'10'
     };
+    const userModalOpen =()=>{
+        document.body.style.overflow = 'hidden';
+        setUserModalIsOpen(true)
+        }
+    const userModalClose =()=>{
+        document.body.style.overflow = 'unset';
+        setUserModalIsOpen(false)
+        }
+
     return(
         <div className="header">
         
@@ -69,16 +80,16 @@ useEffect(()=>{},[userModalIsOpen])
                 <img src={require('../assets/images/ENTASIS.png')}></img>
             </Link>
 
-            <div onClick={()=>setUserModalIsOpen(true)}className='header_user'>
+            <div onClick={()=>userModalOpen()}className='header_user'>
                 <img src={require('../assets/images/user.png')}></img>
             </div>
             <Modal
                 appElement={document.getElementById('root') || undefined}
-                onRequestClose={()=>setUserModalIsOpen(false)}
+                onRequestClose={()=>userModalClose()}
                 isOpen={userModalIsOpen}
                 style={modalStyle}
             >   <div className='myaccount'>
-                    <div className='close' onClick={()=>setUserModalIsOpen(false)}>
+                    <div className='close' onClick={()=>userModalClose()}>
                         <img src={require('../assets/images/close.png')}></img>
                     </div>
                     <h1>MyAccount</h1>

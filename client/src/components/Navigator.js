@@ -5,7 +5,9 @@ import '../assets/css/main.css';
 const Navigator =()=>{
     const [pdModalIsOpen, setPdModalIsOpen] = useState(false);
     useEffect(()=>{},[pdModalIsOpen]);
+    
     const modalStyle = {
+        
         overlay: {
             position: "fixed",
             top: 0,
@@ -13,13 +15,14 @@ const Navigator =()=>{
             right: 0,
             bottom: 0,
             backgroundColor: "rgba(0, 0, 0, 0.5)",
+            overflow: "hidden",
             zIndex: 10,
         },
         content: {
             display: "block",
             justifyContent: "center",
             background: "#2B2B2B",
-            overflow: "auto",
+            overflow: "hidden",
             top: "0",
             left: "0",
             right: "80%",
@@ -47,12 +50,27 @@ const Navigator =()=>{
         price:'400',
         amount:'10'
     };;
+
+
+
+    const PdModalOpen =()=>{
+        document.body.style.overflow = 'hidden';
+        setPdModalIsOpen(true)
+        }
+    const PdModalClose =()=>{
+        document.body.style.overflow = 'unset';
+        setPdModalIsOpen(false)
+        }
+    
     return(
     <div className="navigator">
     <div className="public_disclosure">
         <div className="public_disclosure_wrapper">
             <h4
-            onClick={()=>setPdModalIsOpen(true)}
+            onClick={()=>
+                PdModalOpen()
+            
+            }
             >Public Disclosure</h4>
             {/* <select className='public_disclosure_select'>
                 <option disabled={false}>
@@ -65,13 +83,13 @@ const Navigator =()=>{
         </div>
         <Modal
         appElement={document.getElementById('root') || undefined}
-        onRequestClose={()=>setPdModalIsOpen(false)}
+        onRequestClose={()=>PdModalClose()}
         isOpen={pdModalIsOpen}
         style={modalStyle}
         >   
             <div>
                 <h1>Public Disclosure</h1>
-                <div className='close' onClick={()=>setPdModalIsOpen(false)}>
+                <div className='close' onClick={()=>PdModalClose()}>
                     <img src={require('../assets/images/close.png')}></img>
                 </div>
                 <h2>Name</h2>

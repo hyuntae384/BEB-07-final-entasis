@@ -2,57 +2,52 @@ import Chart from "../components/Chart/Chart"
 import LimitOrderBook from '../components/LimitOrderBook'
 import Order from '../components/Order'
 import OrderList from "../components/OrderList"
-import Position from "../components/Positions"
+import Assets
+from "../components/Assets"
 import Footer from "../components/Footer"
 import Navigator from "../components/Navigator"
 import Header from "../components/Header"
 import { useEffect, useState, useRef } from "react"
+import Historys from "../components/Historys"
 
 const MainPage =()=>{
-    const [candleStv, setCandleStv] = useState(0);
-    const [candleIncomeRatio, setCandleIncomeRatio] = useState(0);
-    const [volumeStv, setVolumeStv] = useState(0);
-    const [volumeIncomeRatio, setVolumeIncomeRatio] = useState(0);
+    const [stv, setStv] = useState(0);
+    const [incomeRatio, setIncomeRatio] = useState(0);
     const [candleHis, setCandleHis] = useState([1.2]);
-    const [volumeHis, setVolumeHis] = useState([1,[]]);
-    const [candleFormatHis, setCandleFormatHis] = useState([])
-    const [volumeFormatHis, setVolumeFormatHis] = useState([])
+    const [volumeHis, setVolumeHis] = useState([100,[]]);
+    const [candleFormatHis, setCandleFormatHis] = useState([
+
+
+
+    ])
+    const [volumeFormatHis, setVolumeFormatHis] = useState([
+
+
+
+    ])
     const [formatLengthHis, setFormatLengthHis] = useState([]);
-    const candle_stv_ref = useRef(1);
-    const candle_incomeRatio_ref = useRef(0.05);
-    const volume_stv_ref = useRef(1);
-    const volume_incomeRatio_ref = useRef(0.05);
+    const stv_ref = useRef(0.000001);
+    const incomeRatio_ref = useRef(0.000002);
     useEffect(() => {
         const loop = setInterval(() => {
-            candle_stv_ref.current = Math.random()*(0.003-(-0.003))-0.003;
-            setCandleStv(candle_stv_ref.current);
-            volume_stv_ref.current = Math.random()*(6);
-            setVolumeStv(volume_stv_ref.current);
-        if (candle_stv_ref.current === 10||
-            volume_stv_ref.current === 10) clearInterval(loop);
-        }, 50);
+            stv_ref.current = Math.random()*(0.001-(-0.001))-0.001;
+            setStv(stv_ref.current);
+        if (stv_ref.current === 10||
+            stv_ref.current === 10) clearInterval(loop);
+        }, 10);
     }, []);
     useEffect(() => {
         const loop = setInterval(() => {
-            candle_incomeRatio_ref.current = Math.random()*(0.009-(-0.009))-0.009;
-            setCandleIncomeRatio(candle_incomeRatio_ref.current);
-            volume_incomeRatio_ref.current = Math.random()*(115);
-            setVolumeIncomeRatio(volume_incomeRatio_ref.current);
-        if (candle_incomeRatio_ref.current === 10||
-            volume_incomeRatio_ref.current === 10) clearInterval(loop);
-        }, 500);
+            incomeRatio_ref.current = Math.random()*(0.005-(-0.005))-0.005;
+            setIncomeRatio(incomeRatio_ref.current);
+        if (incomeRatio_ref.current === 10||
+            incomeRatio_ref.current === 10) clearInterval(loop);
+        }, 1000);
     }, []);
     useEffect(()=>{},[volumeFormatHis])
-    let ST_CurrentPrice = candleHis[candleHis.length-1] * (1 + candleStv)*(1+candleIncomeRatio)
-    let ST_CurrentVolume = volumeHis[0] * (1 + volumeStv)*(1+volumeIncomeRatio)
-    // console.log(ST_CurrentVolume)
+    let ST_CurrentVolume = volumeHis[0] * (1 + stv*200)*(1+incomeRatio*200)
+    let ST_CurrentPrice = candleHis[candleHis.length-1] * (1 + stv)*(1+incomeRatio) * (1+ST_CurrentVolume/1000000000000)
 
-    // candleFormatHis
-    // ?.slice(dataLength, candleFormatHis.length)
-    // .forEach((item) => formatLengthHis.push(item));
-    // volumeFormatHis
-    // ?.slice(dataLength, volumeFormatHis.length)
-    // .forEach((item) => formatLengthHis.push(item));
         let candleData = [
         new Date().getHours()+ ':'+new Date().getMinutes()+ ':'+ new Date().getSeconds(),
         candleHis[0],
@@ -91,9 +86,7 @@ const MainPage =()=>{
                 totalHisTo=0
                 volumeHis[1].splice(0,volumeHis[1].length-1);
             }}
-
         CP_his(ST_CurrentPrice)
-
         CV_his(ST_CurrentVolume)
     return(
     <div className="main_page">
@@ -113,7 +106,12 @@ const MainPage =()=>{
             />
             <Order/>
         </div>
-        <Position/>
+        <div className="main_bottom">
+            <Historys/>
+            <Assets
+                ST_CurrentPrice={ST_CurrentPrice} 
+            />
+        </div>
         <Footer/>
     </div>
     )
