@@ -29,8 +29,8 @@ const Chart =({
 
         window.onwheel = function (e) {
         e.deltaY > 0
-            ? setDataLength(dataLength < 5 ? dataLength + 0 : dataLength - 1)
-            : setDataLength(dataLength > defaultLimit - 5 ? dataLength + 0 : dataLength + 1);
+            ? setDataLength(dataLength < 5 ? dataLength + 0 : dataLength - volumeFormatHis.length*0.01)
+            : setDataLength(dataLength > defaultLimit - 5 ? dataLength + 0 : dataLength + volumeFormatHis.length*0.01);
     };
     };
     const onMouseLeaveHandler = () => {

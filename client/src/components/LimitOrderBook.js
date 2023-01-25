@@ -1,5 +1,5 @@
 
-const LimitOrderBook =({ST_CurrentPrice})=>{
+const LimitOrderBook =({ST_CurrentPrice, powerOfMarket})=>{
 
     
     //MM
@@ -9,18 +9,23 @@ const LimitOrderBook =({ST_CurrentPrice})=>{
     let priceSet = 0.01;
     let orderList = [];
     for(let i =0;i<5;i++){
-        let amountSet = 15;
+            //매수, 매도세를 알 수 있는 지표는?
+            //가격이 오른 정도 * 실려있는 거래량?
+
+        let amountBuySet = powerOfMarket>0?(powerOfMarket*5).toFixed(0):(-powerOfMarket*0.5).toFixed(0);
+        let amountSellSet = powerOfMarket<0?(powerOfMarket*5).toFixed(0):(-powerOfMarket*0.5).toFixed(0);
+
         let sellOrder= {
             id:4-i,
             name:"bebe",
-            price:ST_CurrentPrice+priceSet*(i+1),
-            amount:amountSet*(i+1),
+            price:(ST_CurrentPrice+priceSet*(i+1))>0?ST_CurrentPrice+priceSet*(i+1):0,
+            amount:(-amountSellSet*(i+1))>3?-amountSellSet*(i+1):3*(i+1),
         };
         let buyOrder={
             id:5+i,
             name:"bebe",
-            price:ST_CurrentPrice-priceSet*(i+1),
-            amount:amountSet*(i+1),
+            price:(ST_CurrentPrice-priceSet*(i+1))>0?ST_CurrentPrice+priceSet*(i+1):0,
+            amount:(amountBuySet*(i+1))>3?amountBuySet*(i+1):3*(i+1),
         };
         orderList[4-i] = sellOrder
         orderList[6+i] = buyOrder

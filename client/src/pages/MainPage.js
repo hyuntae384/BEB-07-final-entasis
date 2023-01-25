@@ -15,16 +15,8 @@ const MainPage =()=>{
     const [incomeRatio, setIncomeRatio] = useState(0);
     const [candleHis, setCandleHis] = useState([1.2]);
     const [volumeHis, setVolumeHis] = useState([100,[]]);
-    const [candleFormatHis, setCandleFormatHis] = useState([
-
-
-
-    ])
-    const [volumeFormatHis, setVolumeFormatHis] = useState([
-
-
-
-    ])
+    const [candleFormatHis, setCandleFormatHis] = useState([])
+    const [volumeFormatHis, setVolumeFormatHis] = useState([])
     const [formatLengthHis, setFormatLengthHis] = useState([]);
     const stv_ref = useRef(0.000001);
     const incomeRatio_ref = useRef(0.000002);
@@ -88,6 +80,9 @@ const MainPage =()=>{
             }}
         CP_his(ST_CurrentPrice)
         CV_his(ST_CurrentVolume)
+        let powerOfMarket = candleFormatHis!==null&&candleFormatHis!==undefined&&candleFormatHis.length>0?(candleFormatHis[candleFormatHis.length-1][2] - candleFormatHis[candleFormatHis.length-1][1])*100:0
+        
+
     return(
     <div className="main_page">
         <Header/>
@@ -102,6 +97,7 @@ const MainPage =()=>{
 
             />
             <LimitOrderBook
+                powerOfMarket={powerOfMarket}
                 ST_CurrentPrice={ST_CurrentPrice} 
             />
             <Order/>

@@ -265,7 +265,13 @@
     padding: 2px ;
     text-align: center;
 }
+.main_historys_container{
+    padding: 2px;
+
+}
 .main_assets_container{
+    margin: 0;
+    padding: 0;
     width: 66.5%;
 
 }
