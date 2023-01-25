@@ -38,6 +38,7 @@ const Historys =()=>{
             <h5>Fee</h5>
             <h5>Date</h5>
         </div>
+        <div className="main_historys_container">
             {positionArray.map((e)=>{
                 return (<History
                     key={e.id}
@@ -47,8 +48,8 @@ const Historys =()=>{
                     fee = {e.fee}
                     date = {e.date}
                 />)
-                })}
-            
+            })}
+        </div>
     </div>
     )
 }

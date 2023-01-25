@@ -7,10 +7,11 @@ const Candle =({
     candleData,
     width, height, defaultLimit, dataLength, name,})=>{
 
-        const candle_array = [];
-        candleFormatHis
-        .slice(dataLength, candleFormatHis.length)
-        .forEach((item) => candle_array.push(item));
+    const candle_array = [];
+    candleFormatHis
+    .slice(dataLength, candleFormatHis.length)
+    .forEach((item) => candle_array.push(item));
+
     const date = dataToArray(candle_array,0)
     const open = dataToArray(candle_array,1)
     const close = dataToArray(candle_array,2)
