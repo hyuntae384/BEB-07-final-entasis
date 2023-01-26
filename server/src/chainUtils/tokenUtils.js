@@ -1,6 +1,6 @@
 const { tokenContract, web3Http } = require('./index');
 
-const { ADMIN_ADDRESS, ADMIN_PK, TOKEN_CA } = process.env;
+const { ADMIN_ADDRESS, ADMIN_PK, TOKEN_CA, GAS, GASPRICE } = process.env;
 
 const signAndSendTx = async (account, tx) => {
   try {
@@ -35,6 +35,23 @@ const getTokenName = async () => {
   }
 };
 
-const tokenTransfer = async () => {} // msg.sender에 대한 개념 확인 필요
+const sendTokenToUser = async (recipient, amount) => {
+  const adminAccount = web3Http.eth.accounts.privateKeyToAccount(ADMIN_PK);
+  try {
+    const bytedata = await tokenContract.methods.transfer(recipient, amount).encodeABI();
+    const tx = {
+      from: ADMIN_ADDRESS,
+      to: TOKEN_CA,
+      amount,
+      gas: GAS,
+      gasPrice: GASPRICE,
+      data: bytedata,
+    };
+    return signAndSendTx(adminAccount, tx);
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+}
 
-module.exports = { getTokenBalance, getTokenName, signAndSendTx };
+module.exports = { getTokenBalance, getTokenName, signAndSendTx, sendTokenToUser };
