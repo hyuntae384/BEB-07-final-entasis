@@ -47,8 +47,8 @@ const Chart =({
         function handleResize() {
             // Set window width/height to state
             setWindowSize({
-            width: window.innerWidth * 0.65,
-            height: window.innerHeight * 0.5,
+            width: window.innerWidth*0.64,
+            height: window.innerHeight*0.5,
             });
         }
         // Add event listener
@@ -61,7 +61,7 @@ const Chart =({
     
         return windowSize;
     }
-
+    // console.log(document.body.querySelector(".chart").style)
     const size = useWindowSize();
 
 
