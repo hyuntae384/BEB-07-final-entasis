@@ -50,7 +50,7 @@ abstract contract OwnerHelper {
   	}
 }
 
-contract SecurityToken is ERC1400Interface, OwnerHelper {
+contract ERC1400 is ERC1400Interface, OwnerHelper {
     mapping (address => uint256) private _balances;
     mapping (address => mapping (address => uint256)) public _allowances;
     mapping(address => mapping(address => bool)) internal _authorizedOperator; //
