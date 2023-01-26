@@ -11,7 +11,6 @@ const Candle =({
     candleFormatHis
     .slice(dataLength, candleFormatHis.length)
     .forEach((item) => candle_array.push(item));
-
     const date = dataToArray(candle_array,0)
     const open = dataToArray(candle_array,1)
     const close = dataToArray(candle_array,2)

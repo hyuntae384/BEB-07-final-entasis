@@ -5,7 +5,6 @@ import '../assets/css/main.css';
 const Navigator =()=>{
     const [pdModalIsOpen, setPdModalIsOpen] = useState(false);
     useEffect(()=>{},[pdModalIsOpen]);
-    
     const modalStyle = {
         
         overlay: {
@@ -87,7 +86,7 @@ const Navigator =()=>{
         isOpen={pdModalIsOpen}
         style={modalStyle}
         >   
-            <div>
+            <div className="myaccount">
                 <h1>Public Disclosure</h1>
                 <div className='close' onClick={()=>PdModalClose()}>
                     <img src={require('../assets/images/close.png')}></img>

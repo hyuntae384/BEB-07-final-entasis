@@ -44,8 +44,15 @@
     height: 80px;
 }
 .header_CI img, .header_CI a{
-    margin: auto;
     align-items: center;
+    height: 30px;
+}
+.header_user{
+    display: flex;
+    width: auto;
+}
+.header_user h2{
+    padding: 0 10px;
 }
 .myaccount{
     position: relative;
@@ -290,4 +297,25 @@
     display: flex;
     margin: 1%;
     justify-content: space-around;
+}
+.welcome{
+    position: absolute;
+    background-color: var(--gray-dark-color);
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    transition: 0.5s;
+}
+.welcome:active{
+    opacity: 0;
+}
+.welcome img{
+    margin: 20% 0 ;
+    transition: 0.5s;
+}
+.welcome .logo{
+    position:absolute;
+
 }

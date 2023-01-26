@@ -6,7 +6,15 @@ import '../assets/css/main.css';
 const Header =()=> {
     const [userModalIsOpen, setUserModalIsOpen] = useState(false)
     const [isFaucet, setIsFaucet] = useState(false)
-useEffect(()=>{},[userModalIsOpen])
+    useEffect(()=>{},[userModalIsOpen])
+    const [isLogin, setIsLogin] = useState(false);
+    const loginHandler =() =>{
+        setIsLogin(!isLogin)
+        if(isLogin===true){
+            return <h2>Asset</h2>
+        }
+        else return <h2>Login</h2>
+    }
 
     // const accounts = await web3.eth.getAccounts();
     const modalStyle = {
@@ -80,8 +88,9 @@ useEffect(()=>{},[userModalIsOpen])
                 <img src={require('../assets/images/ENTASIS.png')}></img>
             </Link>
 
-            <div onClick={()=>userModalOpen()}className='header_user'>
-                <img src={require('../assets/images/user.png')}></img>
+            <div className='header_user'>
+                <h2>Login</h2>
+                <img src={require('../assets/images/user.png')} onClick={()=>setUserModalIsOpen(!userModalIsOpen)}></img>
             </div>
             <Modal
                 appElement={document.getElementById('root') || undefined}

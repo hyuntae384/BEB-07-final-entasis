@@ -9,6 +9,7 @@ import Navigator from "../components/Navigator"
 import Header from "../components/Header"
 import { useEffect, useState, useRef } from "react"
 import Historys from "../components/Historys"
+import Welcome from "./WelcomePage"
 
 const MainPage =()=>{
     const [stv, setStv] = useState(0);
@@ -18,6 +19,7 @@ const MainPage =()=>{
     const [candleFormatHis, setCandleFormatHis] = useState([])
     const [volumeFormatHis, setVolumeFormatHis] = useState([])
     const [formatLengthHis, setFormatLengthHis] = useState([]);
+    const [isLoading, setIsLoading] = useState(true)
     const stv_ref = useRef(0.000001);
     const incomeRatio_ref = useRef(0.000002);
     useEffect(() => {
@@ -26,19 +28,19 @@ const MainPage =()=>{
             setStv(stv_ref.current);
         if (stv_ref.current === 10||
             stv_ref.current === 10) clearInterval(loop);
-        }, 10);
+        }, 50);
     }, []);
     useEffect(() => {
         const loop = setInterval(() => {
-            incomeRatio_ref.current = Math.random()*(0.005-(-0.005))-0.005;
+            incomeRatio_ref.current = Math.random()*(0.005-(-0.0055))-0.005;
             setIncomeRatio(incomeRatio_ref.current);
         if (incomeRatio_ref.current === 10||
             incomeRatio_ref.current === 10) clearInterval(loop);
         }, 1000);
     }, []);
     useEffect(()=>{},[volumeFormatHis])
-    let ST_CurrentVolume = volumeHis[0] * (1 + stv*200)*(1+incomeRatio*200)
-    let ST_CurrentPrice = candleHis[candleHis.length-1] * (1 + stv)*(1+incomeRatio) * (1+ST_CurrentVolume/1000000000000)
+    let ST_CurrentVolume = volumeHis[0] * (1 + stv*90)*(1+incomeRatio*90)
+    let ST_CurrentPrice = candleHis[candleHis.length-1] * (1 + stv)*(1+incomeRatio) * (1+ST_CurrentVolume/100000000)
 
         let candleData = [
         new Date().getHours()+ ':'+new Date().getMinutes()+ ':'+ new Date().getSeconds(),
@@ -85,6 +87,9 @@ const MainPage =()=>{
 
     return(
     <div className="main_page">
+        <Welcome
+            isLoading={isLoading}
+        />
         <Header/>
         <Navigator/>
         <div className="main_head">
