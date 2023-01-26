@@ -8,29 +8,35 @@ const Chart =({
     candleData,
     volumeFormatHis,
     volumeData,
-    width,
-    height 
     })=>{
     const [name, setName] = useState("BEBE");
-    const [defaultLimit, setdefaultLimit] = useState(1000);
-    const [dataLength, setDataLength] = useState(900);
+    const [dataLength, setDataLength] = useState(5);
     const dataDefaultMinusLength = 18;
 
-    const dataWheelHandler = () => {
-        window.onwheel = function (e) {
-        e.deltaY > 0
-            ? setDataLength(dataLength < 18 ? dataLength + 0 : dataLength - 8)
-            : setDataLength(
-                dataLength > defaultLimit ? dataLength + 0 : dataLength + 8
-            );
-        };
-    };
     const onClickListener = () => {
         setName("CECE");
     };
     const loadDataHandler = () => {
-        setdefaultLimit(defaultLimit + 500);
+        // setdefaultLimit(defaultLimit + 500);
     };
+    
+    const onMouseEnterHandler = () => {
+        document.body.style.overflow = 'hidden';
+    }
+    const defaultLimit  = volumeFormatHis.length;
+
+    const dataWheelHandler = () => {
+
+        window.onwheel = function (e) {
+        e.deltaY > 0
+            ? setDataLength(dataLength < 5 ? dataLength + 0 : dataLength - volumeFormatHis.length*0.01)
+            : setDataLength(dataLength > defaultLimit - 5 ? dataLength + 0 : dataLength + volumeFormatHis.length*0.01);
+    };
+    };
+    const onMouseLeaveHandler = () => {
+        document.body.style.overflow = 'unset';
+    }
+
     function useWindowSize(){
         const [windowSize, setWindowSize] = useState({
         width: 0,
@@ -41,8 +47,8 @@ const Chart =({
         function handleResize() {
             // Set window width/height to state
             setWindowSize({
-            width: window.innerWidth * 0.65,
-            height: window.innerHeight * 0.5,
+            width: window.innerWidth*0.64,
+            height: window.innerHeight*0.5,
             });
         }
         // Add event listener
@@ -55,12 +61,18 @@ const Chart =({
     
         return windowSize;
     }
-    
+    // console.log(document.body.querySelector(".chart").style)
     const size = useWindowSize();
 
+
+
+
     return(
-    <div className="chart">
-    <div onWheel={dataWheelHandler}>
+    <div className="chart" 
+        onWheel={dataWheelHandler} 
+        onMouseEnter ={onMouseEnterHandler}
+        onMouseLeave = {onMouseLeaveHandler}
+        >
         <Candle
             candleFormatHis={candleFormatHis}
             ST_CurrentPrice={ST_CurrentPrice} 
@@ -80,7 +92,6 @@ const Chart =({
             dataLength={dataLength}
             name={name}
         />
-    </div>
     </div>
     )
 }

@@ -6,11 +6,16 @@ const Candle =({
     ST_CurrentPrice,
     candleData,
     width, height, defaultLimit, dataLength, name,})=>{
-    const date = dataToArray(candleFormatHis,0)
-    const open = dataToArray(candleFormatHis,1)
-    const close = dataToArray(candleFormatHis,2)
-    const high = dataToArray(candleFormatHis,3)
-    const low =dataToArray(candleFormatHis,4)
+
+    const candle_array = [];
+    candleFormatHis
+    .slice(dataLength, candleFormatHis.length)
+    .forEach((item) => candle_array.push(item));
+    const date = dataToArray(candle_array,0)
+    const open = dataToArray(candle_array,1)
+    const close = dataToArray(candle_array,2)
+    const high = dataToArray(candle_array,3)
+    const low =dataToArray(candle_array,4)
 
     let SVG_CHART_WIDTH = typeof width === "number" ? width * 1 : 0;
     let SVG_CHART_HEIGHT = typeof height === "number" ? height * 0.9 : 0;
@@ -102,7 +107,7 @@ const Candle =({
                     <text
                         x={x}
                         y={SVG_CHART_HEIGHT+10}
-                        textAnchor="middle"
+                        textAnchor="right"
                         stroke='#474747'
                         fontSize={SVG_CHART_WIDTH < 800 ? 8 : 10}
 
@@ -125,8 +130,8 @@ const Candle =({
                         className="lineLight"
                         x1={xAxisLength}
                         x2={x0}
-                        y1={y}
-                        y2={y}
+                        y1={y==='NaN'?0:y}
+                        y2={y==='NaN'?0:y}
                         stroke='#474747'
                     ></line>
                     <text x={SVG_CHART_WIDTH - 60} y={y + 10} fontSize="10" stroke='#474747' >
@@ -161,8 +166,8 @@ const Candle =({
                         <line
                         x1={x + (barPlothWidth - sidePadding) / 2}
                         x2={x + (barPlothWidth - sidePadding) / 2}
-                        y1={yAxisLength - scaleY(low)}
-                        y2={yAxisLength - scaleY(high)}
+                        y1={(yAxisLength - scaleY(low))==='NaN' ? 0 : yAxisLength - scaleY(low)}
+                        y2={(yAxisLength - scaleY(high))==='NaN' ? 0 : yAxisLength - scaleY(high)}
                         stroke={open > close ? "#b8284a" : "#00A4D8"}
                         />
 
@@ -170,17 +175,17 @@ const Candle =({
                         {...{ fill }}
                         x={x}
                         width={barPlothWidth - sidePadding}
-                        y={typeof scaleY(max)==='number'?yAxisLength - scaleY(max):0}
+                        y={typeof scaleY(max)!== null ?yAxisLength - scaleY(max):0}
                         // 시가 종가 최대 최소값의 차
-                        height={scaleY(max) - scaleY(min)}
+                        height={(scaleY(max) - scaleY(min))>1?scaleY(max) - scaleY(min):1}
                         ></rect>
 
                         <line
                         className="lineLight"
                         x1={xAxisLength+10}
                         x2={x0}
-                        y1={yAxisLength - scaleY(ST_CurrentPrice)}
-                        y2={yAxisLength - scaleY(ST_CurrentPrice)}
+                        y1={(yAxisLength - scaleY(ST_CurrentPrice))==='NaN' ? 0 : yAxisLength - scaleY(ST_CurrentPrice)}
+                        y2={(yAxisLength - scaleY(ST_CurrentPrice))==='NaN' ? 0 : yAxisLength - scaleY(ST_CurrentPrice)}
                         stroke={open > close ? "#E33F64" : "#00A4D8"}
                         ></line>
                         <text x={SVG_CHART_WIDTH - 60} y={typeof scaleY(ST_CurrentPrice)==='number'?yAxisLength - scaleY(ST_CurrentPrice):0} fontSize="12" fill= 
