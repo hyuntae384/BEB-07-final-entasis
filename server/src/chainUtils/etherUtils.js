@@ -16,10 +16,10 @@ const depositFaucet = async (recipient, value = '10') => { // faucet 얼마나 �
   }
 };
 
-const etherTransfer = async (sender, recipient, value) =>{
+const sendEtherToUser = async (recipient, value) =>{
   try {
     await web3Http.eth.sendTransaction({
-      from: sender,
+      from: ADMIN_ADDRESS,
       to: recipient,
       value: value,
     });
@@ -30,4 +30,4 @@ const etherTransfer = async (sender, recipient, value) =>{
   }
 }
 
-module.exports = { depositFaucet, etherTransfer };
+module.exports = { depositFaucet, sendEtherToUser };
