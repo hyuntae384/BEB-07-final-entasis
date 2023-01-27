@@ -1,7 +1,7 @@
 require('dotenv').config({ path: '../.env'});
 
 const { WEB3NETWORK, TOKEN_CA, ADMIN_PK } = process.env;
-if (!ADMIN_PK) throw new Error('.env not configured!');
+//if (!ADMIN_PK) throw new Error('.env not configured!');
 
 const Web3 = require('web3');
 const TokenABI = require('./ABIs/ERC1400.json').abi; // 생성해야함
