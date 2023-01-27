@@ -22,7 +22,7 @@ const Candle =({
 
     const xForPrice = 75;
     const xAxisLength = SVG_CHART_WIDTH - xForPrice;
-    const yAxisLength = SVG_CHART_HEIGHT;
+    const yAxisLength = SVG_CHART_HEIGHT - 25;
     const x0 = 0;
     const y0 = 0;
         const dataArray = [];
@@ -106,11 +106,10 @@ const Candle =({
                     ></line>
                     <text
                         x={x}
-                        y={SVG_CHART_HEIGHT}
+                        y={SVG_CHART_HEIGHT-15}
                         textAnchor="right"
                         stroke='#474747'
                         fontSize={SVG_CHART_WIDTH < 800 ? 8 : 10}
-
                     >
                         {xValue[index]}
                     </text>

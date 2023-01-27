@@ -24,7 +24,6 @@
     position: relative;
 
 }
-
 :root::-webkit-scrollbar{
     display: none;
 }
@@ -160,7 +159,7 @@
     padding: 0.5%;
     width: 65.625%;
     max-height: 620px;
-    height: 50%;
+    height: 620px;
     background-color:#242424;
 }
 .limit_order_book{
