@@ -35,10 +35,10 @@ const Header =()=> {
             overflow: "hidden",
             top: "0",
             left: "80%",
-            right: "0px",
+            right: "0",
             bottom: "0",
             border:"0",
-            borderRadius: "0px",
+            borderRadius: "0",
             WebkitOverflowScrolling: "touch",
             outline: "none",
             zIndex: 10,
@@ -77,7 +77,6 @@ const Header =()=> {
         document.body.style.overflow = 'unset';
         setUserModalIsOpen(false)
         }
-
     return(
         <div className="header">
         
@@ -90,7 +89,7 @@ const Header =()=> {
 
             <div className='header_user'>
                 <h2>Login</h2>
-                <img src={require('../assets/images/user.png')} onClick={()=>setUserModalIsOpen(!userModalIsOpen)}></img>
+                <img src={require('../assets/images/user.png')} onClick={()=>userModalOpen()}></img>
             </div>
             <Modal
                 appElement={document.getElementById('root') || undefined}

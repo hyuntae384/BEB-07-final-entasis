@@ -8,6 +8,14 @@ const ejs = require('ejs');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 
+const userRouter = require('./routes/userRouter');
+const companyRouter = require('./routes/companyRouter');
+const tokenRouter = require('./routes/tokenRouter');
+const chartRouter = require('./routes/chartRouter');
+
+const logger = require('./logger');
+const { sequelize } = require('./models');
+
 const app = express();
 app.set('port', process.env.PORT || 5050);
 app.set('view engine', 'ejs');
@@ -46,6 +54,11 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 //     },
 //   }),
 // );
+
+app.use('/user', userRouter);
+app.use('/company', companyRouter);
+app.use('/token', tokenRouter);
+app.use('/chart', chartRouter);
 
 app.use((req, res, next) => {
   const err = new Error(`${req.method} ${req.url} There is no Router`);

@@ -25,7 +25,7 @@ const Volume =({
 
     const xForPrice = 75;
     const xAxisLength = SVG_VOLUME_WIDTH - xForPrice;
-    const yAxisLength = SVG_VOLUME_HEIGHT;
+    const yAxisLength = SVG_VOLUME_HEIGHT-10;
     const x0 = 0;
     const y0 = 0;
     let dataArray=[]
@@ -50,7 +50,7 @@ const Volume =({
     dataArray[dataArray.length] = volumeData;
     return(
     <div className="volume">
-        <svg width={SVG_VOLUME_WIDTH} height={SVG_VOLUME_HEIGHT}>
+        <svg width={SVG_VOLUME_WIDTH} height={SVG_VOLUME_HEIGHT-10}>
         <line
             x1={x0}
             y1={yAxisLength}
@@ -103,17 +103,17 @@ const Volume =({
                         yRatio = (his_to - dataYMin) / dataYMax;
                         if (yRatio > 0) {
                         return yRatio;
-                        } else return (yRatio = his_to / dataYRange / 2);
+                        } else return (yRatio = his_to / dataYRange);
                     };
 
-                    const y = y0 + (1 - yRatioGenerator()) * yAxisLength;
+                    const y = y0 + (1 - yRatioGenerator()) * yAxisLength+5;
                     const fill = his_to < his_from ? "#b8284a" : "#00A4D8" ;
                     return (
                     <g key={index}>
                         <rect
                         {...{ fill }}
                         x={x}
-                        y={y!== null ?y:0}
+                        y={y!== null ?y:10}
                         width={barPlothWidth - sidePadding}
                         height={height}
                         ></rect>
