@@ -22,13 +22,14 @@
     --onSecondary-color: #6a0000;
     background-color: var(--black-color);
     color: var(--white-color);
-    /* overflow: hidden ;
-    height: 100%; */
+    position: relative;
 
 }
 
 
 .header{
+    /* position: sticky;
+    top: 0; */
     margin: auto;
     padding: 0 1%;
     height: 50px;
@@ -320,34 +321,48 @@
 
 }
 
-.welcome_tutorial_wallet:active{
-
+.welcome_tutorial_wallet{
+    top: 6%;
+    right: 0%; 
 }
-.welcome_tutorial_chart:active{
-
+.welcome_tutorial_wallet_top{
+    display: flex;
 }
-.welcome_tutorial_limit_order_book:active{
-
+.welcome_tutorial_chart{
+    top: 32%;
+    right: 62%;
 }
-.welcome_tutorial_order:active{
-
+.welcome_tutorial_limit_order_book{
+    top: 42%;
+    right: 19.4%;
 }
-.welcome_tutorial_public_disclosure:active{
-
+.welcome_tutorial_order{
+    top: 65%;
+    right: 2%;
 }
-.welcome_tutorial_assets:active{
-
+.welcome_tutorial_public_disclosure{
+    top: 6%;
+    right: 78%;
 }
-.welcome_tutorial_history:active{
-
+.welcome_tutorial_assets{
+    top: 6%;
+    right: 0%;
 }
-.welcome_tutorial_account:active{
-
+.welcome_tutorial_history{
+    top: 85%;
+    right: 67%;
 }
-.welcome_tutorial_faucet:active{
-
+.welcome_tutorial_account{
+    top: 85%;
+    right: 18%;
 }
-.welcome_tutorial_transaction:active{
+.welcome_tutorial_faucet{
+    top: 6%;
+    right: 0%;
+}
+.welcome_tutorial_transaction{
+    top: 6%;
+    right: 8%;
 
 }
 .welcome_tutorial_wallet,
@@ -361,7 +376,6 @@
 .welcome_tutorial_faucet,
 .welcome_tutorial_transaction{
     position: absolute;
-    background-color:#686868;
     border: 1px solid var(--white-color);
     border-radius: 10px;
     padding: 5px 10px;
@@ -382,4 +396,13 @@ body:active .welcome_tutorial_account,
 body:active .welcome_tutorial_faucet,
 body:active .welcome_tutorial_transaction{
     opacity: 0;
+}
+
+
+
+@keyframes tutorial {
+    0%      {background-color:#868686; top:200px; right:100px}
+    50%    {background-color:#afafaf; top:300px; right:200px}
+    100%    {background-color:#686868; top:200px; right:100px}
+
 }

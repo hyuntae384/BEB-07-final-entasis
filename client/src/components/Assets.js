@@ -68,8 +68,11 @@ const Assets =({ST_CurrentPrice})=>{
         },
     ];
     const marketData = 100;
+    const onMouseEnterHandler = () => {
+        document.body.style.overflow = 'hidden';
+    }
     return(
-    <div className="main_assets">
+    <div className="main_assets" onFocus={onMouseEnterHandler}>
         <h4>Asset</h4>
         <div className="main_assets_menu">
             <h5>Total Price</h5>

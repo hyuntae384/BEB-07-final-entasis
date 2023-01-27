@@ -77,7 +77,6 @@ const Header =()=> {
         document.body.style.overflow = 'unset';
         setUserModalIsOpen(false)
         }
-
     return(
         <div className="header">
         
