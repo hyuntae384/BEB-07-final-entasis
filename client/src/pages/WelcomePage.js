@@ -90,8 +90,12 @@ const skipHandler = () => {
         isOpen={chart}
         style={modalStyle}
         className="welcome_tutorial_chart" onClick={()=>setChart()} onFocus={document.body.style.overflow='hidden'}>
-        <h4>Chart</h4>
+        <div className='welcome_tutorial_wallet_top'>
+        <h4>Chart</h4> 
         <i className='fas fa-arrow-up'></i>
+        </div><br/>
+        <h5>With Real Time Data,</h5>
+        <h5>Trade Security Tokens</h5>
         <h5 className='count'>2/10</h5>
         <div className='skip' onClick={skipHandler}>skip</div>
         </Modal>
@@ -103,8 +107,12 @@ const skipHandler = () => {
         isOpen={limitOrderBook}
         style={modalStyle}
         className="welcome_tutorial_limit_order_book" onClick={() => setLimitOrderBook()} onFocus={document.body.style.overflow='hidden'}>
-        <h4>Limit Order Book</h4>
+        <div className='welcome_tutorial_wallet_top'>
+        <h4>Limit Order Book</h4> 
         <i className='fas fa-arrow-up'></i>
+        </div><br/>
+        <h5>Market Makers are</h5>
+        <h5>Setting Order Book!</h5>
         <h5 className='count'>3/10</h5>
         <div className='skip' onClick={skipHandler}>skip</div>
         </Modal>
@@ -116,8 +124,12 @@ const skipHandler = () => {
         isOpen={order}
         style={modalStyle}
         className="welcome_tutorial_order" onClick={() => setOrder()} onFocus={document.body.style.overflow='hidden'}>
-        <h4>Order</h4>
+        <div className='welcome_tutorial_wallet_top'>
+        <h4>Order</h4> 
         <i className='fas fa-arrow-up'></i>
+        </div><br/>        
+        <h5>Make Your Order</h5>
+        <h5>What You Want to Make Price!</h5>
         <h5 className='count'>4/10</h5>
         <div className='skip' onClick={skipHandler}>skip</div>
         </Modal>
@@ -129,8 +141,10 @@ const skipHandler = () => {
         isOpen={publicDisclosure}
         style={modalStyle}
         className="welcome_tutorial_public_disclosure" onClick={() => setPublicDisclosure()} onFocus={document.body.style.overflow='hidden'}>
+        <div className='welcome_tutorial_wallet_top'>
         <h4>Public Disclosure</h4>
         <i className='fas fa-arrow-left'></i>
+        </div>
         <h5 className='count'>5/10</h5>
         <div className='skip' onClick={skipHandler}>skip</div>
         </Modal>
