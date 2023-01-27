@@ -374,30 +374,27 @@
     left: 10px;
 }
 .welcome_tutorial_chart{
-    width: 200px;
-    height: 120px;
+    width: 500px;
+    height: 330px;
 
-    top: 32%;
-    right: 62%;
+    top: 22%;
+    right: 52%;
 }
 .welcome_tutorial_limit_order_book{
     width: 200px;
     height: 120px;
-
     top: 42%;
     right: 19.4%;
 }
 .welcome_tutorial_order{
     width: 200px;
     height: 120px;
-
     top: 65%;
     right: 2%;
 }
 .welcome_tutorial_public_disclosure{
     width: 200px;
     height: 120px;
-
     top: 7%;
     right: 78%;
 }
@@ -406,7 +403,7 @@
     height: 120px;
 
     top: 7%;
-    right: 0%;
+    right: 1%;
 }
 .welcome_tutorial_history{
     width: 200px;
@@ -451,7 +448,7 @@
     width: 100%;
     height: auto;
 }
-
+.welcome_tutorial,
 .welcome_tutorial_wallet,
 .welcome_tutorial_chart,
 .welcome_tutorial_limit_order_book,
@@ -473,6 +470,7 @@
     opacity: 0.75;
 
 }
+.welcome_tutorial h4,
 .welcome_tutorial_wallet h4,
 .welcome_tutorial_chart h4,
 .welcome_tutorial_limit_order_book h4,
@@ -487,6 +485,7 @@
     color: var(--white-color);
 
 }
+body:active .welcome_tutorial,
 body:active .welcome_tutorial_wallet,
 body:active .welcome_tutorial_chart,
 body:active .welcome_tutorial_limit_order_book,

@@ -69,7 +69,7 @@ const skipHandler = () => {
             style={modalStyle}
             className="welcome_tutorial" onFocus={document.body.style.overflow='hidden'}>
             <div className='welcome_tutorial_top' >
-            <h4>Welcome to Entasis</h4> <br/>
+            <h2>Welcome to Entasis</h2> <br/>
             </div>
             <img  onClick={() => setStart()} className="congratulations"  src={require('../assets/images/welcome_1.gif')} alt="welcome"/>
                 <h5>For Trading</h5> 
