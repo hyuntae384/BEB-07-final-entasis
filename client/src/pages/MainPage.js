@@ -82,7 +82,7 @@ const MainPage =()=>{
             }}
         CP_his(ST_CurrentPrice)
         CV_his(ST_CurrentVolume)
-        let powerOfMarket = candleFormatHis!==null&&candleFormatHis!==undefined&&candleFormatHis.length>0?(candleFormatHis[candleFormatHis.length-1][2] - candleFormatHis[candleFormatHis.length-1][1])*100:0
+        let powerOfMarket = candleFormatHis!==null&&candleFormatHis!==undefined&&candleFormatHis.length>0?(candleFormatHis[candleFormatHis.length-1][2] - candleFormatHis[candleFormatHis.length-1][1])*10:0
 
         const onMouseEnterHandler = () => {
             document.body.style.overflow = 'unset';

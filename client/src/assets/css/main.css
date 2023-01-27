@@ -233,7 +233,7 @@
 .limit_order_sell{
     color: #b8284a;
     overflow: hidden;
-
+    
 }
 .limit_order_buy,.limit_order_sell{
     margin: 1.5% 0;
