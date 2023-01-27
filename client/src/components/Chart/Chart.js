@@ -36,20 +36,20 @@ const Chart =({
     const onMouseLeaveHandler = () => {
         document.body.style.overflow = 'unset';
     }
-    console.log(document.body.style.overflow)
 
     function useWindowSize(){
         const [windowSize, setWindowSize] = useState({
         width: 0,
         height: 0,
         });
+
         useEffect (() => {
         // Handler to call on window resize
         function handleResize() {
             // Set window width/height to state
             setWindowSize({
             width: window.innerWidth*0.64,
-            height: window.innerHeight*0.5,
+            height: 450,
             });
         }
         // Add event listener
