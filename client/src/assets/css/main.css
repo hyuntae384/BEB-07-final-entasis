@@ -25,7 +25,9 @@
     position: relative;
 
 }
-
+:root::-webkit-scrollbar{
+    display: none;
+}
 
 .header{
     /* position: sticky;
