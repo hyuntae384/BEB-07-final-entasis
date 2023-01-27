@@ -10,7 +10,7 @@ const Chart =({
     volumeData,
     })=>{
     const [name, setName] = useState("BEBE");
-    const [dataLength, setDataLength] = useState(5);
+    const [dataLength, setDataLength] = useState(2);
     const dataDefaultMinusLength = 18;
 
     const onClickListener = () => {
