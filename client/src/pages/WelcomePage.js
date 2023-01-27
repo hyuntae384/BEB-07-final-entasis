@@ -3,6 +3,7 @@ import Modal from 'react-modal'
 
 const Welcome =({isLoading})=>{
     const [welcomeClose, setWelcomeClose] = useState(false)
+    const [start, setStart] = useState(true)
     const [wallet, setWallet] = useState(true)
     const [chart, setChart] = useState(true)
     const [limitOrderBook, setLimitOrderBook] = useState(true)
@@ -59,7 +60,24 @@ const skipHandler = () => {
             <img src={require('../assets/images/welcome.png')} alt="welcome"/>
         </div>
     )}
-
+    if(start){
+        return (
+            <Modal
+            appElement={document.getElementById('root') || undefined}
+            onRequestClose={()=>setStart()}
+            isOpen={start}
+            style={modalStyle}
+            className="welcome_tutorial" onFocus={document.body.style.overflow='hidden'}>
+            <div className='welcome_tutorial_top' >
+            <h4>Welcome to Entasis</h4> <br/>
+            </div>
+            <img  onClick={() => setStart()} className="congratulations"  src={require('../assets/images/welcome_1.gif')} alt="welcome"/>
+                <h5>For Trading</h5> 
+                <h5>Follow this Tutorial</h5>
+            <h5 className='count'>1/10</h5>
+            <div className='skip' onClick={()=>setStart()}>Next</div>
+            </Modal>
+        )}
     
     if(wallet){
     return (
@@ -68,19 +86,17 @@ const skipHandler = () => {
         onRequestClose={()=>setWallet()}
         isOpen={wallet}
         style={modalStyle}
-        className="welcome_tutorial_wallet" onClick={() => setWallet()} onFocus={document.body.style.overflow='hidden'}>
-        <div className='welcome_tutorial_wallet_top'>
+        className="welcome_tutorial_wallet" onFocus={document.body.style.overflow='hidden'}>
+        <div className='welcome_tutorial_top' >
         <h4>Register your wallet</h4> <br/>
         <i className='fas fa-arrow-up'></i>
         </div>
         <div className='welcome_tutorial_wallet_body'>
-            <h5>For Trading</h5> 
             <h5>Connect Your</h5> 
             <h5>MataMask Wallet</h5>
         </div>
         <h5 className='count'>1/10</h5>
-        <div className='skip' onClick={skipHandler}>skip</div>
-
+        <div className='skip' onClick={()=>setWallet()}>Next</div>
         </Modal>
     )}
     if(chart){return (
@@ -90,12 +106,15 @@ const skipHandler = () => {
         isOpen={chart}
         style={modalStyle}
         className="welcome_tutorial_chart" onClick={()=>setChart()} onFocus={document.body.style.overflow='hidden'}>
-        <h4>Chart</h4>
+        <div className='welcome_tutorial_top'>
         <i className='fas fa-arrow-up'></i>
+        <h4>Chart</h4>
         <h5 className='count'>2/10</h5>
-        <div className='skip' onClick={skipHandler}>skip</div>
+        </div>
+        <div className='skip' onClick={()=>setChart()}>Next</div>
         </Modal>
     )}
+    
     if(limitOrderBook){return(
         <Modal
         appElement={document.getElementById('root') || undefined}
@@ -103,10 +122,12 @@ const skipHandler = () => {
         isOpen={limitOrderBook}
         style={modalStyle}
         className="welcome_tutorial_limit_order_book" onClick={() => setLimitOrderBook()} onFocus={document.body.style.overflow='hidden'}>
+        <div className='welcome_tutorial_top'>
         <h4>Limit Order Book</h4>
         <i className='fas fa-arrow-up'></i>
+        </div>
         <h5 className='count'>3/10</h5>
-        <div className='skip' onClick={skipHandler}>skip</div>
+        <div className='skip' onClick={()=>setLimitOrderBook()}>Next</div>
         </Modal>
     )}
     if(order){return(
@@ -116,10 +137,12 @@ const skipHandler = () => {
         isOpen={order}
         style={modalStyle}
         className="welcome_tutorial_order" onClick={() => setOrder()} onFocus={document.body.style.overflow='hidden'}>
+        <div className='welcome_tutorial_top'>
         <h4>Order</h4>
         <i className='fas fa-arrow-up'></i>
+        </div>
         <h5 className='count'>4/10</h5>
-        <div className='skip' onClick={skipHandler}>skip</div>
+        <div className='skip' onClick={()=>setOrder()}>Next</div>
         </Modal>
     )}
     if(publicDisclosure){return(
@@ -129,10 +152,12 @@ const skipHandler = () => {
         isOpen={publicDisclosure}
         style={modalStyle}
         className="welcome_tutorial_public_disclosure" onClick={() => setPublicDisclosure()} onFocus={document.body.style.overflow='hidden'}>
+        <div className='welcome_tutorial_top'>
         <h4>Public Disclosure</h4>
         <i className='fas fa-arrow-left'></i>
+        </div>
         <h5 className='count'>5/10</h5>
-        <div className='skip' onClick={skipHandler}>skip</div>
+        <div className='skip' onClick={()=>setPublicDisclosure()}>Next</div>
         </Modal>
     )}
     if(assets){return(
@@ -142,10 +167,12 @@ const skipHandler = () => {
         isOpen={assets}
         style={modalStyle}
         className="welcome_tutorial_assets" onClick={() => setAssets()} onFocus={document.body.style.overflow='hidden'}>
+        <div className='welcome_tutorial_top'>
         <h4>Assets</h4>
         <i className='fas fa-arrow-up'></i>
+        </div>
         <h5 className='count'>6/10</h5>
-        <div className='skip' onClick={skipHandler}>skip</div>
+        <div className='skip' onClick={()=>setAssets()}>Next</div>
         </Modal>
     )}
     if(history){return(
@@ -155,10 +182,12 @@ const skipHandler = () => {
         isOpen={history}
         style={modalStyle}
         className="welcome_tutorial_history" onClick={() => setHistory()} onFocus={document.body.style.overflow='hidden'}>
+        <div className='welcome_tutorial_top'>
         <h4>History</h4>
         <i className='fas fa-arrow-down'></i>
+        </div>
         <h5 className='count'>7/10</h5>
-        <div className='skip' onClick={skipHandler}>skip</div>
+        <div className='skip' onClick={()=>setWallet()}>Next</div>
         </Modal>
     )}
     if(account){return(
@@ -168,10 +197,12 @@ const skipHandler = () => {
         isOpen={account}
         style={modalStyle}
         className="welcome_tutorial_account" onClick={() => setAccount()} onFocus={document.body.style.overflow='hidden'}>
+        <div className='welcome_tutorial_top'>
         <h4>Account</h4>
         <i className='fas fa-arrow-down'></i>
+        </div>
         <h5 className='count'>8/10</h5>
-        <div className='skip' onClick={skipHandler}>skip</div>
+        <div className='skip' onClick={()=>setWallet()}>Next</div>
         </Modal>
     )}
 
@@ -182,10 +213,12 @@ const skipHandler = () => {
         isOpen={faucet}
         style={modalStyle}
         className="welcome_tutorial_faucet" onClick={() => setFaucet()} onFocus={document.body.style.overflow='hidden'}>
+        <div className='welcome_tutorial_top'>
         <h4>Faucet</h4>
         <i className='fas fa-arrow-right'></i>
+        </div>
         <h5 className='count'>9/10</h5>
-        <div className='skip' onClick={skipHandler}>skip</div>
+        <div className='skip' onClick={()=>setWallet()}>Next</div>
         </Modal>
     )}
     if(transaction){return(
@@ -195,10 +228,12 @@ const skipHandler = () => {
         isOpen={transaction}
         style={modalStyle}
         className="welcome_tutorial_transaction" onClick={() => setTransaction()} onFocus={document.body.style.overflow='hidden'}>
+        <div className='welcome_tutorial_top'>
         <h4>Transaction</h4>
         <i className='fas fa-arrow-up'></i>
+        </div>
         <h5 className='count'>10/10</h5>
-        <div className='skip' onClick={skipHandler}>skip</div>
+        <div className='skip' onClick={()=>setWallet()}>Next</div>
         </Modal>
     )}
     

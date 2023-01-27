@@ -5,10 +5,12 @@ const origin = "http://localhost:3000";
 const getUserURL = origin + "/user/"; 
 
 const faucet = origin + "faucet/"
-const enroll = origin + "enroll/?address="
-const score = origin + "score/?address="
-const position = origin + "position/?address="
-const mypage = origin + "mypage/?address="
+const enroll = origin + "enroll/?wallet="
+const chname = origin + "chname/?wallet="
+const tutorial = origin + "score/?wallet="
+const score = origin + "score/?wallet="
+const position = origin + "position/?wallet="
+const mypage = origin + "mypage/?wallet="
 
 // Test API Request
 export const postWallet = async(wallet) => {

@@ -88,7 +88,6 @@ const Header =()=> {
             </Link>
 
             <div className='header_user'>
-                <h2>Login</h2>
                 <img src={require('../assets/images/user.png')} onClick={()=>userModalOpen()}></img>
             </div>
             <Modal
