@@ -24,7 +24,6 @@
     position: relative;
 
 }
-
 :root::-webkit-scrollbar{
     display: none;
 }
@@ -160,7 +159,7 @@
     padding: 0.5%;
     width: 65.625%;
     max-height: 620px;
-    height: 50%;
+    height: 620px;
     background-color:#242424;
 }
 .limit_order_book{
@@ -234,7 +233,7 @@
 .limit_order_sell{
     color: #b8284a;
     overflow: hidden;
-
+    
 }
 .limit_order_buy,.limit_order_sell{
     margin: 1.5% 0;
