@@ -68,7 +68,7 @@ const MainPage =()=>{
 
         let CP_his =(e)=>{
             candleHis.push(e)
-            if(candleHis.length >= 120 ){
+            if(candleHis.length >= 60 ){
                 candleFormatHis.push(candleData);
                 candleHis.splice(0,candleHis.length-1);
                 if(candleFormatHis.length>2){return setIsLoading(false)}
@@ -77,7 +77,7 @@ const MainPage =()=>{
         let CV_his =(e)=>{
             volumeHis[1].push(e)
 
-            if(volumeHis[1].length >= 120 ){
+            if(volumeHis[1].length >= 60 ){
                 volumeFormatHis.push(volumeData);
                 totalHisTo=0
                 volumeHis[1].splice(0,volumeHis[1].length-1);
