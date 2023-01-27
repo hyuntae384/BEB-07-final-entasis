@@ -320,7 +320,7 @@
     transition: 0.5s;
 }
 .welcome:active{
-    opacity: 0;
+    opacity: 0.5;
 }
 .welcome img{
     margin: 20% 0 ;
@@ -332,49 +332,103 @@
 }
 
 .welcome_tutorial_wallet{
+    width: 200px;
+    height: 120px;
+
     top: 6%;
     right: 0%; 
 }
 .welcome_tutorial_wallet_top{
+
     display: flex;
 }
+.welcome_tutorial_wallet_body{
+    text-align: center;
+    margin: 5%;
+}
+.welcome_tutorial_wallet_top i{
+    position: absolute;
+    right: 20px;
+}
 .welcome_tutorial_chart{
+    width: 200px;
+    height: 120px;
+
     top: 32%;
     right: 62%;
 }
 .welcome_tutorial_limit_order_book{
+    width: 200px;
+    height: 120px;
+
     top: 42%;
     right: 19.4%;
 }
 .welcome_tutorial_order{
+    width: 200px;
+    height: 120px;
+
     top: 65%;
     right: 2%;
 }
 .welcome_tutorial_public_disclosure{
+    width: 200px;
+    height: 120px;
+
     top: 6%;
     right: 78%;
 }
 .welcome_tutorial_assets{
+    width: 200px;
+    height: 120px;
+
     top: 6%;
     right: 0%;
 }
 .welcome_tutorial_history{
+    width: 200px;
+    height: 120px;
+
     top: 85%;
     right: 67%;
 }
 .welcome_tutorial_account{
+    width: 200px;
+    height: 120px;
+
     top: 85%;
     right: 18%;
 }
 .welcome_tutorial_faucet{
+    width: 200px;
+    height: 120px;
+
     top: 6%;
     right: 0%;
 }
 .welcome_tutorial_transaction{
+    width: 200px;
+    height: 120px;
     top: 6%;
     right: 8%;
 
 }
+.welcome_tutorial_tutorial_finished{
+    padding: 2%;
+    width: 300px;
+    height: 400px;
+    top: 50%;
+    right: 50%;
+    transform:translateX(50%) translateY(-50%);
+    text-align: center;
+}
+.welcome_tutorial_tutorial_finished .congratulations{
+    border-radius: 5px;
+    margin: 5% 0;
+    width: 100%;
+    height: auto;
+}
+
 .welcome_tutorial_wallet,
 .welcome_tutorial_chart,
 .welcome_tutorial_limit_order_book,
@@ -384,16 +438,29 @@
 .welcome_tutorial_history,
 .welcome_tutorial_account,
 .welcome_tutorial_faucet,
-.welcome_tutorial_transaction{
+.welcome_tutorial_transaction,
+.welcome_tutorial_tutorial_finished{
     position: absolute;
     border: 1px solid var(--white-color);
     border-radius: 10px;
     padding: 5px 10px;
     color:var(--Primary-color);
-    width: 200px;
-    height: 100px;
     overflow: hidden;
-    transition: 0.5s;
+    transition: 0.2s;
+    
+}
+.welcome_tutorial_wallet h4,
+.welcome_tutorial_chart h4,
+.welcome_tutorial_limit_order_book h4,
+.welcome_tutorial_order h4,
+.welcome_tutorial_public_disclosure h4,
+.welcome_tutorial_assets h4,
+.welcome_tutorial_history h4,
+.welcome_tutorial_account h4,
+.welcome_tutorial_faucet h4,
+.welcome_tutorial_transaction h4,
+.welcome_tutorial_tutorial_finished h4{
+    color: var(--white-color);
 }
 body:active .welcome_tutorial_wallet,
 body:active .welcome_tutorial_chart,
@@ -404,11 +471,21 @@ body:active .welcome_tutorial_assets,
 body:active .welcome_tutorial_history,
 body:active .welcome_tutorial_account,
 body:active .welcome_tutorial_faucet,
-body:active .welcome_tutorial_transaction{
+body:active .welcome_tutorial_transaction,
+body:active .welcome_tutorial_tutorial_finished{
     opacity: 0;
 }
+.count{
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
 
-
+}
+.skip{
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
 
 @keyframes tutorial {
     0%      {background-color:#868686; top:200px; right:100px}

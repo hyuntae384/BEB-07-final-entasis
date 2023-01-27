@@ -38,7 +38,7 @@ const MainPage =()=>{
             incomeRatio_ref.current === 10) clearInterval(loop);
         }, 1000);
     }, []);
-    useEffect(()=>{},[volumeFormatHis])
+
     let ST_CurrentVolume = volumeHis[0] * (1 + stv*90)*(1+incomeRatio*90)
     let ST_CurrentPrice = candleHis[candleHis.length-1] * (1 + stv)*(1+incomeRatio) * (1+ST_CurrentVolume/100000000)
 
@@ -71,6 +71,8 @@ const MainPage =()=>{
             if(candleHis.length >= 120 ){
                 candleFormatHis.push(candleData);
                 candleHis.splice(0,candleHis.length-1);
+                if(candleFormatHis.length>2){return setIsLoading(false)}
+                else{return setIsLoading(true)}
             }}
         let CV_his =(e)=>{
             volumeHis[1].push(e)
