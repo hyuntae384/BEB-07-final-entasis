@@ -1,6 +1,8 @@
 import {Link} from 'react-router-dom';
 import {useEffect, useState} from 'react'
 import Modal from "react-modal"
+import { useWeb3React } from '@web3-react/core';
+import { injected } from '../connectors';
 import '../assets/css/main.css';
 
 const Header =()=> {
@@ -77,6 +79,22 @@ const Header =()=> {
         document.body.style.overflow = 'unset';
         setUserModalIsOpen(false)
         }
+
+    const {chainId, account, active, activate, deactivate} = useWeb3React();
+
+    const handdleConnect = () => {
+        if(active) {
+            deactivate();
+            return;
+        }
+
+        activate(injected, (error) => {
+            if('/No ethereum provider was found on window.ethereum/'.test(error)) {
+                window.open('https://metamask.io/download.html');
+            }
+        });
+    }
+    
     return(
         <div className="header">
         
@@ -87,15 +105,18 @@ const Header =()=> {
                 <img src={require('../assets/images/ENTASIS.png')}></img>
             </Link>
 
+            <div>
+            <button type="button" onClick={handdleConnect}>{active ? 'disconnect' : 'connect'}</button><br/>
+            <span>address : {account}<br/>chainId : {chainId}</span>
+            </div>
             <div className='header_user'>
-                <h2>Login</h2>
                 <img src={require('../assets/images/user.png')} onClick={()=>userModalOpen()}></img>
             </div>
             <Modal
                 appElement={document.getElementById('root') || undefined}
                 onRequestClose={()=>userModalClose()}
                 isOpen={userModalIsOpen}
-                style={modalStyle}
+                style={modalStyle}LoginLogin
             >   <div className='myaccount'>
                     <div className='close' onClick={()=>userModalClose()}>
                         <img src={require('../assets/images/close.png')}></img>
