@@ -7,7 +7,6 @@
     box-sizing: border-box;
     list-style: none;
     text-decoration: none;
-
 }
 
 :root{
@@ -159,6 +158,7 @@
     margin: 2.5px;
     padding: 0.5%;
     width: 65.625%;
+    max-height: 620px;
     height: 620px;
     background-color:#242424;
 }
@@ -167,6 +167,8 @@
     width: 16.666%;
     height: 620px;
     background-color:#242424;
+    overflow: hidden;
+
 }
 .order{
     margin: 2.5px;
@@ -224,14 +226,20 @@
 
 .limit_order_buy{
     color: var(--Primary-color);
+    overflow: hidden;
+
 }
 
 .limit_order_sell{
     color: #b8284a;
+    overflow: hidden;
+
 }
 .limit_order_buy,.limit_order_sell{
-    margin: 5px 0;
-    padding: 14px 0 ;
+    margin: 1.5% 0;
+    padding: 5% 0 ;
+    min-height: 40px;
+    align-items: center;
     display: flex;
     justify-content: space-around;
     background-color:#333333;
@@ -241,10 +249,9 @@
     display: flex;
     justify-content: space-around;
     color: #474747;
-
 }
 .market_order{
-    margin: 15px 0;
+    margin: 10% 0;
     display: flex;
     justify-content: space-around;
 }
