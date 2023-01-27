@@ -1,3 +1,6 @@
+
+
+
 *{
     margin: 0;
     padding: 0;
@@ -13,17 +16,24 @@
     --gray-light-color: #b9b9b9;
     --gray-dark-color: #484848;
     --Primary-color: #00A4D8;
-    --onPrimary-color: #005690;
-    --Secondary-color: #8d0000;
+    --onPrimary-color: #0d6097;
+    --Secondary-color: #ab1c37;
     --onSecondary-color: #6a0000;
-
     background-color: var(--black-color);
     color: var(--white-color);
+    position: relative;
+
 }
+:root::-webkit-scrollbar{
+    display: none;
+}
+
 .header{
+    /* position: sticky;
+    top: 0; */
     margin: auto;
     padding: 0 1%;
-    height: 100px;
+    height: 50px;
     width: 100%;
     background-color: var(--gray-dark-color);
     display: flex;
@@ -36,8 +46,15 @@
     height: 80px;
 }
 .header_CI img, .header_CI a{
-    margin: auto;
     align-items: center;
+    height: 30px;
+}
+.header_user{
+    display: flex;
+    width: auto;
+}
+.header_user h2{
+    padding: 0 10px;
 }
 .myaccount{
     position: relative;
@@ -56,6 +73,7 @@
     color: var(--Primary-color);
 }
 .myaccount h2,.myaccount h3,.myaccount h4,.myaccount h5{
+
     color: var(--gray-light-color);
 }
 .myaccount .vote_btn h5{
@@ -66,7 +84,7 @@
     margin: 1%;
 
 }
-.assets_wraper{
+.main_assets_wraper{
     margin: 1%;
 }
 .myaccount .vote_value{
@@ -86,16 +104,18 @@
     color:var(--white-color);
     background-color:rgb(198, 87, 46);
 }
-.myaccount .close{
+.close{
     position: absolute;
     top: 0;
     right: 0;
     transition: 0.2s;
     transform: scale(1);
 }
-.myaccount .close:hover{
+.close:hover{
     transform: scale(1.2);
 }
+
+
 .exercise_of_voting_right, .deposit{
     margin-top: 30%;
 }
@@ -109,7 +129,7 @@
 }
 .exercise_of_voting_rights_wrapper .head{
     margin-top: 20px;
-    padding: 0 40%;
+    padding: 0 30%;
 }
 .up h5{
     color: var(--Secondary-color);
@@ -129,41 +149,269 @@
 }
 
 .navigator{
-    margin: 10px 0px 5px 0;
+    margin: 5px 0px 2.5px 0;
     width: 100%;
-    height: 100px;
+    height: 50px;
     background-color:#242424;
 }
 .chart{
-    margin: 5px;
+    margin: 2.5px;
+    padding: 0.5%;
     width: 65.625%;
-    height: 720px;
+    max-height: 620px;
+    height: 620px;
     background-color:#242424;
 }
 .limit_order_book{
-    margin: 5px;
+    margin: 2.5px;
     width: 16.666%;
-    height: 720px;
+    height: 620px;
     background-color:#242424;
+    overflow: hidden;
+
 }
 .order{
-    margin: 5px;
+    margin: 2.5px;
     width: 16.666%;
-    height: 720px;
+    height: 620px;
     background-color:#242424;
 }
-.position{
-    margin: 5px 0;
-    width: 82.7%;
-    height: 300px;
+.main_assets, .historys{
+
+    margin: 2.5px;
+    width: 50%;
+    min-height: 300px;
+    height: auto;
     background-color:#242424;
+}
+.main_assets_menu,  .historys_menu{
+    width: 100%;
+    padding: 0 4%;
+    display: flex;
+    justify-content: space-between;
+
+}
+.main_assets h4, .historys h4{
+    padding: 0.5%;
+    color: var(--gray-light-color);
+}
+.main_assets h5, .historys h5{
+    color: var(--gray-dark-color);
+
 }
 .footer{
-    margin: 10px 0 0 0;
+    margin: 2.5px 0 0 0;
     width: 100%;
-    height: 300px;
+    height: auto;
     background-color:#242424;
 }
 .main_head{
     display: flex;
+}
+.main_bottom{
+    display: flex;
+}
+.navigator .public_disclosure_wrapper{
+    display: flex;
+    padding: 5px;
+}
+.public_disclosure_wrapper{}
+.right, .middle, .left{ 
+    width: 33.33%;
+}
+.right h5,.middle h5,.left h5{
+    text-align: center;
+    align-items: center;
+}
+
+.limit_order_buy{
+    color: var(--Primary-color);
+    overflow: hidden;
+
+}
+
+.limit_order_sell{
+    color: #b8284a;
+    overflow: hidden;
+
+}
+.limit_order_buy,.limit_order_sell{
+    margin: 1.5% 0;
+    padding: 5% 0 ;
+    min-height: 40px;
+    align-items: center;
+    display: flex;
+    justify-content: space-around;
+    background-color:#333333;
+}
+.limit_order_book_menu{
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-around;
+    color: #474747;
+}
+.market_order{
+    margin: 10% 0;
+    display: flex;
+    justify-content: space-around;
+}
+.limit_order_buy div,.limit_order_sell div,.market_order div{
+    width: 40px;
+    text-align: center;
+}
+.history_wrapper div, .asset_wrapper div{
+    width: 60px;
+    height: 12px;
+    padding: 0 2%;
+}
+.history_wrapper,.asset_wrapper{
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+    margin: 5px 5px;
+    padding: 1% 5px;
+    height: 25px;
+    background-color: #333333;
+    font-size: 12px;
+}
+.main_bottom_right{
+    display: flex;
+    width: 100%;
+    padding: 2px ;
+    text-align: center;
+}
+.main_historys_container{
+    padding: 2px;
+
+}
+.main_assets_container{
+    margin: 0;
+    padding: 0;
+    width: 66.5%;
+
+}
+.market_data{
+    width: 16%;
+    margin: 0 5%;
+}
+
+.market_data_container{
+    background-color: #333333;
+    width: 34%;
+    height: 300px;
+    margin: 5px 0;
+}
+.market_data_container_header{
+    display: flex;
+    margin: 1%;
+    justify-content: space-around;
+}
+.welcome{
+    position: absolute;
+    background-color: var(--gray-dark-color);
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    transition: 0.5s;
+}
+.welcome:active{
+    opacity: 0;
+}
+.welcome img{
+    margin: 20% 0 ;
+    transition: 0.5s;
+}
+.welcome .logo{
+    position:absolute;
+
+}
+
+.welcome_tutorial_wallet{
+    top: 6%;
+    right: 0%; 
+}
+.welcome_tutorial_wallet_top{
+    display: flex;
+}
+.welcome_tutorial_chart{
+    top: 32%;
+    right: 62%;
+}
+.welcome_tutorial_limit_order_book{
+    top: 42%;
+    right: 19.4%;
+}
+.welcome_tutorial_order{
+    top: 65%;
+    right: 2%;
+}
+.welcome_tutorial_public_disclosure{
+    top: 6%;
+    right: 78%;
+}
+.welcome_tutorial_assets{
+    top: 6%;
+    right: 0%;
+}
+.welcome_tutorial_history{
+    top: 85%;
+    right: 67%;
+}
+.welcome_tutorial_account{
+    top: 85%;
+    right: 18%;
+}
+.welcome_tutorial_faucet{
+    top: 6%;
+    right: 0%;
+}
+.welcome_tutorial_transaction{
+    top: 6%;
+    right: 8%;
+
+}
+.welcome_tutorial_wallet,
+.welcome_tutorial_chart,
+.welcome_tutorial_limit_order_book,
+.welcome_tutorial_order,
+.welcome_tutorial_public_disclosure,
+.welcome_tutorial_assets,
+.welcome_tutorial_history,
+.welcome_tutorial_account,
+.welcome_tutorial_faucet,
+.welcome_tutorial_transaction{
+    position: absolute;
+    border: 1px solid var(--white-color);
+    border-radius: 10px;
+    padding: 5px 10px;
+    color:var(--Primary-color);
+    width: 200px;
+    height: 100px;
+    overflow: hidden;
+    transition: 0.5s;
+}
+body:active .welcome_tutorial_wallet,
+body:active .welcome_tutorial_chart,
+body:active .welcome_tutorial_limit_order_book,
+body:active .welcome_tutorial_order,
+body:active .welcome_tutorial_public_disclosure,
+body:active .welcome_tutorial_assets,
+body:active .welcome_tutorial_history,
+body:active .welcome_tutorial_account,
+body:active .welcome_tutorial_faucet,
+body:active .welcome_tutorial_transaction{
+    opacity: 0;
+}
+
+
+
+@keyframes tutorial {
+    0%      {background-color:#868686; top:200px; right:100px}
+    50%    {background-color:#afafaf; top:300px; right:200px}
+    100%    {background-color:#686868; top:200px; right:100px}
+
 }

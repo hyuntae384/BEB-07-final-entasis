@@ -1,11 +1,21 @@
 import {Link} from 'react-router-dom';
 import {useEffect, useState} from 'react'
-import '../assets/css/main.css';
 import Modal from "react-modal"
+import '../assets/css/main.css';
+
 const Header =()=> {
     const [userModalIsOpen, setUserModalIsOpen] = useState(false)
     const [isFaucet, setIsFaucet] = useState(false)
-useEffect(()=>{},[userModalIsOpen])
+    useEffect(()=>{},[userModalIsOpen])
+    const [isLogin, setIsLogin] = useState(false);
+    const loginHandler =() =>{
+        setIsLogin(!isLogin)
+        if(isLogin===true){
+            return <h2>Asset</h2>
+        }
+        else return <h2>Login</h2>
+    }
+
     // const accounts = await web3.eth.getAccounts();
     const modalStyle = {
         overlay: {
@@ -15,25 +25,35 @@ useEffect(()=>{},[userModalIsOpen])
             right: 0,
             bottom: 0,
             backgroundColor: "rgba(0, 0, 0, 0.5)",
+            overflow: "hidden",
             zIndex: 10,
         },
         content: {
             display: "block",
             justifyContent: "center",
             background: "#2B2B2B",
-            overflow: "auto",
+            overflow: "hidden",
             top: "0",
             left: "80%",
-            right: "0px",
+            right: "0",
             bottom: "0",
             border:"0",
-            borderRadius: "0px",
+            borderRadius: "0",
             WebkitOverflowScrolling: "touch",
             outline: "none",
             zIndex: 10,
             
         },
     };
+
+    let data ={
+        name:'', 
+        assets:{
+        total:'', 
+        st:[{st_name:'',st_price:'',st_amount:''},
+        {st_name:'',st_price:'',st_amount:''},
+        {st_name:'',st_price:'',st_amount:''},]},
+        deposit:{is_fauceted : true || false,}}
     const ST_1 = {
             name:'BEBE',
             price:'200',
@@ -43,12 +63,20 @@ useEffect(()=>{},[userModalIsOpen])
         name:'DEDE',
         price:'100',
         amount:'230'
-    };;
+    };
     const ST_3 = {
         name:'CECE',
         price:'400',
         amount:'10'
-    };;
+    };
+    const userModalOpen =()=>{
+        document.body.style.overflow = 'hidden';
+        setUserModalIsOpen(true)
+        }
+    const userModalClose =()=>{
+        document.body.style.overflow = 'unset';
+        setUserModalIsOpen(false)
+        }
     return(
         <div className="header">
         
@@ -59,16 +87,17 @@ useEffect(()=>{},[userModalIsOpen])
                 <img src={require('../assets/images/ENTASIS.png')}></img>
             </Link>
 
-            <div onClick={()=>setUserModalIsOpen(true)}className='header_user'>
-                <img src={require('../assets/images/user.png')}></img>
+            <div className='header_user'>
+                <h2>Login</h2>
+                <img src={require('../assets/images/user.png')} onClick={()=>userModalOpen()}></img>
             </div>
             <Modal
                 appElement={document.getElementById('root') || undefined}
-                onRequestClose={()=>setUserModalIsOpen(false)}
+                onRequestClose={()=>userModalClose()}
                 isOpen={userModalIsOpen}
                 style={modalStyle}
             >   <div className='myaccount'>
-                    <div className='close' onClick={()=>setUserModalIsOpen(false)}>
+                    <div className='close' onClick={()=>userModalClose()}>
                         <img src={require('../assets/images/close.png')}></img>
                     </div>
                     <h1>MyAccount</h1>
@@ -112,7 +141,7 @@ useEffect(()=>{},[userModalIsOpen])
                                 <div className='exercise_of_voting_rights_wrapper body'>
                                     
                                     <div className='left'>
-                                        <h4>Current Ratio</h4>
+                                        <h5>Current</h5>
                                         <div className='ratio_value'>
                                             <h4>{}5%</h4>
                                         </div>
@@ -124,7 +153,7 @@ useEffect(()=>{},[userModalIsOpen])
                                         <div className='vote_btn'><h5>Vote</h5></div>
                                     </div>
                                     <div className='middle'>
-                                        <h4>Voting Result</h4>
+                                        <h5>Result</h5>
                                         <div className='ratio_value'>
                                             <h4>{}0.03</h4>
                                         </div>
@@ -142,7 +171,7 @@ useEffect(()=>{},[userModalIsOpen])
 
                                     </div>
                                     <div className='right'>
-                                        <h4>Next Ratio</h4>
+                                        <h5>Next</h5>
                                         <div className='ratio_value'>
                                             <h4>{}5.49%</h4>
                                         </div>
