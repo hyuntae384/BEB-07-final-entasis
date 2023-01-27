@@ -68,7 +68,6 @@ const Navigator =()=>{
             <h4
             onClick={()=>
                 PdModalOpen()
-            
             }
             >Public Disclosure</h4>
             {/* <select className='public_disclosure_select'>

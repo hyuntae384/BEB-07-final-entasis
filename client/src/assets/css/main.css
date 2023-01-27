@@ -319,3 +319,67 @@
     position:absolute;
 
 }
+
+.welcome_tutorial_wallet:active{
+
+}
+.welcome_tutorial_chart:active{
+
+}
+.welcome_tutorial_limit_order_book:active{
+
+}
+.welcome_tutorial_order:active{
+
+}
+.welcome_tutorial_public_disclosure:active{
+
+}
+.welcome_tutorial_assets:active{
+
+}
+.welcome_tutorial_history:active{
+
+}
+.welcome_tutorial_account:active{
+
+}
+.welcome_tutorial_faucet:active{
+
+}
+.welcome_tutorial_transaction:active{
+
+}
+.welcome_tutorial_wallet,
+.welcome_tutorial_chart,
+.welcome_tutorial_limit_order_book,
+.welcome_tutorial_order,
+.welcome_tutorial_public_disclosure,
+.welcome_tutorial_assets,
+.welcome_tutorial_history,
+.welcome_tutorial_account,
+.welcome_tutorial_faucet,
+.welcome_tutorial_transaction{
+    position: absolute;
+    background-color:#686868;
+    border: 1px solid var(--white-color);
+    border-radius: 10px;
+    padding: 5px 10px;
+    color:var(--Primary-color);
+    width: 200px;
+    height: 100px;
+    overflow: hidden;
+    transition: 0.5s;
+}
+body:active .welcome_tutorial_wallet,
+body:active .welcome_tutorial_chart,
+body:active .welcome_tutorial_limit_order_book,
+body:active .welcome_tutorial_order,
+body:active .welcome_tutorial_public_disclosure,
+body:active .welcome_tutorial_assets,
+body:active .welcome_tutorial_history,
+body:active .welcome_tutorial_account,
+body:active .welcome_tutorial_faucet,
+body:active .welcome_tutorial_transaction{
+    opacity: 0;
+}
