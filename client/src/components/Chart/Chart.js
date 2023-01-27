@@ -36,6 +36,7 @@ const Chart =({
     const onMouseLeaveHandler = () => {
         document.body.style.overflow = 'unset';
     }
+    console.log(document.body.style.overflow)
 
     function useWindowSize(){
         const [windowSize, setWindowSize] = useState({
