@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Test URL
-const origin = "http://localhost:3000";
+const origin = "http://localhost:5050";
 const getUserURL = origin + "/user/"; 
 
 const faucet = origin + "faucet/"
