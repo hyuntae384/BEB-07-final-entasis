@@ -13,6 +13,7 @@ const Header =({/*user*/})=> {
     const [stName, setStName] = useState('BEBE');
     const [stAmount, setStAmount] = useState(0);
     const [ratio, setRatio] = useState(0);
+    const [walletConnected, setWalletConnected] = useState(false)
 
     const countNumber=(e)=>{
         return e.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,",")
@@ -43,7 +44,34 @@ const Header =({/*user*/})=> {
             WebkitOverflowScrolling: "touch",
             outline: "none",
             zIndex: 10,
-            
+        },
+    };
+    const modalStyle_2 = {
+        overlay: {
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            overflow: "hidden",
+            zIndex: 10,
+        },
+        content: {
+            display: "block",
+            justifyContent: "center",
+            background: "#2B2B2B",
+            overflow: "hidden",
+            top: "20%",
+            left: "30%",
+            right: "30%",
+            bottom: "20%",
+            border:"0",
+            borderRadius: "20px",
+            WebkitOverflowScrolling: "touch",
+            outline: "none",
+            zIndex: 10,
+            opacity:0.9
         },
     };
 
@@ -87,12 +115,13 @@ const Header =({/*user*/})=> {
             deactivate();
             return;
         }
-
         activate(injected, (error) => {
             if('/No ethereum provider was found on window.ethereum/'.test(error)) {
                 window.open('https://metamask.io/download.html');
             }
         });
+        setWalletConnected(true)
+
     }
     // useEffect(()=>{
     //     // return Vote(stName,stAmount,ratio,account).status.value
@@ -119,17 +148,28 @@ const Header =({/*user*/})=> {
                 <img src={require('../assets/images/logo.png')}></img>
             </Link>
             <Link to='/'>
-                <img src={require('../assets/images/ENTASIS.png')}></img>
+                <img className='entasis_main_logo' src={require('../assets/images/ENTASIS.png')}></img>
             </Link>
 
+            <Modal
+                appElement={document.getElementById('root') || undefined}
+                onRequestClose={()=>setWalletConnected()}
+                isOpen={walletConnected}
+                style={modalStyle_2}
+            > 
             <div>
-            <button type="button" onClick={handdleConnect}>{active ? 'disconnect' : 'connect'}</button><br/>
             <span>address : {account}<br/>chainId : {chainId}</span>
             </div>
+            </Modal>
             <div className='header_user'>
-                <img src={require('../assets/images/user.png')} 
-                onClick={active? ()=>userModalOpen():handdleConnect} alt='connection'></img>
+            <h2 type="button" onClick={handdleConnect}>{active ? 'disconnect' : 'connect'}</h2><br/>
+                {/* <img src={require('../assets/images/user.png')} 
+                onClick={active? ()=>userModalOpen():handdleConnect} alt='connection'></img> */}
+                {active?
+                <i onClick={active? ()=>userModalOpen():handdleConnect} className='fas fa-wallet'></i>:
+                <div onClick={active? ()=>userModalOpen():handdleConnect} className='fas fa-wallet_disconnect'></div>}
             </div>
+
             <Modal
                 appElement={document.getElementById('root') || undefined}
                 onRequestClose={()=>userModalClose()}

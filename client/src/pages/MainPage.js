@@ -101,9 +101,9 @@ const MainPage =()=>{
 
     return(
     <div className="main_page" onMouseEnter={onMouseEnterHandler}>
-        <Welcome
+        {/* <Welcome
             isLoading={isLoading}
-        />
+        /> */}
         <Header onMouseEnter={onMouseEnterHandler}/>
         <Navigator/>
         <div className="main_head">
