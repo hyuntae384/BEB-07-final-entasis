@@ -30,4 +30,6 @@ const sendEtherToUser = async (recipient, value) =>{
   }
 }
 
+// 이더 잔액 가져오는 함수
+
 module.exports = { depositFaucet, sendEtherToUser };
