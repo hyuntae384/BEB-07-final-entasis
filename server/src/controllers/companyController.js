@@ -18,6 +18,7 @@ module.exports = {
             return next(err);
         }
     },
+    
     pdisclosure: async(req,res,next) => {
         const {cpd} = req.query;
         // 참조키 활용 이게 맞는지.....ㅋㅋ
