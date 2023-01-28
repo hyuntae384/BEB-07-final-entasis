@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Modal from 'react-modal'
-
+import {Tutorial} from '../apis/user'
 const Welcome =({isLoading})=>{
     const [welcomeClose, setWelcomeClose] = useState(false)
     const [start, setStart] = useState(true)
@@ -35,20 +35,23 @@ const Welcome =({isLoading})=>{
             
         },
     };
+    useEffect(()=>{
+        Tutorial(account)
+    },[account])
 
-const skipHandler = () => {
-    setWallet(false)
-    setChart(false)
-    setLimitOrderBook(false)
-    setOrder(false)
-    setHistory(false)
-    setAssets(false)
-    setPublicDisclosure(false)
-    setAccount(false)
-    setFaucet(false)
-    setTransaction(false)
-    setTutorialFinished(false)
-}    
+    const skipHandler = () => {
+        setWallet(false)
+        setChart(false)
+        setLimitOrderBook(false)
+        setOrder(false)
+        setHistory(false)
+        setAssets(false)
+        setPublicDisclosure(false)
+        setAccount(false)
+        setFaucet(false)
+        setTransaction(false)
+        setTutorialFinished(false)
+    }    
     if(isLoading){
     return (<div
             className="welcome logo"  onFocus={document.body.style.overflow='hidden'}>

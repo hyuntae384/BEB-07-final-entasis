@@ -54,4 +54,10 @@ const sendTokenToUser = async (recipient, amount) => {
   }
 }
 
+// 거래 제한 함수
+
+// 거래 재허용 함수
+
+// 거래 제한 여부 확인 함수
+
 module.exports = { getTokenBalance, getTokenName, signAndSendTx, sendTokenToUser };

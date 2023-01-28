@@ -45,6 +45,12 @@
 .header_CI a{
     height: 80px;
 }
+.entasis_main_logo{
+    position: absolute;
+    top: 5px;
+    right: 50%;
+    transform: translateX(50%);
+}
 .header_CI img, .header_CI a{
     align-items: center;
     height: 30px;
@@ -55,6 +61,50 @@
 }
 .header_user h2{
     padding: 0 10px;
+}
+.account_top{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+.account_address{
+    display: flex;
+    align-items: center;
+    width:100%
+}
+.account_address .account{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin: 0 10px 0 0;
+    width: 150px;
+    height: 20px;
+}
+
+.deposit_faucet{
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    width:100%
+}
+h6, .account_address div h6{
+    margin: 0;
+    padding: 0;
+    width: 40px;
+    text-align: right;
+}
+.myaccount_wrapper_name_top{
+    display: flex;
+    align-items: baseline;
+}
+.deposit_faucet, .account_address{
+    justify-content: space-between;
+}
+div.btn{
+    color: var(--onPrimary-color);
+}
+div.btn:hover{
+    color: var(--Primary-color);
 }
 .myaccount{
     position: relative;
@@ -82,13 +132,19 @@
 }
 .myaccount .user_name{
     margin: 1%;
-
+    display: flex;
+}
+.myaccount .user_name h3{
+    color: var(--white-color);
+}
+.myaccount .user_name h5{
+    color: var(--Primary-color);
 }
 .main_assets_wraper{
     margin: 1%;
 }
 .myaccount .vote_value{
-    margin: 5.6%;
+    margin: 5.8px ;
     height: 20px;
     text-align: center;
 }
@@ -109,10 +165,10 @@
     top: 0;
     right: 0;
     transition: 0.2s;
-    transform: scale(1);
+    transform: scale(0.7);
 }
 .close:hover{
-    transform: scale(1.2);
+    transform: scale(0.8);
 }
 
 
@@ -510,10 +566,27 @@ body:active .welcome_tutorial_tutorial_finished{
     bottom: 10px;
     right: 10px;
 }
-
-@keyframes tutorial {
-    0%      {background-color:#868686; top:200px; right:100px}
-    50%    {background-color:#afafaf; top:300px; right:200px}
-    100%    {background-color:#686868; top:200px; right:100px}
-
+.fa-wallet{
+    width: 32px;
+    height: 32px;
+    align-items: center;
+    text-align: center;
+    padding: 8px;
+    margin: 0;
+    border: 0px;
+    border-radius: 50%;
+    opacity: 0.8;
+    background-color: var(--Primary-color);
+}
+.fa-wallet_disconnect{
+    width: 32px;
+    height: 32px;
+    align-items: center;
+    text-align: center;
+    padding: 8px;
+    margin: 0;
+    border: 0px;
+    border-radius: 50%;
+    opacity: 0.8;
+    background-color: var(--Primary-color);
 }
