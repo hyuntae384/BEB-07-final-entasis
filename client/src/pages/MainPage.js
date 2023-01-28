@@ -10,7 +10,10 @@ import Header from "../components/Header"
 import { useEffect, useState, useRef } from "react"
 import Historys from "../components/Historys"
 import Welcome from "./WelcomePage"
+import {Position} from '../apis/user'
+import { useWeb3React } from "@web3-react/core"
 
+// import {FaucetWallet} from '../apis/user'
 const MainPage =()=>{
     const [stv, setStv] = useState(0);
     const [incomeRatio, setIncomeRatio] = useState(0);
@@ -38,6 +41,11 @@ const MainPage =()=>{
             incomeRatio_ref.current === 10) clearInterval(loop);
         }, 1000);
     }, []);
+    const {chainId, account, active, activate, deactivate} = useWeb3React();
+
+    useEffect(()=>{
+        Position(account)
+    },[account])
 
     let ST_CurrentVolume = volumeHis[0] * (1 + stv*90)*(1+incomeRatio*90)
     let ST_CurrentPrice = candleHis[candleHis.length-1] * (1 + stv)*(1+incomeRatio) * (1+ST_CurrentVolume/100000000)
@@ -65,6 +73,7 @@ const MainPage =()=>{
             totalHisFrom
         ]    
 
+        // console.log(FaucetWallet(0x5631F64E301e3C4B698bD97C84BC02C100e73289))
 
         let CP_his =(e)=>{
             candleHis.push(e)

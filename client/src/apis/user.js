@@ -1,24 +1,26 @@
 import axios from 'axios';
 
 // Test URL
-const origin = "http://localhost:5050";
-const getUserURL = origin + "/user/"; 
+const origin = "http://localhost:5050/";
+const getUserURL = origin + "user/"; 
 
-const faucet = origin + "faucet/"
-const enroll = origin + "enroll/?wallet="
-const chname = origin + "chname/?wallet="
-const tutorial = origin + "tutorial/?wallet="
-const score = origin + "score/?wallet="
-const position = origin + "position/?wallet="
-const account = origin + "account/?wallet="
+const faucet = getUserURL + "faucet/?wallet="
+const enroll = getUserURL + "enroll/?wallet="
+const chname = getUserURL + "chname/?wallet="
+const tutorial = getUserURL + "tutorial/?wallet="
+const score = getUserURL + "score/?wallet="
+const position = getUserURL + "position/?wallet="
+const account = getUserURL + "account/?wallet="
 
 // Test API Request
 export const FaucetWallet = async(wallet) => {
     if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
-    const resultFaucetWallet=  axios.put(faucet + {"wallet":wallet})
-    .then(res=>res)
+    const faucetJSON = {'wallet':wallet}
+    const resultFaucetWallet = axios.put(faucet + wallet,faucetJSON)
+    .then(res=>res.data.status)
     .then(err=>err)
-    return  resultFaucetWallet
+    console.log(resultFaucetWallet)
+    return resultFaucetWallet
 }
 export const EnrollWallet = async(wallet) => {
     if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
@@ -29,7 +31,8 @@ export const EnrollWallet = async(wallet) => {
 }
 export const ChName = async(wallet, name) => {
     if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
-    const resultChName =  axios.put(chname + wallet + {"name":name})
+    const newName = {"name":name}
+    const resultChName =  axios.put(chname + wallet,newName )
     .then(res=>res)
     .then(err=>err)
     return  resultChName
@@ -41,7 +44,7 @@ export const Tutorial = async(wallet, cnt) => {
     .then(err=>err)
     return  resultTutorial
 }
-export const Score = async(wallet, cnt) => {
+export const Score = async(wallet) => {
     if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
     const resultScore =  axios.get(score + wallet)
     .then(res=>res)

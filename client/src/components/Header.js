@@ -4,24 +4,20 @@ import Modal from "react-modal"
 import { useWeb3React } from '@web3-react/core';
 import { injected } from '../connectors';
 import '../assets/css/main.css';
-
-const Header =()=> {
+import {FaucetWallet, EnrollWallet, ChName, Tutorial, Score, Position, Account} from '../apis/user'
+// import {Vote} from '../apis/company'
+const Header =({/*user*/})=> {
     const [userModalIsOpen, setUserModalIsOpen] = useState(false)
     const [isFaucet, setIsFaucet] = useState(false)
-    useEffect(()=>{},[userModalIsOpen])
-    const [isLogin, setIsLogin] = useState(false);
-    const loginHandler =() =>{
-        setIsLogin(!isLogin)
-        if(isLogin===true){
-            return <h2>Asset</h2>
-        }
-        else return <h2>Login</h2>
-    }
+    const [name, setName] = useState("aa");
+    const [stName, setStName] = useState('BEBE');
+    const [stAmount, setStAmount] = useState(0);
+    const [ratio, setRatio] = useState(0);
+
     const countNumber=(e)=>{
         return e.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,",")
     }
 
-    // const accounts = await web3.eth.getAccounts();
     const modalStyle = {
         overlay: {
             position: "fixed",
@@ -50,13 +46,7 @@ const Header =()=> {
             
         },
     };
-    const user = {
-        status:"success",
-        name:'Russ',
-        price:'400',
-        visited:'true',
-        cnt:'10'
-    };;
+
 
     let data ={
         name:'', 
@@ -104,7 +94,24 @@ const Header =()=> {
             }
         });
     }
-    
+    // useEffect(()=>{
+    //     // return Vote(stName,stAmount,ratio,account).status.value
+    // },[stName,stAmount,ratio,account])
+    const user = {
+        status:"success",
+        name:'Russ',
+        price:'400',
+        visited:'true',
+        cnt:'10'}
+
+    useEffect(()=>{
+
+        EnrollWallet(account)
+    },[account])
+    // ChName(account, name)
+    const faucetBtn=()=>{
+        FaucetWallet(account)
+    }
     return(
         <div className="header">
         
@@ -120,7 +127,8 @@ const Header =()=> {
             <span>address : {account}<br/>chainId : {chainId}</span>
             </div>
             <div className='header_user'>
-                <img src={require('../assets/images/user.png')} onClick={()=>userModalOpen()}></img>
+                <img src={require('../assets/images/user.png')} 
+                onClick={active? ()=>userModalOpen():handdleConnect} alt='connection'></img>
             </div>
             <Modal
                 appElement={document.getElementById('root') || undefined}
@@ -131,10 +139,17 @@ const Header =()=> {
                     <div className='close' onClick={()=>userModalClose()}>
                         <img src={require('../assets/images/close.png')}></img>
                     </div>
-                    <h1>MyAccount</h1>
+                    <div className='account_top'>
+                        <h1>MyAccount</h1>
+                    </div>
                     <div className='myaccount_wrapper'>
-                        <h2>Name</h2>
-                            <div className='user_name'><h3>{user.name}</h3></div>
+                        <div className='myaccount_wrapper_name_top'>
+                            <h2>Name</h2>
+                            <div className='btn' onClick={()=>faucetBtn()}><h6>Edit</h6></div>
+                        </div>
+                            <div className='user_name'>
+                                <h3>{user.name + " (#" + chainId+ ")"}</h3>
+                            </div>
                         <div className='assets'>
                             <h2>Assets</h2>
                             <div className='assets_wraper'>
@@ -145,12 +160,17 @@ const Header =()=> {
                         </div>
                         <div className='deposit'>
                             <h2>Deposit</h2>
+
                             <div className='deposit_wrapper'>
-                                <h4>{isFaucet?100:0}ETH</h4>
-                                <div className='account_address'>
-                                    <h5>{user.address}copy</h5>
-                                    <h5>Faucet</h5>
+                                <div className='deposit_faucet'>
+                                    <h4>{isFaucet?100:0}ETH</h4>
+                                    <div className='btn' onClick={()=>faucetBtn()}><h6>Faucet</h6></div>
                                 </div>
+                                <div className='account_address'>
+                                    <div className='account'>{account}</div>
+                                    <div className='btn' onClick={()=>faucetBtn()}><h6>Copy</h6></div>
+                                </div>
+
                             </div>
 
                         </div>
@@ -175,29 +195,29 @@ const Header =()=> {
                                         <div className='ratio_value'>
                                             <h4>{}5%</h4>
                                         </div>
-                                        <div className='vote_btn'><h5>Vote</h5></div>
-                                        <div className='vote_btn'><h5>Vote</h5></div>
-                                        <div className='vote_btn'><h5>Vote</h5></div>
-                                        <div className='vote_btn'><h5>Vote</h5></div>
-                                        <div className='vote_btn'><h5>Vote</h5></div>
-                                        <div className='vote_btn'><h5>Vote</h5></div>
+                                        <div className='vote_btn' onClick={()=>setRatio(0.05)}><h5>Vote</h5></div>
+                                        <div className='vote_btn' onClick={()=>setRatio(0.04)}><h5>Vote</h5></div>
+                                        <div className='vote_btn' onClick={()=>setRatio(0.03)}><h5>Vote</h5></div>
+                                        <div className='vote_btn' onClick={()=>setRatio(0.02)}><h5>Vote</h5></div>
+                                        <div className='vote_btn' onClick={()=>setRatio(0.01)}><h5>Vote</h5></div>
+                                        <div className='vote_btn' onClick={()=>setRatio(0)}><h5>Vote</h5></div>
                                     </div>
                                     <div className='middle'>
                                         <h5>Result</h5>
                                         <div className='ratio_value'>
                                             <h4>{}0.03</h4>
                                         </div>
-                                        <div className='vote_value up'><h5>0.05</h5></div>
-                                        <div className='vote_value up'><h5>0.04</h5></div>
-                                        <div className='vote_value up'><h5>0.03</h5></div>
-                                        <div className='vote_value up'><h5>0.02</h5></div>
-                                        <div className='vote_value up'><h5>0.01</h5></div>
+                                        <div className='vote_value up'><h5>+0.05</h5></div>
+                                        <div className='vote_value up'><h5>+0.04</h5></div>
+                                        <div className='vote_value up'><h5>+0.03</h5></div>
+                                        <div className='vote_value up'><h5>+0.02</h5></div>
+                                        <div className='vote_value up'><h5>+0.01</h5></div>
                                         <div className='vote_value'><h5>0.00</h5></div>
-                                        <div className='vote_value down'><h5>0.01</h5></div>
-                                        <div className='vote_value down'><h5>0.02</h5></div>
-                                        <div className='vote_value down'><h5>0.03</h5></div>
-                                        <div className='vote_value down'><h5>0.04</h5></div>
-                                        <div className='vote_value down'><h5>0.05</h5></div>
+                                        <div className='vote_value down'><h5>-0.01</h5></div>
+                                        <div className='vote_value down'><h5>-0.02</h5></div>
+                                        <div className='vote_value down'><h5>-0.03</h5></div>
+                                        <div className='vote_value down'><h5>-0.04</h5></div>
+                                        <div className='vote_value down'><h5>-0.05</h5></div>
 
                                     </div>
                                     <div className='right'>
@@ -210,12 +230,12 @@ const Header =()=> {
                                         <div className='vote_btn'><h5></h5></div>
                                         <div className='vote_btn'><h5></h5></div>
                                         <div className='vote_btn'><h5></h5></div>
-                                        <div className='vote_btn'><h5>Vote</h5></div>
-                                        <div className='vote_btn'><h5>Vote</h5></div>
-                                        <div className='vote_btn'><h5>Vote</h5></div>
-                                        <div className='vote_btn'><h5>Vote</h5></div>
-                                        <div className='vote_btn'><h5>Vote</h5></div>
-                                        <div className='vote_btn'><h5>Vote</h5></div>
+                                        <div className='vote_btn' onClick={()=>setRatio(0)}><h5>Vote</h5></div>
+                                        <div className='vote_btn' onClick={()=>setRatio(-0.01)}><h5>Vote</h5></div>
+                                        <div className='vote_btn' onClick={()=>setRatio(-0.02)}><h5>Vote</h5></div>
+                                        <div className='vote_btn' onClick={()=>setRatio(-0.03)}><h5>Vote</h5></div>
+                                        <div className='vote_btn' onClick={()=>setRatio(-0.04)}><h5>Vote</h5></div>
+                                        <div className='vote_btn' onClick={()=>setRatio(-0.05)}><h5>Vote</h5></div>
                                     </div>
                                 </div>
                             </div>
