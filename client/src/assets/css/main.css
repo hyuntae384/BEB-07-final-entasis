@@ -13,8 +13,8 @@
     /* Color */
     --white-color   : #ffffff;
     --black-color: #000000;
-    --gray-light-color: #b9b9b9;
-    --gray-dark-color: #484848;
+    --gray-light-color: #b0b6ba;
+    --gray-dark-color: #44464a;
     --Primary-color: #00A4D8;
     --onPrimary-color: #0d6097;
     --Secondary-color: #ab1c37;
@@ -316,11 +316,13 @@
     justify-content: center;
     height: 100%;
     width: 100%;
+    opacity: 0.9;
     transition: 0.5s;
 }
 .welcome:active{
-    opacity: 0.5;
+    opacity: 0.2;
 }
+
 .welcome img{
     margin: 20% 0 ;
     transition: 0.5s;
@@ -329,60 +331,79 @@
     position:absolute;
 
 }
+.welcome_tutorial{
+    position:absolute;
+    padding: 2%;
+    width: 300px;
+    height: 400px;
+    top: 50%;
+    right: 50%;
+    transform:translateX(50%) translateY(-50%);
+    text-align: center;
+    opacity: 0.8;
 
+}
 .welcome_tutorial_wallet{
     width: 200px;
     height: 120px;
-
-    top: 6%;
+    top: 7%;
     right: 0%; 
 }
-.welcome_tutorial_wallet_top{
 
+.welcome_tutorial_top{
     display: flex;
+    justify-content: center;
 }
 .welcome_tutorial_wallet_body{
     text-align: center;
     margin: 5%;
 }
-.welcome_tutorial_wallet_top i{
+.welcome_tutorial_top i{
     position: absolute;
-    right: 20px;
+    top: 7px;
+    right: 15px;
+}
+.welcome_tutorial_top i{
+    position: absolute;
+    top: 7px;
+    right: 9px;
+}
+.welcome_tutorial_public_disclosure .welcome_tutorial_top i {
+    position: absolute;
+    top: 7px;
+    left: 10px;
 }
 .welcome_tutorial_chart{
-    width: 200px;
-    height: 120px;
+    width: 500px;
+    height: 330px;
 
-    top: 32%;
-    right: 62%;
+    top: 22%;
+    right: 52%;
 }
 .welcome_tutorial_limit_order_book{
     width: 200px;
     height: 120px;
-
     top: 42%;
     right: 19.4%;
 }
 .welcome_tutorial_order{
     width: 200px;
     height: 120px;
-
     top: 65%;
     right: 2%;
 }
 .welcome_tutorial_public_disclosure{
     width: 200px;
     height: 120px;
-
-    top: 6%;
+    top: 7%;
     right: 78%;
 }
 .welcome_tutorial_assets{
     width: 200px;
     height: 120px;
 
-    top: 6%;
-    right: 0%;
+    top: 7%;
+    right: 1%;
 }
 .welcome_tutorial_history{
     width: 200px;
@@ -408,8 +429,8 @@
 .welcome_tutorial_transaction{
     width: 200px;
     height: 120px;
-    top: 6%;
-    right: 8%;
+    top: 12%;
+    right: 4.5%;
 
 }
 .welcome_tutorial_tutorial_finished{
@@ -421,13 +442,13 @@
     transform:translateX(50%) translateY(-50%);
     text-align: center;
 }
-.welcome_tutorial_tutorial_finished .congratulations{
+ .congratulations{
     border-radius: 5px;
     margin: 5% 0;
     width: 100%;
     height: auto;
 }
-
+.welcome_tutorial,
 .welcome_tutorial_wallet,
 .welcome_tutorial_chart,
 .welcome_tutorial_limit_order_book,
@@ -446,8 +467,10 @@
     color:var(--Primary-color);
     overflow: hidden;
     transition: 0.2s;
-    
+    opacity: 0.75;
+
 }
+.welcome_tutorial h4,
 .welcome_tutorial_wallet h4,
 .welcome_tutorial_chart h4,
 .welcome_tutorial_limit_order_book h4,
@@ -460,7 +483,9 @@
 .welcome_tutorial_transaction h4,
 .welcome_tutorial_tutorial_finished h4{
     color: var(--white-color);
+
 }
+body:active .welcome_tutorial,
 body:active .welcome_tutorial_wallet,
 body:active .welcome_tutorial_chart,
 body:active .welcome_tutorial_limit_order_book,

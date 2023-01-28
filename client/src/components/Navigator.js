@@ -2,9 +2,14 @@ import { useState, useEffect } from "react"
 import Modal from "react-modal"
 import '../assets/css/main.css';
 
-const Navigator =()=>{
+const Navigator =({/*company*/})=>{
     const [pdModalIsOpen, setPdModalIsOpen] = useState(false);
     useEffect(()=>{},[pdModalIsOpen]);
+
+    const countNumber=(e)=>{
+        return e.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,",")
+    }
+    
     const modalStyle = {
         
         overlay: {
@@ -49,7 +54,14 @@ const Navigator =()=>{
         price:'400',
         amount:'10'
     };;
-
+    const company = {
+        name:'BEBE',
+        total_asset:'4000000000',
+        income:'400000',
+        divided_ratio:'0.005',
+        divided:'10',
+        next_ratio:'10',
+    };;
 
 
     const PdModalOpen =()=>{
@@ -90,19 +102,28 @@ const Navigator =()=>{
                 <div className='close' onClick={()=>PdModalClose()}>
                     <img src={require('../assets/images/close.png')}></img>
                 </div>
-                <h2>Name</h2>
-                    <h3>UnNamed</h3>
-                <h2>Total Assets</h2>
-                    <h3>50,000,000 ETH</h3>
-                    <h3>50,000 BEBE</h3>
-                    <h3>50,000 CECE</h3>
+                <div>
+                    <h2>Name</h2>
+                    <h3>{company.name}</h3>
+                </div>
+                <div>
+                    <h2>Total Assets</h2>
+                    <h3>{countNumber(company.total_asset)} ETH</h3>
+                </div>
+                <div>
+                    <h2>Income</h2>
+                    <h3>{countNumber(company.income)} ETH</h3>
+                </div>
+                <div>
+
+                </div>
 
                 <h2>Current Dividend</h2>
-                    <h3>50,000 ETH</h3>   
+                    <h3>{countNumber(company.divided)} ETH</h3>   
                 <h2>Current Dividend Ratio</h2>
-                    <h3>0.00032 %</h3> 
+                    <h3>{company.divided_ratio} %</h3> 
                 <h2>Next Dividend Ratio</h2>
-                    <h3>0.00032 % * ( 1 + 0.04 ) = 0.0003328 %</h3>   
+                    <h3>{company.divided_ratio*100+'%'} * ( 1 + {company.next_ratio} ) = {company.divided_ratio * company.next_ratio} %</h3>   
 
                 
 

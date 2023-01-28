@@ -1,6 +1,8 @@
 import {Link} from 'react-router-dom';
 import {useEffect, useState} from 'react'
 import Modal from "react-modal"
+import { useWeb3React } from '@web3-react/core';
+import { injected } from '../connectors';
 import '../assets/css/main.css';
 
 const Header =()=> {
@@ -14,6 +16,9 @@ const Header =()=> {
             return <h2>Asset</h2>
         }
         else return <h2>Login</h2>
+    }
+    const countNumber=(e)=>{
+        return e.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,",")
     }
 
     // const accounts = await web3.eth.getAccounts();
@@ -45,6 +50,13 @@ const Header =()=> {
             
         },
     };
+    const user = {
+        status:"success",
+        name:'Russ',
+        price:'400',
+        visited:'true',
+        cnt:'10'
+    };;
 
     let data ={
         name:'', 
@@ -77,6 +89,22 @@ const Header =()=> {
         document.body.style.overflow = 'unset';
         setUserModalIsOpen(false)
         }
+
+    const {chainId, account, active, activate, deactivate} = useWeb3React();
+
+    const handdleConnect = () => {
+        if(active) {
+            deactivate();
+            return;
+        }
+
+        activate(injected, (error) => {
+            if('/No ethereum provider was found on window.ethereum/'.test(error)) {
+                window.open('https://metamask.io/download.html');
+            }
+        });
+    }
+    
     return(
         <div className="header">
         
@@ -87,15 +115,18 @@ const Header =()=> {
                 <img src={require('../assets/images/ENTASIS.png')}></img>
             </Link>
 
+            <div>
+            <button type="button" onClick={handdleConnect}>{active ? 'disconnect' : 'connect'}</button><br/>
+            <span>address : {account}<br/>chainId : {chainId}</span>
+            </div>
             <div className='header_user'>
-                <h2>Login</h2>
                 <img src={require('../assets/images/user.png')} onClick={()=>userModalOpen()}></img>
             </div>
             <Modal
                 appElement={document.getElementById('root') || undefined}
                 onRequestClose={()=>userModalClose()}
                 isOpen={userModalIsOpen}
-                style={modalStyle}
+                style={modalStyle}LoginLogin
             >   <div className='myaccount'>
                     <div className='close' onClick={()=>userModalClose()}>
                         <img src={require('../assets/images/close.png')}></img>
@@ -103,14 +134,13 @@ const Header =()=> {
                     <h1>MyAccount</h1>
                     <div className='myaccount_wrapper'>
                         <h2>Name</h2>
-                            <div className='user_name'><h3>{/* username */}Russ</h3></div>
+                            <div className='user_name'><h3>{user.name}</h3></div>
                         <div className='assets'>
                             <h2>Assets</h2>
                             <div className='assets_wraper'>
-                                <div>{/* username */}</div>
-                                <h4>{ST_1.name+" ("+ST_1.amount+")"+" "+ST_1.price+"ETH"}</h4>
-                                <h4>{ST_2.name+" ("+ST_2.amount+")"+" "+ST_2.price+"ETH"}</h4>
-                                <h4>{ST_3.name+" ("+ST_3.amount+")"+" "+ST_3.price+"ETH"}</h4>
+                                <h4>{ST_1.name+" ("+ST_1.amount+")"+" "+countNumber(ST_1.price+"ETH")}</h4>
+                                <h4>{ST_2.name+" ("+ST_2.amount+")"+" "+countNumber(ST_2.price+"ETH")}</h4>
+                                <h4>{ST_3.name+" ("+ST_3.amount+")"+" "+countNumber(ST_3.price+"ETH")}</h4>
                             </div>
                         </div>
                         <div className='deposit'>
@@ -118,7 +148,7 @@ const Header =()=> {
                             <div className='deposit_wrapper'>
                                 <h4>{isFaucet?100:0}ETH</h4>
                                 <div className='account_address'>
-                                    <h5>{/**address**/}copy</h5>
+                                    <h5>{user.address}copy</h5>
                                     <h5>Faucet</h5>
                                 </div>
                             </div>
