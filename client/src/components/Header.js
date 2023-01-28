@@ -17,6 +17,9 @@ const Header =()=> {
         }
         else return <h2>Login</h2>
     }
+    const countNumber=(e)=>{
+        return e.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,",")
+    }
 
     // const accounts = await web3.eth.getAccounts();
     const modalStyle = {
@@ -47,6 +50,13 @@ const Header =()=> {
             
         },
     };
+    const user = {
+        status:"success",
+        name:'Russ',
+        price:'400',
+        visited:'true',
+        cnt:'10'
+    };;
 
     let data ={
         name:'', 
@@ -124,14 +134,13 @@ const Header =()=> {
                     <h1>MyAccount</h1>
                     <div className='myaccount_wrapper'>
                         <h2>Name</h2>
-                            <div className='user_name'><h3>{/* username */}Russ</h3></div>
+                            <div className='user_name'><h3>{user.name}</h3></div>
                         <div className='assets'>
                             <h2>Assets</h2>
                             <div className='assets_wraper'>
-                                <div>{/* username */}</div>
-                                <h4>{ST_1.name+" ("+ST_1.amount+")"+" "+ST_1.price+"ETH"}</h4>
-                                <h4>{ST_2.name+" ("+ST_2.amount+")"+" "+ST_2.price+"ETH"}</h4>
-                                <h4>{ST_3.name+" ("+ST_3.amount+")"+" "+ST_3.price+"ETH"}</h4>
+                                <h4>{ST_1.name+" ("+ST_1.amount+")"+" "+countNumber(ST_1.price+"ETH")}</h4>
+                                <h4>{ST_2.name+" ("+ST_2.amount+")"+" "+countNumber(ST_2.price+"ETH")}</h4>
+                                <h4>{ST_3.name+" ("+ST_3.amount+")"+" "+countNumber(ST_3.price+"ETH")}</h4>
                             </div>
                         </div>
                         <div className='deposit'>
@@ -139,7 +148,7 @@ const Header =()=> {
                             <div className='deposit_wrapper'>
                                 <h4>{isFaucet?100:0}ETH</h4>
                                 <div className='account_address'>
-                                    <h5>{/**address**/}copy</h5>
+                                    <h5>{user.address}copy</h5>
                                     <h5>Faucet</h5>
                                 </div>
                             </div>
