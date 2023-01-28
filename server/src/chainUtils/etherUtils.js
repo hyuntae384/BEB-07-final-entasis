@@ -2,7 +2,7 @@ const { web3Http } = require('./index');
 
 const { ADMIN_ADDRESS } = process.env;
 
-const depositFaucet = async (recipient, value = '10') => { // faucet 얼마나 할지 설정 필요
+const depositFaucet = async (recipient, value = '10000000000000000000') => { // faucet 얼마나 할지 설정 필요
   try { 
     await web3Http.eth.sendTransaction({
       from: ADMIN_ADDRESS,

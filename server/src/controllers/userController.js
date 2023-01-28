@@ -134,7 +134,7 @@ module.exports = {
     })
     try {
       if(!userInfo) return res.status(400).send({message: "No such user"});
-      if(userInfo.faucet === 1) return res.status(400).send({message: "user has already used the faucet"});
+      if(userInfo.faucet) return res.status(400).send({message: "user has already used the faucet"});
       await depositFaucet(wallet); // 컨트랙트
       await users.update({faucet: 1}, {where: {wallet}});
       return res.status(200).json({status: "success"})
