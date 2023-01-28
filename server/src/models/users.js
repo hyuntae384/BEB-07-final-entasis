@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     wallet: DataTypes.STRING,
     faucet: DataTypes.BOOLEAN,
     name: DataTypes.STRING,
-    stoken: DataTypes.ARRAY(DataTypes.STRING),
+    stoken: DataTypes.STRING,
     cnt: DataTypes.INTEGER
   }, {
     sequelize,
