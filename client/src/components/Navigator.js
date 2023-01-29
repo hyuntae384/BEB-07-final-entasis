@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import Modal from "react-modal"
 import '../assets/css/main.css';
+import SelectBox from './Select';
 
 const Navigator =({/*company*/})=>{
     const [pdModalIsOpen, setPdModalIsOpen] = useState(false);
@@ -72,16 +73,17 @@ const Navigator =({/*company*/})=>{
         document.body.style.overflow = 'unset';
         setPdModalIsOpen(false)
         }
-    
+    const OPTIONS = [
+        { value: "BEBE", name: "BEBE" },
+        { value: "DEDE", name: "DEDE" },
+        { value: "CECE", name: "CECE" },
+        ];
     return(
     <div className="navigator">
     <div className="public_disclosure">
         <div className="public_disclosure_wrapper">
-            <h4
-            onClick={()=>
-                PdModalOpen()
-            }
-            >Public Disclosure</h4>
+            <h4 onClick={()=>PdModalOpen()}>Public Disclosure</h4>
+            <SelectBox options={OPTIONS}></SelectBox>
             {/* <select className='public_disclosure_select'>
                 <option disabled={false}>
                     Select Your Security Token
