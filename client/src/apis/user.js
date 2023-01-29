@@ -32,7 +32,7 @@ export const EnrollWallet = async(wallet) => {
 export const ChName = async(wallet, name) => {
     if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
     const newName = {"name":name}
-    const resultChName =  axios.put(chname + wallet,newName )
+    const resultChName =  axios.put(chname + wallet, newName )
     .then(res=>res)
     .then(err=>err)
     return  resultChName

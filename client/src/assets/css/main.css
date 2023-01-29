@@ -22,12 +22,11 @@
     background-color: var(--black-color);
     color: var(--white-color);
     position: relative;
-
+    text-decoration: none;
 }
 :root::-webkit-scrollbar{
     display: none;
 }
-
 .header{
     /* position: sticky;
     top: 0; */
@@ -90,21 +89,32 @@
 h6, .account_address div h6{
     margin: 0;
     padding: 0;
-    width: 40px;
+    width: 75px;
     text-align: right;
 }
 .myaccount_wrapper_name_top{
     display: flex;
     align-items: baseline;
+    justify-content: space-between;
 }
 .deposit_faucet, .account_address{
     justify-content: space-between;
+}
+.header_user div.btn{
+    cursor: pointer;
+
+    color: var(--white-color);
+}
+.header_user div.btn:hover{
+    color: var(--Primary-color);
+    cursor: pointer;
 }
 div.btn{
     color: var(--onPrimary-color);
 }
 div.btn:hover{
     color: var(--Primary-color);
+    cursor: pointer;
 }
 .myaccount{
     position: relative;
@@ -121,6 +131,7 @@ div.btn:hover{
 }
 .myaccount h1{
     color: var(--Primary-color);
+    
 }
 .myaccount h2,.myaccount h3,.myaccount h4,.myaccount h5{
 
@@ -129,6 +140,7 @@ div.btn:hover{
 .myaccount .vote_btn h5{
     color:rgb(198, 87, 46);
     background-color: var(--gray-dark-color);
+    text-decoration: none;
 }
 .myaccount .user_name{
     margin: 1%;
@@ -149,7 +161,8 @@ div.btn:hover{
     text-align: center;
 }
 .myaccount .vote_btn{
-
+    cursor: pointer;
+    text-decoration: none;
     height: 20px;
     text-align: center;
     margin: 5.8px 0;
@@ -157,8 +170,10 @@ div.btn:hover{
 
 
 .myaccount .vote_btn h5:hover{
+    cursor: pointer;
     color:var(--white-color);
     background-color:rgb(198, 87, 46);
+    text-decoration: none;
 }
 .close{
     position: absolute;
@@ -167,11 +182,20 @@ div.btn:hover{
     transition: 0.2s;
     transform: scale(0.7);
 }
+
 .close:hover{
     transform: scale(0.8);
 }
-
-
+.edit_name_close{
+    transform: scale(0.7);
+}
+.edit_name{
+    display: flex;
+    padding: 4px;
+}
+.edit_name input{
+    width: 95%;
+}
 .exercise_of_voting_right, .deposit{
     margin-top: 30%;
 }
