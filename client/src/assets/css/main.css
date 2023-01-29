@@ -292,10 +292,9 @@ div.btn:hover{
     display: flex;
 }
 .navigator .public_disclosure_wrapper{
-    display: flex;
+    width: 200px;
     padding: 5px;
 }
-.public_disclosure_wrapper{}
 .right, .middle, .left{ 
     width: 33.33%;
 }
@@ -522,11 +521,16 @@ div.btn:hover{
     transform:translateX(50%) translateY(-50%);
     text-align: center;
 }
+.welcome_connection{
+    text-align: center;
+    
+}
  .congratulations{
     border-radius: 5px;
     margin: 5% 0;
     width: 100%;
     height: auto;
+    
 }
 .welcome_tutorial,
 .welcome_tutorial_wallet,
@@ -613,4 +617,10 @@ body:active .welcome_tutorial_tutorial_finished{
     border-radius: 50%;
     opacity: 0.8;
     background-color: var(--Primary-color);
+}
+select, input{
+    background-color: var(--black-color);
+    border: 0px ;
+    border-radius: 5px;
+    color: var(--white-color);
 }
