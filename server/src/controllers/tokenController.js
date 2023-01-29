@@ -1,6 +1,6 @@
 const { users, companys, dividend_his, position_his, price_his } = require('../models');
 const { depositFaucet, sendEtherToUser } = require('../chainUtils/etherUtils');
-const { getTokenBalance, getTokenName, signAndSendTx, sendTokenToUser } = require('../chainUtils/tokenUtils');
+const { getTokenBalance, getTokenName, signAndSendTx, sendTokenToUser, restrictToken, allowToken, isRestricted } = require('../chainUtils/tokenUtils');
 
 module.exports = {
     buy: async(req,res,next)=> {
@@ -31,7 +31,7 @@ module.exports = {
             return next(err);
         }
     },
-    
+
     sell: async(req,res,next)=> {
         const {name,price,amount,wallet} = req.body;
         // 찾아보면 더 효율적인 방법이 있을것같음
@@ -56,6 +56,42 @@ module.exports = {
                 return res.status(200).json({status : "success"});
             }
             return res.status(400).json({status: "fail", message: "failed to send ether through contract"})
+        } catch (err) {
+            console.err(err);
+            return next(err);
+        }
+    },
+
+    // 토큰 제한 기능 : 테스트 필요
+    restricttoken: async (req, res, next) => {
+        const status = isRestricted();
+        try {
+            if(status) {
+                return res.status(400).send({message: "this token had already been restricted"})
+            }
+            const result = await restrictToken();
+            if(result) {
+                return res.status(200).send({status: "successfully restricted the token"});
+            }
+            return res.status(400).send({status: "failed with the contract"});
+        } catch (err) {
+            console.err(err);
+            return next(err);
+        }
+    },
+
+    // 토큰 제한 해제 기능 : 테스트 필요
+    allowtoken: async (req, res, next) => {
+        const status = isRestricted();
+        try {
+            if(!status) {
+                return res.status(400).send({message: "available token"})
+            }
+            const result = await allowToken();
+            if(result) {
+                return res.status(200).send({status: "successfully re-allowed the token"});
+            }
+            return res.status(400).send({status: "failed with the contract"});
         } catch (err) {
             console.err(err);
             return next(err);

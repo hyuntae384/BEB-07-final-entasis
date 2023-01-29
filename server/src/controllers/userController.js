@@ -1,6 +1,6 @@
 require('dotenv').config();
 const { users, companys, dividend_his, position_his, price_his } = require('../models');
-const { depositFaucet, sendEtherToUser } = require('../chainUtils/etherUtils');
+const { depositFaucet, sendEtherToUser, getEtherBalance } = require('../chainUtils/etherUtils');
 const { getTokenBalance, getTokenName, signAndSendTx, sendTokenToUser } = require('../chainUtils/tokenUtils');
 
 module.exports = {
@@ -84,7 +84,6 @@ module.exports = {
     }
   },
 
-  // 컨트랙트 관련 테스트 필요
   mypage: async (req, res, next) => {
     const { wallet } = req.query;
     try {
@@ -126,7 +125,6 @@ module.exports = {
     }
   },
 
-  // 컨트랙트 관련 테스트 필요
   faucet: async (req, res, next) => {
     const { wallet } = req.query;
     const userInfo = await users.findOne({
@@ -138,6 +136,18 @@ module.exports = {
       await depositFaucet(wallet); // 컨트랙트
       await users.update({faucet: 1}, {where: {wallet}});
       return res.status(200).json({status: "success"})
+    } catch (err) {
+      console.error(err);
+      return next(err);
+    }
+  },
+
+  // 이더 잔액 가져오는 기능 테스트 함수 : 테스트 필요 
+  ethbalance: async (req, res, next) => {
+    const { wallet } = req.query;
+    try {
+      const balance = await getEtherBalance(wallet);
+      return res.status(200).send({balance})
     } catch (err) {
       console.error(err);
       return next(err);

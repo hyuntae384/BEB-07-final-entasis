@@ -5,6 +5,9 @@ import { useWeb3React } from '@web3-react/core';
 import { injected } from '../connectors';
 import '../assets/css/main.css';
 import {FaucetWallet, EnrollWallet, ChName, Tutorial, Score, Position, Account} from '../apis/user'
+import SelectBox from './Select';
+import { Vote } from '../apis/company';
+
 // import {Vote} from '../apis/company'
 const Header =({/*user*/})=> {
     const [userModalIsOpen, setUserModalIsOpen] = useState(false)
@@ -14,7 +17,9 @@ const Header =({/*user*/})=> {
     const [stAmount, setStAmount] = useState(0);
     const [ratio, setRatio] = useState(0);
     const [walletConnected, setWalletConnected] = useState(false)
-
+    const [editName, setEditName] = useState(false)
+    const [editNameValue,setEditNameValue] = useState('')
+    const [voted,setVoted] = useState(false)
     const countNumber=(e)=>{
         return e.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,",")
     }
@@ -63,8 +68,8 @@ const Header =({/*user*/})=> {
             background: "#2B2B2B",
             overflow: "hidden",
             top: "20%",
-            left: "30%",
-            right: "30%",
+            left: "33%",
+            right: "33%",
             bottom: "20%",
             border:"0",
             borderRadius: "20px",
@@ -84,21 +89,7 @@ const Header =({/*user*/})=> {
         {st_name:'',st_price:'',st_amount:''},
         {st_name:'',st_price:'',st_amount:''},]},
         deposit:{is_fauceted : true || false,}}
-    const ST_1 = {
-            name:'BEBE',
-            price:'200',
-            amount:'20'
-        };
-    const ST_2 = {
-        name:'DEDE',
-        price:'100',
-        amount:'230'
-    };
-    const ST_3 = {
-        name:'CECE',
-        price:'400',
-        amount:'10'
-    };
+
     const userModalOpen =()=>{
         document.body.style.overflow = 'hidden';
         setUserModalIsOpen(true)
@@ -124,7 +115,7 @@ const Header =({/*user*/})=> {
 
     }
     // useEffect(()=>{
-    //     // return Vote(stName,stAmount,ratio,account).status.value
+    //     return Vote(stName,stAmount,ratio,account).status.value
     // },[stName,stAmount,ratio,account])
     const user = {
         status:"success",
@@ -141,6 +132,20 @@ const Header =({/*user*/})=> {
     const faucetBtn=()=>{
         FaucetWallet(account)
     }
+    const ST_1 = {
+        name:'BEBE',price:'200',amount:'20'
+    };
+    const ST_2 = {
+        name:'DEDE',price:'100',amount:'230'
+    };
+    const ST_3 = {
+        name:'CECE',price:'400',amount:'10'
+    };
+    const OPTIONS = [
+        { value: "BEBE", name: "BEBE" },
+        { value: "DEDE", name: "DEDE" },
+        { value: "CECE", name: "CECE" },
+    ];
     return(
         <div className="header">
         
@@ -156,25 +161,27 @@ const Header =({/*user*/})=> {
                 onRequestClose={()=>setWalletConnected()}
                 isOpen={walletConnected}
                 style={modalStyle_2}
-            > 
-            <div>
-            <span>address : {account}<br/>chainId : {chainId}</span>
-            </div>
+            >   <div className='welcome_connection'>
+                <h3>Welcome</h3>
+                <img src={require('../assets/images/ENTASIS_white.png')} alt='entasis'></img>
+                </div>
+                <img className="congratulations" src={require('../assets/images/welcome_connection.gif')} alt='entasis'></img>
+            <span>Connection Information<br/>Chain Id : {chainId}<br/>Wallet Address : {account}</span>
             </Modal>
             <div className='header_user'>
-            <h2 type="button" onClick={handdleConnect}>{active ? 'disconnect' : 'connect'}</h2><br/>
+            <div className="btn" onClick={handdleConnect}>{active ? <h2>disconnect</h2> : <h2>connect</h2>}</div>
                 {/* <img src={require('../assets/images/user.png')} 
                 onClick={active? ()=>userModalOpen():handdleConnect} alt='connection'></img> */}
                 {active?
-                <i onClick={active? ()=>userModalOpen():handdleConnect} className='fas fa-wallet'></i>:
-                <div onClick={active? ()=>userModalOpen():handdleConnect} className='fas fa-wallet_disconnect'></div>}
+                <i className='fas fa-wallet' onClick={()=>userModalOpen()} ></i>:
+                <div onClick={handdleConnect} className='fa-wallet_disconnect'></div>}
             </div>
 
             <Modal
                 appElement={document.getElementById('root') || undefined}
                 onRequestClose={()=>userModalClose()}
                 isOpen={userModalIsOpen}
-                style={modalStyle}LoginLogin
+                style={modalStyle}
             >   <div className='myaccount'>
                     <div className='close' onClick={()=>userModalClose()}>
                         <img src={require('../assets/images/close.png')}></img>
@@ -185,11 +192,20 @@ const Header =({/*user*/})=> {
                     <div className='myaccount_wrapper'>
                         <div className='myaccount_wrapper_name_top'>
                             <h2>Name</h2>
-                            <div className='btn' onClick={()=>faucetBtn()}><h6>Edit</h6></div>
+                            {!editName?<div className='btn' onClick={()=>setEditName(!editName)}><h6>Edit</h6></div>:<div className='btn' onClick={()=>ChName(account,editNameValue)}><h6>Edit Name</h6></div>}
                         </div>
+                            {editName?
+                            <div className='edit_name'>
+                                <input onChange={(e)=>setEditNameValue(e.target.value)}></input>
+                                <div className='edit_name_close' onClick={()=>setEditName(!editName)}>
+                                    <img src={require('../assets/images/close.png')} alt='close'></img>
+                                </div>
+                            </div>
+                            :
                             <div className='user_name'>
                                 <h3>{user.name + " (#" + chainId+ ")"}</h3>
                             </div>
+                            }
                         <div className='assets'>
                             <h2>Assets</h2>
                             <div className='assets_wraper'>
@@ -218,15 +234,24 @@ const Header =({/*user*/})=> {
                         <div className='exercise_of_voting_rights'>
                             <h2>Exercise of Voting Rights</h2>
                             <div className='exercise_of_voting_rights_wrapper '>
+                            <Modal
+                                appElement={document.getElementById('root') || undefined}
+                                onRequestClose={()=>setVoted()}
+                                isOpen={voted}
+                                style={modalStyle_2}
+                            >   <div className='welcome_connection'>
+                                <h2>Your Voting Right has been Exercised</h2>
+                                <h3>You voted for {ratio}</h3>
+                                <h5>Corporation Name {stName}</h5>
+                                <h5>Ownership Ratio {user.amount/*/totalSupply */}</h5>
+                                <h5>Security Token Name {stName}</h5>
+                                <img className="congratulations" src={require('../assets/images/welcome_connection.gif')} alt='entasis'></img>
+                                <img src={require('../assets/images/ENTASIS_white.png')} alt='entasis'></img>
+                                </div>
+                            </Modal>
                                 <h3>Select Security Token</h3>
-                                <select className='st_select'>
-                                    <option disabled={false}>
-                                        Select Your Security Token
-                                    </option>
-                                    <option value={ST_1.name}>{ST_1.name}</option>
-                                    <option value={ST_2.name}>{ST_2.name}</option>
-                                    <option value={ST_3.name}>{ST_3.name}</option>
-                                </select>
+                                <SelectBox options={OPTIONS} 
+                                defaultValue=""></SelectBox>
                                 <h3 className='exercise_of_voting_rights_wrapper head'>Dividend</h3>
                                 <div className='exercise_of_voting_rights_wrapper body'>
                                     
@@ -235,12 +260,18 @@ const Header =({/*user*/})=> {
                                         <div className='ratio_value'>
                                             <h4>{}5%</h4>
                                         </div>
-                                        <div className='vote_btn' onClick={()=>setRatio(0.05)}><h5>Vote</h5></div>
-                                        <div className='vote_btn' onClick={()=>setRatio(0.04)}><h5>Vote</h5></div>
-                                        <div className='vote_btn' onClick={()=>setRatio(0.03)}><h5>Vote</h5></div>
-                                        <div className='vote_btn' onClick={()=>setRatio(0.02)}><h5>Vote</h5></div>
-                                        <div className='vote_btn' onClick={()=>setRatio(0.01)}><h5>Vote</h5></div>
-                                        <div className='vote_btn' onClick={()=>setRatio(0)}><h5>Vote</h5></div>
+                                        <div className='vote_btn' onClick={()=>{setVoted(true)
+                                        setRatio(+0.05)}}><h5>Vote</h5></div>
+                                        <div className='vote_btn' onClick={()=>{setVoted(true)
+                                        setRatio(+0.04)}}><h5>Vote</h5></div>
+                                        <div className='vote_btn' onClick={()=>{setVoted(true)
+                                        setRatio(+0.03)}}><h5>Vote</h5></div>
+                                        <div className='vote_btn' onClick={()=>{setVoted(true)
+                                        setRatio(+0.02)}}><h5>Vote</h5></div>
+                                        <div className='vote_btn' onClick={()=>{setVoted(true)
+                                        setRatio(+0.01)}}><h5>Vote</h5></div>
+                                        <div className='vote_btn' onClick={()=>{setVoted(true)
+                                        setRatio(0.00)}}><h5>Vote</h5></div>
                                     </div>
                                     <div className='middle'>
                                         <h5>Result</h5>
@@ -270,13 +301,18 @@ const Header =({/*user*/})=> {
                                         <div className='vote_btn'><h5></h5></div>
                                         <div className='vote_btn'><h5></h5></div>
                                         <div className='vote_btn'><h5></h5></div>
-                                        <div className='vote_btn' onClick={()=>setRatio(0)}><h5>Vote</h5></div>
-                                        <div className='vote_btn' onClick={()=>setRatio(-0.01)}><h5>Vote</h5></div>
-                                        <div className='vote_btn' onClick={()=>setRatio(-0.02)}><h5>Vote</h5></div>
-                                        <div className='vote_btn' onClick={()=>setRatio(-0.03)}><h5>Vote</h5></div>
-                                        <div className='vote_btn' onClick={()=>setRatio(-0.04)}><h5>Vote</h5></div>
-                                        <div className='vote_btn' onClick={()=>setRatio(-0.05)}><h5>Vote</h5></div>
-                                    </div>
+                                        <div className='vote_btn' onClick={()=>{setVoted(true)
+                                        setRatio(0)}}><h5>Vote</h5></div>
+                                        <div className='vote_btn' onClick={()=>{setVoted(true)
+                                        setRatio(-0.01)}}><h5>Vote</h5></div>
+                                        <div className='vote_btn' onClick={()=>{setVoted(true)
+                                        setRatio(-0.02)}}><h5>Vote</h5></div>
+                                        <div className='vote_btn' onClick={()=>{setVoted(true)
+                                        setRatio(-0.03)}}><h5>Vote</h5></div>
+                                        <div className='vote_btn' onClick={()=>{setVoted(true)
+                                        setRatio(-0.04)}}><h5>Vote</h5></div>
+                                        <div className='vote_btn' onClick={()=>{setVoted(true)
+                                        setRatio(-0.05)}}><h5>Vote</h5></div>                                    </div>
                                 </div>
                             </div>
                         </div>

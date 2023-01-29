@@ -10,5 +10,6 @@ router.get('/position', userController.position);
 router.get('/mypage', userController.mypage);
 router.put('/sample', userController.sample); // 수정 필요
 router.put('/faucet', userController.faucet);
+router.get('/ethbalance', userController.ethbalance); // 이더 잔액 조회 테스트 API
 
 module.exports = router;
