@@ -31,5 +31,14 @@ const sendEtherToUser = async (recipient, value) =>{
 }
 
 // 이더 잔액 가져오는 함수
+const getEtherBalance = async (address) => {
+  try {
+    const balance = await web3Http.eth.getBalance(address)
+    return balance;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+}
 
-module.exports = { depositFaucet, sendEtherToUser };
+module.exports = { depositFaucet, sendEtherToUser, getEtherBalance };
