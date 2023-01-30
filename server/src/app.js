@@ -15,7 +15,7 @@ const chartRouter = require('./routes/chartRouter');
 
 const logger = require('./logger');
 const { sequelize } = require('./models');
-
+const {limiter} = require('./limit');
 const app = express();
 app.set('port', process.env.PORT || 5050);
 app.set('view engine', 'ejs');
@@ -39,6 +39,7 @@ app.use(
   }),
 );
 
+app.use(limiter);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
