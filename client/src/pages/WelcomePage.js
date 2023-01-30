@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import {Tutorial} from '../apis/user'
-const Welcome =({isLoading})=>{
+const Welcome =({isLoading, tutorialCnt})=>{
     const [welcomeClose, setWelcomeClose] = useState(false)
     const [start, setStart] = useState(true)
     const [wallet, setWallet] = useState(true)
@@ -15,6 +15,7 @@ const Welcome =({isLoading})=>{
     const [faucet, setFaucet] = useState(true)
     const [transaction, setTransaction] = useState(true)
     const [tutorialFinished, setTutorialFinished] = useState(true)
+
     const modalStyle = {
         overlay: {
             position: "fixed",
@@ -36,8 +37,8 @@ const Welcome =({isLoading})=>{
         },
     };
     useEffect(()=>{
-        Tutorial(account)
-    },[account])
+        Tutorial(account,tutorialCnt)
+    },[account,tutorialCnt])
 
     const skipHandler = () => {
         setWallet(false)
@@ -63,7 +64,9 @@ const Welcome =({isLoading})=>{
             <img src={require('../assets/images/welcome.png')} alt="welcome"/>
         </div>
     )}
-    if(start){
+    else if(start&&tutorialCnt===12){
+        Tutorial(account,tutorialCnt-1)
+
         return (
             <Modal
             appElement={document.getElementById('root') || undefined}
@@ -82,7 +85,9 @@ const Welcome =({isLoading})=>{
             </Modal>
         )}
     
-    if(wallet){
+    else if(wallet&&tutorialCnt===11){
+        Tutorial(account,tutorialCnt-1)
+
     return (
         <Modal
         appElement={document.getElementById('root') || undefined}
@@ -102,7 +107,9 @@ const Welcome =({isLoading})=>{
         <div className='skip' onClick={()=>setWallet()}>Next</div>
         </Modal>
     )}
-    if(chart){return (
+    else if(chart&&tutorialCnt===10){
+        Tutorial(account,tutorialCnt-1)
+        return (
         <Modal
         appElement={document.getElementById('root') || undefined}
         onRequestClose={()=>setChart()}
@@ -118,7 +125,9 @@ const Welcome =({isLoading})=>{
         </Modal>
     )}
     
-    if(limitOrderBook){return(
+    else if(limitOrderBook&&tutorialCnt===9){
+        Tutorial(account,tutorialCnt-1)
+        return(
         <Modal
         appElement={document.getElementById('root') || undefined}
         onRequestClose={()=>setLimitOrderBook()}
@@ -133,7 +142,9 @@ const Welcome =({isLoading})=>{
         <div className='skip' onClick={()=>setLimitOrderBook()}>Next</div>
         </Modal>
     )}
-    if(order){return(
+    else if(order&&tutorialCnt===8){
+        Tutorial(account,tutorialCnt-1)
+        return(
         <Modal
         appElement={document.getElementById('root') || undefined}
         onRequestClose={()=>setOrder()}
@@ -148,7 +159,9 @@ const Welcome =({isLoading})=>{
         <div className='skip' onClick={()=>setOrder()}>Next</div>
         </Modal>
     )}
-    if(publicDisclosure){return(
+    else if(publicDisclosure&&tutorialCnt===7){
+        Tutorial(account,tutorialCnt-1)
+        return(
         <Modal
         appElement={document.getElementById('root') || undefined}
         onRequestClose={()=>setPublicDisclosure()}
@@ -163,7 +176,9 @@ const Welcome =({isLoading})=>{
         <div className='skip' onClick={()=>setPublicDisclosure()}>Next</div>
         </Modal>
     )}
-    if(assets){return(
+    else if(assets&&tutorialCnt===6){
+        Tutorial(account,tutorialCnt-1)
+        return(
         <Modal
         appElement={document.getElementById('root') || undefined}
         onRequestClose={()=>setAssets()}
@@ -178,7 +193,9 @@ const Welcome =({isLoading})=>{
         <div className='skip' onClick={()=>setAssets()}>Next</div>
         </Modal>
     )}
-    if(history){return(
+    else if(history&&tutorialCnt===5){
+        Tutorial(account,tutorialCnt-1)
+        return(
         <Modal
         appElement={document.getElementById('root') || undefined}
         onRequestClose={()=>setHistory()}
@@ -193,7 +210,9 @@ const Welcome =({isLoading})=>{
         <div className='skip' onClick={()=>setWallet()}>Next</div>
         </Modal>
     )}
-    if(account){return(
+    else if(account&&tutorialCnt===4){
+        Tutorial(account,tutorialCnt-1)
+        return(
         <Modal
         appElement={document.getElementById('root') || undefined}
         onRequestClose={()=>setAccount()}
@@ -209,7 +228,9 @@ const Welcome =({isLoading})=>{
         </Modal>
     )}
 
-    if(faucet){return(
+    else if(faucet&&tutorialCnt===3){
+        Tutorial(account,tutorialCnt-1)
+        return(
         <Modal
         appElement={document.getElementById('root') || undefined}
         onRequestClose={()=>setFaucet()}
@@ -224,7 +245,9 @@ const Welcome =({isLoading})=>{
         <div className='skip' onClick={()=>setWallet()}>Next</div>
         </Modal>
     )}
-    if(transaction){return(
+    else if(transaction&&tutorialCnt===2){
+        Tutorial(account,tutorialCnt-1)
+        return(
         <Modal
         appElement={document.getElementById('root') || undefined}
         onRequestClose={()=>setTransaction()}
@@ -240,7 +263,9 @@ const Welcome =({isLoading})=>{
         </Modal>
     )}
     
-    if(tutorialFinished){return(
+    else if(tutorialFinished&&tutorialCnt===1){
+        Tutorial(account,tutorialCnt-1)
+        return(
         <Modal
         appElement={document.getElementById('root') || undefined}
         onRequestClose={()=>setTutorialFinished()}

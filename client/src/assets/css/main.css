@@ -196,10 +196,11 @@ div.btn:hover{
 }
 .edit_name_close{
     transform: scale(0.7);
+    width: 17px;
 }
 .edit_name{
     display: flex;
-    padding: 4px;
+    padding: 4px 0;
 }
 .edit_name input{
     width: 95%;
