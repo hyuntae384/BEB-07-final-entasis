@@ -2,7 +2,7 @@ const { web3Http } = require('./index');
 
 const { ADMIN_ADDRESS } = process.env;
 
-const depositFaucet = async (recipient, value = '10') => { // faucet 얼마나 할지 설정 필요
+const depositFaucet = async (recipient, value = '10000000000000000000') => { // faucet 얼마나 할지 설정 필요
   try { 
     await web3Http.eth.sendTransaction({
       from: ADMIN_ADDRESS,
@@ -30,4 +30,15 @@ const sendEtherToUser = async (recipient, value) =>{
   }
 }
 
-module.exports = { depositFaucet, sendEtherToUser };
+// 이더 잔액 가져오는 함수
+const getEtherBalance = async (address) => {
+  try {
+    const balance = await web3Http.eth.getBalance(address)
+    return balance;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+}
+
+module.exports = { depositFaucet, sendEtherToUser, getEtherBalance };

@@ -10,7 +10,11 @@ import Header from "../components/Header"
 import { useEffect, useState, useRef } from "react"
 import Historys from "../components/Historys"
 import Welcome from "./WelcomePage"
+import {Position} from '../apis/user'
+import { useWeb3React } from "@web3-react/core"
+import axios from "axios"
 
+// import {FaucetWallet} from '../apis/user'
 const MainPage =()=>{
     const [stv, setStv] = useState(0);
     const [incomeRatio, setIncomeRatio] = useState(0);
@@ -20,6 +24,24 @@ const MainPage =()=>{
     const [volumeFormatHis, setVolumeFormatHis] = useState([])
     const [formatLengthHis, setFormatLengthHis] = useState([]);
     const [isLoading, setIsLoading] = useState(true)
+    const [isEnroll,setIsEnroll] =useState({})
+    const {chainId, account, active, activate, deactivate} = useWeb3React();
+
+    useEffect(()=>{
+        EnrollWallet(account)
+        Position(account)
+    },[account])
+    const origin = "http://localhost:5050/";
+    const getUserURL = origin + "user/"; 
+    const enroll = getUserURL + "enroll/?wallet="
+
+    const EnrollWallet = async(wallet) => {
+        if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
+        const resultEnrollWallet =  await axios.post(enroll + wallet)
+        .then(res=>res.data)
+        .then(err=>err)
+        return  setIsEnroll(resultEnrollWallet)
+    }
     const stv_ref = useRef(0.000001);
     const incomeRatio_ref = useRef(0.000002);
     useEffect(() => {
@@ -32,13 +54,14 @@ const MainPage =()=>{
     }, []);
     useEffect(() => {
         const loop = setInterval(() => {
-            incomeRatio_ref.current = Math.random()*(0.005-(-0.0055))-0.005;
+            incomeRatio_ref.current = Math.random()*(0.005-(-0.0051))-0.005;
             setIncomeRatio(incomeRatio_ref.current);
         if (incomeRatio_ref.current === 10||
             incomeRatio_ref.current === 10) clearInterval(loop);
         }, 1000);
     }, []);
-    useEffect(()=>{},[volumeFormatHis])
+
+
     let ST_CurrentVolume = volumeHis[0] * (1 + stv*90)*(1+incomeRatio*90)
     let ST_CurrentPrice = candleHis[candleHis.length-1] * (1 + stv)*(1+incomeRatio) * (1+ST_CurrentVolume/100000000)
 
@@ -65,24 +88,27 @@ const MainPage =()=>{
             totalHisFrom
         ]    
 
+        // console.log(FaucetWallet(0x5631F64E301e3C4B698bD97C84BC02C100e73289))
 
         let CP_his =(e)=>{
             candleHis.push(e)
-            if(candleHis.length >= 120 ){
+            if(candleHis.length >= 60 ){
                 candleFormatHis.push(candleData);
                 candleHis.splice(0,candleHis.length-1);
+                if(candleFormatHis.length>2){return setIsLoading(false)}
+                else{return setIsLoading(true)}
             }}
         let CV_his =(e)=>{
             volumeHis[1].push(e)
 
-            if(volumeHis[1].length >= 120 ){
+            if(volumeHis[1].length >= 60 ){
                 volumeFormatHis.push(volumeData);
                 totalHisTo=0
                 volumeHis[1].splice(0,volumeHis[1].length-1);
             }}
         CP_his(ST_CurrentPrice)
         CV_his(ST_CurrentVolume)
-        let powerOfMarket = candleFormatHis!==null&&candleFormatHis!==undefined&&candleFormatHis.length>0?(candleFormatHis[candleFormatHis.length-1][2] - candleFormatHis[candleFormatHis.length-1][1])*100:0
+        let powerOfMarket = candleFormatHis!==null&&candleFormatHis!==undefined&&candleFormatHis.length>0?(candleFormatHis[candleFormatHis.length-1][2] - candleFormatHis[candleFormatHis.length-1][1])*10:0
 
         const onMouseEnterHandler = () => {
             document.body.style.overflow = 'unset';
@@ -91,6 +117,7 @@ const MainPage =()=>{
     return(
     <div className="main_page" onMouseEnter={onMouseEnterHandler}>
         <Welcome
+            tutorialCnt={isEnroll.cnt}
             isLoading={isLoading}
         />
         <Header onMouseEnter={onMouseEnterHandler}/>

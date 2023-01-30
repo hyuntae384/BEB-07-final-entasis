@@ -18,7 +18,8 @@ module.exports = (sequelize, DataTypes) => {
     wallet: DataTypes.STRING,
     faucet: DataTypes.BOOLEAN,
     name: DataTypes.STRING,
-    stoken: DataTypes.JSON
+    stoken: DataTypes.STRING,
+    cnt: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'users',

@@ -13,7 +13,17 @@ const signAndSendTx = async (account, tx) => {
     console.error(err);
     return false;
   }
-}
+};
+
+const getTotalSupply = async () => {
+  try {
+    const totalSupply = await tokenContract.methods.totalSupply().call();
+    return totalSupply;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+};
 
 const getTokenBalance = async (account) => {
   try {
@@ -52,6 +62,64 @@ const sendTokenToUser = async (recipient, amount) => {
     console.error(err);
     return false;
   }
-}
+};
 
-module.exports = { getTokenBalance, getTokenName, signAndSendTx, sendTokenToUser };
+// 거래 제한 함수 : 테스트 필요
+const restrictToken = async () => {
+  const adminAccount = web3Http.eth.accounts.privateKeyToAccount(ADMIN_PK);
+  try{
+    const bytedata = await tokenContract.methods.restrictToken().encodeABI();
+    const tx = {
+      from: ADMIN_ADDRESS,
+      gasPrice:GASPRICE,
+      gas: GAS,
+      to: TOKEN_CA,
+      data: bytedata
+    }
+    return signAndSendTx(adminAccount, tx);
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+};
+
+// 거래 재허용 함수 : 테스트 필요
+const allowToken = async () => {
+  const adminAccount = web3Http.eth.accounts.privateKeyToAccount(ADMIN_PK);
+  try{
+    const bytedata = await tokenContract.methods.allowToken().encodeABI();
+    const tx = {
+      from: ADMIN_ADDRESS,
+      gasPrice:GASPRICE,
+      gas: GAS,
+      to: TOKEN_CA,
+      data: bytedata
+    }
+    return signAndSendTx(adminAccount, tx);
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+};
+
+// 거래 제한 여부 확인 함수 : 테스트 필요
+const isRestricted = async () => {
+  try{
+    const isRestricted = await tokenContract.methods.isRestricted().call();
+    return isRestricted;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+};
+
+module.exports = { 
+  getTotalSupply,
+  getTokenBalance, 
+  getTokenName, 
+  signAndSendTx, 
+  sendTokenToUser,
+  restrictToken,
+  allowToken,
+  isRestricted
+};

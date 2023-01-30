@@ -13,8 +13,8 @@
     /* Color */
     --white-color   : #ffffff;
     --black-color: #000000;
-    --gray-light-color: #b9b9b9;
-    --gray-dark-color: #484848;
+    --gray-light-color: #b0b6ba;
+    --gray-dark-color: #44464a;
     --Primary-color: #00A4D8;
     --onPrimary-color: #0d6097;
     --Secondary-color: #ab1c37;
@@ -22,12 +22,11 @@
     background-color: var(--black-color);
     color: var(--white-color);
     position: relative;
-
+    text-decoration: none;
 }
 :root::-webkit-scrollbar{
     display: none;
 }
-
 .header{
     /* position: sticky;
     top: 0; */
@@ -45,6 +44,12 @@
 .header_CI a{
     height: 80px;
 }
+.entasis_main_logo{
+    position: absolute;
+    top: 5px;
+    right: 50%;
+    transform: translateX(50%);
+}
 .header_CI img, .header_CI a{
     align-items: center;
     height: 30px;
@@ -55,6 +60,67 @@
 }
 .header_user h2{
     padding: 0 10px;
+}
+.account_top{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+.account_address{
+    display: flex;
+    align-items: center;
+    width:100%
+}
+.account_address .account{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin: 0 10px 0 0;
+    width: 150px;
+}
+
+.deposit_faucet{
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    width:100%
+}
+ .account_address div h6{
+    margin: 0;
+    padding: 0;
+    width: 75px;
+    text-align: right;
+    align-items: center;
+
+}
+.myaccount_wrapper_name_top{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+div.account_address{
+    justify-content: space-between;
+
+}
+.deposit_faucet, .account_address{
+    justify-content: space-between;
+    align-items: center;
+}
+.header_user div.btn{
+    cursor: pointer;
+
+    color: var(--white-color);
+}
+.header_user div.btn:hover{
+    color: var(--Primary-color);
+    cursor: pointer;
+}
+div.btn{
+    color: var(--onPrimary-color);
+}
+div.btn:hover{
+    color: var(--Primary-color);
+    cursor: pointer;
 }
 .myaccount{
     position: relative;
@@ -71,6 +137,7 @@
 }
 .myaccount h1{
     color: var(--Primary-color);
+    
 }
 .myaccount h2,.myaccount h3,.myaccount h4,.myaccount h5{
 
@@ -79,21 +146,31 @@
 .myaccount .vote_btn h5{
     color:rgb(198, 87, 46);
     background-color: var(--gray-dark-color);
+    text-decoration: none;
 }
 .myaccount .user_name{
     margin: 1%;
-
+    display: flex;
+}
+.myaccount .user_name h3{
+    color: var(--white-color);
+    padding: 4px 0 4% 0;
+    font-size: 20px;
+}
+.myaccount .user_name h5{
+    color: var(--Primary-color);
 }
 .main_assets_wraper{
     margin: 1%;
 }
 .myaccount .vote_value{
-    margin: 5.6%;
+    margin: 5.8px ;
     height: 20px;
     text-align: center;
 }
 .myaccount .vote_btn{
-
+    cursor: pointer;
+    text-decoration: none;
     height: 20px;
     text-align: center;
     margin: 5.8px 0;
@@ -101,21 +178,33 @@
 
 
 .myaccount .vote_btn h5:hover{
+    cursor: pointer;
     color:var(--white-color);
     background-color:rgb(198, 87, 46);
+    text-decoration: none;
 }
 .close{
     position: absolute;
     top: 0;
     right: 0;
     transition: 0.2s;
-    transform: scale(1);
+    transform: scale(0.7);
 }
+
 .close:hover{
-    transform: scale(1.2);
+    transform: scale(0.8);
 }
-
-
+.edit_name_close{
+    transform: scale(0.7);
+    width: 17px;
+}
+.edit_name{
+    display: flex;
+    padding: 4px 0;
+}
+.edit_name input{
+    width: 95%;
+}
 .exercise_of_voting_right, .deposit{
     margin-top: 30%;
 }
@@ -151,7 +240,7 @@
 .navigator{
     margin: 5px 0px 2.5px 0;
     width: 100%;
-    height: 50px;
+    height: 30px;
     background-color:#242424;
 }
 .chart{
@@ -212,10 +301,9 @@
     display: flex;
 }
 .navigator .public_disclosure_wrapper{
-    display: flex;
+    width: 200px;
     padding: 5px;
 }
-.public_disclosure_wrapper{}
 .right, .middle, .left{ 
     width: 33.33%;
 }
@@ -233,12 +321,12 @@
 .limit_order_sell{
     color: #b8284a;
     overflow: hidden;
-
+    
 }
 .limit_order_buy,.limit_order_sell{
     margin: 1.5% 0;
-    padding: 5% 0 ;
-    min-height: 40px;
+    padding: 4% 0 ;
+    /* min-height: 40px; */
     align-items: center;
     display: flex;
     justify-content: space-around;
@@ -256,8 +344,11 @@
     justify-content: space-around;
 }
 .limit_order_buy div,.limit_order_sell div,.market_order div{
-    width: 40px;
     text-align: center;
+    width: 25%;
+}
+.limit_order_buy:hover,.limit_order_sell:hover,.market_order:hover{
+    filter: brightness(0.9);
 }
 .history_wrapper div, .asset_wrapper div{
     width: 60px;
@@ -316,64 +407,157 @@
     justify-content: center;
     height: 100%;
     width: 100%;
+    opacity: 0.9;
     transition: 0.5s;
+    z-index: 100;
+
 }
 .welcome:active{
-    opacity: 0;
+    opacity: 0.2;
 }
+
 .welcome img{
     margin: 20% 0 ;
     transition: 0.5s;
 }
 .welcome .logo{
     position:absolute;
+}
+.welcome_tutorial{
+    position:absolute;
+    padding: 2%;
+    width: 300px;
+    height: 400px;
+    top: 50%;
+    right: 50%;
+    transform:translateX(50%) translateY(-50%);
+    text-align: center;
+    opacity: 0.8;
 
 }
-
 .welcome_tutorial_wallet{
-    top: 6%;
+    width: 200px;
+    height: 120px;
+    top: 7%;
     right: 0%; 
 }
-.welcome_tutorial_wallet_top{
+
+.welcome_tutorial_top{
     display: flex;
+    justify-content: center;
+}
+.welcome_tutorial_wallet_body{
+    text-align: center;
+    margin: 5%;
+}
+.welcome_tutorial_top i{
+    position: absolute;
+    top: 7px;
+    right: 15px;
+}
+.welcome_tutorial_top i{
+    position: absolute;
+    top: 7px;
+    right: 9px;
+}
+.welcome_tutorial_public_disclosure .welcome_tutorial_top i {
+    position: absolute;
+    top: 7px;
+    left: 10px;
 }
 .welcome_tutorial_chart{
-    top: 32%;
-    right: 62%;
+    width: 500px;
+    height: 330px;
+
+    top: 22%;
+    right: 52%;
 }
 .welcome_tutorial_limit_order_book{
+    width: 200px;
+    height: 120px;
     top: 42%;
     right: 19.4%;
 }
 .welcome_tutorial_order{
+    width: 200px;
+    height: 120px;
     top: 65%;
     right: 2%;
 }
 .welcome_tutorial_public_disclosure{
-    top: 6%;
+    width: 200px;
+    height: 120px;
+    top: 7%;
     right: 78%;
 }
 .welcome_tutorial_assets{
-    top: 6%;
-    right: 0%;
+    width: 200px;
+    height: 120px;
+
+    top: 7%;
+    right: 1%;
 }
 .welcome_tutorial_history{
+    width: 200px;
+    height: 120px;
+
     top: 85%;
     right: 67%;
 }
 .welcome_tutorial_account{
+    width: 200px;
+    height: 120px;
+
     top: 85%;
     right: 18%;
 }
 .welcome_tutorial_faucet{
+    width: 200px;
+    height: 120px;
+
     top: 6%;
     right: 0%;
 }
 .welcome_tutorial_transaction{
-    top: 6%;
-    right: 8%;
+    width: 200px;
+    height: 120px;
+    top: 12%;
+    right: 4.5%;
 
 }
+.welcome_tutorial_tutorial_finished{
+    padding: 2%;
+    width: 300px;
+    height: 400px;
+    top: 50%;
+    right: 50%;
+    transform:translateX(50%) translateY(-50%);
+    text-align: center;
+}
+.welcome_connection{
+    text-align: center;
+    overflow: hidden;
+    justify-content: center;
+    transition: 0.4s;
+}
+.welcome_connection:active{
+    opacity: 0.4;}
+ .congratulations{
+    border-radius: 5px;
+    margin: 5% 0;
+    width: 100%;
+    height: auto;
+    
+}
+.voted{
+    border-radius: 5px;
+    margin: auto;
+    width: auto;
+    height: auto;
+    top: 50%;
+    right: 50%;
+}
+.welcome_tutorial,
 .welcome_tutorial_wallet,
 .welcome_tutorial_chart,
 .welcome_tutorial_limit_order_book,
@@ -383,17 +567,34 @@
 .welcome_tutorial_history,
 .welcome_tutorial_account,
 .welcome_tutorial_faucet,
-.welcome_tutorial_transaction{
+.welcome_tutorial_transaction,
+.welcome_tutorial_tutorial_finished{
     position: absolute;
     border: 1px solid var(--white-color);
     border-radius: 10px;
     padding: 5px 10px;
     color:var(--Primary-color);
-    width: 200px;
-    height: 100px;
     overflow: hidden;
-    transition: 0.5s;
+    transition: 0.2s;
+    opacity: 0.75;
+
 }
+.welcome_tutorial h4,
+.welcome_tutorial_wallet h4,
+.welcome_tutorial_chart h4,
+.welcome_tutorial_limit_order_book h4,
+.welcome_tutorial_order h4,
+.welcome_tutorial_public_disclosure h4,
+.welcome_tutorial_assets h4,
+.welcome_tutorial_history h4,
+.welcome_tutorial_account h4,
+.welcome_tutorial_faucet h4,
+.welcome_tutorial_transaction h4,
+.welcome_tutorial_tutorial_finished h4{
+    color: var(--white-color);
+
+}
+body:active .welcome_tutorial,
 body:active .welcome_tutorial_wallet,
 body:active .welcome_tutorial_chart,
 body:active .welcome_tutorial_limit_order_book,
@@ -403,15 +604,117 @@ body:active .welcome_tutorial_assets,
 body:active .welcome_tutorial_history,
 body:active .welcome_tutorial_account,
 body:active .welcome_tutorial_faucet,
-body:active .welcome_tutorial_transaction{
+body:active .welcome_tutorial_transaction,
+body:active .welcome_tutorial_tutorial_finished{
     opacity: 0;
 }
+.count{
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
 
+}
+.skip{
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+.fa-wallet{
+    width: 32px;
+    height: 32px;
+    align-items: center;
+    text-align: center;
+    padding: 8px;
+    margin: 0;
+    border: 0px;
+    border-radius: 50%;
+    opacity: 0.8;
+    background-color: var(--Primary-color);
+}
+.fa-wallet_disconnect{
+    width: 32px;
+    height: 32px;
+    align-items: center;
+    text-align: center;
+    padding: 8px;
+    margin: 0;
+    border: 0px;
+    border-radius: 50%;
+    opacity: 0.8;
+    background-color: var(--Primary-color);
+}
+select, input{
+    background-color: var(--black-color);
+    border: 0px ;
+    border-radius: 5px;
+    color: var(--white-color);
+}
+input{
+    padding: 4%;
+}
 
+.order_mode{
+    display: flex;
+    color: var(--gray-dark-color);
+    border-bottom: 1px solid var(--gray-dark-color);
+}
+.order{
+    padding: 0.4%;
+}
+.order div{
+    padding: 2% 0;
+}
+.order_price, .order_amount{
+    margin: 2% 0 0 0 ;
+    width: 99.3%;
+    height: 50px;
+}
+.order_available{
+    padding: 5% 0 1% 0;
+}
+.make_order{
+    width: 99.3%;
+    height: 50px;
+    margin: 2% 0 0 0 ;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.order_buy,.order_sell{
+    width: 50%;
+    height: 100%;
+    border: 0;
+    transition: 0.2s;
+}
+.order_buy:hover,.order_sell:hover{
+    filter: brightness(0.7);
+}
+.order_buy h5, .order_sell h5{
+    border-bottom: 1px solid var();
 
-@keyframes tutorial {
-    0%      {background-color:#868686; top:200px; right:100px}
-    50%    {background-color:#afafaf; top:300px; right:200px}
-    100%    {background-color:#686868; top:200px; right:100px}
+}
+.order_buy{
+    color: var(--white-color);
+    background-color: var(--onPrimary-color);
+}
+.order_sell{
+    color: var(--white-color);
+    background-color:var(--Secondary-color);
+}
+.order_price_eth{
+    position: absolute;
+    right: 1.5%;
+    top: 19%;
+}
+.chart_select{
+    width: 300px;
+    display: flex;
+    align-items: center;
+}
+.chart_cp{
+    margin-left: 10px;
+    width: 120px;
+}
+.chart_select select.st_select{
+    margin: 0;
 
 }
