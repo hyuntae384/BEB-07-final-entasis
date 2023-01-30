@@ -67,10 +67,10 @@ const Header =({/*user*/})=> {
             justifyContent: "center",
             background: "#2B2B2B",
             overflow: "hidden",
-            top: "20%",
+            top: "15%",
             left: "33%",
             right: "33%",
-            bottom: "20%",
+            bottom: "15%",
             border:"0",
             borderRadius: "20px",
             WebkitOverflowScrolling: "touch",
@@ -125,6 +125,8 @@ const Header =({/*user*/})=> {
         cnt:'10'}
 
     useEffect(()=>{
+        Account(account)
+        console.log(Account(account))
 
         EnrollWallet(account)
     },[account])
@@ -226,9 +228,7 @@ const Header =({/*user*/})=> {
                                     <div className='account'>{account}</div>
                                     <div className='btn' onClick={()=>faucetBtn()}><h6>Copy</h6></div>
                                 </div>
-
                             </div>
-
                         </div>
 
                         <div className='exercise_of_voting_rights'>
@@ -240,13 +240,13 @@ const Header =({/*user*/})=> {
                                 isOpen={voted}
                                 style={modalStyle_2}
                             >   <div className='welcome_connection'>
-                                <h2>Your Voting Right has been Exercised</h2>
+                                <img src={require('../assets/images/ENTASIS.png')} alt='entasis'></img><br/>
                                 <h3>You voted for {ratio}</h3>
                                 <h5>Corporation Name {stName}</h5>
                                 <h5>Ownership Ratio {user.amount/*/totalSupply */}</h5>
-                                <h5>Security Token Name {stName}</h5>
+                                <h5>Security Token {stName}</h5>
                                 <img className="congratulations" src={require('../assets/images/welcome_connection.gif')} alt='entasis'></img>
-                                <img src={require('../assets/images/ENTASIS_white.png')} alt='entasis'></img>
+                                <h2>Your Voting Right has been Exercised!</h2>
                                 </div>
                             </Modal>
                                 <h3>Select Security Token</h3>
@@ -296,11 +296,11 @@ const Header =({/*user*/})=> {
                                         <div className='ratio_value'>
                                             <h4>{}5.49%</h4>
                                         </div>
-                                        <div className='vote_btn'><h5></h5></div>
-                                        <div className='vote_btn'><h5></h5></div>
-                                        <div className='vote_btn'><h5></h5></div>
-                                        <div className='vote_btn'><h5></h5></div>
-                                        <div className='vote_btn'><h5></h5></div>
+                                        <div className='vote_btn'></div>
+                                        <div className='vote_btn'></div>
+                                        <div className='vote_btn'></div>
+                                        <div className='vote_btn'></div>
+                                        <div className='vote_btn'></div>
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
                                         setRatio(0)}}><h5>Vote</h5></div>
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
@@ -312,7 +312,8 @@ const Header =({/*user*/})=> {
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
                                         setRatio(-0.04)}}><h5>Vote</h5></div>
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
-                                        setRatio(-0.05)}}><h5>Vote</h5></div>                                    </div>
+                                        setRatio(-0.05)}}><h5>Vote</h5></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

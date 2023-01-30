@@ -77,7 +77,6 @@
     white-space: nowrap;
     margin: 0 10px 0 0;
     width: 150px;
-    height: 20px;
 }
 
 .deposit_faucet{
@@ -86,19 +85,26 @@
     justify-content: left;
     width:100%
 }
-h6, .account_address div h6{
+ .account_address div h6{
     margin: 0;
     padding: 0;
     width: 75px;
     text-align: right;
+    align-items: center;
+
 }
 .myaccount_wrapper_name_top{
     display: flex;
     align-items: baseline;
     justify-content: space-between;
 }
+div.account_address{
+    justify-content: space-between;
+
+}
 .deposit_faucet, .account_address{
     justify-content: space-between;
+    align-items: center;
 }
 .header_user div.btn{
     cursor: pointer;
@@ -335,8 +341,11 @@ div.btn:hover{
     justify-content: space-around;
 }
 .limit_order_buy div,.limit_order_sell div,.market_order div{
-    width: 40px;
     text-align: center;
+    width: 25%;
+}
+.limit_order_buy:hover,.limit_order_sell:hover,.market_order:hover{
+    filter: brightness(0.9);
 }
 .history_wrapper div, .asset_wrapper div{
     width: 60px;
@@ -523,7 +532,7 @@ div.btn:hover{
 }
 .welcome_connection{
     text-align: center;
-    
+
 }
  .congratulations{
     border-radius: 5px;
@@ -623,4 +632,60 @@ select, input{
     border: 0px ;
     border-radius: 5px;
     color: var(--white-color);
+}
+input{
+    padding: 4%;
+}
+
+.order_mode{
+    display: flex;
+    color: var(--gray-dark-color);
+    border-bottom: 1px solid var(--gray-dark-color);
+}
+.order{
+    padding: 0.4%;
+}
+.order div{
+    padding: 2% 0;
+}
+.order_price, .order_amount{
+    margin: 2% 0 0 0 ;
+    width: 99.3%;
+    height: 50px;
+}
+.order_available{
+    padding: 5% 0 1% 0;
+}
+.make_order{
+    width: 99.3%;
+    height: 50px;
+    margin: 2% 0 0 0 ;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.order_buy,.order_sell{
+    width: 50%;
+    height: 100%;
+    border: 0;
+    transition: 0.2s;
+}
+.order_buy:hover,.order_sell:hover{
+    filter: brightness(0.7);
+}
+.order_buy h5, .order_sell h5{
+    border-bottom: 1px solid var();
+
+}
+.order_buy{
+    color: var(--white-color);
+    background-color: var(--onPrimary-color);
+}
+.order_sell{
+    color: var(--white-color);
+    background-color:var(--Secondary-color);
+}
+.order_price_eth{
+    position: absolute;
+    right: 1.5%;
+    top: 19%;
 }
