@@ -20,24 +20,25 @@ export const FaucetWallet = async(wallet) => {
     .then(res=>res.data.status)
     // .then(err=>err)
     .catch((error)=>{
+        console.log(error.response.data.message)
         return error.response.data.message
     })
     return resultFaucetWallet
 }
 export const EnrollWallet = async(wallet) => {
     if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
-    const resultEnrollWallet =  axios.post(enroll + wallet)
-    .then(res=>res)
+    const resultEnrollWallet =  await axios.post(enroll + wallet)
+    .then(res=>res.data)
     .then(err=>err)
-    return  resultEnrollWallet
+    return resultEnrollWallet
 }
 export const ChName = async(wallet, name) => {
     if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
     const newName = {"name":name}
-    const resultChName =  axios.put(chname + wallet, newName )
-    .then(res=>res)
+    const resultChName =  await axios.put(chname + wallet, newName )
+    .then(res=>res.data.name)
     .then(err=>err)
-    return  resultChName
+    return resultChName
 }
 export const Tutorial = async(wallet, cnt) => {
     if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')

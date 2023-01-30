@@ -12,6 +12,7 @@ import Historys from "../components/Historys"
 import Welcome from "./WelcomePage"
 import {Position} from '../apis/user'
 import { useWeb3React } from "@web3-react/core"
+import axios from "axios"
 
 // import {FaucetWallet} from '../apis/user'
 const MainPage =()=>{
@@ -23,6 +24,24 @@ const MainPage =()=>{
     const [volumeFormatHis, setVolumeFormatHis] = useState([])
     const [formatLengthHis, setFormatLengthHis] = useState([]);
     const [isLoading, setIsLoading] = useState(true)
+    const [isEnroll,setIsEnroll] =useState({})
+    const {chainId, account, active, activate, deactivate} = useWeb3React();
+
+    useEffect(()=>{
+        EnrollWallet(account)
+        Position(account)
+    },[account])
+    const origin = "http://localhost:5050/";
+    const getUserURL = origin + "user/"; 
+    const enroll = getUserURL + "enroll/?wallet="
+
+    const EnrollWallet = async(wallet) => {
+        if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
+        const resultEnrollWallet =  await axios.post(enroll + wallet)
+        .then(res=>res.data)
+        .then(err=>err)
+        return  setIsEnroll(resultEnrollWallet)
+    }
     const stv_ref = useRef(0.000001);
     const incomeRatio_ref = useRef(0.000002);
     useEffect(() => {
@@ -35,17 +54,13 @@ const MainPage =()=>{
     }, []);
     useEffect(() => {
         const loop = setInterval(() => {
-            incomeRatio_ref.current = Math.random()*(0.005-(-0.0055))-0.005;
+            incomeRatio_ref.current = Math.random()*(0.005-(-0.0051))-0.005;
             setIncomeRatio(incomeRatio_ref.current);
         if (incomeRatio_ref.current === 10||
             incomeRatio_ref.current === 10) clearInterval(loop);
         }, 1000);
     }, []);
-    const {chainId, account, active, activate, deactivate} = useWeb3React();
 
-    useEffect(()=>{
-        Position(account)
-    },[account])
 
     let ST_CurrentVolume = volumeHis[0] * (1 + stv*90)*(1+incomeRatio*90)
     let ST_CurrentPrice = candleHis[candleHis.length-1] * (1 + stv)*(1+incomeRatio) * (1+ST_CurrentVolume/100000000)
@@ -101,9 +116,10 @@ const MainPage =()=>{
 
     return(
     <div className="main_page" onMouseEnter={onMouseEnterHandler}>
-        {/* <Welcome
+        <Welcome
+            tutorialCnt={isEnroll.cnt}
             isLoading={isLoading}
-        /> */}
+        />
         <Header onMouseEnter={onMouseEnterHandler}/>
         <Navigator/>
         <div className="main_head">

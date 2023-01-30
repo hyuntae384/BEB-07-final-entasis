@@ -5,9 +5,10 @@ import { useWeb3React } from '@web3-react/core';
 import {web3} from 'web3'
 import { injected } from '../connectors';
 import '../assets/css/main.css';
-import {FaucetWallet, EnrollWallet, ChName, Tutorial, Score, Position, Account} from '../apis/user'
+import { ChName, Tutorial, Score, Position, Account} from '../apis/user'
 import SelectBox from './Select';
 import { Vote } from '../apis/company';
+import axios from 'axios';
 
 // import {Vote} from '../apis/company'
 const Header =({/*user*/})=> {
@@ -21,11 +22,55 @@ const Header =({/*user*/})=> {
     const [editName, setEditName] = useState(false)
     const [editNameValue,setEditNameValue] = useState('')
     const [voted,setVoted] = useState(false)
+    const [isEnroll, setIsEnroll] = useState({})
     const countNumber=(e)=>{
         return e.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,",")
     }
-//     var Contract = require('web3-eth-contract');
+    const {chainId, account, active, activate, deactivate} = useWeb3React();
 
+    const handdleConnect = () => {
+        if(active) {
+            deactivate();
+            return;
+        }
+        activate(injected, (error) => {
+            if('/No ethereum provider was found on window.ethereum/'.test(error)) {
+                window.open('https://metamask.io/download.html');
+            }
+        });
+        setWalletConnected(true)
+    }
+    const origin = "http://localhost:5050/";
+    const getUserURL = origin + "user/"; 
+    const enroll = getUserURL + "enroll/?wallet="
+    const faucet = getUserURL + "faucet/?wallet="
+
+    const EnrollWallet = async(wallet) => {
+        if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
+        const resultEnrollWallet =  await axios.post(enroll + wallet)
+        .then(res=>res.data)
+        .then(err=>err)
+        return  setIsEnroll(resultEnrollWallet)
+    }
+    useEffect(()=>{
+        Account(account)
+        ChName(account,editNameValue)
+        EnrollWallet(account)
+        FaucetWallet(account)
+    },[account,editNameValue])
+
+    const FaucetWallet = async(wallet) => {
+        if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
+        const faucetJSON = {'wallet':wallet}
+        const resultFaucetWallet = await axios.put(faucet + wallet,faucetJSON)
+        .then(res=>res.data.status)
+        // .then(err=>err)
+        .catch((error)=>{
+            if(error.response.data.message==='user has already used the faucet'){setIsFaucet(true)}
+        })
+        return resultFaucetWallet
+    }
+//     var Contract = require('web3-eth-contract');
 // // set provider for all later instances to use
 //     Contract.setProvider('ws://localhost:8546');
 //     var contract = new Contract(jsonInterface, address);
@@ -89,7 +134,6 @@ const Header =({/*user*/})=> {
         },
     };
 
-
     let data ={
         name:'', 
         assets:{
@@ -108,39 +152,14 @@ const Header =({/*user*/})=> {
         setUserModalIsOpen(false)
         }
 
-    const {chainId, account, active, activate, deactivate} = useWeb3React();
 
-    const handdleConnect = () => {
-        if(active) {
-            deactivate();
-            return;
-        }
-        activate(injected, (error) => {
-            if('/No ethereum provider was found on window.ethereum/'.test(error)) {
-                window.open('https://metamask.io/download.html');
-            }
-        });
-        setWalletConnected(true)
-
-    }
     // useEffect(()=>{
     //     return Vote(stName,stAmount,ratio,account).status.value
     // },[stName,stAmount,ratio,account])
-    const user = {
-        status:"success",
-        name:'Russ',
-        price:'400',
-        visited:'true',
-        cnt:'10'}
 
-    useEffect(()=>{
-        Account(account)
-        console.log(Account(account))
 
-        EnrollWallet(account)
-    },[account])
     const faucetBtn=()=>{
-        // if(FaucetWallet(account)==='user has already used the faucet'){return(
+        
         //     <Modal
         //     appElement={document.getElementById('root') || undefined}
         //     onRequestClose={()=>setVoted()}
@@ -175,6 +194,9 @@ const Header =({/*user*/})=> {
         { value: "DEDE", name: "DEDE" },
         { value: "CECE", name: "CECE" },
     ];
+    const enterHandler=(e)=>{
+        if(e.key === "Enter") return ChName(account,editNameValue); EnrollWallet(account);setEditName(!editName);
+    }
     return(
         <div className="header">
         
@@ -195,7 +217,7 @@ const Header =({/*user*/})=> {
                 <img src={require('../assets/images/ENTASIS_white.png')} alt='entasis'></img>
                 </div>
                 <img className="congratulations" src={require('../assets/images/welcome_connection.gif')} alt='entasis'></img>
-            <span>Connection Information<br/>Chain Id : {chainId}<br/>Wallet Address : {account}</span>
+            <span>Connection Information</span>
             </Modal>
             <div className='header_user'>
             <div className="btn" onClick={handdleConnect}>{active ? <h2>disconnect</h2> : <h2>connect</h2>}</div>
@@ -221,19 +243,24 @@ const Header =({/*user*/})=> {
                     <div className='myaccount_wrapper'>
                         <div className='myaccount_wrapper_name_top'>
                             <h2>Name</h2>
-                            {!editName?<div className='btn' onClick={()=>setEditName(!editName)}><h6>Edit</h6></div>:<div className='btn' onClick={()=>ChName(account,editNameValue)}><h6>Edit Name</h6></div>}
-                            
+                            <div className='btn' onClick={()=>setEditName(!editName)}><h6>Edit</h6></div>
                         </div>
                             {editName?
                             <div className='edit_name'>
-                                <input onChange={(e)=>setEditNameValue(e.target.value)}></input>
-                                <div className='edit_name_close' onClick={()=>setEditName(!editName)}>
-                                    <img src={require('../assets/images/close.png')} alt='close'></img>
+                                <input onChange={(e)=>setEditNameValue(e.target.value)} onKeyDown={enterHandler}></input>
+                                <div className='edit_name_close'>
+                                    <img src={require('../assets/images/ok.png')} alt='ok'
+                                    onClick={()=>{
+                                        ChName(account,editNameValue)
+                                        EnrollWallet(account)
+                                        setEditName(!editName)
+                                    }}></img>
+                                    <img src={require('../assets/images/close.png')} alt='close' onClick={()=>setEditName(!editName)}></img>
                                 </div>
                             </div>
                             :
                             <div className='user_name'>
-                                <h3>{user.name + " (#" + chainId+ ")"}</h3>
+                                <h3>{isEnroll.name}</h3>
                             </div>
                             }
                         <div className='assets'>
@@ -249,7 +276,7 @@ const Header =({/*user*/})=> {
 
                             <div className='deposit_wrapper'>
                                 <div className='deposit_faucet'>
-                                    <h4>{isFaucet?100:0}ETH</h4>
+                                    <h4>{isFaucet?10:0}ETH</h4>
                                     <div className='btn' onClick={()=>faucetBtn()}><h6>Faucet</h6></div>
                                 </div>
                                 <div className='account_address'>
@@ -271,7 +298,7 @@ const Header =({/*user*/})=> {
                                 <img src={require('../assets/images/ENTASIS.png')} alt='entasis'></img><br/>
                                 <h3>You voted for {ratio}</h3>
                                 <h5>Corporation Name {stName}</h5>
-                                <h5>Ownership Ratio {user.amount/*/totalSupply */}</h5>
+                                <h5>Ownership Ratio {}</h5>
                                 <h5>Security Token {stName}</h5>
                                 <div className='voted'>
                                 <img className="congratulations" src={require('../assets/images/voted.gif')} alt='entasis'></img>
