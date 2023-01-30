@@ -10,7 +10,6 @@ import Header from "../components/Header"
 import { useEffect, useState, useRef } from "react"
 import Historys from "../components/Historys"
 import Welcome from "./WelcomePage"
-import {Position} from '../apis/user'
 import { useWeb3React } from "@web3-react/core"
 import axios from "axios"
 
@@ -25,16 +24,29 @@ const MainPage =()=>{
     const [formatLengthHis, setFormatLengthHis] = useState([]);
     const [isLoading, setIsLoading] = useState(true)
     const [isEnroll,setIsEnroll] =useState({})
+    const [userPosition,setUserPosition] = useState()
+
     const {chainId, account, active, activate, deactivate} = useWeb3React();
+    
 
     useEffect(()=>{
-        EnrollWallet(account)
         Position(account)
+        EnrollWallet(account)
     },[account])
     const origin = "http://localhost:5050/";
     const getUserURL = origin + "user/"; 
     const enroll = getUserURL + "enroll/?wallet="
+    const position = getUserURL + "position/?wallet="
 
+    const Position = async(wallet) => {
+        if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
+        const resultPosition = await axios.get(position + wallet)
+        .then(res=>res.data)
+        .then(err=>err)
+        setUserPosition(resultPosition)
+        console.log(userPosition)
+        return  resultPosition
+    }
     const EnrollWallet = async(wallet) => {
         if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
         const resultEnrollWallet =  await axios.post(enroll + wallet)
@@ -88,8 +100,6 @@ const MainPage =()=>{
             totalHisFrom
         ]    
 
-        // console.log(FaucetWallet(0x5631F64E301e3C4B698bD97C84BC02C100e73289))
-
         let CP_his =(e)=>{
             candleHis.push(e)
             if(candleHis.length >= 60 ){
@@ -116,11 +126,12 @@ const MainPage =()=>{
 
     return(
     <div className="main_page" onMouseEnter={onMouseEnterHandler}>
-        <Welcome
+        {/* <Welcome
+            account={account}
             tutorialCnt={isEnroll.cnt}
             isLoading={isLoading}
-        />
-        <Header onMouseEnter={onMouseEnterHandler}/>
+        /> */}
+        <Header isLoading={isLoading} onMouseEnter={onMouseEnterHandler}/>
         <Navigator/>
         <div className="main_head">
             <Chart 
@@ -129,7 +140,6 @@ const MainPage =()=>{
             candleData={candleData}
             volumeFormatHis={volumeFormatHis}
             volumeData={volumeData}
-
             />
             <LimitOrderBook
                 powerOfMarket={powerOfMarket}

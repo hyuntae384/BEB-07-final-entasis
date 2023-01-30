@@ -7,3 +7,7 @@ const dataToArray = (formatHis,order) => {
         return resultArray;
     };
 export default dataToArray
+
+export const countNumber = (e) => {
+        return e.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,",")
+    }

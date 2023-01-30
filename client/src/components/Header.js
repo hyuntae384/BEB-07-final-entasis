@@ -5,13 +5,15 @@ import { useWeb3React } from '@web3-react/core';
 import {web3} from 'web3'
 import { injected } from '../connectors';
 import '../assets/css/main.css';
-import { ChName, Tutorial, Score, Position, Account} from '../apis/user'
+import { ChName, Score, Position} from '../apis/user'
+import Tutorials from './Tutorials';
 import SelectBox from './Select';
 import { Vote } from '../apis/company';
 import axios from 'axios';
+import Welcome from '../pages/WelcomePage';
 
 // import {Vote} from '../apis/company'
-const Header =({/*user*/})=> {
+const Header =()=> {
     const [userModalIsOpen, setUserModalIsOpen] = useState(false)
     const [isFaucet, setIsFaucet] = useState(false)
     const [name, setName] = useState("aa");
@@ -23,12 +25,15 @@ const Header =({/*user*/})=> {
     const [editNameValue,setEditNameValue] = useState('')
     const [voted,setVoted] = useState(false)
     const [isEnroll, setIsEnroll] = useState({})
+    const [myPage, setMyPage] =useState({})
+
+
     const countNumber=(e)=>{
         return e.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,",")
     }
     const {chainId, account, active, activate, deactivate} = useWeb3React();
 
-    const handdleConnect = () => {
+    const handleConnect = () => {
         if(active) {
             deactivate();
             return;
@@ -44,16 +49,26 @@ const Header =({/*user*/})=> {
     const getUserURL = origin + "user/"; 
     const enroll = getUserURL + "enroll/?wallet="
     const faucet = getUserURL + "faucet/?wallet="
-
+    const mypage = getUserURL + "mypage/?wallet="
+    
+    
+    const MyPage = async(wallet) => {
+        if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
+        const resultAccount = await axios.get(mypage + wallet)
+        .then(res=>res)
+        .then(err=>err)
+        setMyPage(resultAccount)
+    }
+    MyPage(account)
     const EnrollWallet = async(wallet) => {
         if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
         const resultEnrollWallet =  await axios.post(enroll + wallet)
         .then(res=>res.data)
         .then(err=>err)
-        return  setIsEnroll(resultEnrollWallet)
+        setIsEnroll(resultEnrollWallet)
     }
     useEffect(()=>{
-        Account(account)
+        MyPage(account)
         ChName(account,editNameValue)
         EnrollWallet(account)
         FaucetWallet(account)
@@ -180,15 +195,6 @@ const Header =({/*user*/})=> {
         // )}else
         FaucetWallet(account)
     }
-    const ST_1 = {
-        name:'BEBE',price:'200',amount:'20'
-    };
-    const ST_2 = {
-        name:'DEDE',price:'100',amount:'230'
-    };
-    const ST_3 = {
-        name:'CECE',price:'400',amount:'10'
-    };
     const OPTIONS = [
         { value: "BEBE", name: "BEBE" },
         { value: "DEDE", name: "DEDE" },
@@ -196,6 +202,7 @@ const Header =({/*user*/})=> {
     ];
     const enterHandler=(e)=>{
         if(e.key === "Enter") return ChName(account,editNameValue); EnrollWallet(account);setEditName(!editName);
+
     }
     return(
         <div className="header">
@@ -207,27 +214,34 @@ const Header =({/*user*/})=> {
                 <img className='entasis_main_logo' src={require('../assets/images/ENTASIS.png')}></img>
             </Link>
 
-            <Modal
-                appElement={document.getElementById('root') || undefined}
-                onRequestClose={()=>setWalletConnected()}
-                isOpen={walletConnected}
-                style={modalStyle_2}
-            >   <div className='welcome_connection'>
-                <h3>Welcome</h3>
-                <img src={require('../assets/images/ENTASIS_white.png')} alt='entasis'></img>
-                </div>
-                <img className="congratulations" src={require('../assets/images/welcome_connection.gif')} alt='entasis'></img>
-            <span>Connection Information</span>
-            </Modal>
+
+
             <div className='header_user'>
-            <div className="btn" onClick={handdleConnect}>{active ? <h2>disconnect</h2> : <h2>connect</h2>}</div>
-                {/* <img src={require('../assets/images/user.png')} 
-                onClick={active? ()=>userModalOpen():handdleConnect} alt='connection'></img> */}
+            <div className="btn" onClick={handleConnect}>{active ? <h2>disconnect</h2> : <h2>connect</h2>}</div>
+            {active&&isEnroll.cnt===0?<Tutorials
+                    account={account}
+                    tutorialCnt={isEnroll.cnt}
+                    >{()=>setWalletConnected()}</Tutorials>
+                    :<Modal
+                    appElement={document.getElementById('root') || undefined}
+                    onRequestClose={()=>setWalletConnected()}
+                    isOpen={walletConnected}
+                    style={modalStyle_2}
+                    >             
+                    <div className='welcome_connection'>
+                    <h3>Welcome</h3>
+                    <img src={require('../assets/images/ENTASIS_white.png')} alt='entasis'></img>
+                    </div>
+                    <img className="congratulations" src={require('../assets/images/welcome_connection.gif')} alt='entasis'></img>
+                    <h2>Connection Information</h2>
+                    <h3>Name : {isEnroll.name}</h3>
+                    <h3>Tutorials : {isEnroll.cnt<=1?"Complete":"Not Complete Yet"}</h3>
+                    <h4>Account : {account}</h4>
+                    </Modal>}
                 {active?
                 <i className='fas fa-wallet' onClick={()=>userModalOpen()} ></i>:
-                <div onClick={handdleConnect} className='fa-wallet_disconnect'></div>}
+                <div onClick={handleConnect} className='fa-wallet_disconnect'></div>}
             </div>
-
             <Modal
                 appElement={document.getElementById('root') || undefined}
                 onRequestClose={()=>userModalClose()}
@@ -266,9 +280,7 @@ const Header =({/*user*/})=> {
                         <div className='assets'>
                             <h2>Assets</h2>
                             <div className='assets_wraper'>
-                                <h4>{ST_1.name+" ("+ST_1.amount+")"+" "+countNumber(ST_1.price+"ETH")}</h4>
-                                <h4>{ST_2.name+" ("+ST_2.amount+")"+" "+countNumber(ST_2.price+"ETH")}</h4>
-                                <h4>{ST_3.name+" ("+ST_3.amount+")"+" "+countNumber(ST_3.price+"ETH")}</h4>
+                                <h4>{mypage.amount}</h4>
                             </div>
                         </div>
                         <div className='deposit'>

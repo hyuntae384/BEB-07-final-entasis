@@ -239,9 +239,35 @@ div.btn:hover{
 
 .navigator{
     margin: 5px 0px 2.5px 0;
+    padding: 0 20px;
     width: 100%;
-    height: 30px;
+    height: 32px;
     background-color:#242424;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+div.public_disclosure_wrapper h4{
+    margin: 0px;
+    width: 220px;
+}
+.navigator div{
+    width: 33.33%;
+
+}
+.navigator h4{
+    color:var(--gray-light-color);
+    transition: 0.4s;
+    filter: brightness(1);}
+.navigator h4:hover{
+    filter: brightness(2);
+}
+.navigation_right{
+    justify-content: right;
+    display: flex;
+}
+.navigation_right h4{
+    margin-left: 20px;
 }
 .chart{
     margin: 2.5px;
@@ -300,10 +326,7 @@ div.btn:hover{
 .main_bottom{
     display: flex;
 }
-.navigator .public_disclosure_wrapper{
-    width: 200px;
-    padding: 5px;
-}
+
 .right, .middle, .left{ 
     width: 33.33%;
 }
