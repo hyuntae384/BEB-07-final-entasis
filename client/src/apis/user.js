@@ -61,10 +61,3 @@ export const Position = async(wallet) => {
     .then(err=>err)
     return  resultPosition
 }
-export const Account = async(wallet) => {
-    if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
-    const resultAccount =  axios.get(account + wallet)
-    .then(res=>res)
-    .then(err=>err)
-    return  resultAccount
-}

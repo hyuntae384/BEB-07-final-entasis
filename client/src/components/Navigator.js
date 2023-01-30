@@ -1,10 +1,14 @@
+import { useWeb3React } from "@web3-react/core";
 import { useState, useEffect } from "react"
 import Modal from "react-modal"
+import { Tutorial } from "../apis/user";
 import '../assets/css/main.css';
 import SelectBox from './Select';
+import Tutorials from "./Tutorials";
 
 const Navigator =({/*company*/})=>{
     const [pdModalIsOpen, setPdModalIsOpen] = useState(false);
+    const [tutorialsClicked,setTutorialsClicked] = useState(false)
     useEffect(()=>{},[pdModalIsOpen]);
 
     const countNumber=(e)=>{
@@ -73,6 +77,14 @@ const Navigator =({/*company*/})=>{
         document.body.style.overflow = 'unset';
         setPdModalIsOpen(false)
         }
+        const date = (60-new Date().getMinutes())%5+":"+(60-new Date().getSeconds())
+        const {chainId, account, active, activate, deactivate} = useWeb3React();
+
+        // Tutorial(account,tutorialCnt-1)
+        // useEffect(()=>{
+        //     Tutorial(account,tutorialCnt)
+        // },[account,tutorialCnt])
+
 
     return(
     <div className="navigator">
@@ -103,9 +115,6 @@ const Navigator =({/*company*/})=>{
                     <h2>Income</h2>
                     <h3>{countNumber(company.income)} ETH</h3>
                 </div>
-                <div>
-
-                </div>
 
                 <h2>Current Dividend</h2>
                     <h3>{countNumber(company.divided)} ETH</h3>   
@@ -113,15 +122,17 @@ const Navigator =({/*company*/})=>{
                     <h3>{company.divided_ratio} %</h3> 
                 <h2>Next Dividend Ratio</h2>
                     <h3>{company.divided_ratio*100+'%'} * ( 1 + {company.next_ratio} ) = {company.divided_ratio * company.next_ratio} %</h3>   
-
-                
-
             </div>
         </Modal>
 
-
     </div>
-    <div></div>
+    <h4>Until the Next Dividend Release {date}</h4>
+    <div className="navigation_right">
+        <h4 onClick={()=>setTutorialsClicked(!tutorialsClicked)}>Tutorials</h4>
+        {tutorialsClicked?<Tutorials account={account} tutorialCnt={0}/>:<></>}
+        <h4>Transaction</h4>
+    </div>
+
     </div>
     )
 }
