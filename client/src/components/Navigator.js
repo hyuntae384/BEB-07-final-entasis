@@ -73,25 +73,12 @@ const Navigator =({/*company*/})=>{
         document.body.style.overflow = 'unset';
         setPdModalIsOpen(false)
         }
-    const OPTIONS = [
-        { value: "BEBE", name: "BEBE" },
-        { value: "DEDE", name: "DEDE" },
-        { value: "CECE", name: "CECE" },
-        ];
+
     return(
     <div className="navigator">
     <div className="public_disclosure">
         <div className="public_disclosure_wrapper">
             <h4 onClick={()=>PdModalOpen()}>Public Disclosure</h4>
-            <SelectBox options={OPTIONS}></SelectBox>
-            {/* <select className='public_disclosure_select'>
-                <option disabled={false}>
-                    Select Your Security Token
-                </option>
-                <option value={ST_1.name}>{ST_1.name}</option>
-                <option value={ST_2.name}>{ST_2.name}</option>
-                <option value={ST_3.name}>{ST_3.name}</option>
-            </select> */}
         </div>
         <Modal
         appElement={document.getElementById('root') || undefined}

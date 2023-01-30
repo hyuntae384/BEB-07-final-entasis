@@ -154,6 +154,8 @@ div.btn:hover{
 }
 .myaccount .user_name h3{
     color: var(--white-color);
+    padding: 4px 0 4% 0;
+    font-size: 20px;
 }
 .myaccount .user_name h5{
     color: var(--Primary-color);
@@ -237,7 +239,7 @@ div.btn:hover{
 .navigator{
     margin: 5px 0px 2.5px 0;
     width: 100%;
-    height: 50px;
+    height: 30px;
     background-color:#242424;
 }
 .chart{
@@ -322,8 +324,8 @@ div.btn:hover{
 }
 .limit_order_buy,.limit_order_sell{
     margin: 1.5% 0;
-    padding: 5% 0 ;
-    min-height: 40px;
+    padding: 4% 0 ;
+    /* min-height: 40px; */
     align-items: center;
     display: flex;
     justify-content: space-around;
@@ -406,6 +408,8 @@ div.btn:hover{
     width: 100%;
     opacity: 0.9;
     transition: 0.5s;
+    z-index: 100;
+
 }
 .welcome:active{
     opacity: 0.2;
@@ -417,7 +421,6 @@ div.btn:hover{
 }
 .welcome .logo{
     position:absolute;
-
 }
 .welcome_tutorial{
     position:absolute;
@@ -532,14 +535,26 @@ div.btn:hover{
 }
 .welcome_connection{
     text-align: center;
-
+    overflow: hidden;
+    justify-content: center;
+    transition: 0.4s;
 }
+.welcome_connection:active{
+    opacity: 0.4;}
  .congratulations{
     border-radius: 5px;
     margin: 5% 0;
     width: 100%;
     height: auto;
     
+}
+.voted{
+    border-radius: 5px;
+    margin: auto;
+    width: auto;
+    height: auto;
+    top: 50%;
+    right: 50%;
 }
 .welcome_tutorial,
 .welcome_tutorial_wallet,
@@ -688,4 +703,17 @@ input{
     position: absolute;
     right: 1.5%;
     top: 19%;
+}
+.chart_select{
+    width: 300px;
+    display: flex;
+    align-items: center;
+}
+.chart_cp{
+    margin-left: 10px;
+    width: 120px;
+}
+.chart_select select.st_select{
+    margin: 0;
+
 }

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import SelectBox from "../Select";
 import Candle from "./data/Candle"
 import Volume from "./data/Volume"
 
@@ -49,7 +50,7 @@ const Chart =({
             // Set window width/height to state
             setWindowSize({
             width: window.innerWidth*0.64,
-            height: 450,
+            height: 440,
             });
         }
         // Add event listener
@@ -66,6 +67,11 @@ const Chart =({
     const size = useWindowSize();
 
 
+    const OPTIONS = [
+        { value: "BEBE", name: "BEBE" },
+        { value: "DEDE", name: "DEDE" },
+        { value: "CECE", name: "CECE" },
+        ];
 
 
     return(
@@ -74,6 +80,9 @@ const Chart =({
         onMouseEnter ={onMouseEnterHandler}
         onMouseLeave = {onMouseLeaveHandler}
         >
+        <div className="chart_select">
+        <SelectBox options={OPTIONS}></SelectBox>
+        <h6 className="chart_cp">{name} {ST_CurrentPrice.toLocaleString()}</h6></div>
         <Candle
             candleFormatHis={candleFormatHis}
             ST_CurrentPrice={ST_CurrentPrice} 
