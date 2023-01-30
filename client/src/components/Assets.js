@@ -73,7 +73,7 @@ const Assets =({ST_CurrentPrice})=>{
     }
     return(
     <div className="main_assets" onFocus={onMouseEnterHandler}>
-        <h4>Asset</h4>
+        <h4>Assets Detail</h4>
         <div className="main_assets_menu">
             <h5>Total Price</h5>
             <h5>Amount</h5>
