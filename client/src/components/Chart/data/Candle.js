@@ -59,12 +59,13 @@ const Candle =({
         generateDate();
         dataArray[dataArray.length] = candleData;
         
+        
     return(
     <div className="candle">
         <br/>
         <div>
             <svg width={SVG_CHART_WIDTH} height={SVG_CHART_HEIGHT}>
-                <text
+                {/* <text
                 x={x0 + 15}
                 y={y0 + yAxisLength * 0.06}
                 fontSize={
@@ -75,7 +76,7 @@ const Candle =({
                 stroke='#ffffff'
                 >
                 {name} {ST_CurrentPrice.toLocaleString()}
-                </text>
+                </text> */}
                 <line
                 x1={x0}
                 y1={yAxisLength}

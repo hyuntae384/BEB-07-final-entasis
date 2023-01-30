@@ -2,6 +2,7 @@ import {Link} from 'react-router-dom';
 import {useEffect, useState} from 'react'
 import Modal from "react-modal"
 import { useWeb3React } from '@web3-react/core';
+import {web3} from 'web3'
 import { injected } from '../connectors';
 import '../assets/css/main.css';
 import {FaucetWallet, EnrollWallet, ChName, Tutorial, Score, Position, Account} from '../apis/user'
@@ -23,7 +24,15 @@ const Header =({/*user*/})=> {
     const countNumber=(e)=>{
         return e.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,",")
     }
+//     var Contract = require('web3-eth-contract');
 
+// // set provider for all later instances to use
+//     Contract.setProvider('ws://localhost:8546');
+//     var contract = new Contract(jsonInterface, address);
+//     contract.methods.somFunc().send({from: ....})
+//     .on('receipt', function(){
+//         ...
+//     });
     const modalStyle = {
         overlay: {
             position: "fixed",
@@ -130,8 +139,26 @@ const Header =({/*user*/})=> {
 
         EnrollWallet(account)
     },[account])
-    // ChName(account, name)
     const faucetBtn=()=>{
+        // if(FaucetWallet(account)==='user has already used the faucet'){return(
+        //     <Modal
+        //     appElement={document.getElementById('root') || undefined}
+        //     onRequestClose={()=>setVoted()}
+        //     isOpen={voted}
+        //     style={modalStyle_2}
+        // >   <div className='welcome_connection'>
+        //     <img src={require('../assets/images/ENTASIS.png')} alt='entasis'></img><br/>
+        //     <h3>You voted for {ratio}</h3>
+        //     <h5>Corporation Name {stName}</h5>
+        //     <h5>Ownership Ratio {user.amount/*/totalSupply */}</h5>
+        //     <h5>Security Token {stName}</h5>
+        //     <div className='voted'>
+        //     <img className="congratulations" src={require('../assets/images/voted.gif')} alt='entasis'></img>
+        //     </div>
+        //     <h2>Your Voting Right has been Exercised!</h2>
+        //     </div>
+        // </Modal>
+        // )}else
         FaucetWallet(account)
     }
     const ST_1 = {
@@ -195,6 +222,7 @@ const Header =({/*user*/})=> {
                         <div className='myaccount_wrapper_name_top'>
                             <h2>Name</h2>
                             {!editName?<div className='btn' onClick={()=>setEditName(!editName)}><h6>Edit</h6></div>:<div className='btn' onClick={()=>ChName(account,editNameValue)}><h6>Edit Name</h6></div>}
+                            
                         </div>
                             {editName?
                             <div className='edit_name'>
@@ -245,7 +273,9 @@ const Header =({/*user*/})=> {
                                 <h5>Corporation Name {stName}</h5>
                                 <h5>Ownership Ratio {user.amount/*/totalSupply */}</h5>
                                 <h5>Security Token {stName}</h5>
-                                <img className="congratulations" src={require('../assets/images/welcome_connection.gif')} alt='entasis'></img>
+                                <div className='voted'>
+                                <img className="congratulations" src={require('../assets/images/voted.gif')} alt='entasis'></img>
+                                </div>
                                 <h2>Your Voting Right has been Exercised!</h2>
                                 </div>
                             </Modal>

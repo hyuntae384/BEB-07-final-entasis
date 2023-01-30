@@ -44,7 +44,8 @@ const Order =()=>{
         <form>
             <h6 className="order_available">Available 10.120 ETH</h6>
             <div>
-            <input type="text" className="order_price" onChange={e => priceChange(e)} placeholder='Price'></input><h6 className="order_price_eth">ETH</h6>
+            <input type="text" className="order_price" onChange={e => priceChange(e)} placeholder='Price'></input>
+            {/* <h6 className="order_price_eth">ETH</h6> */}
             </div>
             <input type="text" className="order_amount" onChange={e => amountChange(e)} placeholder='Amount'></input>
             <div className="make_order">
