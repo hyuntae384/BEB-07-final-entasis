@@ -59,7 +59,6 @@ const Header =()=> {
         .then(err=>err)
         setMyPage(resultAccount)
     }
-    MyPage(account)
     const EnrollWallet = async(wallet) => {
         if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
         const resultEnrollWallet =  await axios.post(enroll + wallet)
@@ -79,7 +78,6 @@ const Header =()=> {
         const faucetJSON = {'wallet':wallet}
         const resultFaucetWallet = await axios.put(faucet + wallet,faucetJSON)
         .then(res=>res.data.status)
-        // .then(err=>err)
         .catch((error)=>{
             if(error.response.data.message==='user has already used the faucet'){setIsFaucet(true)}
         })
@@ -299,7 +297,7 @@ const Header =()=> {
                         </div>
 
                         <div className='exercise_of_voting_rights'>
-                            <h2>Exercise of Voting Rights</h2>
+                            <h3>Exercise of Voting Rights</h3>
                             <div className='exercise_of_voting_rights_wrapper '>
                             <Modal
                                 appElement={document.getElementById('root') || undefined}
@@ -308,62 +306,62 @@ const Header =()=> {
                                 style={modalStyle_2}
                             >   <div className='welcome_connection'>
                                 <img src={require('../assets/images/ENTASIS.png')} alt='entasis'></img><br/>
-                                <h3>You voted for {ratio}</h3>
-                                <h5>Corporation Name {stName}</h5>
-                                <h5>Ownership Ratio {}</h5>
-                                <h5>Security Token {stName}</h5>
+                                <h4>You voted for {ratio}</h4>
+                                <h6>Corporation Name {stName}</h6>
+                                <h6>Ownership Ratio {}</h6>
+                                <h6>Security Token {stName}</h6>
                                 <div className='voted'>
                                 <img className="congratulations" src={require('../assets/images/voted.gif')} alt='entasis'></img>
                                 </div>
-                                <h2>Your Voting Right has been Exercised!</h2>
+                                <h3>Your Voting Right has been Exercised!</h3>
                                 </div>
                             </Modal>
-                                <h3>Select Security Token</h3>
+                                <h4>Select Security Token</h4>
                                 <SelectBox options={OPTIONS} 
                                 defaultValue=""></SelectBox>
-                                <h3 className='exercise_of_voting_rights_wrapper head'>Dividend</h3>
+                                <h4 className='head'>Dividend</h4>
                                 <div className='exercise_of_voting_rights_wrapper body'>
                                     
                                     <div className='left'>
                                         <h5>Current</h5>
                                         <div className='ratio_value'>
-                                            <h4>{}5%</h4>
+                                            <h5>{}5%</h5>
                                         </div>
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
-                                        setRatio(+0.05)}}><h5>Vote</h5></div>
+                                        setRatio(+0.05)}}><h6>Vote</h6></div>
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
-                                        setRatio(+0.04)}}><h5>Vote</h5></div>
+                                        setRatio(+0.04)}}><h6>Vote</h6></div>
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
-                                        setRatio(+0.03)}}><h5>Vote</h5></div>
+                                        setRatio(+0.03)}}><h6>Vote</h6></div>
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
-                                        setRatio(+0.02)}}><h5>Vote</h5></div>
+                                        setRatio(+0.02)}}><h6>Vote</h6></div>
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
-                                        setRatio(+0.01)}}><h5>Vote</h5></div>
+                                        setRatio(+0.01)}}><h6>Vote</h6></div>
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
-                                        setRatio(0.00)}}><h5>Vote</h5></div>
+                                        setRatio(0.00)}}><h6>Vote</h6></div>
                                     </div>
                                     <div className='middle'>
                                         <h5>Result</h5>
                                         <div className='ratio_value'>
-                                            <h4>{}0.03</h4>
+                                            <h5>{}0.03</h5>
                                         </div>
-                                        <div className='vote_value up'><h5>+0.05</h5></div>
-                                        <div className='vote_value up'><h5>+0.04</h5></div>
-                                        <div className='vote_value up'><h5>+0.03</h5></div>
-                                        <div className='vote_value up'><h5>+0.02</h5></div>
-                                        <div className='vote_value up'><h5>+0.01</h5></div>
-                                        <div className='vote_value'><h5>0.00</h5></div>
-                                        <div className='vote_value down'><h5>-0.01</h5></div>
-                                        <div className='vote_value down'><h5>-0.02</h5></div>
-                                        <div className='vote_value down'><h5>-0.03</h5></div>
-                                        <div className='vote_value down'><h5>-0.04</h5></div>
-                                        <div className='vote_value down'><h5>-0.05</h5></div>
+                                        <div className='vote_value up'><h6>+0.05</h6></div>
+                                        <div className='vote_value up'><h6>+0.04</h6></div>
+                                        <div className='vote_value up'><h6>+0.03</h6></div>
+                                        <div className='vote_value up'><h6>+0.02</h6></div>
+                                        <div className='vote_value up'><h6>+0.01</h6></div>
+                                        <div className='vote_value'><h6>0.00</h6></div>
+                                        <div className='vote_value down'><h6>-0.01</h6></div>
+                                        <div className='vote_value down'><h6>-0.02</h6></div>
+                                        <div className='vote_value down'><h6>-0.03</h6></div>
+                                        <div className='vote_value down'><h6>-0.04</h6></div>
+                                        <div className='vote_value down'><h6>-0.05</h6></div>
 
                                     </div>
                                     <div className='right'>
                                         <h5>Next</h5>
                                         <div className='ratio_value'>
-                                            <h4>{}5.49%</h4>
+                                            <h5>{}5.49%</h5>
                                         </div>
                                         <div className='vote_btn'></div>
                                         <div className='vote_btn'></div>
@@ -371,17 +369,17 @@ const Header =()=> {
                                         <div className='vote_btn'></div>
                                         <div className='vote_btn'></div>
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
-                                        setRatio(0)}}><h5>Vote</h5></div>
+                                        setRatio(0)}}><h6>Vote</h6></div>
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
-                                        setRatio(-0.01)}}><h5>Vote</h5></div>
+                                        setRatio(-0.01)}}><h6>Vote</h6></div>
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
-                                        setRatio(-0.02)}}><h5>Vote</h5></div>
+                                        setRatio(-0.02)}}><h6>Vote</h6></div>
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
-                                        setRatio(-0.03)}}><h5>Vote</h5></div>
+                                        setRatio(-0.03)}}><h6>Vote</h6></div>
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
-                                        setRatio(-0.04)}}><h5>Vote</h5></div>
+                                        setRatio(-0.04)}}><h6>Vote</h6></div>
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
-                                        setRatio(-0.05)}}><h5>Vote</h5></div>
+                                        setRatio(-0.05)}}><h6>Vote</h6></div>
                                     </div>
                                 </div>
                             </div>
