@@ -27,7 +27,6 @@ const MainPage =()=>{
     const [userPosition,setUserPosition] = useState();
     const [copy, setCopy] = useState('');
     const {chainId, account, active, activate, deactivate} = useWeb3React();
-
     const copyHandler = (e) => {
         copy = e;
     }
@@ -35,10 +34,29 @@ const MainPage =()=>{
         Position(account)
         EnrollWallet(account)
     },[account]);
+
+    // URL
     const origin = "http://localhost:5050/";
     const getUserURL = origin + "user/"; 
     const enroll = getUserURL + "enroll/?wallet="
     const position = getUserURL + "position/?wallet="
+    const chart = origin + "chart/data"
+
+    // API Request
+    const getChart = async({ offset, limit, unit, st_name}) => {
+        if(st_name===null || st_name ===undefined)return new Error('Invalid Request!')
+        const resultSTChart =  axios.get(chart + `/${offset} + ${limit} + ${unit} + ${st_name}`)
+        .then(res=>res)
+        .then(err=>err)
+        return  resultSTChart
+    }
+    const getRTD = async({st_name}) => {
+        if(st_name===null || st_name ===undefined)return new Error('Invalid Request!')
+        const resultSTChart =  axios.get(chart + `/${st_name}`)
+        .then(res=>res)
+        .then(err=>err)
+        return  resultSTChart
+    }
 
     const Position = async(wallet) => {
         if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')

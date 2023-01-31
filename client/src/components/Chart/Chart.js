@@ -14,6 +14,9 @@ const Chart =({
     const [dataLength, setDataLength] = useState(2);
     const dataDefaultMinusLength = 18;
 
+
+
+
     const onClickListener = () => {
         setName("CECE");
     };
