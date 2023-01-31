@@ -43,7 +43,7 @@ module.exports = {
             if(!name || !excompany) return res.status(400).json({status : "fail", message: "there's a problem with the name"});
             // 클라이언트에서 메타마스크를 통해 거래소로 토큰 전송(수수료도 전송해야 함)
             // web3를 통해 거래소에서 유저에게 이더 전송
-            const value = price * amount;
+            const value = String(price * amount);
             const sellToken = await sendEtherToUser(wallet, value);
             if(sellToken){
                 await position_his.create({
