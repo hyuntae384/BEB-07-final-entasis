@@ -93,6 +93,9 @@
     align-items: center;
 
 }
+.myaccount_wrapper{
+    
+}
 .myaccount_wrapper_name_top{
     display: flex;
     align-items: baseline;
@@ -139,9 +142,13 @@ div.btn:hover{
     color: var(--Primary-color);
     
 }
-.myaccount h2,.myaccount h3,.myaccount h4,.myaccount h5{
-
+.myaccount h2, .myaccount h3,.myaccount h4,.myaccount h5,.myaccount h6{
     color: var(--gray-light-color);
+
+}
+
+.exercise_of_voting_rights_wrapper  h2, .exercise_of_voting_rights_wrapper  h3,.exercise_of_voting_rights_wrapper  h4,.exercise_of_voting_rights_wrapper  h5,.exercise_of_voting_rights_wrapper  h6{
+    text-align: center;
 }
 .myaccount .vote_btn h5{
     color:rgb(198, 87, 46);
@@ -212,6 +219,11 @@ div.btn:hover{
     bottom: 0%;
     padding: 2%;
     justify-content: space-between;
+    border: 1px solid var(--gray-dark-color);
+    transition: 0.4s;
+}
+.exercise_of_voting_rights_wrapper:hover{
+    filter: brightness(1.3);
 }
 .exercise_of_voting_rights_wrapper .body{
     display: flex;
@@ -220,10 +232,23 @@ div.btn:hover{
     margin-top: 20px;
     padding: 0 30%;
 }
-.up h5{
+.right, .middle, .left{ 
+    width: 33.33%;
+}
+.right h6, .left h6{ 
+    color: var(--Primary-color);
+}
+.right h6:hover, .middle h6:hover, .left h6:hover{ 
+    filter: brightness(1.5);
+}
+.right h5,.middle h5,.left h5{
+    text-align: center;
+    align-items: center;
+}
+.up h6{
     color: var(--Secondary-color);
 }
-.down h5{
+.down h6{
     color:var(--onPrimary-color);
 }
 .st_select{
@@ -327,13 +352,7 @@ div.public_disclosure_wrapper h4{
     display: flex;
 }
 
-.right, .middle, .left{ 
-    width: 33.33%;
-}
-.right h5,.middle h5,.left h5{
-    text-align: center;
-    align-items: center;
-}
+
 
 .limit_order_buy{
     color: var(--Primary-color);

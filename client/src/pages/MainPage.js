@@ -22,21 +22,41 @@ const MainPage =()=>{
     const [candleFormatHis, setCandleFormatHis] = useState([])
     const [volumeFormatHis, setVolumeFormatHis] = useState([])
     const [formatLengthHis, setFormatLengthHis] = useState([]);
-    const [isLoading, setIsLoading] = useState(true)
-    const [isEnroll,setIsEnroll] =useState({})
-    const [userPosition,setUserPosition] = useState()
-
+    const [isLoading, setIsLoading] = useState(true);
+    const [isEnroll,setIsEnroll] =useState({});
+    const [userPosition,setUserPosition] = useState();
+    const [copy, setCopy] = useState('');
     const {chainId, account, active, activate, deactivate} = useWeb3React();
-    
-
+    const copyHandler = (e) => {
+        copy = e;
+    }
     useEffect(()=>{
         Position(account)
         EnrollWallet(account)
-    },[account])
+    },[account]);
+
+    // URL
     const origin = "http://localhost:5050/";
     const getUserURL = origin + "user/"; 
     const enroll = getUserURL + "enroll/?wallet="
     const position = getUserURL + "position/?wallet="
+    const chart = origin + "chart/data"
+
+    // API Request
+    const getChart = async({ offset, limit, unit, st_name}) => {
+        if(st_name===null || st_name ===undefined)return new Error('Invalid Request!')
+        const resultSTChart =  axios.get(chart + `/${offset} + ${limit} + ${unit} + ${st_name}`)
+        .then(res=>res)
+        .then(err=>err)
+        return  resultSTChart
+    }
+    const getRTD = async({st_name}) => {
+        if(st_name===null || st_name ===undefined)return new Error('Invalid Request!')
+        const resultSTChart =  axios.get(chart + `/${st_name}`)
+        .then(res=>res)
+        .then(err=>err)
+        return  resultSTChart
+    }
 
     const Position = async(wallet) => {
         if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
@@ -44,7 +64,6 @@ const MainPage =()=>{
         .then(res=>res.data)
         .then(err=>err)
         setUserPosition(resultPosition)
-        console.log(userPosition)
         return  resultPosition
     }
     const EnrollWallet = async(wallet) => {
@@ -54,25 +73,27 @@ const MainPage =()=>{
         .then(err=>err)
         return  setIsEnroll(resultEnrollWallet)
     }
+
     const stv_ref = useRef(0.000001);
     const incomeRatio_ref = useRef(0.000002);
+
     useEffect(() => {
         const loop = setInterval(() => {
-            stv_ref.current = Math.random()*(0.001-(-0.001))-0.001;
+            stv_ref.current = Math.random()*(0.001-(-0.00101))-0.001;
             setStv(stv_ref.current);
         if (stv_ref.current === 10||
             stv_ref.current === 10) clearInterval(loop);
         }, 50);
     }, []);
+
     useEffect(() => {
         const loop = setInterval(() => {
-            incomeRatio_ref.current = Math.random()*(0.005-(-0.0051))-0.005;
+            incomeRatio_ref.current = Math.random()*(0.005-(-0.00505))-0.005;
             setIncomeRatio(incomeRatio_ref.current);
         if (incomeRatio_ref.current === 10||
             incomeRatio_ref.current === 10) clearInterval(loop);
         }, 1000);
     }, []);
-
 
     let ST_CurrentVolume = volumeHis[0] * (1 + stv*90)*(1+incomeRatio*90)
     let ST_CurrentPrice = candleHis[candleHis.length-1] * (1 + stv)*(1+incomeRatio) * (1+ST_CurrentVolume/100000000)
@@ -88,7 +109,9 @@ const MainPage =()=>{
         candleHis.reduce((acc,cur)=>{
             if(acc>cur) return cur 
             else if(acc<=cur) return acc
-        })]
+        })
+    ]
+
         let totalHisFrom = 0;
         let totalHisTo = 0;
         volumeHis[1].forEach(element => {totalHisTo+=element});        
@@ -108,9 +131,9 @@ const MainPage =()=>{
                 if(candleFormatHis.length>2){return setIsLoading(false)}
                 else{return setIsLoading(true)}
             }}
+
         let CV_his =(e)=>{
             volumeHis[1].push(e)
-
             if(volumeHis[1].length >= 60 ){
                 volumeFormatHis.push(volumeData);
                 totalHisTo=0
@@ -118,6 +141,7 @@ const MainPage =()=>{
             }}
         CP_his(ST_CurrentPrice)
         CV_his(ST_CurrentVolume)
+
         let powerOfMarket = candleFormatHis!==null&&candleFormatHis!==undefined&&candleFormatHis.length>0?(candleFormatHis[candleFormatHis.length-1][2] - candleFormatHis[candleFormatHis.length-1][1])*10:0
 
         const onMouseEnterHandler = () => {
