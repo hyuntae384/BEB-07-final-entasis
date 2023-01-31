@@ -1,7 +1,7 @@
 
 import axios from 'axios';
 
-// Test URL
+// URL
 const origin = "http://localhost:5050";
 const chart = origin + "chart/data"
 const enroll = origin + "enroll/?address="
@@ -9,7 +9,7 @@ const score = origin + "score/?address="
 const position = origin + "position/?address="
 const mypage = origin + "mypage/?address="
 const getUserURL = origin + "/user/"; 
-// Test API Request
+// API Request
 export const getChart = async({ offset, limit, unit, st_name}) => {
     if(st_name===null || st_name ===undefined)return new Error('Invalid Request!')
     const resultSTChart =  axios.get(chart + `/${offset} + ${limit} + ${unit} + ${st_name}`)
