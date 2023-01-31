@@ -22,61 +22,52 @@ sequelize
   let incomeRatio=0;
   let chartHis = [[1.2],[100]];
   let chartDataFormatHis = [];
-  const setStv =()=>{stv = Math.random()*(0.001-(-0.00101))-0.001;};
-  const setMinute =()=>{minute = Math.random()*(0.005-(-0.00505))-0.005;};
-  const setIncomeRatio =()=>{incomeRatio = Math.random()*(0.005-(-0.00505))-0.005;};
 
-        let chart_his =(e)=>{
-            chartHis[0].push(e[0])
-            chartHis[1].push(e[1])
-            if(chartHis[1].length >= 60 ){
-              chartDataFormatHis.push(chartData);
-              totalVolTo=0
-              chartHis[0].splice(0,chartHis[0].length-1);
-              chartHis[1].splice(0,chartHis[1].length-1);
-            }}
+  const setStv =()=>{stv = Math.random()*(0.01-(-0.0101))-0.01;};
+  const setIncomeRatio =()=>{incomeRatio = Math.random()*(0.05-(-0.051))-0.05;};
 
-            let totalVolFrom = 0;
-            let totalVolTo = 0;
+  let chart_his =(e)=>{ chartHis[0].push(e[0]) ;chartHis[1].push(e[1]) }
+  let totalVolFrom = 0;
+  let totalVolTo = 0;
 
         setInterval(() => {
-          chartHis[1].forEach(element => {totalVolTo+=element});  
+          chartHis[1].forEach(element => {totalVolTo += element});  
           setStv()
-          chartData ={
+          chartData = {
             'createdAt': new Date(),
-            'open': chartHis[0][0],
-            'close':chartHis[0][chartHis[0].length-1],
+            'open': chartHis[0][0].toFixed(2),
+            'close':chartHis[0][chartHis[0].length-1].toFixed(2),
             'high':chartHis[0].reduce((acc,cur)=>{
                     if(acc<cur) return cur 
                     else if(acc>=cur) return acc
-                    }),
+                    }).toFixed(2),
             'low':chartHis[0].reduce((acc,cur)=>{
                   if(acc>cur) return cur 
                   else if(acc<=cur) return acc
-                  }),
-            'totalVolTo':totalVolTo,
-            'totalVolFrom':totalVolFrom
+                  }).toFixed(2),
+            'totalVolTo':totalVolTo.toFixed(4),
+            'totalVolFrom':totalVolFrom.toFixed(4)
             }
             console.log(chartData)
-
-            let volume = chartHis[1][0] * (1 + stv*90)*(1+incomeRatio*90)
-            chart_his([chartHis[0][chartHis[0].length-1] * (1 + stv)*(1+incomeRatio) * (1+volume/100000000),
+            let volume = 100 * (1 + stv*90)*(1+incomeRatio*90)
+            chart_his([chartHis[0][chartHis[0].length-1] * (1 + stv)*(1+incomeRatio) * (1+volume/10000000),
             volume])
-        }, 10);
+        }, 1000);
 
         //1분
         setInterval(() => {
-          setMinute()
-
-          // console.log(minute,'minute')
-        }, 600);
+            chartDataFormatHis.push(chartData);
+            totalVolFrom = totalVolTo
+            totalVolTo=0
+            chartHis[0].splice(0,chartHis[0].length-1);
+            chartHis[1].splice(0,chartHis[1].length-1);
+        }, 6000);
 
         //5분
         setInterval(() => {
           setIncomeRatio()
 
-          // console.log(incomeRatio,'Income Ratio')
-        }, 3000);
+        }, 300000);
 
 app.use(morgan('dev'));
 
