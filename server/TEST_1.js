@@ -20,76 +20,64 @@ sequelize
   let stv=0;
   let minute=0;
   let incomeRatio=0;
-  let volumeHis = [100,[]];
-  let candleHis = [1.2];
-  let volumeFormatHis = [];
-  let candleFormatHis = [];
-  let ST_CurrentVolume = 1;
-  let ST_CurrentPrice = 100;
+  let chartHis = [[1.2],[100]];
+  let chartDataFormatHis = [];
   const setStv =()=>{stv = Math.random()*(0.001-(-0.00101))-0.001;};
   const setMinute =()=>{minute = Math.random()*(0.005-(-0.00505))-0.005;};
   const setIncomeRatio =()=>{incomeRatio = Math.random()*(0.005-(-0.00505))-0.005;};
 
-
-        let CP_his =(e)=>{
-            candleHis.push(e)
-            if(candleHis.length >= 60 ){
-                candleFormatHis.push(candleData);
-                candleHis.splice(0,candleHis.length-1);
+        let chart_his =(e)=>{
+            chartHis[0].push(e[0])
+            chartHis[1].push(e[1])
+            if(chartHis[1].length >= 60 ){
+              chartDataFormatHis.push(chartData);
+              totalVolTo=0
+              chartHis[0].splice(0,chartHis[0].length-1);
+              chartHis[1].splice(0,chartHis[1].length-1);
             }}
 
-        let CV_his =(e)=>{
-            volumeHis[1].push(e)
-            if(volumeHis[1].length >= 60 ){
-                volumeFormatHis.push(volumeData);
-                totalHisTo=0
-                volumeHis[1].splice(0,volumeHis[1].length-1);
-            }}
-
-            let candleData = [];
-            let volumeData = [];
-            let totalHisFrom = 0;
-            let totalHisTo = 0;
+            let totalVolFrom = 0;
+            let totalVolTo = 0;
 
         setInterval(() => {
-
-          volumeHis[1].forEach(element => {totalHisTo+=element});  
+          chartHis[1].forEach(element => {totalVolTo+=element});  
           setStv()
-          candleData = [
-            new Date().getHours()+ ':'+new Date().getMinutes()+ ':'+ new Date().getSeconds(),
-            candleHis[0],
-            candleHis[candleHis.length-1],
-            candleHis.reduce((acc,cur)=>{
+          chartData ={
+            'createdAt': new Date(),
+            'open': chartHis[0][0],
+            'close':chartHis[0][chartHis[0].length-1],
+            'high':chartHis[0].reduce((acc,cur)=>{
                     if(acc<cur) return cur 
                     else if(acc>=cur) return acc
-                }),
-            candleHis.reduce((acc,cur)=>{
-                if(acc>cur) return cur 
-                else if(acc<=cur) return acc
-            })
-        ]
-          CP_his(candleHis[candleHis.length-1] * (1 + stv)*(1+incomeRatio) * (1+ST_CurrentVolume/100000000))
-          volumeData = [
-            0,
-            volumeHis[0],
-            totalHisTo,
-            totalHisFrom
-        ]    
-          CV_his(volumeHis[0] * (1 + stv*90)*(1+incomeRatio*90))
+                    }),
+            'low':chartHis[0].reduce((acc,cur)=>{
+                  if(acc>cur) return cur 
+                  else if(acc<=cur) return acc
+                  }),
+            'totalVolTo':totalVolTo,
+            'totalVolFrom':totalVolFrom
+            }
+            console.log(chartData)
 
-          console.log(candleData,volumeData)
-          
-        }, 100);
-  
+            let volume = chartHis[1][0] * (1 + stv*90)*(1+incomeRatio*90)
+            chart_his([chartHis[0][chartHis[0].length-1] * (1 + stv)*(1+incomeRatio) * (1+volume/100000000),
+            volume])
+        }, 10);
+
+        //1분
         setInterval(() => {
           setMinute()
+
           // console.log(minute,'minute')
-        }, 500);
-        
+        }, 600);
+
+        //5분
         setInterval(() => {
           setIncomeRatio()
+
           // console.log(incomeRatio,'Income Ratio')
-        }, 5000);
+        }, 3000);
+
 app.use(morgan('dev'));
 
 app.listen(app.get('port'), () => {
