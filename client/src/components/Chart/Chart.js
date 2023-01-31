@@ -82,6 +82,7 @@ const Chart =({
         onWheel={dataWheelHandler} 
         onMouseEnter ={onMouseEnterHandler}
         onMouseLeave = {onMouseLeaveHandler}
+        onMouseOver={(e)=>this.onMouseOver(e, e.nativeEvent.offsetX)}
         >
         <div className="chart_select">
         <SelectBox options={OPTIONS}></SelectBox>

@@ -36,7 +36,7 @@ sequelize
   let totalVolTo = 0;
 
         setInterval(() => {
-          chartHis[1].forEach(element => {totalVolTo += element});  
+          chartHis[1].forEach(element => {totalVolTo+=element});  
           setStv()
           chartData = {
             'createdAt': new Date(),
@@ -54,7 +54,7 @@ sequelize
             'totalVolFrom':totalVolFrom.toFixed(4)
             }
             console.log(chartData)
-            let volume = 100 * (1 + stv*90)*(1+incomeRatio*90)
+            let volume = 100 * (1 + stv*90)*(1+incomeRatio*90)>0?100 * (1 + stv*90)*(1+incomeRatio*90):1
             chart_his([chartHis[0][chartHis[0].length-1] * (1 + stv)*(1+incomeRatio) * (1+volume/10000000),
             volume])
         }, 1000);
@@ -69,6 +69,7 @@ sequelize
         }, 6000);
 
         //5분
+
         setInterval(async () => {
           setIncomeRatio();
           setdividendRatio();
@@ -79,6 +80,7 @@ sequelize
             dividend: dividend_ratio * income,
             next_ratio: dividend_ratio * incomeRatio
           })
+
         }, 300000);
 
 app.use(morgan('dev'));
