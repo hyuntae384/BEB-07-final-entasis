@@ -1,4 +1,4 @@
-const { web3Http } = require('./index');
+const { web3Http, Web3 } = require('./index');
 
 const { ADMIN_ADDRESS } = process.env;
 
@@ -18,10 +18,11 @@ const depositFaucet = async (recipient, value = '10000000000000000000') => { // 
 
 const sendEtherToUser = async (recipient, value) =>{
   try {
+    const weiValue = web3Http.utils.toWei(value, 'ether')
     await web3Http.eth.sendTransaction({
       from: ADMIN_ADDRESS,
       to: recipient,
-      value: value,
+      value: weiValue,
     });
     return true;
   } catch (err) {

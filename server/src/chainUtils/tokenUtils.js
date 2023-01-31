@@ -15,6 +15,16 @@ const signAndSendTx = async (account, tx) => {
   }
 };
 
+const getTotalSupply = async () => {
+  try {
+    const totalSupply = await tokenContract.methods.totalSupply().call();
+    return totalSupply;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+};
+
 const getTokenBalance = async (account) => {
   try {
     const balance = await tokenContract.methods.balanceOf(account).call();
@@ -104,6 +114,7 @@ const isRestricted = async () => {
 };
 
 module.exports = { 
+  getTotalSupply,
   getTokenBalance, 
   getTokenName, 
   signAndSendTx, 

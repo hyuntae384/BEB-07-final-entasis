@@ -43,7 +43,7 @@ module.exports = {
             if(!name || !excompany) return res.status(400).json({status : "fail", message: "there's a problem with the name"});
             // 클라이언트에서 메타마스크를 통해 거래소로 토큰 전송(수수료도 전송해야 함)
             // web3를 통해 거래소에서 유저에게 이더 전송
-            const value = price * amount;
+            const value = String(price * amount);
             const sellToken = await sendEtherToUser(wallet, value);
             if(sellToken){
                 await position_his.create({
@@ -62,9 +62,12 @@ module.exports = {
         }
     },
 
-    // 토큰 제한 기능 : 테스트 필요
+    // 거래제한을 어떻게 실행할지에 대한 방안 논의 필요
+    // 1. 클라이언트에서 요청을 보낸다.
+    // 2. 가격 변동에 따라서 자동으로 거래 제한/해제가 되도록 한다.(우선)
     restricttoken: async (req, res, next) => {
-        const status = isRestricted();
+        const status = await isRestricted();
+        console.log(status);
         try {
             if(status) {
                 return res.status(400).send({message: "this token had already been restricted"})
@@ -80,9 +83,9 @@ module.exports = {
         }
     },
 
-    // 토큰 제한 해제 기능 : 테스트 필요
     allowtoken: async (req, res, next) => {
-        const status = isRestricted();
+        const status = await isRestricted();
+        console.log(status);
         try {
             if(!status) {
                 return res.status(400).send({message: "available token"})

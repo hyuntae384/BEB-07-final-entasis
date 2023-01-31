@@ -142,7 +142,6 @@ module.exports = {
     }
   },
 
-  // 이더 잔액 가져오는 기능 테스트 함수 : 테스트 필요 
   ethbalance: async (req, res, next) => {
     const { wallet } = req.query;
     try {

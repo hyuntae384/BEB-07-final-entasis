@@ -4,8 +4,8 @@ import axios from 'axios';
 const origin = "http://localhost:5050";
 const getUserURL = origin + "/token/"; 
 
-const buy = origin + "buy/"
-const sell = origin + "sell/"
+const buy = getUserURL + "buy/"
+const sell = getUserURL + "sell/"
 
 // Test API Request
 export const BuyToken = async(name,price,amount,wallet) => {

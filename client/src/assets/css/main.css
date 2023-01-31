@@ -77,7 +77,6 @@
     white-space: nowrap;
     margin: 0 10px 0 0;
     width: 150px;
-    height: 20px;
 }
 
 .deposit_faucet{
@@ -86,19 +85,26 @@
     justify-content: left;
     width:100%
 }
-h6, .account_address div h6{
+ .account_address div h6{
     margin: 0;
     padding: 0;
     width: 75px;
     text-align: right;
+    align-items: center;
+
 }
 .myaccount_wrapper_name_top{
     display: flex;
     align-items: baseline;
     justify-content: space-between;
 }
+div.account_address{
+    justify-content: space-between;
+
+}
 .deposit_faucet, .account_address{
     justify-content: space-between;
+    align-items: center;
 }
 .header_user div.btn{
     cursor: pointer;
@@ -148,6 +154,8 @@ div.btn:hover{
 }
 .myaccount .user_name h3{
     color: var(--white-color);
+    padding: 4px 0 4% 0;
+    font-size: 20px;
 }
 .myaccount .user_name h5{
     color: var(--Primary-color);
@@ -188,10 +196,11 @@ div.btn:hover{
 }
 .edit_name_close{
     transform: scale(0.7);
+    width: 17px;
 }
 .edit_name{
     display: flex;
-    padding: 4px;
+    padding: 4px 0;
 }
 .edit_name input{
     width: 95%;
@@ -230,9 +239,35 @@ div.btn:hover{
 
 .navigator{
     margin: 5px 0px 2.5px 0;
+    padding: 0 20px;
     width: 100%;
-    height: 50px;
+    height: 32px;
     background-color:#242424;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+div.public_disclosure_wrapper h4{
+    margin: 0px;
+    width: 220px;
+}
+.navigator div{
+    width: 33.33%;
+
+}
+.navigator h4{
+    color:var(--gray-light-color);
+    transition: 0.4s;
+    filter: brightness(1);}
+.navigator h4:hover{
+    filter: brightness(2);
+}
+.navigation_right{
+    justify-content: right;
+    display: flex;
+}
+.navigation_right h4{
+    margin-left: 20px;
 }
 .chart{
     margin: 2.5px;
@@ -291,10 +326,7 @@ div.btn:hover{
 .main_bottom{
     display: flex;
 }
-.navigator .public_disclosure_wrapper{
-    width: 200px;
-    padding: 5px;
-}
+
 .right, .middle, .left{ 
     width: 33.33%;
 }
@@ -316,8 +348,8 @@ div.btn:hover{
 }
 .limit_order_buy,.limit_order_sell{
     margin: 1.5% 0;
-    padding: 5% 0 ;
-    min-height: 40px;
+    padding: 4% 0 ;
+    /* min-height: 40px; */
     align-items: center;
     display: flex;
     justify-content: space-around;
@@ -335,8 +367,11 @@ div.btn:hover{
     justify-content: space-around;
 }
 .limit_order_buy div,.limit_order_sell div,.market_order div{
-    width: 40px;
     text-align: center;
+    width: 25%;
+}
+.limit_order_buy:hover,.limit_order_sell:hover,.market_order:hover{
+    filter: brightness(0.9);
 }
 .history_wrapper div, .asset_wrapper div{
     width: 60px;
@@ -397,6 +432,8 @@ div.btn:hover{
     width: 100%;
     opacity: 0.9;
     transition: 0.5s;
+    z-index: 100;
+
 }
 .welcome:active{
     opacity: 0.2;
@@ -408,7 +445,6 @@ div.btn:hover{
 }
 .welcome .logo{
     position:absolute;
-
 }
 .welcome_tutorial{
     position:absolute;
@@ -523,14 +559,26 @@ div.btn:hover{
 }
 .welcome_connection{
     text-align: center;
-    
+    overflow: hidden;
+    justify-content: center;
+    transition: 0.4s;
 }
+.welcome_connection:active{
+    opacity: 0.4;}
  .congratulations{
     border-radius: 5px;
     margin: 5% 0;
     width: 100%;
     height: auto;
     
+}
+.voted{
+    border-radius: 5px;
+    margin: auto;
+    width: auto;
+    height: auto;
+    top: 50%;
+    right: 50%;
 }
 .welcome_tutorial,
 .welcome_tutorial_wallet,
@@ -623,4 +671,73 @@ select, input{
     border: 0px ;
     border-radius: 5px;
     color: var(--white-color);
+}
+input{
+    padding: 4%;
+}
+
+.order_mode{
+    display: flex;
+    color: var(--gray-dark-color);
+    border-bottom: 1px solid var(--gray-dark-color);
+}
+.order{
+    padding: 0.4%;
+}
+.order div{
+    padding: 2% 0;
+}
+.order_price, .order_amount{
+    margin: 2% 0 0 0 ;
+    width: 99.3%;
+    height: 50px;
+}
+.order_available{
+    padding: 5% 0 1% 0;
+}
+.make_order{
+    width: 99.3%;
+    height: 50px;
+    margin: 2% 0 0 0 ;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.order_buy,.order_sell{
+    width: 50%;
+    height: 100%;
+    border: 0;
+    transition: 0.2s;
+}
+.order_buy:hover,.order_sell:hover{
+    filter: brightness(0.7);
+}
+.order_buy h5, .order_sell h5{
+    border-bottom: 1px solid var();
+
+}
+.order_buy{
+    color: var(--white-color);
+    background-color: var(--onPrimary-color);
+}
+.order_sell{
+    color: var(--white-color);
+    background-color:var(--Secondary-color);
+}
+.order_price_eth{
+    position: absolute;
+    right: 1.5%;
+    top: 19%;
+}
+.chart_select{
+    width: 300px;
+    display: flex;
+    align-items: center;
+}
+.chart_cp{
+    margin-left: 10px;
+    width: 120px;
+}
+.chart_select select.st_select{
+    margin: 0;
+
 }
