@@ -14,6 +14,9 @@ interface ERC1400Interface {
     function isOperator(address operator, address tokenHolder) external view returns (bool);
     function restrictToken() external;
     function allowToken() external;
+    function isRestricted() external view returns(bool);
+    function isTokenHolder(address tokenholder) external view returns (bool);
+    function dividendPayment(uint256 totalDividend) external ;
 
     event Transfer(address indexed from, address indexed to, uint256 amount);
     event Transfer(address indexed spender, address indexed from, address indexed to, uint256 amount);
@@ -22,6 +25,7 @@ interface ERC1400Interface {
     event RevokedOperator(address indexed operator, address indexed tokenHolder);
     event RestrictToken();
     event AllowToken();
+    event DividendPayment(uint256 totalDividend);
 }
 
 abstract contract OwnerHelper {
@@ -55,6 +59,7 @@ contract ERC1400 is ERC1400Interface, OwnerHelper {
     mapping (address => mapping (address => uint256)) public _allowances;
     mapping(address => mapping(address => bool)) internal _authorizedOperator; //
     mapping(address => bool) internal _isController; //
+    mapping(address => bool) internal _isTokenHolder; // 이 토큰을 소유한 적이 있는 지갑 주소인지 확인
 
     uint256 public _totalSupply;
     string public _name;
@@ -64,6 +69,8 @@ contract ERC1400 is ERC1400Interface, OwnerHelper {
     bool internal _isControllable; // operator가 해당 토큰을 컨트롤할 수 있는지 여부
     address internal _controller; // 토큰 컨트롤할 수 있는 operator(거래소)
     bool internal _isRestricted; // 토큰 거래 제한 여부
+    address[] internal _tokenHolderList; // 모든 토큰 소유자 지갑 주소
+    
 
     /*
     * operator(거래소)만 조작할 수 하기 위한 modifier
@@ -116,8 +123,9 @@ contract ERC1400 is ERC1400Interface, OwnerHelper {
     }
 
     function transfer(address recipient, uint amount) public virtual override returns (bool) {
-        _transfer(msg.sender, recipient, amount);
-        emit Transfer(msg.sender, recipient, amount);
+        uint e18_amount = amount * E18;
+        _transfer(msg.sender, recipient, e18_amount);
+        emit Transfer(msg.sender, recipient, e18_amount);
         return true;
     }
 
@@ -148,6 +156,7 @@ contract ERC1400 is ERC1400Interface, OwnerHelper {
         require(senderBalance >= amount, "ERC20: transfer amount exceeds balance");
         _balances[sender] = senderBalance - amount;
         _balances[recipient] += amount;
+        _addToTokenholderList(recipient); // 토큰을 전송할 때마다 수신자 주소를 토큰홀더명단에 추가한다.
     }
 
     function _approve(address owner, address spender, uint256 currentAmount, uint256 amount) internal virtual {
@@ -238,17 +247,15 @@ contract ERC1400 is ERC1400Interface, OwnerHelper {
     }
 
     /*
-    * 토큰의 거래를 제한하는 함수이다.
-    * operator로 인정된 거래소만 해당 함수를 호출할 수 있다.
+    * 거래 제한 기능을 위한 함수들
     */
+
+    // 토큰 거래를 제한하는 함수 : operator로 인정된 거래소만 해당 함수를 호출할 수 있다.
     function restrictToken() external override onlyOperator {
         _restrictToken();
     }
 
-    /*
-    * 토큰의 거래를 재허용하는 함수이다.
-    * operator로 인정된 거래소만 해당 함수를 호출할 수 있다.
-    */
+    // 토큰 거래를 재허용하는 함수 : operator로 인정된 거래소만 해당 함수를 호출할 수 있다.
     function allowToken() external override onlyOperator {
         _allowToken();
     }
@@ -266,7 +273,38 @@ contract ERC1400 is ERC1400Interface, OwnerHelper {
     }
 
     // 토큰이 제한되었는지 확인하는 함수
-    function isRestricted() external view returns(bool) {
+    function isRestricted() external view override returns(bool) {
         return _isRestricted;
+    }
+
+    /*
+    * 배당금 지급을 위한 함수들
+    */
+
+    // 토큰보유자 명단에 추가하는 함수
+    function _addToTokenholderList(address recipient) internal {
+        if(!_isTokenHolder[recipient]){
+            _tokenHolderList.push(recipient);
+            _isTokenHolder[recipient] = true;
+        }
+    }
+
+    // 토큰보유자인지 확인하는 함수
+    function isTokenHolder(address tokenholder) external view override returns (bool) {
+        return _isTokenHolder[tokenholder];
+    }
+
+    // 모든 토큰보유자 주소를 보여주는 함수
+    function showAllTokenHolders() external view returns (address[] memory) {
+        return _tokenHolderList;
+    }
+
+    // 배당금 지급 함수 : 토큰보유자 명단에 있는 모든 주소에 토큰 지분에 따른 배당금 지급
+    function dividendPayment(uint256 totalDividend) external override onlyOwner {
+        for(uint256 i=0; i < _tokenHolderList.length; i++){
+            uint256 dividend = totalDividend * _balances[_tokenHolderList[i]] / _totalSupply;
+            _transfer(msg.sender, _tokenHolderList[i], dividend);
+        }
+        emit DividendPayment(totalDividend);
     }
 }

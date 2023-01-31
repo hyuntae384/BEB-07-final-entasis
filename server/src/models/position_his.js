@@ -17,9 +17,9 @@ module.exports = (sequelize, DataTypes) => {
   position_his.init({
     user_wallet: DataTypes.STRING,
     order: DataTypes.STRING,
-    price: DataTypes.INTEGER,
-    amount: DataTypes.INTEGER,
-    fee: DataTypes.INTEGER
+    price: DataTypes.STRING,
+    amount: DataTypes.STRING,
+    fee: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'position_his',
