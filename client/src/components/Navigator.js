@@ -77,7 +77,7 @@ const Navigator =({/*company*/})=>{
         document.body.style.overflow = 'unset';
         setPdModalIsOpen(false)
         }
-        const date = (60-new Date().getMinutes())%5+":"+(60-new Date().getSeconds())
+        const date = (59-new Date().getMinutes())%5+":"+(59-new Date().getSeconds())
         const {chainId, account, active, activate, deactivate} = useWeb3React();
 
         // Tutorial(account,tutorialCnt-1)

@@ -20,7 +20,6 @@ export const FaucetWallet = async(wallet) => {
     .then(res=>res.data.status)
     // .then(err=>err)
     .catch((error)=>{
-        console.log(error.response.data.message)
         return error.response.data.message
     })
     return resultFaucetWallet
