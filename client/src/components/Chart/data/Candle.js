@@ -57,10 +57,9 @@ const Candle =({
         for (let i = 0; i < 12; i++) {
           xValue.push(date[Math.round(date.length / 12) * i]);
         }
-        return xValue;
+        return xValue
         };
         generateDate();
-
 
     return(
     <div className="candle">
@@ -114,7 +113,7 @@ const Candle =({
                         stroke='#474747'
                         fontSize={SVG_CHART_WIDTH < 800 ? 8 : 10}
                     >
-                        {xValue[index]}
+                        {`${xValue[index]}`.slice(14,-5)}
                     </text>
                     </g>
                 );

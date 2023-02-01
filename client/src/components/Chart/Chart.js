@@ -39,7 +39,7 @@ const Chart =({currentPrice})=>{
                 ]);
             }
         clearInterval(loop);
-        }, 500);
+        }, 999);
     }, [new Date().getSeconds()]);
 
 
@@ -54,15 +54,18 @@ const Chart =({currentPrice})=>{
         console.log(e) // caught
         }
     })
+    let limitChartArr=[]
+
     if(!chartToggle&&typeof isChartTotal === 'object'){
         const chartOriginArr = [];
         (isChartTotal.map(e=>chartOriginArr.push(Object.values(e))))
-        chartOriginArr
-            ?.slice(dataLength, chartOriginArr.length)
-            .forEach((item) => chartArr.push(item));
-            setChartToggle(true)
-    }
+        limitChartArr = chartOriginArr
+        setChartToggle(true)
 
+    }
+    limitChartArr
+    ?.slice(dataLength, limitChartArr.length)
+    .forEach((item) => chartArr.push(item));
 
     let date = dataToArray(chartArr,1)
     let open = dataToArray(chartArr,2)
@@ -89,10 +92,10 @@ const Chart =({currentPrice})=>{
     const dataWheelHandler = () => {
 
         window.onwheel = function (e) {
-            // let set = isChartTotal.length*0.05
+            let set = isChartTotal.length*0.05
         e.deltaY > 0
-            ? setDataLength(dataLength < 8 ? dataLength + 0 : dataLength - 8)
-            : setDataLength(dataLength > 175 ? dataLength : dataLength + 8);
+            ? setDataLength(dataLength < 8 ? dataLength + 0 : dataLength - set)
+            : setDataLength(dataLength > 175 ? dataLength : dataLength + set);
     };
     };
     const onMouseLeaveHandler = () => {

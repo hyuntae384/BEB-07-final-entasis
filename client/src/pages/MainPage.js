@@ -81,7 +81,6 @@ const MainPage =()=>{
         const onMouseEnterHandler = () => {
             document.body.style.overflow = 'unset';
         }
-
     return(
     <div className="main_page" onMouseEnter={onMouseEnterHandler}>
         {/* <Welcome
@@ -96,7 +95,7 @@ const MainPage =()=>{
                 currentPrice={currentPrice}
             />
             <LimitOrderBook
-                powerOfMarket={0}
+                powerOfMarket={10}
                 ST_CurrentPrice={currentPrice.close} 
             />
             <Order/>
