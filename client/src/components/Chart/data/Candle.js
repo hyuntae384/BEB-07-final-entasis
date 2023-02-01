@@ -31,13 +31,14 @@ const Candle =({
         ]);
     }
 
-    if(`${currentPrice.createdAt}`.slice(18,-5)!=='0'){
+    // if(`${currentPrice.createdAt}`.slice(18,-5)!=='0'){
         dataArray[dataArray.length] = [currentPrice.createdAt,currentPrice.open,currentPrice.close,currentPrice.high,currentPrice.low];
-    }else{
-        dataArray.push([`${currentPrice.createdAt}`,`${currentPrice.open}`,`${currentPrice.close}`,`${currentPrice.high}`,`${currentPrice.low}`]);
-        dataArray.push([currentPrice.createdAt,currentPrice.close,currentPrice.close,currentPrice.close,currentPrice.close]);
 
-    }
+    // }else{
+    //     dataArray.push([`${currentPrice.createdAt}`,`${currentPrice.open}`,`${currentPrice.close}`,`${currentPrice.high}`,`${currentPrice.low}`]);
+    //     dataArray.push([currentPrice.createdAt,currentPrice.close,currentPrice.close,currentPrice.close,currentPrice.close]);
+
+    // }
     const dataYMax = dataArray.reduce(
         (max, [_, open, close, high, low]) => (Math.max(max, high,currentPrice.high)+0.0005),
         -Infinity
@@ -56,10 +57,9 @@ const Candle =({
         for (let i = 0; i < 12; i++) {
           xValue.push(date[Math.round(date.length / 12) * i]);
         }
-        return xValue;
+        return xValue
         };
         generateDate();
-
 
     return(
     <div className="candle">
@@ -113,7 +113,7 @@ const Candle =({
                         stroke='#474747'
                         fontSize={SVG_CHART_WIDTH < 800 ? 8 : 10}
                     >
-                        {xValue[index]}
+                        {`${xValue[index]}`.slice(14,-5)}
                     </text>
                     </g>
                 );
