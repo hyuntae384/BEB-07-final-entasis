@@ -27,14 +27,16 @@ const Chart =({
     const onMouseEnterHandler = () => {
         document.body.style.overflow = 'hidden';
     }
+
+    //페이지 진입 시 초기 차트 길이 세팅
     const defaultLimit  = volumeFormatHis.length;
 
     const dataWheelHandler = () => {
 
         window.onwheel = function (e) {
         e.deltaY > 0
-            ? setDataLength(dataLength < 5 ? dataLength + 0 : dataLength - volumeFormatHis.length*0.05)
-            : setDataLength(dataLength > defaultLimit - 5 ? dataLength + 0 : dataLength + volumeFormatHis.length*0.05);
+            ? setDataLength(dataLength < 5.5 ? dataLength + 0 : dataLength - volumeFormatHis.length*0.05)
+            : setDataLength(dataLength > defaultLimit - 5.5 ? dataLength + 0 : dataLength + volumeFormatHis.length*0.05);
     };
     };
     const onMouseLeaveHandler = () => {
@@ -82,7 +84,6 @@ const Chart =({
         onWheel={dataWheelHandler} 
         onMouseEnter ={onMouseEnterHandler}
         onMouseLeave = {onMouseLeaveHandler}
-        onMouseOver={(e)=>this.onMouseOver(e, e.nativeEvent.offsetX)}
         >
         <div className="chart_select">
         <SelectBox options={OPTIONS}></SelectBox>

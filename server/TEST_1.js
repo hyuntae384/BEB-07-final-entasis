@@ -7,7 +7,6 @@ const { sequelize } = require('../server/src/models');
 const { users, companys, dividend_his, position_his, price_his } = require('./src/models');
 const { getTotalSupply,getTokenBalance, getTokenName, signAndSendTx, sendTokenToUser } = require('./src/chainUtils/tokenUtils');
 
-
 app.set('port', process.env.PORT || 5051);
 app.set('view engine', 'ejs');
 
@@ -27,11 +26,10 @@ sequelize
   let chartHis = [[1.2],[100]];
   let chartDataFormatHis = [];
   
-
   const setStv =()=>{stv = Math.random()*(0.01-(-0.0101))-0.01;};
   const setIncomeRatio =()=>{incomeRatio = Math.random()*(0.05-(-0.051))-0.05;};
-  const setdividendRatio = () => {dividend_ratio = (Math.random()*(0.05-(-0.05))-0.05).toFixed(2);};
-  let chart_his =(e)=>{ chartHis[0].push(e[0]) ;chartHis[1].push(e[1]) }
+  const setDividendRatio = () => {dividend_ratio = (Math.random()*(0.05-(-0.05))-0.05).toFixed(2);};
+  let chart_his =(e)=>{ chartHis[0].push(e[0]);chartHis[1].push(e[1]) }
   let totalVolFrom = 0;
   let totalVolTo = 0;
 
@@ -39,29 +37,30 @@ sequelize
           chartHis[1].forEach(element => {totalVolTo+=element});  
           setStv()
           chartData = {
-            'createdAt': new Date(),
-            'open': chartHis[0][0].toFixed(2),
-            'close':chartHis[0][chartHis[0].length-1].toFixed(2),
-            'high':chartHis[0].reduce((acc,cur)=>{
+            createdAt: new Date(),
+            open: chartHis[0][0].toFixed(4),
+            close:chartHis[0][chartHis[0].length-1].toFixed(4),
+            high:chartHis[0].reduce((acc,cur)=>{
                     if(acc<cur) return cur 
                     else if(acc>=cur) return acc
-                    }).toFixed(2),
-            'low':chartHis[0].reduce((acc,cur)=>{
+                    }).toFixed(4),
+            low:chartHis[0].reduce((acc,cur)=>{
                   if(acc>cur) return cur 
                   else if(acc<=cur) return acc
-                  }).toFixed(2),
-            'totalVolTo':totalVolTo.toFixed(4),
-            'totalVolFrom':totalVolFrom.toFixed(4)
+                  }).toFixed(4),
+            totalVolTo:totalVolTo.toFixed(4),
+            totalVolFrom:totalVolFrom.toFixed(4)
             }
-            console.log(chartData)
             let volume = 100 * (1 + stv*90)*(1+incomeRatio*90)>0?100 * (1 + stv*90)*(1+incomeRatio*90):1
-            chart_his([chartHis[0][chartHis[0].length-1] * (1 + stv)*(1+incomeRatio) * (1+volume/10000000),
+            let price = chartHis[0][chartHis[0].length-1]>0.5?chartHis[0][chartHis[0].length-1]:0.5;
+            chart_his([price * (1 + stv)*(1+incomeRatio) * (1+volume/10000000),
             volume])
         }, 1000);
 
         //1분
         setInterval(() => {
-            chartDataFormatHis.push(chartData);
+            // chartDataFormatHis.push(chartData);
+            price_his.create(chartData)
             totalVolFrom = totalVolTo
             totalVolTo=0
             chartHis[0].splice(0,chartHis[0].length-1);
@@ -69,19 +68,18 @@ sequelize
         }, 6000);
 
         //5분
-
         setInterval(async () => {
           setIncomeRatio();
-          setdividendRatio();
+          setDividendRatio();
+          let income = incomeRatio * chartHis[0][0] * getTotalSupply
           await dividend_his.create({
             company_wallet: process.env.ADMIN_ADDRESS,
-            income: incomeRatio * chartHis[0][0] * getTotalSupply,
+            income: income,
             dividend_ratio:  dividend_ratio,
             dividend: dividend_ratio * income,
             next_ratio: dividend_ratio * incomeRatio
           })
-
-        }, 300000);
+        }, 3000);
 
 app.use(morgan('dev'));
 
