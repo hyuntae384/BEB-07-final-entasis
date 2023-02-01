@@ -42,7 +42,6 @@ const MainPage =()=>{
     const copyHandler = (e) => {
         copy = e;
     }
-
     // URL
     const origin = "http://localhost:5050/";
     const getUserURL = origin + "user/"; 
@@ -58,14 +57,6 @@ const MainPage =()=>{
         .then(err=>err)
         return  resultSTChart
     }
-    // const getRTD = async({/*st_name*/}) => {
-    //     // if(st_name===null || st_name ===undefined)return new Error('Invalid Request!')
-    //     const resultRDT = await axios.get('http://localhost:5051/chart')
-    //     .then(res=>res)
-    //     .then(err=>err)
-    //     console.log(resultRDT)  
-    // }
-    // getRTD()
 
     const Position = async(wallet) => {
         if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
@@ -106,7 +97,7 @@ const MainPage =()=>{
             />
             <LimitOrderBook
                 powerOfMarket={0}
-                ST_CurrentPrice={0} 
+                ST_CurrentPrice={currentPrice.close} 
             />
             <Order/>
         </div>

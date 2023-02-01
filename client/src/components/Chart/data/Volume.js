@@ -34,13 +34,13 @@ const Volume =({
         ]
         );
     }
-    if(`${currentPrice.createdAt}`.slice(18,-5)!=='0'){
+    // if(`${currentPrice.createdAt}`.slice(18,-5)!=='0'){
         dataArray[dataArray.length] = [dataArray.length,currentPrice.totalVolTo,currentPrice.open,currentPrice.close];
-    }else{
-        dataArray.push([`${dataArray.length}`,`${currentPrice.totalVolTo}`,`${currentPrice.open}`,`${currentPrice.close}`]);
-        dataArray.push([dataArray.length+1,0,currentPrice.close,currentPrice.close]);
+    // }else{
+    //     dataArray.push([`${dataArray.length}`,`${currentPrice.totalVolTo}`,`${currentPrice.open}`,`${currentPrice.close}`]);
+    //     dataArray.push([dataArray.length+1,0,currentPrice.close,currentPrice.close]);
 
-    }
+    // }
 
     const dataYMax = dataArray.reduce(
         (max, [_, vol]) => Math.max(vol, /*현재 거래량 */ max),

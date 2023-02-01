@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import dataToArray from "../../functions/data_to_array";
 import SelectBox from "../Select";
 import Candle from "./data/Candle"
@@ -10,30 +10,68 @@ const Chart =({currentPrice})=>{
     // const [defaultLimit, setdefaultLimit] = useState(1000);
     const [dataLength, setDataLength] = useState(10);
     const [isChartTotal, setIsChartTotal] = useState(true);
+    const [chartToggle,setChartToggle] = useState(false)
+    const [chartArr,setChartArr]=useState([]);
+    const currentPrice_ref = useRef({});
 
-    const setChartTotal=(async () => 
-    {try {
-        const resultTotal = await axios.get('http://localhost:5050/chart/total')
-        setIsChartTotal(resultTotal.data)
-    } catch (e) {
-    console.log(e) // caught
+
+    
+    useEffect(() => {
+        const loop = setInterval(() => {
+            if(`${new Date().getSeconds()}`.slice(1)==='0'){
+                let createdAtB= currentPrice.createdAt;
+                let openB= currentPrice.open;
+                let closeB= currentPrice.close;
+                let highB= currentPrice.high;
+                let lowB= currentPrice.low;
+                let totalVolToB= currentPrice.totalVolTo;
+                let totalVolFromB= currentPrice.totalVolFrom;
+
+                chartArr.push([
+                    chartArr[chartArr.length-1]!==undefined?chartArr[chartArr.length-1][0]:undefined,
+                    createdAtB,
+                    openB,
+                    closeB,
+                    highB,
+                    lowB,
+                    totalVolToB,
+                    totalVolFromB,
+                ]);
+            }
+        clearInterval(loop);
+        }, 500);
+    }, [new Date().getSeconds()]);
+
+
+    // const chartArr = [];
+    const setChartTotal=(async() => 
+        {try {
+            const resultTotal = await axios.get('http://localhost:5050/chart/total')
+            setIsChartTotal(resultTotal.data)
+            // console.log(resultTotal.data)
+
+        } catch (e) {
+        console.log(e) // caught
+        }
+    })
+    if(!chartToggle&&typeof isChartTotal === 'object'){
+        const chartOriginArr = [];
+        (isChartTotal.map(e=>chartOriginArr.push(Object.values(e))))
+        chartOriginArr
+            ?.slice(dataLength, chartOriginArr.length)
+            .forEach((item) => chartArr.push(item));
+            setChartToggle(true)
     }
-})
-const chartOriginArr = [];
-const chartArr=[]
 
-    typeof isChartTotal === 'object'?(isChartTotal.map(e=>chartOriginArr.push(Object.values(e)))):<></>
-chartOriginArr
-    ?.slice(dataLength, chartOriginArr.length)
-    .forEach((item) => chartArr.push(item));
-  // console.log(coinArray);
-let date = dataToArray(chartArr,1)
-let open = dataToArray(chartArr,2)
-let close = dataToArray(chartArr,3)
-let high = dataToArray(chartArr,4)
-let low = dataToArray(chartArr,5)
-let volTo = dataToArray(chartArr,6)
-let volFrom = dataToArray(chartArr,7)
+
+    let date = dataToArray(chartArr,1)
+    let open = dataToArray(chartArr,2)
+    let close = dataToArray(chartArr,3)
+    let high = dataToArray(chartArr,4)
+    let low = dataToArray(chartArr,5)
+    let volTo = dataToArray(chartArr,6)
+    let volFrom = dataToArray(chartArr,7)
+
     const onClickListener = () => {
         setName("CECE");
     };
@@ -51,7 +89,7 @@ let volFrom = dataToArray(chartArr,7)
     const dataWheelHandler = () => {
 
         window.onwheel = function (e) {
-            let set = isChartTotal.length*0.05
+            // let set = isChartTotal.length*0.05
         e.deltaY > 0
             ? setDataLength(dataLength < 8 ? dataLength + 0 : dataLength - 8)
             : setDataLength(dataLength > 175 ? dataLength : dataLength + 8);

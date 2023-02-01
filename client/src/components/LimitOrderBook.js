@@ -12,8 +12,8 @@ const LimitOrderBook =({ST_CurrentPrice, powerOfMarket})=>{
             //매수, 매도세를 알 수 있는 지표는?
             //가격이 오른 정도 * 실려있는 거래량?
 
-        let amountBuySet = powerOfMarket>0?(powerOfMarket*5).toFixed(0):(-powerOfMarket*0.5).toFixed(0);
-        let amountSellSet = powerOfMarket<0?(powerOfMarket*5).toFixed(0):(-powerOfMarket*0.5).toFixed(0);
+        let amountBuySet = powerOfMarket>0?(powerOfMarket*5):(-powerOfMarket*0.5);
+        let amountSellSet = powerOfMarket<0?(powerOfMarket*5):(-powerOfMarket*0.5);
 
         let sellOrder= {
             id:4-i,
@@ -61,11 +61,11 @@ const LimitOrderBook =({ST_CurrentPrice, powerOfMarket})=>{
                     <div className="limit_order_buy">
                         <div>{'Sell'}</div>
                         <div>
-                            {e.price>1000?e.price.toFixed(0):(e.price>100?e.price.toFixed(1):(e.price>10?e.price.toFixed(2):(e.price>1?e.price.toFixed(2):e.price.toFixed(2))))}
+                            {e.price>1000?e.price:(e.price>100?e.price:(e.price>10?e.price:(e.price>1?e.price:e.price)))}
                         </div>
                         <div>{e.amount}</div>
                         <div>
-                            {(e.price*e.amount)>1000?(e.price*e.amount).toFixed(0):(e.price*e.amount)>100?(e.price*e.amount).toFixed(1):((e.price*e.amount)>10?(e.price*e.amount).toFixed(2):((e.price*e.amount)>1?(e.price*e.amount).toFixed(2):(e.price*e.amount).toFixed(2)))}
+                            {(e.price*e.amount)>1000?(e.price*e.amount):(e.price*e.amount)>100?(e.price*e.amount):((e.price*e.amount)>10?(e.price*e.amount):((e.price*e.amount)>1?(e.price*e.amount):(e.price*e.amount)))}
                         </div>
                     </div>  
                     :<></>}
@@ -74,7 +74,7 @@ const LimitOrderBook =({ST_CurrentPrice, powerOfMarket})=>{
             })}
             <div className="market_order">
                     <h3>Market Price</h3>
-                    <h3>{ST_CurrentPrice>1000?ST_CurrentPrice.toFixed(0):(ST_CurrentPrice>100?ST_CurrentPrice.toFixed(1):(ST_CurrentPrice>10?ST_CurrentPrice.toFixed(2):(ST_CurrentPrice>1?ST_CurrentPrice.toFixed(2):ST_CurrentPrice.toFixed(2))))}</h3>
+                    <h3>{ST_CurrentPrice>1000?ST_CurrentPrice:(ST_CurrentPrice>100?ST_CurrentPrice:(ST_CurrentPrice>10?ST_CurrentPrice:(ST_CurrentPrice>1?ST_CurrentPrice:ST_CurrentPrice)))}</h3>
                     <h3>ETH</h3>
             </div>
             {orderList.map((e)=>{
@@ -84,11 +84,11 @@ const LimitOrderBook =({ST_CurrentPrice, powerOfMarket})=>{
                             <div className="limit_order_sell">
                         <div>{'Buy'}</div>
                         <div>
-                            {e.price>1000?e.price.toFixed(0):(e.price>100?e.price.toFixed(1):(e.price>10?e.price.toFixed(2):(e.price>1?e.price.toFixed(2):e.price.toFixed(2))))}
+                            {e.price>1000?e.price:(e.price>100?e.price:(e.price>10?e.price:(e.price>1?e.price:e.price)))}
                         </div>
                         <div>{e.amount}</div>
                         <div>
-                            {(e.price*e.amount)>1000?(e.price*e.amount).toFixed(0):(e.price*e.amount)>100?(e.price*e.amount).toFixed(1):((e.price*e.amount)>10?(e.price*e.amount).toFixed(2):((e.price*e.amount)>1?(e.price*e.amount).toFixed(2):(e.price*e.amount).toFixed(2)))}</div>
+                            {(e.price*e.amount)>1000?(e.price*e.amount):(e.price*e.amount)>100?(e.price*e.amount):((e.price*e.amount)>10?(e.price*e.amount):((e.price*e.amount)>1?(e.price*e.amount):(e.price*e.amount)))}</div>
                         </div>:<></>}
                     </div>
                 )})}

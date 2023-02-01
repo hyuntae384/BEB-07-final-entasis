@@ -31,13 +31,14 @@ const Candle =({
         ]);
     }
 
-    if(`${currentPrice.createdAt}`.slice(18,-5)!=='0'){
+    // if(`${currentPrice.createdAt}`.slice(18,-5)!=='0'){
         dataArray[dataArray.length] = [currentPrice.createdAt,currentPrice.open,currentPrice.close,currentPrice.high,currentPrice.low];
-    }else{
-        dataArray.push([`${currentPrice.createdAt}`,`${currentPrice.open}`,`${currentPrice.close}`,`${currentPrice.high}`,`${currentPrice.low}`]);
-        dataArray.push([currentPrice.createdAt,currentPrice.close,currentPrice.close,currentPrice.close,currentPrice.close]);
 
-    }
+    // }else{
+    //     dataArray.push([`${currentPrice.createdAt}`,`${currentPrice.open}`,`${currentPrice.close}`,`${currentPrice.high}`,`${currentPrice.low}`]);
+    //     dataArray.push([currentPrice.createdAt,currentPrice.close,currentPrice.close,currentPrice.close,currentPrice.close]);
+
+    // }
     const dataYMax = dataArray.reduce(
         (max, [_, open, close, high, low]) => (Math.max(max, high,currentPrice.high)+0.0005),
         -Infinity
