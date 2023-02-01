@@ -71,7 +71,7 @@ let totalVolFrom = 0;
 let totalVolTo = 0;
 
 setInterval(async() => {
-  console.log(await getTotalSupply())
+  // console.log(chartData)
   chartHis[1].forEach(element => {totalVolTo+=element});  
   setStv()
   chartData = {
@@ -98,7 +98,6 @@ setInterval(async() => {
 
 //1분
 setInterval(async () => {
-  // chartDataFormatHis.push(chartData);
   await price_his.create(chartData)
   totalVolFrom = totalVolTo
   totalVolTo=0
@@ -135,7 +134,6 @@ app.get('/chart/total', async (req, res, next) => {
 app.get('/rtd', async (req, res, next) => {
   try {
     if(!chartData) return res.status(400).json({message: "No such data"});
-    console.log(chartData.close)
     return res.status(200).json(chartData)
   } catch (err) {
     console.error(err);
