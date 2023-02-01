@@ -58,9 +58,9 @@ sequelize
         }, 1000);
 
         //1분
-        setInterval(() => {
+        setInterval(async () => {
             // chartDataFormatHis.push(chartData);
-            price_his.create(chartData)
+            await price_his.create(chartData)
             totalVolFrom = totalVolTo
             totalVolTo=0
             chartHis[0].splice(0,chartHis[0].length-1);
