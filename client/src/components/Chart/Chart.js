@@ -28,7 +28,8 @@ let open = dataToArray(chartArr,2)
 let close = dataToArray(chartArr,3)
 let high = dataToArray(chartArr,4)
 let low = dataToArray(chartArr,5)
-let vol = dataToArray(chartArr,6)
+let volTo = dataToArray(chartArr,6)
+let volFrom = dataToArray(chartArr,7)
     const onClickListener = () => {
         setName("CECE");
     };
@@ -114,7 +115,8 @@ let vol = dataToArray(chartArr,6)
             name={name}
         />
         <Volume
-            vol={vol}
+            volTo={volTo}
+            volFrom={volFrom}
             width={size.width} 
             height={size.height}
             defaultLimit={defaultLimit}

@@ -53,7 +53,7 @@ const MainPage =()=>{
     const setChartRTD=(async () => 
         {try {
             const resultRTD = await axios.get('http://localhost:5050/rtd')
-            console.log(resultRTD) 
+            return resultRTD
         } catch (e) {
         console.log(e) // caught
         }
@@ -98,17 +98,17 @@ const MainPage =()=>{
         <Navigator/>
         <div className="main_head">
             <Chart/>
-            {/* <LimitOrderBook
-                powerOfMarket={powerOfMarket}
-                ST_CurrentPrice={ST_CurrentPrice} 
-            /> */}
+            <LimitOrderBook
+                powerOfMarket={0}
+                ST_CurrentPrice={0} 
+            />
             <Order/>
         </div>
         <div className="main_bottom">
             <Historys/>
-            {/* <Assets
-                ST_CurrentPrice={ST_CurrentPrice} 
-            /> */}
+            <Assets
+                ST_CurrentPrice={0} 
+            />
         </div>
         <Footer/>
     </div>
