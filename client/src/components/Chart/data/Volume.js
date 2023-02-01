@@ -4,7 +4,8 @@ import dataToArray from '../../../functions/data_to_array'
 import PublicDisclosure from '../../PublicDisclosure';
 
 const Volume =({ 
-    vol,
+    volTo,
+    volFrom,
     width, 
     height, 
     defaultLimit, 
@@ -22,17 +23,19 @@ const Volume =({
     const x0 = 0;
     const y0 = 0;
     let dataArray=[]
-    for (let i = 0; i < vol.length; i++) {
-        dataArray.push([
-            0,
-            vol
-        ]
-        );
-    }
+    console.log(volTo)
+    // for (let i = 0; i < volFrom.length; i++) {
+    //     dataArray.push([
+    //         0,
+    //         volFrom
+    //     ]
+    //     );
+    // }
     const dataYMax = dataArray.reduce(
         (max, [_, vol]) => Math.max(vol, /*현재 거래량 */ max),
         -Infinity
     );
+    console.log(dataArray)
 
     const dataYMin = 0
     const dataYRange = dataYMax;
@@ -77,7 +80,7 @@ const Volume =({
                     </g>
                 );
                 })}
-                {console.log(dataArray)}
+                {/* {console.log(dataArray)} */}
                 {dataArray.map(
                 (
                     [
