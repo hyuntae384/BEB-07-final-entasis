@@ -14,8 +14,9 @@ const tokenRouter = require('./routes/tokenRouter');
 const chartRouter = require('./routes/chartRouter');
 
 const logger = require('./logger');
-const { sequelize, price_his } = require('./models');
+const { sequelize, price_his, dividend_his } = require('./models');
 const {limiter} = require('./limit');
+const {getTotalSupply} = require('./chainUtils/tokenUtils')
 const app = express();
 app.set('port', process.env.PORT || 5050);
 app.set('view engine', 'ejs');
@@ -69,71 +70,83 @@ let chart_his =(e)=>{ chartHis[0].push(e[0]);chartHis[1].push(e[1]) }
 let totalVolFrom = 0;
 let totalVolTo = 0;
 
-      setInterval(async() => {
-        chartHis[1].forEach(element => {totalVolTo+=element});  
-        setStv()
-        chartData = {
-          createdAt: new Date(),
-          open: chartHis[0][0].toFixed(4),
-          close:chartHis[0][chartHis[0].length-1].toFixed(4),
-          high:chartHis[0].reduce((acc,cur)=>{
-                  if(acc<cur) return cur 
-                  else if(acc>=cur) return acc
-                  }).toFixed(4),
-          low:chartHis[0].reduce((acc,cur)=>{
-                if(acc>cur) return cur 
-                else if(acc<=cur) return acc
-                }).toFixed(4),
-          totalVolTo:totalVolTo.toFixed(4),
-          totalVolFrom:totalVolFrom.toFixed(4)
-          }
-          let volume = 100 * (1 + stv*90)*(1+incomeRatio*90)>0?100 * (1 + stv*90)*(1+incomeRatio*90):1
-          let price = chartHis[0][chartHis[0].length-1]>0.5?chartHis[0][chartHis[0].length-1]:0.5;
-          chart_his([price * (1 + stv)*(1+incomeRatio) * (1+volume/10000000),
-          volume])
-          // console.log(chartData);
-          // console.log(new Date().getTime())
-      }, 1000);
+setInterval(async() => {
+  console.log(await getTotalSupply())
+  chartHis[1].forEach(element => {totalVolTo+=element});  
+  setStv()
+  chartData = {
+    createdAt: new Date(),
+    open: chartHis[0][0].toFixed(4),
+    close:chartHis[0][chartHis[0].length-1].toFixed(4),
+    high:chartHis[0].reduce((acc,cur)=>{
+      if(acc<cur) return cur 
+      else if(acc>=cur) return acc
+    }).toFixed(4),
+    low:chartHis[0].reduce((acc,cur)=>{
+      if(acc>cur) return cur 
+      else if(acc<=cur) return acc
+    }).toFixed(4),
+    totalVolTo:totalVolTo.toFixed(4),
+    totalVolFrom:totalVolFrom.toFixed(4)
+  }
+  let volume = 100 * (1 + stv*90)*(1+incomeRatio*90)>0?100 * (1 + stv*90)*(1+incomeRatio*90):1
+  let price = chartHis[0][chartHis[0].length-1]>0.5?chartHis[0][chartHis[0].length-1]:0.5;
+  chart_his([price * (1 + stv)*(1+incomeRatio) * (1+volume/10000000), volume])
+  // console.log(chartData);
+  // console.log(new Date().getTime())
+}, 1000);
 
-      //1분
-      setInterval(async () => {
-          // chartDataFormatHis.push(chartData);
-          await price_his.create(chartData)
-          totalVolFrom = totalVolTo
-          totalVolTo=0
-          chartHis[0].splice(0,chartHis[0].length-1);
-          chartHis[1].splice(0,chartHis[1].length-1);
-      }, 60000);
+//1분
+setInterval(async () => {
+  // chartDataFormatHis.push(chartData);
+  await price_his.create(chartData)
+  totalVolFrom = totalVolTo
+  totalVolTo=0
+  chartHis[0].splice(0,chartHis[0].length-1);
+  chartHis[1].splice(0,chartHis[1].length-1);
+}, 60000);
 
-      //5분
-      setInterval(async () => {
-        setIncomeRatio();
-        setDividendRatio();
-        let income = incomeRatio * chartHis[0][0] * getTotalSupply
-        await dividend_his.create({
-          company_wallet: process.env.ADMIN_ADDRESS,
-          income: income,
-          dividend_ratio:  dividend_ratio,
-          dividend: dividend_ratio * income,
-          next_ratio: dividend_ratio * incomeRatio
-        })
-      }, 300000);
+//5분
+setInterval(async () => {
+  setIncomeRatio();
+  setDividendRatio();
+  let income = incomeRatio * chartHis[0][0] * getTotalSupply
+  await dividend_his.create({
+    company_wallet: process.env.ADMIN_ADDRESS,
+    income: income,
+    dividend_ratio:  dividend_ratio,
+    dividend: dividend_ratio * income,
+    next_ratio: dividend_ratio * incomeRatio
+  })
+}, 30000);
 
-app.get('/chart', async(req, res, next)=>{
-try {
-  if(!chartData) return res.status(400).json({message: "No such data"});
-  console.log(chartData.close)
-  return res.status(200).json(chartData)
-} catch (err) {
-  console.error(err);
-  return next(err);
-}
-})
+app.get('/chart/total', async (req, res, next) => {
+  // const { offset, limit } = req.query;
+  try{
+    const total = await price_his.findAll();
+    if(!total) return res.status(400).json({message: "No such data"});
+    return res.status(200).json(total)
+  } catch (err) {
+    console.error(err);
+    return next(err);
+  }
+});
 
+app.get('/rtd', async (req, res, next) => {
+  try {
+    if(!chartData) return res.status(400).json({message: "No such data"});
+    console.log(chartData.close)
+    return res.status(200).json(chartData)
+  } catch (err) {
+    console.error(err);
+    return next(err);
+  }
+});
+
+// app.use('/chart', chartRouter);
 app.use('/user', userRouter);
 app.use('/company', companyRouter);
 app.use('/token', tokenRouter);
-app.use('/chart', chartRouter);
 
 app.use((req, res, next) => {
   const err = new Error(`${req.method} ${req.url} There is no Router`);
