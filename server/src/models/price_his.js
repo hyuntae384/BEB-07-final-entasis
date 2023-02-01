@@ -19,8 +19,8 @@ module.exports = (sequelize, DataTypes) => {
     close: DataTypes.FLOAT,
     high: DataTypes.FLOAT,
     low: DataTypes.FLOAT,
-    totalValuTo: DataTypes.FLOAT,
-    totalValuFrom: DataTypes.FLOAT
+    totalVolTo: DataTypes.FLOAT,
+    totalVolFrom: DataTypes.FLOAT
   }, {
     sequelize,
     modelName: 'price_his',
