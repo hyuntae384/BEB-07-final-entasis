@@ -2,20 +2,14 @@ import {scaleLinear} from 'd3-scale'
 import dataToArray from '../../../functions/data_to_array'
 
 const Candle =({ 
-    candleFormatHis,
-    ST_CurrentPrice,
-    candleData,
+    date,
+    open,
+    close,
+    high,
+    low,
     width, height, defaultLimit, dataLength, name,})=>{
 
-    const candle_array = [];
-    candleFormatHis
-    .slice(dataLength, candleFormatHis.length)
-    .forEach((item) => candle_array.push(item));
-    const date = dataToArray(candle_array,0)
-    const open = dataToArray(candle_array,1)
-    const close = dataToArray(candle_array,2)
-    const high = dataToArray(candle_array,3)
-    const low =dataToArray(candle_array,4)
+
 
     let SVG_CHART_WIDTH = typeof width === "number" ? width * 1 : 0;
     let SVG_CHART_HEIGHT = typeof height === "number" ? height * 1 : 0;
@@ -37,11 +31,11 @@ const Candle =({
         ]);
     }
     const dataYMax = dataArray.reduce(
-        (max, [_, open, close, high, low]) => (Math.max(max, high, candleData[3])+0.0005),
+        (max, [_, open, close, high, low]) => (Math.max(max, high, /*차트 최대값 */)+0.0005),
         -Infinity
     );
     const dataYMin = dataArray.reduce(
-        (min, [_, open, close, high, low]) => (Math.min(min, low, candleData[4])-0.0005),
+        (min, [_, open, close, high, low]) => (Math.min(min, low, /*차트 최저값 */)-0.0005),
         +Infinity
     );
     const dataYRange = dataYMax - dataYMin;
@@ -57,7 +51,7 @@ const Candle =({
         return xValue;
         };
         generateDate();
-        dataArray[dataArray.length] = candleData;
+        // dataArray[dataArray.length] = RTD;
         
         
     return(
@@ -180,7 +174,7 @@ const Candle =({
                         height={(scaleY(max) - scaleY(min))>1?scaleY(max) - scaleY(min):1}
                         ></rect>
 
-                        <line
+                        {/* <line
                         className="lineLight"
                         x1={xAxisLength+10}
                         x2={x0}
@@ -192,7 +186,7 @@ const Candle =({
                         {open > close ? "#E33F64" : "#00A4D8"} 
                         >
                         {typeof scaleY(ST_CurrentPrice)==='number'?ST_CurrentPrice.toLocaleString():0} ETH
-                        </text>
+                        </text> */}
                         {/* {dataArray[dataArray.length]?
                         <div> */}
 
