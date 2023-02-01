@@ -202,6 +202,8 @@ const Header =()=> {
         if(e.key === "Enter") return ChName(account,editNameValue); EnrollWallet(account);setEditName(!editName);
 
     }
+    const dividendTimeLimit = (59-new Date().getMinutes())%5+":"+(59-new Date().getSeconds())
+
     return(
         <div className="header">
         
@@ -297,7 +299,7 @@ const Header =()=> {
                         </div>
 
                         <div className='exercise_of_voting_rights'>
-                            <h3>Exercise of Voting Rights</h3>
+                            <h3 className='exercise_of_voting_rights_time_limit'>Exercise of Voting Rights {dividendTimeLimit}</h3>
                             <div className='exercise_of_voting_rights_wrapper '>
                             <Modal
                                 appElement={document.getElementById('root') || undefined}

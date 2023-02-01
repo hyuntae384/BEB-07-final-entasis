@@ -50,13 +50,24 @@ const MainPage =()=>{
         .then(err=>err)
         return  resultSTChart
     }
-    const getRTD = async({st_name}) => {
-        if(st_name===null || st_name ===undefined)return new Error('Invalid Request!')
-        const resultSTChart =  axios.get(chart + `/${st_name}`)
-        .then(res=>res)
-        .then(err=>err)
-        return  resultSTChart
-    }
+    // const getRTD = async({/*st_name*/}) => {
+    //     // if(st_name===null || st_name ===undefined)return new Error('Invalid Request!')
+    //     const resultRDT = await axios.get('http://localhost:5051/chart')
+    //     .then(res=>res)
+    //     .then(err=>err)
+    //     console.log(resultRDT)  
+    // }
+    // getRTD()
+    const setRTD=(async () => 
+        {try {
+            const resultRDT = await axios.get('http://localhost:5050/chart')
+            console.log(resultRDT.data.close) 
+            
+        } catch (e) {
+        console.log(e) // caught
+        }
+    })
+
 
     const Position = async(wallet) => {
         if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
@@ -81,9 +92,11 @@ const MainPage =()=>{
         const loop = setInterval(() => {
             stv_ref.current = Math.random()*(0.001-(-0.00101))-0.001;
             setStv(stv_ref.current);
+            setRTD()
+
         if (stv_ref.current === 10||
             stv_ref.current === 10) clearInterval(loop);
-        }, 50);
+        }, 1000);
     }, []);
 
     useEffect(() => {
@@ -92,7 +105,7 @@ const MainPage =()=>{
             setIncomeRatio(incomeRatio_ref.current);
         if (incomeRatio_ref.current === 10||
             incomeRatio_ref.current === 10) clearInterval(loop);
-        }, 1000);
+        }, 100000);
     }, []);
 
     let ST_CurrentVolume = volumeHis[0] * (1 + stv*90)*(1+incomeRatio*90)
