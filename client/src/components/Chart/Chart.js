@@ -5,12 +5,11 @@ import SelectBox from "../Select";
 import Candle from "./data/Candle"
 import Volume from "./data/Volume"
 
-const Chart =()=>{
+const Chart =({currentPrice})=>{
     const [name, setName] = useState("BEBE");
-    const [dataLength, setDataLength] = useState(2);
+    // const [defaultLimit, setdefaultLimit] = useState(1000);
+    const [dataLength, setDataLength] = useState(10);
     const [isChartTotal, setIsChartTotal] = useState(true);
-
-    const dataDefaultMinusLength = 18;
 
     const setChartTotal=(async () => 
     {try {
@@ -20,9 +19,14 @@ const Chart =()=>{
     console.log(e) // caught
     }
 })
-const chartArr = [];
-    typeof isChartTotal === 'object'?(isChartTotal.map(e=>chartArr.push(Object.values(e)))):console.log(typeof isChartTotal)
+const chartOriginArr = [];
+const chartArr=[]
 
+    typeof isChartTotal === 'object'?(isChartTotal.map(e=>chartOriginArr.push(Object.values(e)))):<></>
+chartOriginArr
+    ?.slice(dataLength, chartOriginArr.length)
+    .forEach((item) => chartArr.push(item));
+  // console.log(coinArray);
 let date = dataToArray(chartArr,1)
 let open = dataToArray(chartArr,2)
 let close = dataToArray(chartArr,3)
@@ -42,14 +46,15 @@ let volFrom = dataToArray(chartArr,7)
     }
 
     //페이지 진입 시 초기 차트 길이 세팅
-    const defaultLimit  = 20;
+    const defaultLimit  = 200;
 
     const dataWheelHandler = () => {
 
         window.onwheel = function (e) {
+            let set = isChartTotal.length*0.05
         e.deltaY > 0
-            ? setDataLength(dataLength < 5.5 ? dataLength + 0 : dataLength - isChartTotal.length*0.05)
-            : setDataLength(dataLength > defaultLimit - 5.5 ? dataLength + 0 : dataLength + isChartTotal.length*0.05);
+            ? setDataLength(dataLength < 8 ? dataLength + 0 : dataLength - 8)
+            : setDataLength(dataLength > 175 ? dataLength : dataLength + 8);
     };
     };
     const onMouseLeaveHandler = () => {
@@ -103,6 +108,7 @@ let volFrom = dataToArray(chartArr,7)
         {/* <h6 className="chart_cp">{name} {ST_CurrentPrice.toLocaleString()}</h6> */}
         </div>
         <Candle
+            currentPrice={currentPrice}
             date = {date}
             open = {open}
             close = {close}
@@ -115,6 +121,9 @@ let volFrom = dataToArray(chartArr,7)
             name={name}
         />
         <Volume
+            currentPrice={currentPrice}
+            open = {open}
+            close = {close}
             volTo={volTo}
             volFrom={volFrom}
             width={size.width} 
