@@ -9,7 +9,11 @@ import Tutorials from "./Tutorials";
 const Navigator =({/*company*/})=>{
     const [pdModalIsOpen, setPdModalIsOpen] = useState(false);
     const [tutorialsClicked,setTutorialsClicked] = useState(false)
-    useEffect(()=>{},[pdModalIsOpen]);
+    // const [isDate, setIsDate] = useState(0);
+    // let date = (59-new Date().getMinutes())%5+":"+(59-new Date().getSeconds());
+    // useEffect(()=>{
+    //     setIsDate(date)
+    // },[pdModalIsOpen]);
 
     const countNumber=(e)=>{
         return e.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,",")
@@ -77,7 +81,6 @@ const Navigator =({/*company*/})=>{
         document.body.style.overflow = 'unset';
         setPdModalIsOpen(false)
         }
-        const date = (59-new Date().getMinutes())%5+":"+(59-new Date().getSeconds())
         const {chainId, account, active, activate, deactivate} = useWeb3React();
 
         // Tutorial(account,tutorialCnt-1)
@@ -126,7 +129,7 @@ const Navigator =({/*company*/})=>{
         </Modal>
 
     </div>
-    <h4>Until the Next Dividend Release {date}</h4>
+    <h4>Until the Next Dividend Release {}</h4>
     <div className="navigation_right">
         <h4 onClick={()=>setTutorialsClicked(!tutorialsClicked)}>Tutorials</h4>
         {tutorialsClicked?<Tutorials account={account} tutorialCnt={0}/>:<></>}

@@ -15,15 +15,33 @@ import axios from "axios"
 
 // import {FaucetWallet} from '../apis/user'
 const MainPage =()=>{
+    const [currentPrice, setCurrentPrice] = useState(0)
     const [isLoading, setIsLoading] = useState(true);
     const [isEnroll,setIsEnroll] =useState({});
     const [userPosition,setUserPosition] = useState();
     const [copy, setCopy] = useState('');
+    const [number, setNumber] = useState(0);
+    const currentPrice_ref = useRef({});
+
+    useEffect(() => {
+        const setChartRTD=(async () => 
+        {try {
+            currentPrice_ref.current = await axios.get('http://localhost:5050/rtd')
+            setCurrentPrice(currentPrice_ref.current.data)
+        } catch (e) {
+        console.log(e) // caught
+        }
+    })
+        const loop = setInterval(() => {
+        setChartRTD()
+        clearInterval(loop);
+        }, 100);
+    }, [currentPrice_ref.current]);
+
     const {chainId, account, active, activate, deactivate} = useWeb3React();
     const copyHandler = (e) => {
         copy = e;
     }
-
 
     // URL
     const origin = "http://localhost:5050/";
@@ -49,40 +67,26 @@ const MainPage =()=>{
     // }
     // getRTD()
 
-
-    const setChartRTD=(async () => 
-        {try {
-            const resultRTD = await axios.get('http://localhost:5050/rtd')
-            return resultRTD
-        } catch (e) {
-        console.log(e) // caught
-        }
-    })
-
-
     const Position = async(wallet) => {
         if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
         const resultPosition = await axios.get(position + wallet)
         .then(res=>res.data)
         .then(err=>err)
         setUserPosition(resultPosition)
-        return  resultPosition
     }
     const EnrollWallet = async(wallet) => {
         if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
         const resultEnrollWallet =  await axios.post(enroll + wallet)
         .then(res=>res.data)
         .then(err=>err)
-        return  setIsEnroll(resultEnrollWallet)
+        setIsEnroll(resultEnrollWallet)
     }
     useEffect(()=>{
         Position(account)
         EnrollWallet(account)
     },[account]);
 
-    setInterval(() => {
-        setChartRTD()
-    }, 1000);
+
         const onMouseEnterHandler = () => {
             document.body.style.overflow = 'unset';
         }
@@ -97,7 +101,9 @@ const MainPage =()=>{
         <Header isLoading={isLoading} onMouseEnter={onMouseEnterHandler}/>
         <Navigator/>
         <div className="main_head">
-            <Chart/>
+            <Chart
+                currentPrice={currentPrice}
+            />
             <LimitOrderBook
                 powerOfMarket={0}
                 ST_CurrentPrice={0} 
