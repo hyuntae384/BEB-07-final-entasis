@@ -275,7 +275,7 @@ div.btn:hover{
     padding: 0 20px;
     width: 100%;
     height: 32px;
-    background-color:#242424;
+    background-color:#121212;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -308,7 +308,7 @@ div.public_disclosure_wrapper h4{
     width: 65.625%;
     max-height: 620px;
     height: 620px;
-    background-color:#242424;
+    background-color:#121212;
     transition: 0.4s;
 }
 .chart_wrapper:hover{
@@ -318,7 +318,7 @@ div.public_disclosure_wrapper h4{
     margin: 2.5px;
     width: 16.666%;
     height: 620px;
-    background-color:#242424;
+    background-color:#121212;
     overflow: hidden;
 
 }
@@ -326,7 +326,7 @@ div.public_disclosure_wrapper h4{
     margin: 2.5px;
     width: 16.666%;
     height: 620px;
-    background-color:#242424;
+    background-color:#121212;
 }
 .main_assets, .historys{
 
@@ -334,7 +334,7 @@ div.public_disclosure_wrapper h4{
     width: 50%;
     min-height: 300px;
     height: auto;
-    background-color:#242424;
+    background-color:#121212;
 }
 .main_assets_menu,  .historys_menu{
     width: 100%;
@@ -355,7 +355,7 @@ div.public_disclosure_wrapper h4{
     margin: 2.5px 0 0 0;
     width: 100%;
     height: auto;
-    background-color:#242424;
+    background-color:#121212;
 }
 .main_head{
     display: flex;
@@ -384,7 +384,7 @@ div.public_disclosure_wrapper h4{
     align-items: center;
     display: flex;
     justify-content: space-around;
-    background-color:#333333;
+    background-color:#1d1d1d;
 }
 .limit_order_book_menu{
     margin: 10px 0;
@@ -393,7 +393,7 @@ div.public_disclosure_wrapper h4{
     color: #474747;
 }
 .market_order{
-    margin: 10% 0;
+    margin: 5% 0;
     display: flex;
     justify-content: space-around;
 }
@@ -424,7 +424,7 @@ div.public_disclosure_wrapper h4{
     margin: 5px 5px;
     padding: 1% 5px;
     height: 25px;
-    background-color: #333333;
+    background-color: #1d1d1d;
     font-size: 12px;
 }
 .main_bottom_right{
@@ -449,7 +449,7 @@ div.public_disclosure_wrapper h4{
 }
 
 .market_data_container{
-    background-color: #333333;
+    background-color: #1d1d1d;
     width: 34%;
     height: 300px;
     margin: 5px 0;
@@ -604,7 +604,7 @@ div.public_disclosure_wrapper h4{
     opacity: 0.4;}
  .congratulations{
     border-radius: 5px;
-    margin: 5% 0;
+    margin: 1% 0;
     width: 100%;
     height: auto;
     

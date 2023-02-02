@@ -70,7 +70,7 @@ return(
     <div className="chart_wrapper"
         onWheel={() => {
             window.onwheel = function (e) {
-                let set = defaultLimit*0.01
+                let set = defaultLimit*0.05
                 e.deltaY > 0  
                 ? setDataLength(dataLength < 1 ? dataLength + 0 : dataLength - set)
                 : setDataLength(dataLength > defaultLimit*0.95 ? dataLength + 0  : dataLength + set)
