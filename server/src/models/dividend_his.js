@@ -19,7 +19,8 @@ module.exports = (sequelize, DataTypes) => {
     income: DataTypes.INTEGER,
     dividend_ratio: DataTypes.STRING,
     dividend: DataTypes.INTEGER,
-    next_ratio: DataTypes.STRING
+    next_ratio: DataTypes.STRING,
+    voted_ratio: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'dividend_his',
