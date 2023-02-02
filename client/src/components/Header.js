@@ -10,7 +10,7 @@ import Tutorials from './Tutorials';
 import SelectBox from './Select';
 import { Vote } from '../apis/company';
 import axios from 'axios';
-import Welcome from '../pages/WelcomePage';
+import Welcome from '../pages/TransactionsPage';
 
 // import {Vote} from '../apis/company'
 const Header =()=> {

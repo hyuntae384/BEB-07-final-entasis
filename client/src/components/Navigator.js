@@ -1,6 +1,7 @@
 import { useWeb3React } from "@web3-react/core";
 import { useState, useEffect } from "react"
 import Modal from "react-modal"
+import { Link } from "react-router-dom";
 import { Tutorial } from "../apis/user";
 import '../assets/css/main.css';
 import SelectBox from './Select';
@@ -133,7 +134,8 @@ const Navigator =({/*company*/})=>{
     <div className="navigation_right">
         <h4 onClick={()=>setTutorialsClicked(!tutorialsClicked)}>Tutorials</h4>
         {tutorialsClicked?<Tutorials account={account} tutorialCnt={0}/>:<></>}
-        <h4>Transaction</h4>
+        
+        <Link to='/transaction'><h4>Transaction</h4></Link>
     </div>
 
     </div>
