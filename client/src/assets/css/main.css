@@ -302,7 +302,7 @@ div.public_disclosure_wrapper h4{
 .navigation_right h4{
     margin-left: 20px;
 }
-.chart{
+.chart_wrapper{
     margin: 2.5px;
     padding: 0.5%;
     width: 65.625%;
@@ -311,7 +311,7 @@ div.public_disclosure_wrapper h4{
     background-color:#242424;
     transition: 0.4s;
 }
-.chart:hover{
+.chart_wrapper:hover{
     filter: brightness(1.2);
 }
 .limit_order_book{

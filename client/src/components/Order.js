@@ -18,7 +18,6 @@ const Order =()=>{
     const web3 = new Web3(
         window.ethereum || "http://18.182.9.156:8545"
     );
-    const BN = web3.utils.BN;
     const StABI = TokenABI.abi
     const tokenContract = new web3.eth.Contract(StABI, '0x526d736D99c08A4c14Ff13a92Ad8FFa3649F7Cce');
     
@@ -44,7 +43,7 @@ const Order =()=>{
     }
     // 판매
     async function SendToken(){
-        const data = await tokenContract.methods.transfer('0x48c02B8aFddD9563cEF6703df4DCE1DB78A6b2Eb', BN(web3.utils.toWei(amount))).encodeABI()
+        const data = await tokenContract.methods.transfer('0x48c02B8aFddD9563cEF6703df4DCE1DB78A6b2Eb', web3.utils.toWei(amount)).encodeABI()
         const tx = {
             from: userAccount,
             to: tokenContract._address,
@@ -52,6 +51,7 @@ const Order =()=>{
             gas: 210000,
             gasPrice: 100000000
         }
+
         await web3.eth.sendTransaction(tx)
         SellToken(pubName, String(price), String(amount), userAccount)
     }

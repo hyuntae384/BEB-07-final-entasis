@@ -19,8 +19,7 @@ const LimitOrderBook =({ST_CurrentPrice, powerOfMarket})=>{
             name:"bebe",
             price:(ST_CurrentPrice+priceSet*(i+1))>0?ST_CurrentPrice+priceSet*(i+1):0,
             amount:(-amountSellSet*(i+1))>0.3?-amountSellSet*(i+1):0.3*(i+1),
-
-        };console.log(amountSellSet)
+        };
 
         let buyOrder={
             id:5+i,
