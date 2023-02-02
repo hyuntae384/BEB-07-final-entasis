@@ -95,7 +95,7 @@ const MainPage =()=>{
                 currentPrice={currentPrice}
             />
             <LimitOrderBook
-                powerOfMarket={10}
+                powerOfMarket={-10}
                 ST_CurrentPrice={currentPrice.close} 
             />
             <Order/>
