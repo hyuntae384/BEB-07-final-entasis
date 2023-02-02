@@ -14,66 +14,48 @@ const Order =()=>{
     const countNumber=(e)=>{
         return e.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,",")
     }
-    // 0xB681351a6F6018e8736e60aa46D1e18306d36A95
+    const pubName = 'exchange';
     const web3 = new Web3(
         window.ethereum || "http://18.182.9.156:8545"
     );
+    const BN = web3.utils.BN;
     const StABI = TokenABI.abi
-    const tokenContract = new web3.eth.Contract(StABI, '0x9464E6A0B91720B9a7f18e8A96ABeB01b72a139C');
+    const tokenContract = new web3.eth.Contract(StABI, '0x526d736D99c08A4c14Ff13a92Ad8FFa3649F7Cce');
     
-    //console.log(userAccount);
-    // web3.eth.getAccounts().then(console.log);
     const userAccount = useWeb3React().account;
     function priceChange(e){
         let curprice = e.target.value;
         setPrice(curprice)
-        //console.log(price)
     }
 
     function amountChange(e){
         let curamount = e.target.value;
         setAmount(curamount)
-        console.log();
     }
-
-    /* function SignTrans(){
-        const signTx = web3.eth.signTransaction({
-            from: userAccount,
-            gasPrice: "20000000000",
-            gas: "21000",
-            to: '0x9c3B07e4d0E97d08dF6EB4320687f8C64D0dacCB',
-            value: "10000000000000000"
-        }).then(console.log)
-
-        if (signTx.rawTransaction) {
-            web3.eth.sendSignedTransaction(signTx.rawTransaction);
-        }
-    } */
-
+    // 구매
     async function SendETH(){
-        const pubName = 'exchange';
-        console.log(pubName);
-        console.log(userAccount)
-        console.log(price);
-        console.log(amount);
         const totalValue = amount * price * 1.0004;
-        console.log(totalValue);
         web3.eth.sendTransaction({
             from: userAccount,
-            to: '0x1289E91BB5Fd7F7769E367AAdEaD3Ee1a1829e69',
+            to: '0x48c02B8aFddD9563cEF6703df4DCE1DB78A6b2Eb',
             value: web3.utils.toWei(String(totalValue), 'ether')
         });
         BuyToken(pubName, String(price), String(amount), userAccount)
     }
-
-    /* async function SendETH(){
-        console.log(userAccount)
-         web3.eth.sendTransaction({
+    // 판매
+    async function SendToken(){
+        const data = await tokenContract.methods.transfer('0x48c02B8aFddD9563cEF6703df4DCE1DB78A6b2Eb', BN(web3.utils.toWei(amount))).encodeABI()
+        const tx = {
             from: userAccount,
-            to: '0xD60e1416BE8657b8858443f2320D007672056eF5',
-            value: '1000000000000000000'
-        });
-    } */
+            to: tokenContract._address,
+            data: data,
+            gas: 210000,
+            gasPrice: 100000000
+        }
+        await web3.eth.sendTransaction(tx)
+        SellToken(pubName, String(price), String(amount), userAccount)
+    }
+    // 판매 구매 조건실행 구현 필요
     const ST_1 = {
         name:'BEBE',price:'200',amount:'20'
     };
@@ -100,17 +82,16 @@ const Order =()=>{
             </div>
             <input type="text" className="order_amount" onChange={e => amountChange(e)} placeholder='Amount'></input>
             <div className="make_order">
-                <button className="order_buy" >
+                <button type="button" className="order_buy" onClick={SendETH}>
                     <h5>Buy</h5>
                     <h5>Max Open {} ETH</h5>
                 </button>
-                <button className="order_sell" >
+                <button type="button" className="order_sell" onClick={SendToken}>
                     <h5>Sell</h5>
                     <h5>Max Open {} ST</h5>
                 </button>
             </div>
         </form>
-        <button onClick={SendETH}><h5>HI</h5></button>
         <div className='assets'>
                             <h4>Assets</h4>
                             <div className='assets_wraper'>

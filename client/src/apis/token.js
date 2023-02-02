@@ -17,7 +17,7 @@ export const BuyToken = async(name,price,amount,wallet) => {
 }
 export const SellToken = async(name,price,amount,wallet) => {
     if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
-    const resultSellToken =  axios.post(sell, {"name":name,"price":price,"amount":amount,"wallet":wallet})
+    const resultSellToken = await axios.post(sell, {"name":name,"price":price,"amount":amount,"wallet":wallet})
     .then(res=>res)
     .then(err=>err)
     return  resultSellToken
