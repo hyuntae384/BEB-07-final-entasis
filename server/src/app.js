@@ -91,7 +91,7 @@ setInterval(async() => {
 
   let volume = (1 + stv*50)*(1+incomeRatio*50)>0?(1 + stv*50)*(1+incomeRatio*50):1
   let price = chartHis[0][chartHis[0].length-1]>0.5?chartHis[0][chartHis[0].length-1]:0.5;
-  chart_his([price * (1 + stv)*(1+incomeRatio) * (1+volume/1000000), volume])
+  chart_his([price * (1 + stv)*(1+incomeRatio) * (1+volume/10000), volume])
 }, 500);
 
 setInterval(async () => {
