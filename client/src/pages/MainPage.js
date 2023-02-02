@@ -1,15 +1,13 @@
 import Chart from "../components/Chart/Chart"
 import LimitOrderBook from '../components/LimitOrderBook'
 import Order from '../components/Order'
-import OrderList from "../components/OrderList"
-import Assets
-from "../components/Assets"
+import Assets from "../components/Assets"
 import Footer from "../components/Footer"
 import Navigator from "../components/Navigator"
 import Header from "../components/Header"
 import { useEffect, useState, useRef } from "react"
 import Historys from "../components/Historys"
-import Welcome from "./WelcomePage"
+import Welcome from "./TransactionsPage"
 import { useWeb3React } from "@web3-react/core"
 import axios from "axios"
 
@@ -22,7 +20,8 @@ const MainPage =()=>{
     const [copy, setCopy] = useState('');
     const [number, setNumber] = useState(0);
     const currentPrice_ref = useRef({});
-
+    // console.log(currentPrice.close)
+    let powerOfMarket = (currentPrice.open - currentPrice.close)
     useEffect(() => {
         const setChartRTD=(async () => 
         {try {
@@ -35,8 +34,9 @@ const MainPage =()=>{
         const loop = setInterval(() => {
         setChartRTD()
         clearInterval(loop);
+        powerOfMarket = 0;
         }, 100);
-    }, [currentPrice_ref.current]);
+    }, [currentPrice_ref.current,]);
 
     const {chainId, account, active, activate, deactivate} = useWeb3React();
     const copyHandler = (e) => {
@@ -76,8 +76,6 @@ const MainPage =()=>{
         Position(account)
         EnrollWallet(account)
     },[account]);
-
-
         const onMouseEnterHandler = () => {
             document.body.style.overflow = 'unset';
         }
@@ -95,7 +93,7 @@ const MainPage =()=>{
                 currentPrice={currentPrice}
             />
             <LimitOrderBook
-                powerOfMarket={-10}
+                powerOfMarket={-powerOfMarket}
                 ST_CurrentPrice={currentPrice.close} 
             />
             <Order/>
