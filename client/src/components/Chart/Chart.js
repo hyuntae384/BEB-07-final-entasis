@@ -5,34 +5,18 @@ import SelectBox from "../Select";
 import Candle from "./data/Candle"
 import Volume from "./data/Volume"
 
-const Chart =({currentPrice})=>{
+const Chart =({currentPrice, chartOriginArr})=>{
     const [name, setName] = useState("BEBE");
-    // const [defaultLimit, setdefaultLimit] = useState(1000);
-    const [dataLength, setDataLength] = useState(2);
+    const [defaultLimit, setdefaultLimit] = useState(100);
+    const [dataLength, setDataLength] = useState(10);
     const [isChartTotal, setIsChartTotal] = useState(true);
     const [chartToggle,setChartToggle] = useState(false)
     const [chartArr,setChartArr]=useState([]);
     const currentPrice_ref = useRef({});
-
-
-    
-
-
-    // const chartArr = [];
-    const setChartTotal=(async() => 
-        {try {
-            const resultTotal = await axios.get('http://localhost:5050/chart/total')
-            setIsChartTotal(resultTotal.data)
-            // console.log(resultTotal.data)
-
-        } catch (e) {
-        console.log(e) // caught
-        }
-    })
+    const chartDataLimit=[]
 
     useEffect(() => {
         const loop = setInterval(() => {
-            // console.log(chartArr)
             if(`${new Date().getSeconds()}`===`0`){
                 let index = chartArr[chartArr.length-1]!==undefined?chartArr[chartArr.length-1][0]:undefined
                 let createdAtB= currentPrice.createdAt;
@@ -52,34 +36,34 @@ const Chart =({currentPrice})=>{
                     totalVolToB,
                     totalVolFromB,
                 ]);
-
             }
         clearInterval(loop);
         }, 1000);
     }, [new Date().getSeconds()]);
+    // console.log(chartOriginArr)
 
-    let limitChartArr=[];
+useEffect(()=>{
+    chartOriginArr
+    ?.slice(dataLength, 1000)
+    .forEach((item) => chartArr.push(item)); 
 
-    if(!chartToggle&&typeof isChartTotal === 'object'){
-        const chartOriginArr = [];
-        (isChartTotal.map(e=>chartOriginArr.push(Object.values(e))))
-        limitChartArr = chartOriginArr
-        setChartToggle(true)
+},[chartOriginArr,dataLength,chartArr])
+ 
+        //페이지 진입 시 초기 차트 길이 세팅
 
-    }
+        //전체 데이터 1 회 받음
+        //렌더링 되지 않음
+        //
+
+
     const dataWheelHandler = () => {
-
         window.onwheel = function (e) {
-            let set = limitChartArr.length*0.05
+            // let set = chartArr.length*0.05
         e.deltaY > 0
-            ? setDataLength(dataLength < 5 ? dataLength + 0 : dataLength - set)
-            : setDataLength(dataLength > 175 ? dataLength : dataLength + set);
+            ? setDataLength(dataLength < 5 ? dataLength + 0 : dataLength - 8)
+            : setDataLength(dataLength > defaultLimit ? dataLength + 0  : dataLength + 8);
         };
     };
-    limitChartArr
-    ?.slice(dataLength, limitChartArr.length)
-    .forEach((item) => chartArr.push(item));
-    // console.log(chartArr)
 
     let date = dataToArray(chartArr,1)
     let open = dataToArray(chartArr,2)
@@ -100,8 +84,6 @@ const Chart =({currentPrice})=>{
         document.body.style.overflow = 'hidden';
     }
 
-    //페이지 진입 시 초기 차트 길이 세팅
-    const defaultLimit  = 200;
 
 
     const onMouseLeaveHandler = () => {
@@ -114,7 +96,6 @@ const Chart =({currentPrice})=>{
         height: 0,
         });
         useEffect (() => {
-            setChartTotal()
         // Handler to call on window resize
         function handleResize() {
             // Set window width/height to state

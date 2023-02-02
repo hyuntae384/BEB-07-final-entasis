@@ -10,6 +10,7 @@ import Historys from "../components/Historys"
 import Welcome from "./TransactionsPage"
 import { useWeb3React } from "@web3-react/core"
 import axios from "axios"
+import ChartWrapper from "../components/Chart/ChartWrapper"
 
 // import {FaucetWallet} from '../apis/user'
 const MainPage =()=>{
@@ -89,7 +90,7 @@ const MainPage =()=>{
         <Header isLoading={isLoading} onMouseEnter={onMouseEnterHandler}/>
         <Navigator/>
         <div className="main_head">
-            <Chart
+            <ChartWrapper
                 currentPrice={currentPrice}
             />
             <LimitOrderBook

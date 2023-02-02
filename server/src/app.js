@@ -91,7 +91,7 @@ setInterval(async() => {
 
   let volume = (1 + stv*50)*(1+incomeRatio*50)>0?(1 + stv*50)*(1+incomeRatio*50):1
   let price = chartHis[0][chartHis[0].length-1]>0.5?chartHis[0][chartHis[0].length-1]:0.5;
-  chart_his([price * (1 + stv)*(1+incomeRatio) * (1+volume/1000000), volume])
+  chart_his([price * (1 + stv)*(1+incomeRatio) * (1+volume/10000), volume])
 }, 500);
 
 setInterval(async () => {
@@ -110,12 +110,13 @@ setInterval(async () => {
   setIncomeRatio();
   setDividendRatio();
   let income = incomeRatio * chartHis[0][0] * await getTotalSupply()
-  await dividend_his.create({
+  await dividend_his.create({ // 수정 필요
     company_wallet: process.env.ADMIN_ADDRESS,
     income: income,
-    dividend_ratio:  dividend_ratio,
-    dividend: dividend_ratio * income,
-    next_ratio: dividend_ratio * incomeRatio
+    dividend_ratio: dividend_ratio, // 직전 배당률 -> 수정해야함
+    voted_ratio: dividend_ratio, // 투표 결과 배당률
+    dividend: dividend_ratio * income, // 총 배당금
+    next_ratio: dividend_ratio * incomeRatio // 차기배당률
   })
 }, 300000);
 
