@@ -7,44 +7,6 @@ import Volume from "./data/Volume"
 
 const Chart =({currentPrice, chartArr,defaultLimit,dataLength})=>{
     const [name, setName] = useState("BEBE");
-    // const [chartArr,setChartArr]=useState([]);
-    const currentPrice_ref = useRef({});
-    const chartDataLimit=[]
-
-    useEffect(() => {
-        const loop = setInterval(() => {
-            if(`${new Date().getSeconds()}`===`0`){
-                let index = chartArr[chartArr.length-1]!==undefined?chartArr[chartArr.length-1][0]:undefined
-                let createdAtB= currentPrice.createdAt;
-                let openB= currentPrice.open;
-                let closeB= currentPrice.close;
-                let highB= currentPrice.high;
-                let lowB= currentPrice.low;
-                let totalVolToB= currentPrice.totalVolTo;
-                let totalVolFromB= currentPrice.totalVolFrom;
-                chartArr.push([
-                    index,
-                    createdAtB,
-                    openB,
-                    closeB,
-                    highB,
-                    lowB,
-                    totalVolToB,
-                    totalVolFromB,
-                ]);
-            }
-        clearInterval(loop);
-        }, 1000);
-    }, [new Date().getSeconds()]);
-    // console.log(chartOriginArr)
-
-
- 
-        //페이지 진입 시 초기 차트 길이 세팅
-
-        //전체 데이터 1 회 받음
-        //렌더링 되지 않음
-        //
 
 
 
