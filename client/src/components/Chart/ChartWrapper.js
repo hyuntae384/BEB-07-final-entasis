@@ -38,8 +38,6 @@ const ChartWrapper =({currentPrice})=>{
         setDefaultLimit(chartOriginArr.length)
         setChartArr(chartOriginArr
             ?.slice(dataLength, defaultLimit))
-            console.log(dataLength,chartOriginArr.length)
-            // console.log(chartArr)
             // console.log(chartArr)
 
     },[chartOriginArr,dataLength,defaultLimit])
@@ -48,7 +46,7 @@ const ChartWrapper =({currentPrice})=>{
             if(`${new Date().getSeconds()}`===`0`){
                 let index = chartArr[chartArr.length-1]!==undefined?chartArr[chartArr.length-1][0]+1:undefined
                 let createdAtB= currentPrice.createdAt;
-                let openB= typeof chartArr[chartArr.length-1]==='object'&&!isNaN(chartArr[chartArr.length-1][2]) ?chartArr[chartArr.length-1][2]:currentPrice.open;
+                let openB= typeof chartArr[chartArr.length-1]==='object'&&!isNaN(chartArr[chartArr.length-1][3]) ?chartArr[chartArr.length-1][3]:currentPrice.open;
                 let closeB= currentPrice.close;
                 let highB= currentPrice.high;
                 let lowB= currentPrice.low;
@@ -64,7 +62,7 @@ const ChartWrapper =({currentPrice})=>{
                     totalVolToB,
                     totalVolFromB,
                 ]);
-            }
+            }  
         clearInterval(loop);
         }, 1000);
     }, [new Date().getSeconds(),chartArr]);
