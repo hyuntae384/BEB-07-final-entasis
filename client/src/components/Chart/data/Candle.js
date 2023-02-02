@@ -1,5 +1,7 @@
 import {scaleLinear} from 'd3-scale'
+import { useState } from 'react';
 import dataToArray from '../../../functions/data_to_array'
+import { MouseTracker } from '../../../functions/MouseTracker';
 
 const Candle =({ 
     currentPrice,
@@ -9,7 +11,8 @@ const Candle =({
     high,
     low,
     width, height, defaultLimit, dataLength, name,})=>{
-
+    const [pointer,setPointer]=useState({x:0,y:0})
+    
     let SVG_CHART_WIDTH = typeof width === "number" ? width * 1 : 0;
     let SVG_CHART_HEIGHT = typeof height === "number" ? height * 1 : 0;
 
@@ -72,12 +75,22 @@ const Candle =({
         return xValue
         };
         generateDate();
-
+        const handleMouseMove=(e)=>{
+            setPointer({
+                x: e.clientX,
+                y: e.clientY
+            })
+        }
     return(
     <div className="candle">
         <br/>
         <div>
-            <svg width={SVG_CHART_WIDTH} height={SVG_CHART_HEIGHT}>
+            <svg 
+            onMouseMove={handleMouseMove}
+            width={SVG_CHART_WIDTH} 
+            height={SVG_CHART_HEIGHT}
+            >
+            
                 {/* <text
                 x={x0 + 15}
                 y={y0 + yAxisLength * 0.06}
@@ -137,6 +150,7 @@ const Candle =({
                 const yValue = (
                     dataYMax - index * (dataYRange / numYTicks)
                 );
+                
                 return (
                     <g key={index}>
                     <line
@@ -153,6 +167,33 @@ const Candle =({
                     </g>
                 );
                 })}
+                <line
+                        x1={pointer.x<SVG_CHART_WIDTH*0.93&&(pointer.y<550)?pointer.x-11:0}
+                        x2={pointer.x<SVG_CHART_WIDTH*0.93&&(pointer.y<550)?pointer.x-11:0}
+                        y1={0}
+                        y2={SVG_CHART_HEIGHT-25}
+                        stroke='#00fbff'
+                        opacity={0.3}
+                        ></line>
+                        <line
+                        x1={0}
+                        x2={SVG_CHART_WIDTH-65}
+                        y1={pointer.x<SVG_CHART_WIDTH*0.93&&(pointer.y<550)?(pointer.y-135):0}
+                        y2={pointer.x<SVG_CHART_WIDTH*0.93&&(pointer.y<550)?(pointer.y-135):0}
+                        stroke='#00fbff'
+                        opacity={0.3}
+                        ></line>
+                        <text
+                        x={SVG_CHART_WIDTH-60}
+                        y={pointer.x<SVG_CHART_WIDTH*0.93&&(pointer.y<550)?(pointer.y-135):0}
+                        fill='#00fbff'
+                        stroke='#00fbff'
+                        opacity={0.5}
+                        fontSize='13px'
+                        > 
+                        {(dataYMin + dataYMax*(1-(pointer.y/415-0.3253))).toFixed(3).toLocaleString()}
+                        </text>
+                    {console.log(pointer.x)}
                 {/* 캔들 구현 */}
                 {dataArray.map(
                 (
@@ -206,12 +247,8 @@ const Candle =({
                         >
                         {typeof scaleY(currentPrice.close)==='number'?currentPrice.close:0}
                         </text>
-                        {/* {dataArray[dataArray.length]?
-                        <div> */}
+                        
 
-
-                        {/* </div>
-                        :<></>} */}
                     </g>
                     );
                 }
