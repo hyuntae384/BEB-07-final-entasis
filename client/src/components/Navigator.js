@@ -127,18 +127,16 @@ const Navigator =({/*company*/})=>{
                 <h2>Next Dividend Ratio</h2>
                     <h3>{company.divided_ratio*100+'%'} * ( 1 + {company.next_ratio} ) = {company.divided_ratio * company.next_ratio} %</h3>   
             </div>
-        </Modal>
+            </Modal>
+            </div>
+            <h4>Until the Next Dividend Release {date}</h4>
+            <div className="navigation_right">
+            <Link to='/' onClick={()=>setTutorialsClicked(!tutorialsClicked)}><h4 >Tutorials</h4></Link>
+                {tutorialsClicked?<Tutorials account={account} tutorialCnt={0}/>:<></>}
+                <Link to='/transaction'><h4>Transaction</h4></Link>
+            </div>
 
-    </div>
-    <h4>Until the Next Dividend Release {date}</h4>
-    <div className="navigation_right">
-        <h4 onClick={()=>setTutorialsClicked(!tutorialsClicked)}>Tutorials</h4>
-        {tutorialsClicked?<Tutorials account={account} tutorialCnt={0}/>:<></>}
-        
-        <Link to='/transaction'><h4>Transaction</h4></Link>
-    </div>
-
-    </div>
+        </div>
     )
 }
 export default Navigator
