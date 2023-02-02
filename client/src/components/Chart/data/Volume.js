@@ -51,7 +51,7 @@ const Volume =({
     const dataYMin = 0
     const dataYRange = dataYMax;
     const numYTicks = 7;
-    const barPlothWidth = xAxisLength / (dataArray.length+1.2);
+    const barPlothWidth = xAxisLength / (dataArray.length);
     // dataArray[dataArray.length] = /*현재 거래량 */
     return(
     <div className="volume">

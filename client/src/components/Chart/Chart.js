@@ -8,7 +8,7 @@ import Volume from "./data/Volume"
 const Chart =({currentPrice})=>{
     const [name, setName] = useState("BEBE");
     // const [defaultLimit, setdefaultLimit] = useState(1000);
-    const [dataLength, setDataLength] = useState(10);
+    const [dataLength, setDataLength] = useState(2);
     const [isChartTotal, setIsChartTotal] = useState(true);
     const [chartToggle,setChartToggle] = useState(false)
     const [chartArr,setChartArr]=useState([]);
@@ -16,32 +16,6 @@ const Chart =({currentPrice})=>{
 
 
     
-    useEffect(() => {
-        const loop = setInterval(() => {
-            if(`${new Date().getSeconds()}`==='00'){
-                let index = chartArr[chartArr.length-1]!==undefined?chartArr[chartArr.length-1][0]:undefined
-                let createdAtB= currentPrice.createdAt;
-                let openB= currentPrice.open;
-                let closeB= currentPrice.close;
-                let highB= currentPrice.high;
-                let lowB= currentPrice.low;
-                let totalVolToB= currentPrice.totalVolTo;
-                let totalVolFromB= currentPrice.totalVolFrom;
-
-                chartArr.push([
-                    index,
-                    createdAtB,
-                    openB,
-                    closeB,
-                    highB,
-                    lowB,
-                    totalVolToB,
-                    totalVolFromB,
-                ]);
-            }
-        clearInterval(loop);
-        }, 999);
-    }, [new Date().getSeconds()]);
 
 
     // const chartArr = [];
@@ -55,7 +29,36 @@ const Chart =({currentPrice})=>{
         console.log(e) // caught
         }
     })
-    let limitChartArr=[]
+
+    useEffect(() => {
+        const loop = setInterval(() => {
+            // console.log(chartArr)
+            if(`${new Date().getSeconds()}`===`0`){
+                let index = chartArr[chartArr.length-1]!==undefined?chartArr[chartArr.length-1][0]:undefined
+                let createdAtB= currentPrice.createdAt;
+                let openB= currentPrice.open;
+                let closeB= currentPrice.close;
+                let highB= currentPrice.high;
+                let lowB= currentPrice.low;
+                let totalVolToB= currentPrice.totalVolTo;
+                let totalVolFromB= currentPrice.totalVolFrom;
+                chartArr.push([
+                    index,
+                    createdAtB,
+                    openB,
+                    closeB,
+                    highB,
+                    lowB,
+                    totalVolToB,
+                    totalVolFromB,
+                ]);
+
+            }
+        clearInterval(loop);
+        }, 1000);
+    }, [new Date().getSeconds()]);
+
+    let limitChartArr=[];
 
     if(!chartToggle&&typeof isChartTotal === 'object'){
         const chartOriginArr = [];
@@ -64,9 +67,19 @@ const Chart =({currentPrice})=>{
         setChartToggle(true)
 
     }
+    const dataWheelHandler = () => {
+
+        window.onwheel = function (e) {
+            let set = limitChartArr.length*0.05
+        e.deltaY > 0
+            ? setDataLength(dataLength < 5 ? dataLength + 0 : dataLength - set)
+            : setDataLength(dataLength > 175 ? dataLength : dataLength + set);
+        };
+    };
     limitChartArr
     ?.slice(dataLength, limitChartArr.length)
     .forEach((item) => chartArr.push(item));
+    // console.log(chartArr)
 
     let date = dataToArray(chartArr,1)
     let open = dataToArray(chartArr,2)
@@ -90,15 +103,7 @@ const Chart =({currentPrice})=>{
     //페이지 진입 시 초기 차트 길이 세팅
     const defaultLimit  = 200;
 
-    const dataWheelHandler = () => {
 
-        window.onwheel = function (e) {
-            let set = isChartTotal.length*0.05
-        e.deltaY > 0
-            ? setDataLength(dataLength < 8 ? dataLength + 0 : dataLength - set)
-            : setDataLength(dataLength > 175 ? dataLength : dataLength + set);
-    };
-    };
     const onMouseLeaveHandler = () => {
         document.body.style.overflow = 'unset';
     }

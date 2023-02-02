@@ -63,8 +63,8 @@ let incomeRatio=0;
 let dividend_ratio = 0.03;
 let chartHis = [[1.2],[1]];
 let chartData
-const setStv =()=>{stv = Math.random()*(0.003-(-0.00301))-0.003;};
-const setIncomeRatio =()=>{incomeRatio = Math.random()*(0.003-(-0.00301))-0.003;};
+const setStv =()=>{stv = Math.random()*(0.005-(-0.00501))-0.005;};
+const setIncomeRatio =()=>{incomeRatio = Math.random()*(0.001-(-0.00101))-0.001;};
 const setDividendRatio = () => {dividend_ratio = (Math.random()*(0.05-(-0.05))-0.05).toFixed(2);};
 let chart_his =(e)=>{ chartHis[0].push(e[0]);chartHis[1].push(e[1]) }
 let totalVolFrom = 0;
@@ -89,7 +89,7 @@ setInterval(async() => {
     totalVolFrom:totalVolFrom.toFixed(4)
   }
 
-  let volume = (1 + stv*90)*(1+incomeRatio*90)>0?(1 + stv*90)*(1+incomeRatio*90):1
+  let volume = (1 + stv*50)*(1+incomeRatio*50)>0?(1 + stv*50)*(1+incomeRatio*50):1
   let price = chartHis[0][chartHis[0].length-1]>0.5?chartHis[0][chartHis[0].length-1]:0.5;
   chart_his([price * (1 + stv)*(1+incomeRatio) * (1+volume/1000000), volume])
 }, 500);
