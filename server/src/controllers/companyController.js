@@ -17,12 +17,12 @@ module.exports = {
             const stake = balance / totalsupply
             // 당기순이익, 배당률 난수로 생성
             // 당기순이익 * 배당률 * stake 해서 나온 값을 전송
-            const dividend = await sendEtherToUser(user_wallet, "결정된 배당금");
+            const dividend = await sendEtherToUser(user_wallet, "할당된 배당금");
             if(dividend){
                 await dividend_his.create({
                     company_wallet: company.wallet,
                     income: "난수로 설정된 당기순이익",
-                    dividend_ratio: "난수로 설정된 배당금",
+                    dividend_ratio: "난수로 설정된 배당률",
                     dividend: "총 배당금",
                     next_ratio: "차기 배당금" // 이건 어떻게 생성하는지 모르겠음...
                 });

@@ -20,7 +20,6 @@ export const FaucetWallet = async(wallet) => {
     .then(res=>res.data.status)
     // .then(err=>err)
     .catch((error)=>{
-        console.log(error.response.data.message)
         return error.response.data.message
     })
     return resultFaucetWallet
@@ -60,11 +59,4 @@ export const Position = async(wallet) => {
     .then(res=>res)
     .then(err=>err)
     return  resultPosition
-}
-export const Account = async(wallet) => {
-    if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
-    const resultAccount =  axios.get(account + wallet)
-    .then(res=>res)
-    .then(err=>err)
-    return  resultAccount
 }

@@ -7,6 +7,7 @@
     box-sizing: border-box;
     list-style: none;
     text-decoration: none;
+    font-family:sans-serif;
 }
 
 :root{
@@ -93,6 +94,9 @@
     align-items: center;
 
 }
+.myaccount_wrapper{
+    
+}
 .myaccount_wrapper_name_top{
     display: flex;
     align-items: baseline;
@@ -128,10 +132,8 @@ div.btn:hover{
 .myaccount .myaccount_wrapper{
     margin: 10% 1%;
 }
-.myaccount .deposit, .myaccount .exercise_of_voting_rights{
-    margin-top: 10%;
 
-}
+
 .myaccount .deposit_wrapper{
     margin: 1%;
 }
@@ -139,10 +141,23 @@ div.btn:hover{
     color: var(--Primary-color);
     
 }
-.myaccount h2,.myaccount h3,.myaccount h4,.myaccount h5{
-
+.myaccount h2, .myaccount h3,.myaccount h4,.myaccount h5,.myaccount h6{
     color: var(--gray-light-color);
+
 }
+.myaccount .deposit, .myaccount .exercise_of_voting_rights{
+    margin-top: 10%;
+}
+.exercise_of_voting_rights_wrapper  h2, .exercise_of_voting_rights_wrapper  h3,.exercise_of_voting_rights_wrapper  h4,.exercise_of_voting_rights_wrapper  h5,.exercise_of_voting_rights_wrapper  h6{
+    text-align: center;
+}
+.exercise_of_voting_rights_time_limit{
+    transition: 0.4s;
+}
+.exercise_of_voting_rights_time_limit:hover{
+    filter: brightness(1.5);
+}
+
 .myaccount .vote_btn h5{
     color:rgb(198, 87, 46);
     background-color: var(--gray-dark-color);
@@ -212,6 +227,11 @@ div.btn:hover{
     bottom: 0%;
     padding: 2%;
     justify-content: space-between;
+    border: 1px solid var(--gray-dark-color);
+    transition: 0.4s;
+}
+.exercise_of_voting_rights_wrapper:hover{
+    filter: brightness(1.3);
 }
 .exercise_of_voting_rights_wrapper .body{
     display: flex;
@@ -220,10 +240,23 @@ div.btn:hover{
     margin-top: 20px;
     padding: 0 30%;
 }
-.up h5{
+.right, .middle, .left{ 
+    width: 33.33%;
+}
+.right h6, .left h6{ 
+    color: var(--Primary-color);
+}
+.right h6:hover, .middle h6:hover, .left h6:hover{ 
+    filter: brightness(1.5);
+}
+.right h5,.middle h5,.left h5{
+    text-align: center;
+    align-items: center;
+}
+.up h6{
     color: var(--Secondary-color);
 }
-.down h5{
+.down h6{
     color:var(--onPrimary-color);
 }
 .st_select{
@@ -239,17 +272,47 @@ div.btn:hover{
 
 .navigator{
     margin: 5px 0px 2.5px 0;
+    padding: 0 20px;
     width: 100%;
-    height: 30px;
+    height: 32px;
     background-color:#242424;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
-.chart{
+div.public_disclosure_wrapper h4{
+    margin: 0px;
+    width: 220px;
+}
+.navigator div{
+    width: 33.33%;
+
+}
+.navigator h4{
+    color:var(--gray-light-color);
+    transition: 0.4s;
+    filter: brightness(1);}
+.navigator h4:hover{
+    filter: brightness(2);
+}
+.navigation_right{
+    justify-content: right;
+    display: flex;
+}
+.navigation_right h4{
+    margin-left: 20px;
+}
+.chart_wrapper{
     margin: 2.5px;
     padding: 0.5%;
     width: 65.625%;
     max-height: 620px;
     height: 620px;
     background-color:#242424;
+    transition: 0.4s;
+}
+.chart_wrapper:hover{
+    filter: brightness(1.2);
 }
 .limit_order_book{
     margin: 2.5px;
@@ -300,17 +363,8 @@ div.btn:hover{
 .main_bottom{
     display: flex;
 }
-.navigator .public_disclosure_wrapper{
-    width: 200px;
-    padding: 5px;
-}
-.right, .middle, .left{ 
-    width: 33.33%;
-}
-.right h5,.middle h5,.left h5{
-    text-align: center;
-    align-items: center;
-}
+
+
 
 .limit_order_buy{
     color: var(--Primary-color);
@@ -349,6 +403,12 @@ div.btn:hover{
 }
 .limit_order_buy:hover,.limit_order_sell:hover,.market_order:hover{
     filter: brightness(0.9);
+}
+.history_wrapper,.asset_wrapper{
+    transition: 0.4s;
+}
+.history_wrapper:hover,.asset_wrapper:hover{
+    filter: brightness(1.5);
 }
 .history_wrapper div, .asset_wrapper div{
     width: 60px;

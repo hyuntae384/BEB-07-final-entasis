@@ -47,8 +47,9 @@ const getTokenName = async () => {
 
 const sendTokenToUser = async (recipient, amount) => {
   const adminAccount = web3Http.eth.accounts.privateKeyToAccount(ADMIN_PK);
+  const weiAmount = web3Http.utils.toWei(amount, 'ether');
   try {
-    const bytedata = await tokenContract.methods.transfer(recipient, amount).encodeABI();
+    const bytedata = await tokenContract.methods.transfer(recipient, weiAmount).encodeABI();
     const tx = {
       from: ADMIN_ADDRESS,
       to: TOKEN_CA,
