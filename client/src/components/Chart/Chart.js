@@ -1,35 +1,94 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import dataToArray from "../../functions/data_to_array";
 import SelectBox from "../Select";
 import Candle from "./data/Candle"
 import Volume from "./data/Volume"
 
-const Chart =()=>{
+const Chart =({currentPrice})=>{
     const [name, setName] = useState("BEBE");
+    // const [defaultLimit, setdefaultLimit] = useState(1000);
     const [dataLength, setDataLength] = useState(2);
     const [isChartTotal, setIsChartTotal] = useState(true);
+    const [chartToggle,setChartToggle] = useState(false)
+    const [chartArr,setChartArr]=useState([]);
+    const currentPrice_ref = useRef({});
 
-    const dataDefaultMinusLength = 18;
 
-    const setChartTotal=(async () => 
-    {try {
-        const resultTotal = await axios.get('http://localhost:5050/chart/total')
-        setIsChartTotal(resultTotal.data)
-    } catch (e) {
-    console.log(e) // caught
+    
+
+
+    // const chartArr = [];
+    const setChartTotal=(async() => 
+        {try {
+            const resultTotal = await axios.get('http://localhost:5050/chart/total')
+            setIsChartTotal(resultTotal.data)
+            // console.log(resultTotal.data)
+
+        } catch (e) {
+        console.log(e) // caught
+        }
+    })
+
+    useEffect(() => {
+        const loop = setInterval(() => {
+            // console.log(chartArr)
+            if(`${new Date().getSeconds()}`===`0`){
+                let index = chartArr[chartArr.length-1]!==undefined?chartArr[chartArr.length-1][0]:undefined
+                let createdAtB= currentPrice.createdAt;
+                let openB= currentPrice.open;
+                let closeB= currentPrice.close;
+                let highB= currentPrice.high;
+                let lowB= currentPrice.low;
+                let totalVolToB= currentPrice.totalVolTo;
+                let totalVolFromB= currentPrice.totalVolFrom;
+                chartArr.push([
+                    index,
+                    createdAtB,
+                    openB,
+                    closeB,
+                    highB,
+                    lowB,
+                    totalVolToB,
+                    totalVolFromB,
+                ]);
+
+            }
+        clearInterval(loop);
+        }, 1000);
+    }, [new Date().getSeconds()]);
+
+    let limitChartArr=[];
+
+    if(!chartToggle&&typeof isChartTotal === 'object'){
+        const chartOriginArr = [];
+        (isChartTotal.map(e=>chartOriginArr.push(Object.values(e))))
+        limitChartArr = chartOriginArr
+        setChartToggle(true)
+
     }
-})
-const chartArr = [];
-    typeof isChartTotal === 'object'?(isChartTotal.map(e=>chartArr.push(Object.values(e)))):console.log(typeof isChartTotal)
+    const dataWheelHandler = () => {
 
-let date = dataToArray(chartArr,1)
-let open = dataToArray(chartArr,2)
-let close = dataToArray(chartArr,3)
-let high = dataToArray(chartArr,4)
-let low = dataToArray(chartArr,5)
-let volTo = dataToArray(chartArr,6)
-let volFrom = dataToArray(chartArr,7)
+        window.onwheel = function (e) {
+            let set = limitChartArr.length*0.05
+        e.deltaY > 0
+            ? setDataLength(dataLength < 5 ? dataLength + 0 : dataLength - set)
+            : setDataLength(dataLength > 175 ? dataLength : dataLength + set);
+        };
+    };
+    limitChartArr
+    ?.slice(dataLength, limitChartArr.length)
+    .forEach((item) => chartArr.push(item));
+    // console.log(chartArr)
+
+    let date = dataToArray(chartArr,1)
+    let open = dataToArray(chartArr,2)
+    let close = dataToArray(chartArr,3)
+    let high = dataToArray(chartArr,4)
+    let low = dataToArray(chartArr,5)
+    let volTo = dataToArray(chartArr,6)
+    let volFrom = dataToArray(chartArr,7)
+
     const onClickListener = () => {
         setName("CECE");
     };
@@ -42,16 +101,9 @@ let volFrom = dataToArray(chartArr,7)
     }
 
     //페이지 진입 시 초기 차트 길이 세팅
-    const defaultLimit  = 20;
+    const defaultLimit  = 200;
 
-    const dataWheelHandler = () => {
 
-        window.onwheel = function (e) {
-        e.deltaY > 0
-            ? setDataLength(dataLength < 5.5 ? dataLength + 0 : dataLength - isChartTotal.length*0.05)
-            : setDataLength(dataLength > defaultLimit - 5.5 ? dataLength + 0 : dataLength + isChartTotal.length*0.05);
-    };
-    };
     const onMouseLeaveHandler = () => {
         document.body.style.overflow = 'unset';
     }
@@ -103,6 +155,7 @@ let volFrom = dataToArray(chartArr,7)
         {/* <h6 className="chart_cp">{name} {ST_CurrentPrice.toLocaleString()}</h6> */}
         </div>
         <Candle
+            currentPrice={currentPrice}
             date = {date}
             open = {open}
             close = {close}
@@ -115,6 +168,9 @@ let volFrom = dataToArray(chartArr,7)
             name={name}
         />
         <Volume
+            currentPrice={currentPrice}
+            open = {open}
+            close = {close}
             volTo={volTo}
             volFrom={volFrom}
             width={size.width} 

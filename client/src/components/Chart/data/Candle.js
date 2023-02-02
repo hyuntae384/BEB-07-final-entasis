@@ -2,14 +2,13 @@ import {scaleLinear} from 'd3-scale'
 import dataToArray from '../../../functions/data_to_array'
 
 const Candle =({ 
+    currentPrice,
     date,
     open,
     close,
     high,
     low,
     width, height, defaultLimit, dataLength, name,})=>{
-
-
 
     let SVG_CHART_WIDTH = typeof width === "number" ? width * 1 : 0;
     let SVG_CHART_HEIGHT = typeof height === "number" ? height * 1 : 0;
@@ -21,6 +20,7 @@ const Candle =({
     const y0 = 0;
         const dataArray = [];
 
+        
     for (let i = 0; i < date.length; i++) {
         dataArray.push([
             date[i],
@@ -30,17 +30,35 @@ const Candle =({
             low[i],
         ]);
     }
-    const dataYMax = dataArray.reduce(
-        (max, [_, open, close, high, low]) => (Math.max(max, high, /*차트 최대값 */)+0.0005),
+
+    // if(`${currentPrice.createdAt}`.slice(18,-5)!=='0'){
+            // }else{
+    //     dataArray.push([`${currentPrice.createdAt}`,`${currentPrice.open}`,`${currentPrice.close}`,`${currentPrice.high}`,`${currentPrice.low}`]);
+    //     dataArray.push([currentPrice.createdAt,currentPrice.close,currentPrice.close,currentPrice.close,currentPrice.close]);
+
+    // }String()
+    if(`${new Date().getSeconds()}`===`0`){
+        currentPrice.high = currentPrice.close
+        currentPrice.low = currentPrice.close
+    }
+        dataArray[dataArray.length] = [
+            String(currentPrice.createdAt),
+            typeof dataArray[dataArray.length-1]==='object'&&!dataArray[dataArray.length-1][2].isNaN ?dataArray[dataArray.length-1][2]:currentPrice.open,
+            currentPrice.close,
+                currentPrice.high,
+                    currentPrice.low
+        ];
+        const dataYMax = dataArray.reduce(
+        (max, [_, open, close, high, low]) => (Math.max(max, high,currentPrice.high)+0.0005),
         -Infinity
     );
     const dataYMin = dataArray.reduce(
-        (min, [_, open, close, high, low]) => (Math.min(min, low, /*차트 최저값 */)-0.0005),
+        (min, [_, open, close, high, low]) => (Math.min(min, low,currentPrice.low)-0.0005),
         +Infinity
     );
     const dataYRange = dataYMax - dataYMin;
     const numYTicks = 7;
-    const barPlothWidth = xAxisLength / (dataArray.length+1.2);
+    const barPlothWidth = xAxisLength / (dataArray.length);
     const numXTicks = dataArray.length>12?12:dataArray.length;
 
     const xValue= [];
@@ -48,12 +66,10 @@ const Candle =({
         for (let i = 0; i < 12; i++) {
           xValue.push(date[Math.round(date.length / 12) * i]);
         }
-        return xValue;
+        return xValue
         };
         generateDate();
-        // dataArray[dataArray.length] = RTD;
-        
-        
+
     return(
     <div className="candle">
         <br/>
@@ -69,7 +85,7 @@ const Candle =({
                 }
                 stroke='#ffffff'
                 >
-                {name} {ST_CurrentPrice.toLocaleString()}
+                {name} {currentPrice.close}
                 </text> */}
                 <line
                 x1={x0}
@@ -106,7 +122,7 @@ const Candle =({
                         stroke='#474747'
                         fontSize={SVG_CHART_WIDTH < 800 ? 8 : 10}
                     >
-                        {xValue[index]}
+                        {`${xValue[index]}`.slice(14,-5)}
                     </text>
                     </g>
                 );
@@ -162,7 +178,7 @@ const Candle =({
                         x2={x + (barPlothWidth - sidePadding) / 2}
                         y1={(yAxisLength - scaleY(low))==='NaN' ? 0 : yAxisLength - scaleY(low)}
                         y2={(yAxisLength - scaleY(high))==='NaN' ? 0 : yAxisLength - scaleY(high)}
-                        stroke={open > close ? "#b8284a" : "#00A4D8"}
+                        stroke={close > open ? "#00A4D8" : "#b8284a"}
                         />
 
                         <rect
@@ -174,19 +190,19 @@ const Candle =({
                         height={(scaleY(max) - scaleY(min))>1?scaleY(max) - scaleY(min):1}
                         ></rect>
 
-                        {/* <line
+                        <line
                         className="lineLight"
                         x1={xAxisLength+10}
                         x2={x0}
-                        y1={(yAxisLength - scaleY(ST_CurrentPrice))==='NaN' ? 0 : yAxisLength - scaleY(ST_CurrentPrice)}
-                        y2={(yAxisLength - scaleY(ST_CurrentPrice))==='NaN' ? 0 : yAxisLength - scaleY(ST_CurrentPrice)}
-                        stroke={open > close ? "#E33F64" : "#00A4D8"}
+                        y1={(yAxisLength - scaleY(currentPrice.close))==='NaN' ? 0 : yAxisLength - scaleY(currentPrice.close)}
+                        y2={(yAxisLength - scaleY(currentPrice.close))==='NaN' ? 0 : yAxisLength - scaleY(currentPrice.close)}
+                        stroke={close > open ? "#00A4D8" : "#b8284a"}
                         ></line>
-                        <text x={SVG_CHART_WIDTH - 60} y={typeof scaleY(ST_CurrentPrice)==='number'?yAxisLength - scaleY(ST_CurrentPrice):0} fontSize="12" fill= 
-                        {open > close ? "#E33F64" : "#00A4D8"} 
+                        <text x={SVG_CHART_WIDTH - 60} y={typeof scaleY(currentPrice.close)==='number'?yAxisLength - scaleY(currentPrice.close):0} fontSize="12" fill= 
+                        {close > open ? "#00A4D8" : "#b8284a"} 
                         >
-                        {typeof scaleY(ST_CurrentPrice)==='number'?ST_CurrentPrice.toLocaleString():0} ETH
-                        </text> */}
+                        {typeof scaleY(currentPrice.close)==='number'?currentPrice.close:0} ETH
+                        </text>
                         {/* {dataArray[dataArray.length]?
                         <div> */}
 

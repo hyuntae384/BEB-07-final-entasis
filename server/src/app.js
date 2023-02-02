@@ -61,17 +61,16 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 let stv=0;
 let incomeRatio=0;
 let dividend_ratio = 0.03;
-let chartHis = [[1.2],[100]];
+let chartHis = [[1.2],[1]];
 let chartData
-const setStv =()=>{stv = Math.random()*(0.01-(-0.0101))-0.01;};
-const setIncomeRatio =()=>{incomeRatio = Math.random()*(0.05-(-0.051))-0.05;};
+const setStv =()=>{stv = Math.random()*(0.005-(-0.00501))-0.005;};
+const setIncomeRatio =()=>{incomeRatio = Math.random()*(0.001-(-0.00101))-0.001;};
 const setDividendRatio = () => {dividend_ratio = (Math.random()*(0.05-(-0.05))-0.05).toFixed(2);};
 let chart_his =(e)=>{ chartHis[0].push(e[0]);chartHis[1].push(e[1]) }
 let totalVolFrom = 0;
 let totalVolTo = 0;
 
 setInterval(async() => {
-  // console.log(chartData)
   chartHis[1].forEach(element => {totalVolTo+=element});  
   setStv()
   chartData = {
@@ -89,27 +88,28 @@ setInterval(async() => {
     totalVolTo:totalVolTo.toFixed(4),
     totalVolFrom:totalVolFrom.toFixed(4)
   }
-  let volume = 100 * (1 + stv*90)*(1+incomeRatio*90)>0?100 * (1 + stv*90)*(1+incomeRatio*90):1
-  let price = chartHis[0][chartHis[0].length-1]>0.5?chartHis[0][chartHis[0].length-1]:0.5;
-  chart_his([price * (1 + stv)*(1+incomeRatio) * (1+volume/10000000), volume])
-  // console.log(chartData);
-  // console.log(new Date().getTime())
-}, 1000);
 
-//1분
+  let volume = (1 + stv*50)*(1+incomeRatio*50)>0?(1 + stv*50)*(1+incomeRatio*50):1
+  let price = chartHis[0][chartHis[0].length-1]>0.5?chartHis[0][chartHis[0].length-1]:0.5;
+  chart_his([price * (1 + stv)*(1+incomeRatio) * (1+volume/1000000), volume])
+}, 500);
+
 setInterval(async () => {
-  await price_his.create(chartData)
-  totalVolFrom = totalVolTo
-  totalVolTo=0
-  chartHis[0].splice(0,chartHis[0].length-1);
-  chartHis[1].splice(0,chartHis[1].length-1);
-}, 60000);
+  if(`${new Date()}`.slice(22,-32)==='00'){
+    console.log(chartData)
+    price_his.create(chartData)
+    totalVolFrom = totalVolTo
+    totalVolTo=0
+    chartHis[0].splice(0,chartHis[0].length-1);
+    chartHis[1].splice(0,chartHis[1].length-1);
+  }
+}, 1000);
 
 //5분
 setInterval(async () => {
   setIncomeRatio();
   setDividendRatio();
-  let income = incomeRatio * chartHis[0][0] * getTotalSupply
+  let income = incomeRatio * chartHis[0][0] * await getTotalSupply()
   await dividend_his.create({
     company_wallet: process.env.ADMIN_ADDRESS,
     income: income,
@@ -117,7 +117,7 @@ setInterval(async () => {
     dividend: dividend_ratio * income,
     next_ratio: dividend_ratio * incomeRatio
   })
-}, 30000);
+}, 300000);
 
 app.get('/chart/total', async (req, res, next) => {
   // const { offset, limit } = req.query;

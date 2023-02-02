@@ -4,8 +4,10 @@ import dataToArray from '../../../functions/data_to_array'
 import PublicDisclosure from '../../PublicDisclosure';
 
 const Volume =({ 
+    currentPrice,
+    open,
+    close,
     volTo,
-    volFrom,
     width, 
     height, 
     defaultLimit, 
@@ -22,25 +24,34 @@ const Volume =({
     const yAxisLength = SVG_VOLUME_HEIGHT-10;
     const x0 = 0;
     const y0 = 0;
-    let dataArray=[]
-    console.log(volTo)
-    // for (let i = 0; i < volFrom.length; i++) {
-    //     dataArray.push([
-    //         0,
-    //         volFrom
-    //     ]
-    //     );
+    const dataArray=[]
+    for (let i = 0; i < volTo.length; i++) {
+        dataArray.push([
+            i,
+            volTo[i],
+            open[i],
+            close[i]
+        ]
+        );
+    }
+    // if(`${currentPrice.createdAt}`.slice(18,-5)!=='0'){
+        dataArray[dataArray.length] = [dataArray.length,currentPrice.totalVolTo,currentPrice.open,currentPrice.close];
+    // }else{
+    //     dataArray.push([`${dataArray.length}`,`${currentPrice.totalVolTo}`,`${currentPrice.open}`,`${currentPrice.close}`]);
+    //     dataArray.push([dataArray.length+1,0,currentPrice.close,currentPrice.close]);
+
     // }
+
     const dataYMax = dataArray.reduce(
         (max, [_, vol]) => Math.max(vol, /*현재 거래량 */ max),
         -Infinity
+        
     );
-    console.log(dataArray)
 
     const dataYMin = 0
     const dataYRange = dataYMax;
     const numYTicks = 7;
-    const barPlothWidth = xAxisLength / (dataArray.length+1.2);
+    const barPlothWidth = xAxisLength / (dataArray.length);
     // dataArray[dataArray.length] = /*현재 거래량 */
     return(
     <div className="volume">
@@ -80,15 +91,8 @@ const Volume =({
                     </g>
                 );
                 })}
-                {/* {console.log(dataArray)} */}
                 {dataArray.map(
-                (
-                    [
-                    _,
-                    vol
-                    ],
-                    index
-                ) => {
+                ([index, vol, open, close]) => {
                     const x = x0 + index * barPlothWidth;
                     const sidePadding = xAxisLength * 0.0015;
                     let yRatio = 0;
@@ -99,14 +103,15 @@ const Volume =({
                         } else return (yRatio = vol / dataYRange);
                     };
 
-                    const y = y0 + (1 - yRatioGenerator()) * yAxisLength+5;
-                    const fill = vol ? "#b8284a" : "#00A4D8" ;
+                    const y = y0 + (1 - yRatioGenerator()) * yAxisLength;
+                    const height = yRatioGenerator() * yAxisLength;
+                    const fill = open>close ? "#b8284a" : "#00A4D8" ;
                     return (
                     <g key={index}>
                         <rect
                         {...{ fill }}
                         x={x}
-                        y={y!== null ?y:10}
+                        y={y}
                         width={barPlothWidth - sidePadding}
                         height={height}
                         ></rect>
