@@ -43,11 +43,14 @@ const Candle =({
     }
         dataArray[dataArray.length] = [
             String(currentPrice.createdAt),
-            typeof dataArray[dataArray.length-1]==='object'&&!dataArray[dataArray.length-1][2].isNaN ?dataArray[dataArray.length-1][2]:currentPrice.open,
+            typeof dataArray[dataArray.length-1]==='object'&&!isNaN(dataArray[dataArray.length-1][2]) ?dataArray[dataArray.length-1][2]:currentPrice.open,
             currentPrice.close,
                 currentPrice.high,
                     currentPrice.low
         ];
+
+
+        
         const dataYMax = dataArray.reduce(
         (max, [_, open, close, high, low]) => (Math.max(max, high,currentPrice.high)+0.0005),
         -Infinity
@@ -145,7 +148,7 @@ const Candle =({
                         stroke='#474747'
                     ></line>
                     <text x={SVG_CHART_WIDTH - 60} y={y + 10} fontSize="10" stroke='#474747' >
-                        {typeof yValue === 'number'?yValue.toLocaleString():0} ETH
+                        {typeof yValue === 'number'?yValue.toLocaleString():0}
                     </text>
                     </g>
                 );
@@ -201,7 +204,7 @@ const Candle =({
                         <text x={SVG_CHART_WIDTH - 60} y={typeof scaleY(currentPrice.close)==='number'?yAxisLength - scaleY(currentPrice.close):0} fontSize="12" fill= 
                         {close > open ? "#00A4D8" : "#b8284a"} 
                         >
-                        {typeof scaleY(currentPrice.close)==='number'?currentPrice.close:0} ETH
+                        {typeof scaleY(currentPrice.close)==='number'?currentPrice.close:0}
                         </text>
                         {/* {dataArray[dataArray.length]?
                         <div> */}
