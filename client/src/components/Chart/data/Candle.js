@@ -45,8 +45,8 @@ const Candle =({
             String(currentPrice.createdAt),
             typeof dataArray[dataArray.length-1]==='object'&&!isNaN(dataArray[dataArray.length-1][2]) ?dataArray[dataArray.length-1][2]:currentPrice.open,
             currentPrice.close,
-                currentPrice.high,
-                    currentPrice.low
+            currentPrice.high,
+            currentPrice.low
         ];
 
 
