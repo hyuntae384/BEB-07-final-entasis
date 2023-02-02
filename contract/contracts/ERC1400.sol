@@ -123,9 +123,8 @@ contract ERC1400 is ERC1400Interface, OwnerHelper {
     }
 
     function transfer(address recipient, uint amount) public virtual override returns (bool) {
-        uint e18_amount = amount * E18;
-        _transfer(msg.sender, recipient, e18_amount);
-        emit Transfer(msg.sender, recipient, e18_amount);
+        _transfer(msg.sender, recipient, amount);
+        emit Transfer(msg.sender, recipient, amount);
         return true;
     }
 
