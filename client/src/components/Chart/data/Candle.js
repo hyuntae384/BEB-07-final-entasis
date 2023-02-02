@@ -48,7 +48,6 @@ const Candle =({
                 currentPrice.high,
                     currentPrice.low
         ];
-        console.log(dataArray[dataArray.length-1])
         const dataYMax = dataArray.reduce(
         (max, [_, open, close, high, low]) => (Math.max(max, high,currentPrice.high)+0.0005),
         -Infinity
