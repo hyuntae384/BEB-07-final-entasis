@@ -18,7 +18,8 @@ const Chart =({currentPrice})=>{
     
     useEffect(() => {
         const loop = setInterval(() => {
-            if(`${new Date().getSeconds()}`.slice(1)==='0'){
+            if(`${new Date().getSeconds()}`==='00'){
+                let index = chartArr[chartArr.length-1]!==undefined?chartArr[chartArr.length-1][0]:undefined
                 let createdAtB= currentPrice.createdAt;
                 let openB= currentPrice.open;
                 let closeB= currentPrice.close;
@@ -28,7 +29,7 @@ const Chart =({currentPrice})=>{
                 let totalVolFromB= currentPrice.totalVolFrom;
 
                 chartArr.push([
-                    chartArr[chartArr.length-1]!==undefined?chartArr[chartArr.length-1][0]:undefined,
+                    index,
                     createdAtB,
                     openB,
                     closeB,

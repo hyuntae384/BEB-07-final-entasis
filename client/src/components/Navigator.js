@@ -10,7 +10,7 @@ const Navigator =({/*company*/})=>{
     const [pdModalIsOpen, setPdModalIsOpen] = useState(false);
     const [tutorialsClicked,setTutorialsClicked] = useState(false)
     // const [isDate, setIsDate] = useState(0);
-    // let date = (59-new Date().getMinutes())%5+":"+(59-new Date().getSeconds());
+    let date = (59-new Date().getMinutes())%5+":"+(59-new Date().getSeconds());
     // useEffect(()=>{
     //     setIsDate(date)
     // },[pdModalIsOpen]);
@@ -129,7 +129,7 @@ const Navigator =({/*company*/})=>{
         </Modal>
 
     </div>
-    <h4>Until the Next Dividend Release {}</h4>
+    <h4>Until the Next Dividend Release {date}</h4>
     <div className="navigation_right">
         <h4 onClick={()=>setTutorialsClicked(!tutorialsClicked)}>Tutorials</h4>
         {tutorialsClicked?<Tutorials account={account} tutorialCnt={0}/>:<></>}
