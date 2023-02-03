@@ -20,18 +20,20 @@ const ChartWrapper =({currentPrice})=>{
         setChartOriginArr(limitChartArr)
         setChartToggle(true)
     }
+
     useEffect(()=>{
         setDefaultLimit(chartOriginArr.length)
     },[chartOriginArr])
+
     useEffect(()=>{
         const setChartTotal=(async() => 
-        {try {
-            const resultTotal = await axios.get('http://localhost:5050/chart/total')
-            setIsChartTotal(resultTotal.data)
-        } catch (e) {
-        console.log(e) 
-        }
-    })
+            {try {
+                const resultTotal = await axios.get('http://localhost:5050/chart/total')
+                setIsChartTotal(resultTotal.data)
+            } catch (e) {
+            console.log(e) 
+            }
+        })
         setChartTotal()
         setChartArr(chartOriginArr
             ?.slice(dataLength, defaultLimit))

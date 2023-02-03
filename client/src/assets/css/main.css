@@ -380,7 +380,6 @@ div.public_disclosure_wrapper h4{
 .limit_order_buy,.limit_order_sell{
     margin: 1.5% 0;
     padding: 4% 0 ;
-    /* min-height: 40px; */
     align-items: center;
     display: flex;
     justify-content: space-around;
@@ -400,7 +399,7 @@ div.public_disclosure_wrapper h4{
 }
 .limit_order_buy div,.limit_order_sell div,.market_order div{
     text-align: center;
-    width: 25%;
+    width: 50px;
 }
 .limit_order_buy:hover,.limit_order_sell:hover,.market_order:hover{
     filter: brightness(0.9);
@@ -789,4 +788,8 @@ input{
 }
 .marketData_chart_bar{
     align-items: baseline;
+}
+
+.RTD_move{
+    transition: 0.2s;
 }
