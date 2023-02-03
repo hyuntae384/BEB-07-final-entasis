@@ -18,10 +18,15 @@ const Order =()=>{
     const web3 = new Web3(
         window.ethereum || "http://18.182.9.156:8545"
     );
-    const StABI = TokenABI.abi
-    const tokenContract = new web3.eth.Contract(StABI, '0x526d736D99c08A4c14Ff13a92Ad8FFa3649F7Cce');
-    
+    //가나슈 변경사항 생길 시 건드려야 할 부분
+    const contractAccount = '0x04794606b3065df94ef3398aA2911e56abE169B6';
+    const serverAccount = '0x48c02B8aFddD9563cEF6703df4DCE1DB78A6b2Eb';
+    // -----------------------------------------------------------------
     const userAccount = useWeb3React().account;
+    const StABI = TokenABI.abi
+    const tokenContract = new web3.eth.Contract(StABI, contractAccount);
+
+
     function priceChange(e){
         let curprice = e.target.value;
         setPrice(curprice)
@@ -36,14 +41,16 @@ const Order =()=>{
         const totalValue = amount * price * 1.0004;
         web3.eth.sendTransaction({
             from: userAccount,
-            to: '0x48c02B8aFddD9563cEF6703df4DCE1DB78A6b2Eb',
+            to: serverAccount,
             value: web3.utils.toWei(String(totalValue), 'ether')
+        }).then(function(receipt){
+            console.log(receipt)
+            BuyToken(pubName, String(price), String(amount), userAccount)
         });
-        BuyToken(pubName, String(price), String(amount), userAccount)
     }
     // 판매
     async function SendToken(){
-        const data = await tokenContract.methods.transfer('0x48c02B8aFddD9563cEF6703df4DCE1DB78A6b2Eb', web3.utils.toWei(amount)).encodeABI()
+        const data = await tokenContract.methods.transfer(serverAccount, web3.utils.toWei(amount)).encodeABI()
         const tx = {
             from: userAccount,
             to: tokenContract._address,
@@ -52,8 +59,10 @@ const Order =()=>{
             gasPrice: 100000000
         }
 
-        await web3.eth.sendTransaction(tx)
-        SellToken(pubName, String(price), String(amount), userAccount)
+        await web3.eth.sendTransaction(tx).then(function(receipt){
+            console.log(receipt)
+            SellToken(pubName, String(price), String(amount), userAccount)
+        })
     }
     // 판매 구매 조건실행 구현 필요
     const ST_1 = {
