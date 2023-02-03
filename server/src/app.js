@@ -14,7 +14,7 @@ const tokenRouter = require('./routes/tokenRouter');
 const chartRouter = require('./routes/chartRouter');
 
 const logger = require('./logger');
-const { sequelize, price_his, dividend_his } = require('./models');
+const { sequelize, price_his, dividend_his, position_his } = require('./models');
 const {limiter} = require('./limit');
 const {getSimpleTotalSupply, showAllTokenHolders, getTokenBalance, getTotalSupply} = require('./chainUtils/tokenUtils');
 const {sendEtherToUser, sendWeiToUser, getEtherBalance} = require('./chainUtils/etherUtils');
@@ -132,16 +132,21 @@ setInterval(async () => {
       const balance = await getTokenBalance(tokenholders[i]);
       const stake = balance / totalSupply;
       const personalDividend = String((dividend * stake).toFixed(18))
-      const result = await sendWeiToUser(tokenholders[i], personalDividend);
-      console.log(result);
+      await sendWeiToUser(tokenholders[i], personalDividend);
+      // const result = await getEtherBalance(tokenholders[i]);
+      // console.log(result);
+
+      await position_his.create({
+        user_wallet: tokenholders[i],
+        order: "dividend",
+        price: personalDividend,
+        company_name: "exchange"
+      })
     }
   }
-  // const balance1 = await getEtherBalance('0xD60e1416BE8657b8858443f2320D007672056eF5');
-  // const balance2 = await getEtherBalance('0x48c02B8aFddD9563cEF6703df4DCE1DB78A6b2Eb');
-  // console.log(balance1);
-  // console.log(balance2);
 
-  dividend_ratio = (dividend_ratio * (1 + Number(voted_ratio))).toFixed(4) // 차기 배당률
+  // 차기 배당률
+  dividend_ratio = (dividend_ratio * (1 + Number(voted_ratio))).toFixed(4) 
 
 }, 30000);
 
