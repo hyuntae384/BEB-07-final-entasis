@@ -25,9 +25,29 @@ const getTotalSupply = async () => {
   }
 };
 
+const getSimpleTotalSupply = async () => {
+  try {
+    const totalSupply = await tokenContract.methods.simpleTotalSupply().call();
+    return totalSupply;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+};
+
 const getTokenBalance = async (account) => {
   try {
     const balance = await tokenContract.methods.balanceOf(account).call();
+    return balance;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+};
+
+const getSimpleTokenBalance = async (account) => {
+  try {
+    const balance = await tokenContract.methods.simpleBalanceOf(account).call();
     return balance;
   } catch (err) {
     console.error(err);
@@ -114,13 +134,26 @@ const isRestricted = async () => {
   }
 };
 
+const showAllTokenHolders = async () => {
+  try {
+    const tokenholders = await tokenContract.methods.showAllTokenHolders().call();
+    return tokenholders;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+};
+
 module.exports = { 
   getTotalSupply,
+  getSimpleTotalSupply,
   getTokenBalance, 
+  getSimpleTokenBalance,
   getTokenName, 
   signAndSendTx, 
   sendTokenToUser,
   restrictToken,
   allowToken,
-  isRestricted
+  isRestricted,
+  showAllTokenHolders
 };

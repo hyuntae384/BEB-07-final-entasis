@@ -14,9 +14,10 @@ const tokenRouter = require('./routes/tokenRouter');
 const chartRouter = require('./routes/chartRouter');
 
 const logger = require('./logger');
-const { sequelize, price_his, dividend_his } = require('./models');
+const { sequelize, price_his, dividend_his, position_his } = require('./models');
 const {limiter} = require('./limit');
-const {getTotalSupply} = require('./chainUtils/tokenUtils')
+const {getSimpleTotalSupply, showAllTokenHolders, getTokenBalance, getTotalSupply} = require('./chainUtils/tokenUtils');
+const {sendEtherToUser, sendWeiToUser, getEtherBalance} = require('./chainUtils/etherUtils');
 const app = express();
 app.set('port', process.env.PORT || 5050);
 app.set('view engine', 'ejs');
@@ -109,17 +110,43 @@ setInterval(async () => {
   setIncomeRatio();
   setVotedRatio();
   let incomeRatioSet = incomeRatio>0 ? incomeRatio : 0.0001
-  let income = incomeRatioSet * chartHis[0][chartHis[0].length-1] * await getTotalSupply()
+  let income = (incomeRatioSet * chartHis[0][chartHis[0].length-1] * await getSimpleTotalSupply()).toFixed(10)
+  console.log(income);
+  let dividend = dividend_ratio * income;
   await dividend_his.create({ // 수정 필요
     company_wallet: process.env.ADMIN_ADDRESS,
     income: income,
     voted_ratio: voted_ratio, // 투표 결과 배당률
     dividend_ratio: dividend_ratio, // 직전 배당률 -> 수정해야함
-    dividend: dividend_ratio * income, // 총 배당금
-    // next_ratio: voted_ratio * incomeRatio // 차기배당률
+    dividend: dividend, // 총 배당금
   })
-  dividend_ratio = (dividend_ratio * (1 + Number(voted_ratio))).toFixed(4)
-}, 300000);
+  
+  // 배당금 분배
+  let tokenholders = await showAllTokenHolders();
+  let totalSupply = await getTotalSupply();
+
+  for(let i=0; i<tokenholders.length; i++) {
+    if(tokenholders[i] !== process.env.ADMIN_ADDRESS) { // 거래소 제외
+      const balance = await getTokenBalance(tokenholders[i]);
+      const stake = balance / totalSupply;
+      const personalDividend = String((dividend * stake).toFixed(18))
+      await sendWeiToUser(tokenholders[i], personalDividend);
+      // const result = await getEtherBalance(tokenholders[i]);
+      // console.log(result);
+
+      await position_his.create({
+        user_wallet: tokenholders[i],
+        order: "dividend",
+        price: personalDividend,
+        company_name: "exchange"
+      })
+    }
+  }
+
+  // 차기 배당률
+  dividend_ratio = (dividend_ratio * (1 + Number(voted_ratio))).toFixed(4) 
+
+}, 30000);
 
 app.get('/chart/total', async (req, res, next) => {
   // const { offset, limit } = req.query;
