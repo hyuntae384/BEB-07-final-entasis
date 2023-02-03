@@ -14,12 +14,6 @@ const ChartWrapper =({currentPrice})=>{
     const [chartOriginArr,setChartOriginArr] = useState([]);
     const [chartArr, setChartArr]  = useState([]);
 
-
-
-    useEffect(()=>{
-
-    },[])
-
     let limitChartArr=[];
     if(!chartToggle&&typeof isChartTotal === 'object'){
         (isChartTotal.map(e=>limitChartArr.push(Object.values(e))))
@@ -29,7 +23,6 @@ const ChartWrapper =({currentPrice})=>{
     useEffect(()=>{
         setDefaultLimit(chartOriginArr.length)
     },[chartOriginArr])
-    
     useEffect(()=>{
         const setChartTotal=(async() => 
         {try {
@@ -42,8 +35,6 @@ const ChartWrapper =({currentPrice})=>{
         setChartTotal()
         setChartArr(chartOriginArr
             ?.slice(dataLength, defaultLimit))
-            // console.log(chartArr)
-console.log(chartOriginArr,chartArr)
     },[chartOriginArr,dataLength,defaultLimit])
     
     useEffect(() => {
@@ -57,7 +48,7 @@ console.log(chartOriginArr,chartArr)
                 let lowB= currentPrice.low;
                 let totalVolToB= currentPrice.totalVolTo;
                 let totalVolFromB= currentPrice.totalVolFrom;
-                chartArr.push([
+                setChartOriginArr([...chartArr,[
                     index,
                     createdAtB,
                     openB,
@@ -66,17 +57,7 @@ console.log(chartOriginArr,chartArr)
                     lowB,
                     totalVolToB,
                     totalVolFromB,
-                ]);
-                // chartOriginArr.push([
-                //     index,
-                //     createdAtB,
-                //     openB,
-                //     closeB,
-                //     highB,
-                //     lowB,
-                //     totalVolToB,
-                //     totalVolFromB,
-                // ]);
+                ]]);
             }  
         clearInterval(loop);
         }, 1000);

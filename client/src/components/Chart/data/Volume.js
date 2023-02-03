@@ -15,7 +15,6 @@ const Volume =({
     name,
     })=>{
 
-
     let SVG_VOLUME_WIDTH =  typeof width === "number" ? width * 1 : 0;
     let SVG_VOLUME_HEIGHT = typeof height === "number" ? height * 0.3 : 0;
 
@@ -118,9 +117,7 @@ const Volume =({
                     </g>
                     );
                 }
-                )}
-            <line></line>
-            <text></text>
+            )}
         </svg>
     </div>
     )

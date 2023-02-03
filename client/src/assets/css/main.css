@@ -454,6 +454,9 @@ div.public_disclosure_wrapper h4{
     width: 34%;
     height: 300px;
     margin: 5px 0;
+    text-align: center;
+    justify-content: center;
+
 }
 .market_data_container_header{
     display: flex;
@@ -602,8 +605,10 @@ div.public_disclosure_wrapper h4{
     transition: 0.4s;
 }
 .welcome_connection:active{
-    opacity: 0.4;}
- .congratulations{
+    opacity: 0.4;
+}
+
+.congratulations{
     border-radius: 5px;
     margin: 1% 0;
     width: 100%;
@@ -780,3 +785,8 @@ input{
 
 }
 
+.marketData_chart{
+}
+.marketData_chart_bar{
+    align-items: baseline;
+}
