@@ -17,15 +17,7 @@ const ChartWrapper =({currentPrice})=>{
 
 
     useEffect(()=>{
-        const setChartTotal=(async() => 
-        {try {
-            const resultTotal = await axios.get('http://localhost:5050/chart/total')
-            setIsChartTotal(resultTotal.data)
-        } catch (e) {
-        console.log(e) 
-        }
-    })
-        setChartTotal()
+
     },[])
 
     let limitChartArr=[];
@@ -36,11 +28,24 @@ const ChartWrapper =({currentPrice})=>{
     }
     useEffect(()=>{
         setDefaultLimit(chartOriginArr.length)
+    },[chartOriginArr])
+    
+    useEffect(()=>{
+        const setChartTotal=(async() => 
+        {try {
+            const resultTotal = await axios.get('http://localhost:5050/chart/total')
+            setIsChartTotal(resultTotal.data)
+        } catch (e) {
+        console.log(e) 
+        }
+    })
+        setChartTotal()
         setChartArr(chartOriginArr
             ?.slice(dataLength, defaultLimit))
             // console.log(chartArr)
-
+console.log(chartOriginArr,chartArr)
     },[chartOriginArr,dataLength,defaultLimit])
+    
     useEffect(() => {
         const loop = setInterval(() => {
             if(`${new Date().getSeconds()}`===`0`){
@@ -62,6 +67,16 @@ const ChartWrapper =({currentPrice})=>{
                     totalVolToB,
                     totalVolFromB,
                 ]);
+                // chartOriginArr.push([
+                //     index,
+                //     createdAtB,
+                //     openB,
+                //     closeB,
+                //     highB,
+                //     lowB,
+                //     totalVolToB,
+                //     totalVolFromB,
+                // ]);
             }  
         clearInterval(loop);
         }, 1000);
