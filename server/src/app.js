@@ -57,7 +57,6 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 //   }),
 // );
 
-
 let stv=0;
 let incomeRatio=0;
 let dividend_ratio = 0.03;
@@ -65,13 +64,13 @@ let voted_ratio
 let next_ratio
 let chartHis = [[1.2],[1]];
 let chartData
-const setStv =()=>{stv = Math.random()*(0.01-(-0.0101))-0.01;};
-const setIncomeRatio =()=>{incomeRatio = Math.random()*(0.001-(-0.00101))-0.001;};
-const setVotedRatio =()=> {voted_ratio = (Math.random()*(0.05-(-0.05))-0.05).toFixed(3);};
-let chart_his =(e)=>{ chartHis[0].push(e[0]);chartHis[1].push(e[1]) }
+const setStv =()=>{stv = Math.random()*(0.01-(-0.0101))-0.01};
+const setIncomeRatio =()=>{incomeRatio = Math.random()*(0.001-(-0.00101))-0.001};
+const setVotedRatio =()=> {voted_ratio = (Math.random()*(0.05-(-0.05))-0.05).toFixed(3)};
+let chart_his =(e)=>{ chartHis[0].push(e[0]);chartHis[1].push(e[1])}
 let totalVolFrom = 0;
 let totalVolTo = 0;
-
+let circuitBreaker = true
 setInterval(async() => {
   chartHis[1].forEach(element => {totalVolTo+=element});  
   setStv()
@@ -90,11 +89,10 @@ setInterval(async() => {
     totalVolTo:totalVolTo.toFixed(4),
     totalVolFrom:totalVolFrom.toFixed(4)
   }
-
-  let volume = (1 + stv*5)*(1+incomeRatio*5)>0?(1 + stv*5)*(1+incomeRatio*5):1
+  let volume = (1 + stv*10000)*(1+incomeRatio*10000)>0?(1 + stv*10000)*(1+incomeRatio*10000):0.01
   let price = chartHis[0][chartHis[0].length-1]>0.5?chartHis[0][chartHis[0].length-1]:0.5;
-  chart_his([price * (1 + stv)*(1+incomeRatio) * (1+volume/10000), volume])
-}, 500);
+  chart_his([price * (1 + stv)*(1+incomeRatio) * (1+(1 + stv*1000)*(1+incomeRatio*1000)/1000000), volume])
+}, circuitBreaker ? 500 : 6000 );
 
 setInterval(async () => {
   if(`${new Date()}`.slice(22,-32)==='00'){
@@ -103,9 +101,9 @@ setInterval(async () => {
     totalVolTo=0
     chartHis[0].splice(0,chartHis[0].length-1);
     chartHis[1].splice(0,chartHis[1].length-1);
-
   }
 }, 1000);
+
 //5분
 setInterval(async () => {
   setIncomeRatio();
@@ -120,9 +118,7 @@ setInterval(async () => {
     dividend: dividend_ratio * income, // 총 배당금
     // next_ratio: voted_ratio * incomeRatio // 차기배당률
   })
-
   dividend_ratio = (dividend_ratio * (1 + Number(voted_ratio))).toFixed(4)
-
 }, 300000);
 
 app.get('/chart/total', async (req, res, next) => {

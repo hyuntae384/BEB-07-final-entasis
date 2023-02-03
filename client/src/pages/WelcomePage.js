@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import {Tutorial} from '../apis/user'
-const Welcome =({isLoading, tutorialCnt, account})=>{
+const WelcomePage =({isLoading, tutorialCnt, account})=>{
     const [welcomeClose, setWelcomeClose] = useState(false)
 
     const modalStyle = {
@@ -14,7 +14,7 @@ const Welcome =({isLoading, tutorialCnt, account})=>{
         content: {
             display: "block",
             justifyContent: "center",
-            background: "#2B2B2B",
+            background: "#222223",
             overflow: "hidden",
             border:"0",
             borderRadius: "10px",
@@ -40,4 +40,4 @@ const Welcome =({isLoading, tutorialCnt, account})=>{
         </div>
     )}
 }
-export default Welcome
+export default WelcomePage

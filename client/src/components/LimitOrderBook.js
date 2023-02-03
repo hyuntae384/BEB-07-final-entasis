@@ -79,7 +79,7 @@ const LimitOrderBook =({ST_CurrentPrice, powerOfMarket})=>{
             })}
             <div className="market_order">
                     <h3>Market Price</h3>
-                    <h3>{(ST_CurrentPrice>1000?ST_CurrentPrice.toFixed(0):(ST_CurrentPrice>100?ST_CurrentPrice.toFixed(1):(ST_CurrentPrice>10?ST_CurrentPrice.toFixed(2):(ST_CurrentPrice>1?ST_CurrentPrice.toFixed(3):ST_CurrentPrice))))}</h3>
+                    <h3>{!isNaN(ST_CurrentPrice)?(ST_CurrentPrice>1000?ST_CurrentPrice.toFixed(0):(ST_CurrentPrice>100?ST_CurrentPrice.toFixed(1):(ST_CurrentPrice>10?ST_CurrentPrice.toFixed(2):(ST_CurrentPrice>1?ST_CurrentPrice.toFixed(3):ST_CurrentPrice)))):<></>}</h3>
                     <h3>ETH</h3>
             </div>
             {orderList.map((e)=>{
