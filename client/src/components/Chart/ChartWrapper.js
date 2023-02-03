@@ -13,17 +13,18 @@ const ChartWrapper =({currentPrice})=>{
     const [chartToggle,setChartToggle] = useState(false)
     const [chartOriginArr,setChartOriginArr] = useState([]);
     const [chartArr, setChartArr]  = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     let limitChartArr=[];
     if(!chartToggle&&typeof isChartTotal === 'object'){
-        (isChartTotal.map(e=>limitChartArr.push(Object.values(e))))
-        setChartOriginArr(limitChartArr)
+        setIsLoading(true)
+        setTimeout(()=>{
+            (isChartTotal.map(e=>limitChartArr.push(Object.values(e))))
+            setChartOriginArr(limitChartArr)
+            setIsLoading(false)
+        },1000)
         setChartToggle(true)
     }
-
-    useEffect(()=>{
-        setDefaultLimit(chartOriginArr.length)
-    },[chartOriginArr])
 
     useEffect(()=>{
         const setChartTotal=(async() => 
@@ -36,7 +37,9 @@ const ChartWrapper =({currentPrice})=>{
         })
         setChartTotal()
         setChartArr(chartOriginArr
-            ?.slice(dataLength, defaultLimit))
+        .slice(dataLength, defaultLimit))
+        setDefaultLimit(chartOriginArr.length)
+
     },[chartOriginArr,dataLength,defaultLimit])
     
     useEffect(() => {
@@ -50,7 +53,7 @@ const ChartWrapper =({currentPrice})=>{
                 let lowB= currentPrice.low;
                 let totalVolToB= currentPrice.totalVolTo;
                 let totalVolFromB= currentPrice.totalVolFrom;
-                setChartOriginArr([...chartArr,[
+                setChartOriginArr([...chartOriginArr,[
                     index,
                     createdAtB,
                     openB,
@@ -63,24 +66,30 @@ const ChartWrapper =({currentPrice})=>{
             }  
         clearInterval(loop);
         }, 1000);
-    }, [new Date().getSeconds(),chartArr]);
+    }, [new Date().getSeconds(),chartArr,chartOriginArr]);
+
 return(
     <div className="chart_wrapper"
         onWheel={() => {
             window.onwheel = function (e) {
-                let set = defaultLimit*0.05
-                e.deltaY > 0  
-                ? setDataLength(dataLength < 1 ? dataLength + 0 : dataLength - set)
-                : setDataLength(dataLength > defaultLimit*0.95 ? dataLength + 0  : dataLength + set)
+                // let set = defaultLimit*0.05
+                console.log(document.body.style.overflow)
+                if(document.body.style.overflow === 'hidden'){
+                e.deltaY> 0
+                ? setDataLength(dataLength < 1 ? dataLength + 0 : dataLength - 8)
+                : setDataLength(dataLength > defaultLimit*0.95 ? dataLength + 0  : dataLength + 8)
+            }
             };
         }} 
         >
+        {isLoading?<img className="loading" src={require('../../assets/images/Infinity.gif')} alt='loading'/>:
         <Chart
         chartArr = {chartArr}
         currentPrice={currentPrice}
         dataLength={dataLength}
         defaultLimit={defaultLimit}
         />
+        }
     </div>
     )
 }

@@ -53,7 +53,7 @@ const Volume =({
         })
     }
     let windowPageYOffset = window.pageYOffset
-
+    if(dataArray[0][0]!==undefined&&yAxisLength>0){
     return(
     <div className="volume">
         <svg 
@@ -154,12 +154,11 @@ const Volume =({
                 fontSize='12px'
             > 
             {(Number(dataYMax)*(700-Number(pointer.y))/120).toFixed(1).toLocaleString()}
-            {console.log(pointer.y)}
             </text>
         </svg>
     </div>
     )
-}
+}}
 export default Volume
 
 //현재값=최고값*현재위치-580/120

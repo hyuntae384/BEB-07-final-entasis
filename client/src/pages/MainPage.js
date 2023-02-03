@@ -7,7 +7,8 @@ import Navigator from "../components/Navigator"
 import Header from "../components/Header"
 import { useEffect, useState, useRef } from "react"
 import Historys from "../components/Historys"
-import Welcome from "./TransactionsPage"
+import TransactionsPage from "./TransactionsPage"
+import WelcomePage from "./WelcomePage"
 import { useWeb3React } from "@web3-react/core"
 import axios from "axios"
 import ChartWrapper from "../components/Chart/ChartWrapper"
@@ -22,9 +23,8 @@ const MainPage =()=>{
     const [number, setNumber] = useState(0);
     const currentPrice_ref = useRef({});
     const {chainId, account, active, activate, deactivate} = useWeb3React();
-
-    // console.log(currentPrice.close)
     let powerOfMarket = (currentPrice.open - currentPrice.close)
+
     useEffect(() => {
         const setChartRTD=(async () => 
         {try {
@@ -35,11 +35,12 @@ const MainPage =()=>{
         }
     })
         const loop = setInterval(() => {
+        setIsLoading(false)
         setChartRTD()
         clearInterval(loop);
         powerOfMarket = 0;
         }, 100);
- 
+
     }, [currentPrice_ref.current]);
 
     const copyHandler = (e) => {
@@ -83,13 +84,14 @@ const MainPage =()=>{
         const onMouseEnterHandler = () => {
             document.body.style.overflow = 'unset';
         }
+        
     return(
     <div className="main_page" onMouseEnter={onMouseEnterHandler}>
-        {/* <Welcome
+        <WelcomePage
             account={account}
             tutorialCnt={isEnroll.cnt}
             isLoading={isLoading}
-        /> */}
+        />
         <Header isLoading={isLoading} onMouseEnter={onMouseEnterHandler}/>
         <Navigator/>
         <div className="main_head">

@@ -1,6 +1,5 @@
 import {scaleLinear} from 'd3-scale'
 import { useState } from 'react';
-import dataToArray from '../../../functions/data_to_array'
 
 const Candle =({ 
     currentPrice,
@@ -73,6 +72,11 @@ const Candle =({
             })
         }
         let windowPageYOffset = window.pageYOffset
+        
+if(dataArray[0][0]!==undefined&&
+    !isNaN(yAxisLength)&&
+    SVG_CHART_HEIGHT>0
+    ){
     return(
     <div className=" candle">
         <br/>
@@ -158,9 +162,8 @@ const Candle =({
                         
                     ></line>
                     <text 
-                    
                         x={SVG_CHART_WIDTH - 60} y={y} fontSize="10" stroke='#252525' >
-                        {typeof yValue === 'number'?yValue.toFixed(2).toLocaleString():0}
+                        {typeof yValue === 'number'?yValue.toFixed(2).toLocaleString():0} ETH
                     </text>
                     </g>
                 );
@@ -182,16 +185,17 @@ const Candle =({
                     stroke='#00fbff'
                     opacity={0.3}
                     ></line>
+
                     <text
                 
                     x={SVG_CHART_WIDTH-60}
                     y={pointer.x<SVG_CHART_WIDTH*0.93&&((pointer.y+windowPageYOffset)<550)?((pointer.y+windowPageYOffset)-135):-10}
-                    fill='#00fbff'
-                    stroke='#00fbff'
+                    fill='#00aab3'
+                    stroke='#00aab3'
                     opacity={0.5}
-                    fontSize='13px'
+                    fontSize='11px'
                 > 
-                {(dataYMin + dataYMax*(1-(pointer.y/415-0.3253))).toFixed(2).toLocaleString()}
+                {(dataYMin + dataYMax*(1-(pointer.y/415-0.3253))).toFixed(2).toLocaleString()} ETH
                 </text>
                 {/* 캔들 구현 */}
                 {dataArray.map(
@@ -220,8 +224,8 @@ const Candle =({
                     
                         x1={x + (barPlothWidth - sidePadding) / 2}
                         x2={x + (barPlothWidth - sidePadding) / 2}
-                        y1={(yAxisLength - scaleY(low))==='NaN' ? 0 : yAxisLength - scaleY(low)}
-                        y2={(yAxisLength - scaleY(high))==='NaN' ? 0 : yAxisLength - scaleY(high)}
+                        y1={(yAxisLength - scaleY(low))!=='NaN' ? yAxisLength - scaleY(low) : 0}
+                        y2={(yAxisLength - scaleY(high))!=='NaN' ? yAxisLength - scaleY(high) : 0}
                         stroke={fill}
                         />
 
@@ -260,5 +264,5 @@ const Candle =({
 
     </div>
     )
-}
+}}
 export default Candle

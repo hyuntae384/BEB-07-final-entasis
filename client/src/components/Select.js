@@ -5,11 +5,9 @@ const SelectBox = (props) => {
 	};
 	return (
 		<select 
-        className='st_select'
+        className='chart_select'
         onChange={handleChange}>
-            <option disabled={false}>
-                Select Your Security Token
-            </option>
+
 			{props.options.map((option) => (
 				<option
 					key={option.value}
