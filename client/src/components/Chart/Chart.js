@@ -8,9 +8,6 @@ import Volume from "./data/Volume"
 const Chart =({currentPrice, chartArr,defaultLimit,dataLength})=>{
     const [name, setName] = useState("BEBE");
 
-
-
-
     let date = dataToArray(chartArr,1)
     let open = dataToArray(chartArr,2)
     let close = dataToArray(chartArr,3)

@@ -168,8 +168,8 @@ const Candle =({
                 );
                 })}
                 <line
-                        x1={pointer.x<SVG_CHART_WIDTH*0.93&&(pointer.y<550)?pointer.x-11:0}
-                        x2={pointer.x<SVG_CHART_WIDTH*0.93&&(pointer.y<550)?pointer.x-11:0}
+                        x1={pointer.x<SVG_CHART_WIDTH*0.93&&(pointer.y<550)?pointer.x-11:-10}
+                        x2={pointer.x<SVG_CHART_WIDTH*0.93&&(pointer.y<550)?pointer.x-11:-10}
                         y1={0}
                         y2={SVG_CHART_HEIGHT-25}
                         stroke='#00fbff'
@@ -178,14 +178,14 @@ const Candle =({
                         <line
                         x1={0}
                         x2={SVG_CHART_WIDTH-65}
-                        y1={pointer.x<SVG_CHART_WIDTH*0.93&&(pointer.y<550)?(pointer.y-135):0}
-                        y2={pointer.x<SVG_CHART_WIDTH*0.93&&(pointer.y<550)?(pointer.y-135):0}
+                        y1={pointer.x<SVG_CHART_WIDTH*0.93&&(pointer.y<550)?(pointer.y-135):-10}
+                        y2={pointer.x<SVG_CHART_WIDTH*0.93&&(pointer.y<550)?(pointer.y-135):-10}
                         stroke='#00fbff'
                         opacity={0.3}
                         ></line>
                         <text
                         x={SVG_CHART_WIDTH-60}
-                        y={pointer.x<SVG_CHART_WIDTH*0.93&&(pointer.y<550)?(pointer.y-135):0}
+                        y={pointer.x<SVG_CHART_WIDTH*0.93&&(pointer.y<550)?(pointer.y-135):-10}
                         fill='#00fbff'
                         stroke='#00fbff'
                         opacity={0.5}

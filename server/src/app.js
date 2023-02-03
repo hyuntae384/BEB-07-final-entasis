@@ -67,7 +67,7 @@ let chartHis = [[1.2],[1]];
 let chartData
 const setStv =()=>{stv = Math.random()*(0.01-(-0.0101))-0.01;};
 const setIncomeRatio =()=>{incomeRatio = Math.random()*(0.001-(-0.00101))-0.001;};
-const setVotedRatio =()=> {voted_ratio = (Math.random()*(0.005-(-0.005))-0.005).toFixed(3);};
+const setVotedRatio =()=> {voted_ratio = (Math.random()*(0.05-(-0.05))-0.05).toFixed(3);};
 let chart_his =(e)=>{ chartHis[0].push(e[0]);chartHis[1].push(e[1]) }
 let totalVolFrom = 0;
 let totalVolTo = 0;

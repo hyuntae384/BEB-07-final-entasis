@@ -6,7 +6,7 @@ import {BuyToken, SellToken} from '../apis/token';
 import Web3 from "web3";
 import TokenABI from "../ABIs/ERC1400.json"
 
-const Order =()=>{
+const Order =({ST_CurrentPrice})=>{
     const [amount, setAmount] = useState("");
     const [price, setPrice] = useState("");
     const [isFaucet, setIsFaucet] = useState(false)
@@ -86,7 +86,7 @@ const Order =()=>{
         <form>
             <h6 className="order_available">Available 10.120 ETH</h6>
             <div>
-            <input type="text" className="order_price" onChange={e => priceChange(e)} placeholder='Price'></input>
+            <input type="text" className="order_price" onChange={e => priceChange(e)} placeholder={ST_CurrentPrice}></input>
             {/* <h6 className="order_price_eth">ETH</h6> */}
             </div>
             <input type="text" className="order_amount" onChange={e => amountChange(e)} placeholder='Amount'></input>
@@ -102,27 +102,26 @@ const Order =()=>{
             </div>
         </form>
         <div className='assets'>
-                            <h4>Assets</h4>
-                            <div className='assets_wraper'>
-                                <h6>{ST_1.name+" ("+ST_1.amount+")"+" "+countNumber(ST_1.price+"ETH")}</h6>
-                                <h6>{ST_2.name+" ("+ST_2.amount+")"+" "+countNumber(ST_2.price+"ETH")}</h6>
-                                <h6>{ST_3.name+" ("+ST_3.amount+")"+" "+countNumber(ST_3.price+"ETH")}</h6>
-                            </div>
-                        </div>
-                        <div className='deposit'>
-                            <h4>Deposit</h4>
-
-                            <div className='deposit_wrapper'>
-                                <div className='deposit_faucet'>
-                                    <h6>{isFaucet?100:0}ETH</h6>
-                                    <div className='btn' onClick={()=>faucetBtn()}><h6>Faucet</h6></div>
-                                </div>
-                                <div className='account_address'>
-                                    <div className='account'><h6>{account}</h6></div>
-                                    <div className='btn' onClick={()=>faucetBtn()}><h6>Copy</h6></div>
-                                </div>
-                            </div>
-                        </div>
+            <h4>Assets</h4>
+            <div className='assets_wraper'>
+                <h6>{ST_1.name+" ("+ST_1.amount+")"+" "+countNumber(ST_1.price+"ETH")}</h6>
+                <h6>{ST_2.name+" ("+ST_2.amount+")"+" "+countNumber(ST_2.price+"ETH")}</h6>
+                <h6>{ST_3.name+" ("+ST_3.amount+")"+" "+countNumber(ST_3.price+"ETH")}</h6>
+            </div>
+        </div>
+        <div className='deposit'>
+            <h4>Deposit</h4>
+            <div className='deposit_wrapper'>
+                <div className='deposit_faucet'>
+                    <h6>{isFaucet?100:0}ETH</h6>
+                    <div className='btn' onClick={()=>faucetBtn()}><h6>Faucet</h6></div>
+                </div>
+                <div className='account_address'>
+                    <div className='account'><h6>{account}</h6></div>
+                    <div className='btn' onClick={()=>faucetBtn()}><h6>Copy</h6></div>
+                </div>
+            </div>
+        </div>
     </div>
     )
 }
