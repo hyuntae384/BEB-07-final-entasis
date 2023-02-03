@@ -105,7 +105,8 @@ const MainPage =()=>{
         <div className="main_bottom">
             <Historys/>
             <Assets
-                ST_CurrentPrice={0} 
+                ST_CurrentPrice={currentPrice.close} 
+                powerOfMarket={powerOfMarket}
             />
         </div>
         <Footer/>

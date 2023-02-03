@@ -61,11 +61,13 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 let stv=0;
 let incomeRatio=0;
 let dividend_ratio = 0.03;
+let voted_ratio
+let next_ratio
 let chartHis = [[1.2],[1]];
 let chartData
 const setStv =()=>{stv = Math.random()*(0.01-(-0.0101))-0.01;};
 const setIncomeRatio =()=>{incomeRatio = Math.random()*(0.001-(-0.00101))-0.001;};
-const setDividendRatio = () => {dividend_ratio = (Math.random()*(0.05-(-0.05))-0.05).toFixed(2);};
+const setVotedRatio =()=> {voted_ratio = (Math.random()*(0.05-(-0.05))-0.05).toFixed(2);};
 let chart_his =(e)=>{ chartHis[0].push(e[0]);chartHis[1].push(e[1]) }
 let totalVolFrom = 0;
 let totalVolTo = 0;
@@ -107,15 +109,18 @@ setInterval(async () => {
 //5분
 setInterval(async () => {
   setIncomeRatio();
-  setDividendRatio();
-  let income = incomeRatio * chartHis[0][0] * await getTotalSupply()
+  setVotedRatio();
+  let incomeRatioSet = incomeRatio>0 ? incomeRatio : 0.0001
+  let income = incomeRatioSet * chartHis[0][chartHis[0].length-1] * await getTotalSupply()
+  console.log(income)
+  next_ratio = voted_ratio * incomeRatio 
   await dividend_his.create({ // 수정 필요
     company_wallet: process.env.ADMIN_ADDRESS,
     income: income,
-    dividend_ratio: dividend_ratio, // 직전 배당률 -> 수정해야함
-    voted_ratio: dividend_ratio, // 투표 결과 배당률
+    dividend_ratio: next_ratio, // 직전 배당률 -> 수정해야함
+    voted_ratio: voted_ratio, // 투표 결과 배당률
     dividend: dividend_ratio * income, // 총 배당금
-    next_ratio: dividend_ratio * incomeRatio // 차기배당률
+    // next_ratio: voted_ratio * incomeRatio // 차기배당률
   })
 }, 300000);
 

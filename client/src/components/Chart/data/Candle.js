@@ -1,7 +1,6 @@
 import {scaleLinear} from 'd3-scale'
 import { useState } from 'react';
 import dataToArray from '../../../functions/data_to_array'
-import { MouseTracker } from '../../../functions/MouseTracker';
 
 const Candle =({ 
     currentPrice,
@@ -129,13 +128,13 @@ const Candle =({
                         x2={x}
                         y1={yAxisLength}
                         y2={y0}
-                        stroke='#404040'
+                        stroke='#252525'
                     ></line>
                     <text
                         x={x}
                         y={SVG_CHART_HEIGHT-15}
-                        textAnchor="right"
-                        stroke='#474747'
+                        textAnchor="middle"
+                        stroke='#252525'
                         fontSize={SVG_CHART_WIDTH < 800 ? 8 : 10}
                     >
                         {`${xValue[index]}`.slice(14,-5)}
@@ -157,12 +156,13 @@ const Candle =({
                         className="lineLight"
                         x1={xAxisLength}
                         x2={x0}
-                        y1={y==='NaN'?0:y}
-                        y2={y==='NaN'?0:y}
-                        stroke='#474747'
+                        y1={y!=='NaN'?y:0}
+                        y2={y!=='NaN'?y:0}
+                        stroke='#252525'
+                        
                     ></line>
-                    <text x={SVG_CHART_WIDTH - 60} y={y + 10} fontSize="10" stroke='#474747' >
-                        {typeof yValue === 'number'?yValue.toLocaleString():0}
+                    <text x={SVG_CHART_WIDTH - 60} y={y} fontSize="10" stroke='#252525' >
+                        {typeof yValue === 'number'?yValue.toFixed(2).toLocaleString():0}
                     </text>
                     </g>
                 );
@@ -191,9 +191,8 @@ const Candle =({
                         opacity={0.5}
                         fontSize='13px'
                         > 
-                        {(dataYMin + dataYMax*(1-(pointer.y/415-0.3253))).toFixed(3).toLocaleString()}
+                        {(dataYMin + dataYMax*(1-(pointer.y/415-0.3253))).toFixed(2).toLocaleString()}
                         </text>
-                    {console.log(pointer.x)}
                 {/* 캔들 구현 */}
                 {dataArray.map(
                 (
@@ -247,8 +246,6 @@ const Candle =({
                         >
                         {typeof scaleY(currentPrice.close)==='number'?currentPrice.close:0}
                         </text>
-                        
-
                     </g>
                     );
                 }
