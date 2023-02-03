@@ -221,7 +221,7 @@ const Candle =({
                         x2={x + (barPlothWidth - sidePadding) / 2}
                         y1={(yAxisLength - scaleY(low))==='NaN' ? 0 : yAxisLength - scaleY(low)}
                         y2={(yAxisLength - scaleY(high))==='NaN' ? 0 : yAxisLength - scaleY(high)}
-                        stroke={close > open ? "#00A4D8" : "#b8284a"}
+                        stroke={fill}
                         />
 
                         <rect
@@ -239,10 +239,13 @@ const Candle =({
                         x2={x0}
                         y1={(yAxisLength - scaleY(currentPrice.close))==='NaN' ? 0 : yAxisLength - scaleY(currentPrice.close)}
                         y2={(yAxisLength - scaleY(currentPrice.close))==='NaN' ? 0 : yAxisLength - scaleY(currentPrice.close)}
-                        stroke={close > open ? "#00A4D8" : "#b8284a"}
+                        strokeWidth='0.1'
+                        stroke={fill}
                         ></line>
-                        <text x={SVG_CHART_WIDTH - 60} y={typeof scaleY(currentPrice.close)==='number'?yAxisLength - scaleY(currentPrice.close):0} fontSize="12" fill= 
-                        {close > open ? "#00A4D8" : "#b8284a"} 
+                        <text x={SVG_CHART_WIDTH - 60} y={typeof scaleY(currentPrice.close)==='number'?yAxisLength - scaleY(currentPrice.close):0} fontSize="12" 
+                        fill= 
+                        {fill} 
+                        
                         >
                         {typeof scaleY(currentPrice.close)==='number'?currentPrice.close:0}
                         </text>
