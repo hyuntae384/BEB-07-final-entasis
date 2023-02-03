@@ -27,8 +27,6 @@ const Chart =({currentPrice, chartArr,defaultLimit,dataLength})=>{
         document.body.style.overflow = 'hidden';
     }
 
-
-
     const onMouseLeaveHandler = () => {
         document.body.style.overflow = 'unset';
     }
