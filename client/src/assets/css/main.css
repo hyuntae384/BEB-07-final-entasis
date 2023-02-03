@@ -14,8 +14,8 @@
     /* Color */
     --white-color   : #ffffff;
     --black-color: #000000;
-    --gray-light-color: #b0b6ba;
-    --gray-dark-color: #44464a;
+    --gray-light-color: #6f787f;
+    --gray-dark-color: #222223;
     --Primary-color: #00A4D8;
     --onPrimary-color: #0d6097;
     --Secondary-color: #ab1c37;
@@ -312,7 +312,7 @@ div.public_disclosure_wrapper h4{
     transition: 0.4s;
 }
 .chart_wrapper:hover{
-    filter: brightness(1.2);
+    filter: brightness(1.05);
 }
 .limit_order_book{
     margin: 2.5px;
@@ -384,13 +384,14 @@ div.public_disclosure_wrapper h4{
     align-items: center;
     display: flex;
     justify-content: space-around;
-    background-color:#1d1d1d;
+    background-color:#151515;
 }
 .limit_order_book_menu{
     margin: 10px 0;
     display: flex;
     justify-content: space-around;
     color: #474747;
+
 }
 .market_order{
     margin: 5% 0;
@@ -424,7 +425,7 @@ div.public_disclosure_wrapper h4{
     margin: 5px 5px;
     padding: 1% 5px;
     height: 25px;
-    background-color: #1d1d1d;
+    background-color: #151515;
     font-size: 12px;
 }
 .main_bottom_right{
@@ -449,7 +450,7 @@ div.public_disclosure_wrapper h4{
 }
 
 .market_data_container{
-    background-color: #1d1d1d;
+    background-color: #151515;
     width: 34%;
     height: 300px;
     margin: 5px 0;

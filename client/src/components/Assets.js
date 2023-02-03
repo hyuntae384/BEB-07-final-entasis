@@ -1,5 +1,5 @@
 import Asset from "./Asset"
-const Assets =({ST_CurrentPrice})=>{
+const Assets =({ST_CurrentPrice,powerOfMarket})=>{
     // `/user/asset/?address=${address}`
 
     const AssetsArray = [
@@ -67,7 +67,7 @@ const Assets =({ST_CurrentPrice})=>{
             date : 0,
         },
     ];
-    const marketData = 100;
+    const marketData = powerOfMarket/ST_CurrentPrice;
     const onMouseEnterHandler = () => {
         document.body.style.overflow = 'hidden';
     }
@@ -99,7 +99,20 @@ const Assets =({ST_CurrentPrice})=>{
                     <div className="market_data_container_header">
                         <h2>Buy</h2><h2>Sell</h2>
                     </div>
-                    {marketData}
+                    {-marketData}
+                    <svg>
+                        <g>
+                            <reg
+                            x={0}
+                            y={0}
+                            width = {100}
+                            height = {100}
+                            border-radius='20px'
+                            >
+
+                            </reg>
+                        </g>
+                    </svg>
                 </div>
             </div>
 

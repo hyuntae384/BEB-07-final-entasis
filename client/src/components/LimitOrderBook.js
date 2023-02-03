@@ -12,8 +12,8 @@ const LimitOrderBook =({ST_CurrentPrice, powerOfMarket})=>{
     for(let i =0;i<5;i++){
             //매수, 매도세를 알 수 있는 지표는?
             //가격이 오른 정도 * 실려있는 거래량?
-        let amountBuySet = (powerOfMarket>0?(powerOfMarket*500):(-powerOfMarket*50)).toFixed(2);
-        let amountSellSet = (powerOfMarket<0?(powerOfMarket*500):(-powerOfMarket*50)).toFixed(2);
+        let amountBuySet = (powerOfMarket>0?(powerOfMarket*5):(-powerOfMarket)).toFixed(0);
+        let amountSellSet = (powerOfMarket<0?(powerOfMarket*5):(-powerOfMarket)).toFixed(0);
         let sellOrder= {
             id:4-i,
             name:"bebe",
@@ -67,11 +67,11 @@ const LimitOrderBook =({ST_CurrentPrice, powerOfMarket})=>{
                         <div>
                             {(e.price>1000?e.price:(e.price>100?e.price:(e.price>10?e.price:(e.price>1?e.price:e.price)))).toFixed(2)}
                         </div>
-                        <div>{e.amount.toFixed(2)}</div>
+                        <div>{e.amount.toFixed(0)}</div>
                         <div>
                         {/* {console.log(orderList)} */}
 
-                            {((e.price*e.amount)>1000?(e.price*e.amount):(e.price*e.amount)>100?(e.price*e.amount):((e.price*e.amount)>10?(e.price*e.amount):((e.price*e.amount)>1?(e.price*e.amount):(e.price*e.amount)))).toFixed(2)}
+                            {((e.price*e.amount)>1000?(e.price*e.amount):(e.price*e.amount)>100?(e.price*e.amount):((e.price*e.amount)>10?(e.price*e.amount):((e.price*e.amount)>1?(e.price*e.amount):(e.price*e.amount)))).toFixed(0)}
                         </div>
                     </div>  
                     :<></>}
@@ -92,9 +92,9 @@ const LimitOrderBook =({ST_CurrentPrice, powerOfMarket})=>{
                         <div>
                             {(e.price>1000?e.price:(e.price>100?e.price:(e.price>10?e.price:(e.price>1?e.price:e.price)))).toFixed(2)}
                         </div>
-                        <div>{e.amount.toFixed(2)}</div>
+                        <div>{e.amount.toFixed(0)}</div>
                         <div>
-                            {((e.price*e.amount)>1000?(e.price*e.amount):(e.price*e.amount)>100?(e.price*e.amount):((e.price*e.amount)>10?(e.price*e.amount):((e.price*e.amount)>1?(e.price*e.amount):(e.price*e.amount)))).toFixed(2)}</div>
+                            {((e.price*e.amount)>1000?(e.price*e.amount):(e.price*e.amount)>100?(e.price*e.amount):((e.price*e.amount)>10?(e.price*e.amount):((e.price*e.amount)>1?(e.price*e.amount):(e.price*e.amount)))).toFixed(0)}</div>
                         </div>:<></>}
                     </div>
                 )})}
