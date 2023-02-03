@@ -21,6 +21,8 @@ const MainPage =()=>{
     const [copy, setCopy] = useState('');
     const [number, setNumber] = useState(0);
     const currentPrice_ref = useRef({});
+    const {chainId, account, active, activate, deactivate} = useWeb3React();
+
     // console.log(currentPrice.close)
     let powerOfMarket = (currentPrice.open - currentPrice.close)
     useEffect(() => {
@@ -37,9 +39,9 @@ const MainPage =()=>{
         clearInterval(loop);
         powerOfMarket = 0;
         }, 100);
-    }, [currentPrice_ref.current,]);
+ 
+    }, [currentPrice_ref.current]);
 
-    const {chainId, account, active, activate, deactivate} = useWeb3React();
     const copyHandler = (e) => {
         copy = e;
     }
@@ -59,21 +61,22 @@ const MainPage =()=>{
         return  resultSTChart
     }
 
-    const Position = async(wallet) => {
-        if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
-        const resultPosition = await axios.get(position + wallet)
-        .then(res=>res.data)
-        .then(err=>err)
-        setUserPosition(resultPosition)
-    }
-    const EnrollWallet = async(wallet) => {
-        if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
-        const resultEnrollWallet =  await axios.post(enroll + wallet)
-        .then(res=>res.data)
-        .then(err=>err)
-        setIsEnroll(resultEnrollWallet)
-    }
+
     useEffect(()=>{
+        const Position = async(wallet) => {
+            if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
+            const resultPosition = await axios.get(position + wallet)
+            .then(res=>res.data)
+            .then(err=>err)
+            setUserPosition(resultPosition)
+        }
+        const EnrollWallet = async(wallet) => {
+            if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
+            const resultEnrollWallet =  await axios.post(enroll + wallet)
+            .then(res=>res.data)
+            .then(err=>err)
+            setIsEnroll(resultEnrollWallet)
+        }
         Position(account)
         EnrollWallet(account)
     },[account]);
@@ -97,12 +100,15 @@ const MainPage =()=>{
                 powerOfMarket={-powerOfMarket}
                 ST_CurrentPrice={currentPrice.close} 
             />
-            <Order/>
+            <Order
+                ST_CurrentPrice={currentPrice.close} 
+            />
         </div>
         <div className="main_bottom">
             <Historys/>
             <Assets
-                ST_CurrentPrice={0} 
+                ST_CurrentPrice={currentPrice.close} 
+                powerOfMarket={powerOfMarket}
             />
         </div>
         <Footer/>

@@ -3,7 +3,9 @@ pragma solidity >=0.7.0 <0.9.0;
 
 interface ERC1400Interface {
     function totalSupply() external view returns (uint256);
+    function simpleTotalSupply() external view returns (uint256);
     function balanceOf(address account) external view returns (uint256);
+    function simpleBalanceOf(address account) external view returns (uint256);
     function transfer(address recipient, uint256 amount) external returns (bool);
     function approve(address spender, uint256 amount) external returns (bool);
     function allowance(address owner, address spender) external view returns (uint256);
@@ -17,6 +19,7 @@ interface ERC1400Interface {
     function isRestricted() external view returns(bool);
     function isTokenHolder(address tokenholder) external view returns (bool);
     function dividendPayment(uint256 totalDividend) external ;
+    function showAllTokenHolders() external view returns (address[] memory);
 
     event Transfer(address indexed from, address indexed to, uint256 amount);
     event Transfer(address indexed spender, address indexed from, address indexed to, uint256 amount);
@@ -118,8 +121,18 @@ contract ERC1400 is ERC1400Interface, OwnerHelper {
         return _totalSupply;
     }
 
+    function simpleTotalSupply() external view virtual override returns (uint256) {
+        uint256 simple = _totalSupply / E18;
+        return simple;
+    }
+
     function balanceOf(address account) external view virtual override returns (uint256) {
         return _balances[account];
+    }
+
+    function simpleBalanceOf(address account) external view virtual override returns (uint256) {
+        uint256 simple = _balances[account] / E18;
+        return simple;
     }
 
     function transfer(address recipient, uint amount) public virtual override returns (bool) {
@@ -294,7 +307,7 @@ contract ERC1400 is ERC1400Interface, OwnerHelper {
     }
 
     // 모든 토큰보유자 주소를 보여주는 함수
-    function showAllTokenHolders() external view returns (address[] memory) {
+    function showAllTokenHolders() external view override returns (address[] memory) {
         return _tokenHolderList;
     }
 

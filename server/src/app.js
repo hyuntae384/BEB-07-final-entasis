@@ -16,7 +16,8 @@ const chartRouter = require('./routes/chartRouter');
 const logger = require('./logger');
 const { sequelize, price_his, dividend_his } = require('./models');
 const {limiter} = require('./limit');
-const {getTotalSupply} = require('./chainUtils/tokenUtils')
+const {getSimpleTotalSupply, showAllTokenHolders, getTokenBalance, getTotalSupply} = require('./chainUtils/tokenUtils');
+const {sendEtherToUser, sendWeiToUser, getEtherBalance} = require('./chainUtils/etherUtils');
 const app = express();
 app.set('port', process.env.PORT || 5050);
 app.set('view engine', 'ejs');
@@ -61,11 +62,13 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 let stv=0;
 let incomeRatio=0;
 let dividend_ratio = 0.03;
+let voted_ratio
+let next_ratio
 let chartHis = [[1.2],[1]];
 let chartData
-const setStv =()=>{stv = Math.random()*(0.005-(-0.00501))-0.005;};
+const setStv =()=>{stv = Math.random()*(0.01-(-0.0101))-0.01;};
 const setIncomeRatio =()=>{incomeRatio = Math.random()*(0.001-(-0.00101))-0.001;};
-const setDividendRatio = () => {dividend_ratio = (Math.random()*(0.05-(-0.05))-0.05).toFixed(2);};
+const setVotedRatio =()=> {voted_ratio = (Math.random()*(0.05-(-0.05))-0.05).toFixed(3);};
 let chart_his =(e)=>{ chartHis[0].push(e[0]);chartHis[1].push(e[1]) }
 let totalVolFrom = 0;
 let totalVolTo = 0;
@@ -89,36 +92,58 @@ setInterval(async() => {
     totalVolFrom:totalVolFrom.toFixed(4)
   }
 
-  let volume = (1 + stv*50)*(1+incomeRatio*50)>0?(1 + stv*50)*(1+incomeRatio*50):1
+  let volume = (1 + stv*5)*(1+incomeRatio*5)>0?(1 + stv*5)*(1+incomeRatio*5):1
   let price = chartHis[0][chartHis[0].length-1]>0.5?chartHis[0][chartHis[0].length-1]:0.5;
   chart_his([price * (1 + stv)*(1+incomeRatio) * (1+volume/10000), volume])
 }, 500);
 
 setInterval(async () => {
   if(`${new Date()}`.slice(22,-32)==='00'){
-    console.log(chartData)
     price_his.create(chartData)
     totalVolFrom = totalVolTo
     totalVolTo=0
     chartHis[0].splice(0,chartHis[0].length-1);
     chartHis[1].splice(0,chartHis[1].length-1);
+
   }
 }, 1000);
-
 //5분
 setInterval(async () => {
   setIncomeRatio();
-  setDividendRatio();
-  let income = incomeRatio * chartHis[0][0] * await getTotalSupply()
+  setVotedRatio();
+  let incomeRatioSet = incomeRatio>0 ? incomeRatio : 0.0001
+  let income = (incomeRatioSet * chartHis[0][chartHis[0].length-1] * await getSimpleTotalSupply()).toFixed(10)
+  console.log(income);
+  let dividend = dividend_ratio * income;
   await dividend_his.create({ // 수정 필요
     company_wallet: process.env.ADMIN_ADDRESS,
     income: income,
+    voted_ratio: voted_ratio, // 투표 결과 배당률
     dividend_ratio: dividend_ratio, // 직전 배당률 -> 수정해야함
-    voted_ratio: dividend_ratio, // 투표 결과 배당률
-    dividend: dividend_ratio * income, // 총 배당금
-    next_ratio: dividend_ratio * incomeRatio // 차기배당률
+    dividend: dividend, // 총 배당금
   })
-}, 300000);
+  
+  // 배당금 분배
+  let tokenholders = await showAllTokenHolders();
+  let totalSupply = await getTotalSupply();
+
+  for(let i=0; i<tokenholders.length; i++) {
+    if(tokenholders[i] !== process.env.ADMIN_ADDRESS) { // 거래소 제외
+      const balance = await getTokenBalance(tokenholders[i]);
+      const stake = balance / totalSupply;
+      const personalDividend = String((dividend * stake).toFixed(18))
+      const result = await sendWeiToUser(tokenholders[i], personalDividend);
+      console.log(result);
+    }
+  }
+  // const balance1 = await getEtherBalance('0xD60e1416BE8657b8858443f2320D007672056eF5');
+  // const balance2 = await getEtherBalance('0x48c02B8aFddD9563cEF6703df4DCE1DB78A6b2Eb');
+  // console.log(balance1);
+  // console.log(balance2);
+
+  dividend_ratio = (dividend_ratio * (1 + Number(voted_ratio))).toFixed(4) // 차기 배당률
+
+}, 30000);
 
 app.get('/chart/total', async (req, res, next) => {
   // const { offset, limit } = req.query;
