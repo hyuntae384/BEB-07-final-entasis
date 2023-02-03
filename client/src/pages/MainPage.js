@@ -100,7 +100,9 @@ const MainPage =()=>{
                 powerOfMarket={-powerOfMarket}
                 ST_CurrentPrice={currentPrice.close} 
             />
-            <Order/>
+            <Order
+                ST_CurrentPrice={currentPrice.close} 
+            />
         </div>
         <div className="main_bottom">
             <Historys/>

@@ -12,20 +12,20 @@ const LimitOrderBook =({ST_CurrentPrice, powerOfMarket})=>{
     for(let i =0;i<5;i++){
             //매수, 매도세를 알 수 있는 지표는?
             //가격이 오른 정도 * 실려있는 거래량?
-        let amountBuySet = (powerOfMarket>0?(powerOfMarket*5):(-powerOfMarket)).toFixed(1);
-        let amountSellSet = (powerOfMarket<0?(powerOfMarket*5):(-powerOfMarket)).toFixed(1);
+        let amountBuySet = (powerOfMarket>0?(powerOfMarket*5):(-powerOfMarket)).toFixed(2);
+        let amountSellSet = (powerOfMarket<0?(powerOfMarket*5):(-powerOfMarket)).toFixed(2);
         let sellOrder= {
             id:4-i,
             name:"bebe",
-            price:(ST_CurrentPrice+priceSet*(i+1))>0?(ST_CurrentPrice+priceSet*(i+1)).toFixed(1):0,
-            amount:(-amountSellSet*(i+1))>1?(-amountSellSet*(i+1)).toFixed(1):(i+1),
+            price:(ST_CurrentPrice+priceSet*(i+1))>0?(ST_CurrentPrice+priceSet*(i+1)).toFixed(2):0,
+            amount:(-amountSellSet*(i+1))>1?(-amountSellSet*(i+1)).toFixed(2):(i+1),
         };
 
         let buyOrder={
             id:5+i,
             name:"bebe",
-            price:(ST_CurrentPrice-priceSet*(i+1))>0?(ST_CurrentPrice-priceSet*(i+1)).toFixed(1):0,
-            amount:(amountBuySet*(i+1))>1?(amountBuySet*(i+1)).toFixed(1):(i+1),
+            price:(ST_CurrentPrice-priceSet*(i+1))>0?(ST_CurrentPrice-priceSet*(i+1)).toFixed(2):0,
+            amount:(amountBuySet*(i+1))>1?(amountBuySet*(i+1)).toFixed(2):(i+1),
         };        
 
 

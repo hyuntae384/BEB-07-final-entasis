@@ -71,6 +71,11 @@ const Assets =({ST_CurrentPrice,powerOfMarket})=>{
     const onMouseEnterHandler = () => {
         document.body.style.overflow = 'hidden';
     }
+    const x0 = 0;
+    const y0 = 0;
+    const xWidth = 100;
+    const yMax = -marketData;
+    
     return(
     <div className="main_assets" onFocus={onMouseEnterHandler}>
         <h4>Assets Detail</h4>
@@ -100,19 +105,27 @@ const Assets =({ST_CurrentPrice,powerOfMarket})=>{
                         <h2>Buy</h2><h2>Sell</h2>
                     </div>
                     {-marketData}
-                    <svg>
-                        <g>
-                            <reg
-                            x={0}
-                            y={0}
-                            width = {100}
-                            height = {100}
-                            border-radius='20px'
-                            >
-
-                            </reg>
+                    <svg className="marketData_chart"
+                        width = {180}
+                        height = {250}>
+                        <g className="marketData_chart_bar">
+                        <rect
+                            {...{}}
+                            x={5}
+                            y={150-marketData*1000}
+                            width = {80}
+                            height = {80+marketData*1000}>
+                            </rect>
+                            <rect
+                            {...{}}
+                            x={95}
+                            y={150-marketData*1000}
+                            width = {80}
+                            height = {80+marketData*1000}>
+                            </rect>
                         </g>
                     </svg>
+                    
                 </div>
             </div>
 
