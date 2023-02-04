@@ -1,5 +1,4 @@
-import axios from "axios";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import dataToArray from "../../functions/data_to_array";
 import SelectBox from "../Select";
 import Candle from "./data/Candle"
@@ -16,12 +15,12 @@ const Chart =({currentPrice, chartArr,defaultLimit,dataLength,term,setTerm})=>{
     let volTo = dataToArray(chartArr,6)
     let volFrom = dataToArray(chartArr,7)
 
-    const onClickListener = () => {
-        setName("CECE");
-    };
-    const loadDataHandler = () => {
-        // setdefaultLimit(defaultLimit + 500);
-    };
+    // const onClickListener = () => {
+    //     setName("CECE");
+    // };
+    // const loadDataHandler = () => {
+    //     // setdefaultLimit(defaultLimit + 500);
+    // };
     
     const onMouseEnterHandler = () => {
         document.body.style.overflow = 'hidden';
