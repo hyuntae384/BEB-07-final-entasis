@@ -21,6 +21,8 @@ const MainPage =()=>{
     const [number, setNumber] = useState(0);
     const currentPrice_ref = useRef({});
     const {chainId, account, active, activate, deactivate} = useWeb3React();
+
+    
     let powerOfMarket = (currentPrice.open - currentPrice.close)
 
     useEffect(() => {
@@ -77,6 +79,7 @@ const MainPage =()=>{
             .then(res=>res.data)
             .then(err=>err)
             setUserPosition(resultPosition)
+
         }
         const EnrollWallet = async(wallet) => {
             if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
@@ -91,8 +94,9 @@ const MainPage =()=>{
         const onMouseEnterHandler = () => {
             document.body.style.overflow = 'unset';
         }
-        
-    return(
+        console.log()
+
+return(
     <div className="main_page" onMouseEnter={onMouseEnterHandler}>
         <WelcomePage
             account={account}
@@ -114,7 +118,9 @@ const MainPage =()=>{
             />
         </div>
         <div className="main_bottom">
-            <Historys/>
+            <Historys
+                userPosition={userPosition}
+            />
             <Assets
                 ST_CurrentPrice={currentPrice.close} 
                 powerOfMarket={powerOfMarket}
