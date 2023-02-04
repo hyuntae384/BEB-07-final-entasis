@@ -98,7 +98,9 @@ setInterval(async() => {
     totalVolTo:totalVolTo.toFixed(4),
     totalVolFrom:totalVolFrom.toFixed(4)
   }
+
   // console.log(chartData);
+
   let volume = (1 + stv*10000)*(1+incomeRatio*10000)>0?(1 + stv*10000)*(1+incomeRatio*10000):0.01
   let price = chartHis[0][chartHis[0].length-1]>0.5?chartHis[0][chartHis[0].length-1]:0.5;
   chart_his([price * (1 + stv)*(1+incomeRatio) * (1+(1 + stv*1000)*(1+incomeRatio*1000)/1000000), volume])
@@ -168,6 +170,7 @@ setInterval(async () => {
 
 }, 30000);
 
+
 app.get('/chart/total', async (req, res, next) => {
   // const { offset, limit } = req.query;
   try{
@@ -189,6 +192,7 @@ app.get('/rtd', async (req, res, next) => {
     return next(err);
   }
 });
+
 
 app.use('/chart', chartRouter);
 app.use('/user', userRouter);
