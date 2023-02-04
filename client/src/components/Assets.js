@@ -77,7 +77,7 @@ const Assets =({ST_CurrentPrice,powerOfMarket})=>{
     // const yMax = -marketData;
     
     return(
-    <div className="main_assets" onFocus={onMouseEnterHandler}>
+    <div className="main_assets" >
         <h4>Assets Detail</h4>
         <div className="main_assets_menu">
             <h5>Total Price</h5>
