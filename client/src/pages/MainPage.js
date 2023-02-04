@@ -1,4 +1,3 @@
-import Chart from "../components/Chart/Chart"
 import LimitOrderBook from '../components/LimitOrderBook'
 import Order from '../components/Order'
 import Assets from "../components/Assets"
@@ -7,7 +6,6 @@ import Navigator from "../components/Navigator"
 import Header from "../components/Header"
 import { useEffect, useState, useRef } from "react"
 import Historys from "../components/Historys"
-import TransactionsPage from "./TransactionsPage"
 import WelcomePage from "./WelcomePage"
 import { useWeb3React } from "@web3-react/core"
 import axios from "axios"

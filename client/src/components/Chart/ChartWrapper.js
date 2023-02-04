@@ -1,15 +1,12 @@
 import axios from "axios";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect} from "react";
 import dataToArray from "../../functions/data_to_array";
-import SelectBox from "../Select";
 import Chart from "./Chart";
-import Candle from "./data/Candle"
-import Volume from "./data/Volume"
 
 const ChartWrapper =({currentPrice})=>{
     const [defaultLimit, setDefaultLimit] = useState(0);
     const [dataLength, setDataLength] = useState(0);
-    const [isChartTotal, setIsChartTotal] = useState(true);
+    const [isChartTotal, setIsChartTotal] = useState([]);
     const [chartToggle,setChartToggle] = useState(false)
     const [chartOriginArr,setChartOriginArr] = useState([]);
     const [chartArr, setChartArr]  = useState([]);
@@ -32,59 +29,73 @@ const ChartWrapper =({currentPrice})=>{
 
 
     let limitChartArr=[];
-    if(!chartToggle&&typeof isChartTotal === 'object'){
-        setIsLoading(true)
-        setTimeout(()=>{
-            (isChartTotal.map(e=>limitChartArr.push(Object.values(e))))
-            setChartOriginArr(limitChartArr)
-            setIsLoading(false)
-        },1000)
-        setChartToggle(true)
+    if(!chartToggle){
+        const setChartTotal=(async() => 
+        {try {
+            const resultTotal = await axios.get('http://localhost:5050/chart/total')
+            setIsLoading(true)
+            setTimeout(()=>{
+                (resultTotal.data.map(e=>limitChartArr.push(Object.values(e))))
+                setIsChartTotal(limitChartArr)
+                setIsLoading(false)
+            },1000)
+            setChartToggle(true)
+        } catch (e) {
+        console.log(e) 
+        }
+    })
+    setChartTotal()
     }
+    useEffect(()=>{
+        console.log(chartArr)
+    })
+    useEffect(()=>{
+        setChartArr(chartOriginArr
+        .slice(dataLength>1200?dataLength:1200, defaultLimit>1200?defaultLimit:1200))
+        // console.log(dataLength,defaultLimit)
+        setDefaultLimit(chartOriginArr.length)
+
+    },[chartOriginArr,dataLength,defaultLimit])
+    let setByTime = []
+    let setByTimeNewArr = []
 
     useEffect(()=>{
-        const setChartTotal=(async() => 
-            {try {
-                const resultTotal = await axios.get('http://localhost:5050/chart/total')
-                setIsChartTotal(resultTotal.data)
-            } catch (e) {
-            console.log(e) 
+        let cnt = 0
+        let time = 15;
+        let termNum = 1;
+        console.log(`${termNum}`,`${termValue}`)
+
+        const arrSum = arr => arr.reduce((a,b) => a + b, 0)
+        if(`${termNum}`!==`${termValue}`){
+            for(let i = 0 ; i<chartArr.length; i++){
+                setByTime.push(chartArr[i])
+                console.log(i%termValue)
+                if(i%Number(termValue)=== 0){
+                    cnt++
+                    let setByTimeArr = [
+                        cnt,
+                        dataToArray(setByTime,1)[0],
+                        Number(dataToArray(setByTime,2)[0]),
+                        Number(dataToArray(setByTime,3)[setByTime.length-1]),
+                        Number(Math.max(...dataToArray(setByTime,4))),
+                        Number(Math.min(...dataToArray(setByTime,5))),
+                        Number(arrSum(dataToArray(setByTime,6))),
+                        Number(arrSum(dataToArray(setByTime,7))),
+                    ]
+
+                    setByTimeNewArr.push(setByTimeArr)
+                    setByTimeArr=[]
+                }
+                setChartArr(setByTimeNewArr)
             }
-        })
-        setChartTotal()
-        setChartArr(chartOriginArr
-        .slice(dataLength>700?dataLength:700, defaultLimit>700?defaultLimit:700))
-        console.log(dataLength,defaultLimit)
-        setDefaultLimit(chartOriginArr.length)
-        // let setByTime = []
-        // let setByTimeNewArr = []
-        // let cnt = 0
-        // let time = 15;
-        // const arrSum = arr => arr.reduce((a,b) => a + b, 0)
-        // for(let i = 0 ; i<chartOriginArr.length; i++){
-        //     setByTime.push(chartOriginArr[i])
-        //     if(setByTime.length === time){
-        //         cnt++
-        //         let setByTimeArr = [
-        //             cnt,
-        //             dataToArray(setByTime,1)[0],
-        //             dataToArray(setByTime,2)[0],
-        //             dataToArray(setByTime,3)[setByTime.length-1],
-        //             Math.max(...dataToArray(setByTime,4)),
-        //             Math.min(...dataToArray(setByTime,5)),
-        //             arrSum(dataToArray(setByTime,6)),
-        //             arrSum(dataToArray(setByTime,7)),
-        //         ]
-        //         setByTimeNewArr.push(setByTimeArr)
-        //         setByTimeArr=[]
-        //         console.log(setByTimeNewArr)
+            termNum=termValue
+            // console.log(termNum,termValue)
+            // console.log(setByTimeNewArr)
 
-        //     }
-        //     setChartOriginArr(setByTimeNewArr)
 
-        // }
-    },[chartOriginArr,dataLength,defaultLimit])
-    
+        }    
+    },[termValue])
+
     useEffect(() => {
         const loop = setInterval(() => {
             if(`${new Date().getSeconds()}`===`0`){
@@ -162,7 +173,7 @@ return(
                 // let set = defaultLimit*0.05
                 if(document.body.style.overflow === 'hidden'){
                 e.deltaY> 0
-                ? setDataLength(dataLength < 700 ? dataLength + 0 : dataLength - 8)
+                ? setDataLength(dataLength < 1200 ? dataLength + 0 : dataLength - 8)
                 : setDataLength(dataLength > defaultLimit*0.99 ? dataLength + 0  : dataLength + 8)
             }
             };

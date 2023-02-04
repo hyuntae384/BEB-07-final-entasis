@@ -71,10 +71,10 @@ const Assets =({ST_CurrentPrice,powerOfMarket})=>{
     const onMouseEnterHandler = () => {
         document.body.style.overflow = 'hidden';
     }
-    const x0 = 0;
-    const y0 = 0;
-    const xWidth = 100;
-    const yMax = -marketData;
+    // const x0 = 0;
+    // const y0 = 0;
+    // const xWidth = 100;
+    // const yMax = -marketData;
     
     return(
     <div className="main_assets" onFocus={onMouseEnterHandler}>

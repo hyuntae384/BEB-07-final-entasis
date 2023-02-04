@@ -17,11 +17,12 @@ const logger = require('./logger');
 const { sequelize, price_his, dividend_his, position_his } = require('./models');
 const {limiter} = require('./limit');
 const { 
-  getSimpleTotalSupply, 
-  showAllTokenHolders, 
-  getTokenBalance, 
-  getTotalSupply, 
-  allowToken, 
+  getSimpleTotalSupply,
+  showAllTokenHolders,
+  getTokenBalance,
+  getTotalSupply,
+  restrictToken,
+  allowToken,
   isRestricted
 } = require('./chainUtils/tokenUtils');
 const {sendEtherToUser, sendWeiToUser, getEtherBalance} = require('./chainUtils/etherUtils');
@@ -70,7 +71,7 @@ let incomeRatio=0;
 let dividend_ratio = 0.03;
 let voted_ratio
 let next_ratio
-let chartHis = [[9.34],[1]];
+let chartHis = [[130],[1]];
 let chartData
 const setStv =()=>{stv = Math.random()*(0.01-(-0.0101))-0.01};
 const setIncomeRatio =()=>{incomeRatio = Math.random()*(0.001-(-0.00101))-0.001};
@@ -79,7 +80,7 @@ let chart_his =(e)=>{ chartHis[0].push(e[0]);chartHis[1].push(e[1])}
 
 let totalVolFrom = 0;
 let totalVolTo = 0;
-let circuitBreaker = false
+let circuitBreaker = false;
 setInterval(async() => {
   chartHis[1].forEach(element => {totalVolTo+=element});  
   setStv()
@@ -98,13 +99,17 @@ setInterval(async() => {
     totalVolTo:totalVolTo.toFixed(4),
     totalVolFrom:totalVolFrom.toFixed(4)
   }
+
   console.log(chartData);
+  console.log(circuitBreaker);
+
   let volume = (1 + stv*10000)*(1+incomeRatio*10000)>0?(1 + stv*10000)*(1+incomeRatio*10000):0.01
   let price = chartHis[0][chartHis[0].length-1]>0.5?chartHis[0][chartHis[0].length-1]:0.5;
   chart_his([price * (1 + stv)*(1+incomeRatio) * (1+(1 + stv*1000)*(1+incomeRatio*1000)/1000000), volume])
   
   // circuitBreaker ? !circuitBreaker : circuitBreaker
   if(circuitBreaker) {
+    console.log("서킷브레이크로 인한 if문 진입")
     circuitBreaker = false;
     const status = await isRestricted();
     if(status) {
@@ -113,7 +118,7 @@ setInterval(async() => {
       else console.log("토큰 제한 해제 실패")
     }
   }
-}, circuitBreaker ? 6000 : 500 );
+}, circuitBreaker ? 60000 : 1000 );
 
 setInterval(async () => {
   if(`${new Date()}`.slice(22,-32)==='00'){
@@ -131,7 +136,7 @@ setInterval(async () => {
   setVotedRatio();
   let incomeRatioSet = incomeRatio>0 ? incomeRatio : 0.0001
   let income = (incomeRatioSet * chartHis[0][chartHis[0].length-1] * await getSimpleTotalSupply()).toFixed(10)
-  console.log(income);
+  // console.log(income);
   let dividend = dividend_ratio * income;
   await dividend_his.create({ // 수정 필요
     company_wallet: process.env.ADMIN_ADDRESS,
@@ -168,6 +173,7 @@ setInterval(async () => {
 
 }, 30000);
 
+
 // app.get('/chart/total', async (req, res, next) => {
 //   // const { offset, limit } = req.query;
 //   try{
@@ -180,15 +186,36 @@ setInterval(async () => {
 //   }
 // });
 
-// app.get('/rtd', async (req, res, next) => {
-//   try {
-//     if(!chartData) return res.status(400).json({message: "No such data"});
-//     return res.status(200).json(chartData)
-//   } catch (err) {
-//     console.error(err);
-//     return next(err);
-//   }
-// });
+app.get('/rtd', async (req, res, next) => {
+  try {
+    if(!chartData) return res.status(400).json({message: "No such data"});
+    return res.status(200).json(chartData)
+  } catch (err) {
+    console.error(err);
+    return next(err);
+  }
+});
+
+app.post('/restrict', async (req, res, next) => {
+  try {
+    circuitBreaker = true;
+    const status = await isRestricted();
+    if(status) {
+      console.log("이미 제한되어 있는 토큰")
+      return res.status(400).send({message: "this token had already been restricted"})
+    }
+    const result = await restrictToken();
+    if(result) {
+      console.log("토큰 거래 제한 성공");
+      return res.status(200).send({status: "successfully restricted the token"});
+    }
+    return res.status(400).send({status: "failed with the contract"});
+  } catch (err) {
+    console.error(err);
+    return next(err);
+  }
+})
+
 
 app.use('/chart', chartRouter);
 app.use('/user', userRouter);
@@ -211,4 +238,4 @@ app.listen(app.get('port'), () => {
   logger.info(app.get('port'), 'is up and listening');
 });
 
-module.exports = { app, circuitBreaker, chartData };
+module.exports = app, circuitBreaker, chartData;

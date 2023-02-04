@@ -1,29 +1,8 @@
 import { useEffect, useState } from 'react'
-import Modal from 'react-modal'
 import {Tutorial} from '../apis/user'
 const WelcomePage =({isLoading, tutorialCnt, account})=>{
     const [welcomeClose, setWelcomeClose] = useState(false)
 
-    const modalStyle = {
-        overlay: {
-            position: "fixed",
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-            overflow: "hidden",
-            zIndex: 10,
-        },
-        content: {
-            display: "block",
-            justifyContent: "center",
-            background: "#222223",
-            overflow: "hidden",
-            border:"0",
-            borderRadius: "10px",
-            WebkitOverflowScrolling: "touch",
-            outline: "none",
-            zIndex: 20,
-            
-        },
-    };
     useEffect(()=>{
         Tutorial(account,tutorialCnt)
     },[account,tutorialCnt])
