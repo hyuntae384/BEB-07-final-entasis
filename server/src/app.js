@@ -16,7 +16,14 @@ const chartRouter = require('./routes/chartRouter');
 const logger = require('./logger');
 const { sequelize, price_his, dividend_his, position_his } = require('./models');
 const {limiter} = require('./limit');
-const {getSimpleTotalSupply, showAllTokenHolders, getTokenBalance, getTotalSupply} = require('./chainUtils/tokenUtils');
+const { 
+  getSimpleTotalSupply, 
+  showAllTokenHolders, 
+  getTokenBalance, 
+  getTotalSupply, 
+  allowToken, 
+  isRestricted
+} = require('./chainUtils/tokenUtils');
 const {sendEtherToUser, sendWeiToUser, getEtherBalance} = require('./chainUtils/etherUtils');
 const app = express();
 app.set('port', process.env.PORT || 5050);
@@ -91,10 +98,21 @@ setInterval(async() => {
     totalVolTo:totalVolTo.toFixed(4),
     totalVolFrom:totalVolFrom.toFixed(4)
   }
+  console.log(chartData);
   let volume = (1 + stv*10000)*(1+incomeRatio*10000)>0?(1 + stv*10000)*(1+incomeRatio*10000):0.01
   let price = chartHis[0][chartHis[0].length-1]>0.5?chartHis[0][chartHis[0].length-1]:0.5;
   chart_his([price * (1 + stv)*(1+incomeRatio) * (1+(1 + stv*1000)*(1+incomeRatio*1000)/1000000), volume])
-  circuitBreaker ? !circuitBreaker : circuitBreaker
+  
+  // circuitBreaker ? !circuitBreaker : circuitBreaker
+  if(circuitBreaker) {
+    circuitBreaker = false;
+    const status = await isRestricted();
+    if(status) {
+      const result = await allowToken(); // 토큰 제한 해제 컨트랙트 메소드
+      if(result) console.log("토큰 제한 해제 완료");
+      else console.log("토큰 제한 해제 실패")
+    }
+  }
 }, circuitBreaker ? 6000 : 500 );
 
 setInterval(async () => {
@@ -150,29 +168,29 @@ setInterval(async () => {
 
 }, 30000);
 
-app.get('/chart/total', async (req, res, next) => {
-  // const { offset, limit } = req.query;
-  try{
-    const total = await price_his.findAll();
-    if(!total) return res.status(400).json({message: "No such data"});
-    return res.status(200).json(total)
-  } catch (err) {
-    console.error(err);
-    return next(err);
-  }
-});
+// app.get('/chart/total', async (req, res, next) => {
+//   // const { offset, limit } = req.query;
+//   try{
+//     const total = await price_his.findAll();
+//     if(!total) return res.status(400).json({message: "No such data"});
+//     return res.status(200).json(total)
+//   } catch (err) {
+//     console.error(err);
+//     return next(err);
+//   }
+// });
 
-app.get('/rtd', async (req, res, next) => {
-  try {
-    if(!chartData) return res.status(400).json({message: "No such data"});
-    return res.status(200).json(chartData)
-  } catch (err) {
-    console.error(err);
-    return next(err);
-  }
-});
+// app.get('/rtd', async (req, res, next) => {
+//   try {
+//     if(!chartData) return res.status(400).json({message: "No such data"});
+//     return res.status(200).json(chartData)
+//   } catch (err) {
+//     console.error(err);
+//     return next(err);
+//   }
+// });
 
-// app.use('/chart', chartRouter);
+app.use('/chart', chartRouter);
 app.use('/user', userRouter);
 app.use('/company', companyRouter);
 app.use('/token', tokenRouter);
@@ -193,4 +211,4 @@ app.listen(app.get('port'), () => {
   logger.info(app.get('port'), 'is up and listening');
 });
 
-module.exports = app;
+module.exports = { app, circuitBreaker, chartData };
