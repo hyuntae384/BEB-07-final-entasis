@@ -16,7 +16,14 @@ const chartRouter = require('./routes/chartRouter');
 const logger = require('./logger');
 const { sequelize, price_his, dividend_his, position_his } = require('./models');
 const {limiter} = require('./limit');
-const {getSimpleTotalSupply, showAllTokenHolders, getTokenBalance, getTotalSupply} = require('./chainUtils/tokenUtils');
+const { 
+  getSimpleTotalSupply, 
+  showAllTokenHolders, 
+  getTokenBalance, 
+  getTotalSupply, 
+  allowToken, 
+  isRestricted
+} = require('./chainUtils/tokenUtils');
 const {sendEtherToUser, sendWeiToUser, getEtherBalance} = require('./chainUtils/etherUtils');
 const app = express();
 app.set('port', process.env.PORT || 5050);
@@ -63,7 +70,7 @@ let incomeRatio=0;
 let dividend_ratio = 0.03;
 let voted_ratio
 let next_ratio
-let chartHis = [[9.34],[1]];
+let chartHis = [[130],[1]];
 let chartData
 const setStv =()=>{stv = Math.random()*(0.01-(-0.0101))-0.01};
 const setIncomeRatio =()=>{incomeRatio = Math.random()*(0.001-(-0.00101))-0.001};
@@ -72,7 +79,7 @@ let chart_his =(e)=>{ chartHis[0].push(e[0]);chartHis[1].push(e[1])}
 
 let totalVolFrom = 0;
 let totalVolTo = 0;
-let circuitBreaker = false
+let circuitBreaker = true
 setInterval(async() => {
   chartHis[1].forEach(element => {totalVolTo+=element});  
   setStv()
@@ -91,10 +98,21 @@ setInterval(async() => {
     totalVolTo:totalVolTo.toFixed(4),
     totalVolFrom:totalVolFrom.toFixed(4)
   }
+  // console.log(chartData);
   let volume = (1 + stv*10000)*(1+incomeRatio*10000)>0?(1 + stv*10000)*(1+incomeRatio*10000):0.01
   let price = chartHis[0][chartHis[0].length-1]>0.5?chartHis[0][chartHis[0].length-1]:0.5;
   chart_his([price * (1 + stv)*(1+incomeRatio) * (1+(1 + stv*1000)*(1+incomeRatio*1000)/1000000), volume])
-  circuitBreaker ? !circuitBreaker : circuitBreaker
+  
+  // circuitBreaker ? !circuitBreaker : circuitBreaker
+  if(circuitBreaker) {
+    circuitBreaker = false;
+    const status = await isRestricted();
+    if(status) {
+      const result = await allowToken(); // 토큰 제한 해제 컨트랙트 메소드
+      if(result) console.log("토큰 제한 해제 완료");
+      else console.log("토큰 제한 해제 실패")
+    }
+  }
 }, circuitBreaker ? 6000 : 500 );
 
 setInterval(async () => {
@@ -113,7 +131,7 @@ setInterval(async () => {
   setVotedRatio();
   let incomeRatioSet = incomeRatio>0 ? incomeRatio : 0.0001
   let income = (incomeRatioSet * chartHis[0][chartHis[0].length-1] * await getSimpleTotalSupply()).toFixed(10)
-  console.log(income);
+  // console.log(income);
   let dividend = dividend_ratio * income;
   await dividend_his.create({ // 수정 필요
     company_wallet: process.env.ADMIN_ADDRESS,
@@ -172,7 +190,7 @@ app.get('/rtd', async (req, res, next) => {
   }
 });
 
-// app.use('/chart', chartRouter);
+app.use('/chart', chartRouter);
 app.use('/user', userRouter);
 app.use('/company', companyRouter);
 app.use('/token', tokenRouter);
@@ -193,4 +211,4 @@ app.listen(app.get('port'), () => {
   logger.info(app.get('port'), 'is up and listening');
 });
 
-module.exports = app;
+module.exports = { app, circuitBreaker, chartData };
