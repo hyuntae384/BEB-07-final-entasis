@@ -32,13 +32,22 @@ const MainPage =()=>{
         console.log(e) // caught
         }
     })
+        if(!isLoading){
         const loop = setInterval(() => {
-        setIsLoading(false)
         setChartRTD()
         clearInterval(loop);
         powerOfMarket = 0;
         }, 100);
-
+        }else{
+            setTimeout(()=>{
+                const loop = setInterval(() => {
+                    setChartRTD()
+                    clearInterval(loop);
+                    powerOfMarket = 0;
+                    }, 100);
+                setIsLoading(false)
+            },1000)
+        }
     }, [currentPrice_ref.current]);
 
     const copyHandler = (e) => {

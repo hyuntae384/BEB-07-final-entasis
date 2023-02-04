@@ -79,7 +79,7 @@ let chart_his =(e)=>{ chartHis[0].push(e[0]);chartHis[1].push(e[1])}
 
 let totalVolFrom = 0;
 let totalVolTo = 0;
-let circuitBreaker = true
+let circuitBreaker = false
 setInterval(async() => {
   chartHis[1].forEach(element => {totalVolTo+=element});  
   setStv()
