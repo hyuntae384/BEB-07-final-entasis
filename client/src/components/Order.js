@@ -28,20 +28,20 @@ const Order =({ST_CurrentPrice})=>{
     const userAccount = useWeb3React().account;
     const StABI = TokenABI.abi
     const tokenContract = new web3.eth.Contract(StABI, contractAccount);
+    console.log(curPrice);
 
-    /* useEffect(() => {
+    useEffect(() => {
         setCurPrice(ST_CurrentPrice)
         getUserEth(userAccount);
         getUserToken(userAccount);
-    },[ST_CurrentPrice]) */
+    },[ST_CurrentPrice])
     
-    //User Eth, token 가져오기
+    //User Eth, token 가져오기------------------------------------
     async function getUserEth(account){
         if(account === undefined) setUserEth('');
         else {
             let userEth = await web3.eth.getBalance(account);
             setUserEth(userEth);
-            // console.log(userEth);
         }
     }
 
@@ -51,14 +51,9 @@ const Order =({ST_CurrentPrice})=>{
             let userToken = await tokenContract.methods.balanceOf(account).call();
             setUserToken(userToken);
         }
-    }
+    }    
 
-    /* const userEth = await getUserEth(userAccount);
-    console.log(web3.utils.fromWei(userEth, 'ether'));
-    const userToken = await getUserToken(userAccount);
-    console.log(web3.utils.fromWei(userToken)); */
-
-    
+    //-----------------------------------------------------------
 
     function priceChange(e){
         let curprice = e.target.value;
@@ -83,7 +78,7 @@ const Order =({ST_CurrentPrice})=>{
     }
     // 판매
     async function SendToken(){
-        /* const data = await tokenContract.methods.transfer(serverAccount, web3.utils.toWei(amount)).encodeABI()
+        const data = await tokenContract.methods.transfer(serverAccount, web3.utils.toWei(amount)).encodeABI()
         const tx = {
             from: userAccount,
             to: tokenContract._address,
@@ -95,9 +90,7 @@ const Order =({ST_CurrentPrice})=>{
         await web3.eth.sendTransaction(tx).then(function(receipt){
             console.log(receipt)
             SellToken(pubName, String(price), String(amount), userAccount)
-        }) */
-        await getUserEth(userAccount);
-        await getUserToken(userAccount);
+        })
     }
     
 
@@ -123,7 +116,7 @@ const Order =({ST_CurrentPrice})=>{
         <form>
             <h6 className="order_available">Available Eth : {web3.utils.fromWei(userEth, 'ether').slice(0, 8)}</h6>
             <div>
-            <input type="text" className="order_price" onChange={e => priceChange(e)} placeholder={ST_CurrentPrice}></input>
+            <input type="text" className="order_price" onChange={e => priceChange(e)} placeholder={curPrice}></input>
             {/* <h6 className="order_price_eth">ETH</h6> */}
             </div>
             <input type="text" className="order_amount" onChange={e => amountChange(e)} placeholder='Amount'></input>
