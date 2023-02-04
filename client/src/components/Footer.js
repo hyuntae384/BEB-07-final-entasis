@@ -53,7 +53,8 @@ const Footer =()=>{
         <div></div>
         <div></div>
         <div></div>
-        <div></div>
+        <div><img src={require('../assets/images/danger.png')} alt='danger'></img></div>
+
         </div>
     </div>
     )

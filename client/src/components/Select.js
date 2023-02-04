@@ -1,22 +1,21 @@
-const SelectBox = (props) => {
+const SelectBox = ({set, value}) => {
     const handleChange = (e) => {
 		// event handler
-		console.log(e.target.value);
+		value(e.target.value)
 	};
 	return (
 		<select 
         className='chart_select'
         onChange={handleChange}>
-
-			{props.options.map((option) => (
+			{typeof set==='object'?set.map((option) => (
 				<option
 					key={option.value}
 					value={option.value}
-					defaultValue={props.defaultValue === option.value}
+					defaultValue={set.defaultValue === option.value}
 				>
 					{option.name}
 				</option>
-			))}
+			)):<></>}
 		</select>
 	);
 };

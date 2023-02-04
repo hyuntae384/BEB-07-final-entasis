@@ -45,7 +45,7 @@ const Volume =({
     const dataYMin = 0
     const dataYRange = dataYMax;
     const numYTicks = 4;
-    const barPlothWidth = xAxisLength / (dataArray.length);
+    const barPlothWidth = xAxisLength / dataArray.length;
     const handleMouseMove=(e)=>{
         setPointer({
             x: e.clientX,
@@ -92,7 +92,9 @@ const Volume =({
                         y2={y}
                         stroke='#474747'
                     ></line>
-                    <text x={SVG_VOLUME_WIDTH - 60} y={y + 10} fontSize="10" stroke='#474747' >
+                    <text
+                        className='select_ven'
+                        x={SVG_VOLUME_WIDTH - 60} y={y + 10} fontSize="10" stroke='#474747' >
                         {typeof yValue !== 'null'&&typeof yValue !== 'undefined'?yValue.toLocaleString():0} 
                     </text>
                     </g>
@@ -160,9 +162,3 @@ const Volume =({
     )
 }}
 export default Volume
-
-//현재값=최고값*현재위치-580/120
-//현재값/dataYMax=120/pointer.y
-//최저값
-//580=max
-//700=0

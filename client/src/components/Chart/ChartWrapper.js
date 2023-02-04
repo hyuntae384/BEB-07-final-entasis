@@ -14,6 +14,22 @@ const ChartWrapper =({currentPrice})=>{
     const [chartOriginArr,setChartOriginArr] = useState([]);
     const [chartArr, setChartArr]  = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [termValue, setTerm] = useState(1)
+    const ST_Name = [
+        { value: "BEBE", name: "BEBE" },
+        { value: "DEDE", name: "DEDE" },
+        { value: "CECE", name: "CECE" },
+        ];
+    const term = [
+        { value: "1", name: "1 minutes" },
+        { value: "15", name: "15 minutes" },
+        { value: "60", name: "1 hours" },
+        { value: "240", name: "4 hours" },
+        { value: "1440", name: "1 day" },
+        { value: "10080", name: "1 week" },
+        ]
+
+
 
     let limitChartArr=[];
     if(!chartToggle&&typeof isChartTotal === 'object'){
@@ -37,9 +53,36 @@ const ChartWrapper =({currentPrice})=>{
         })
         setChartTotal()
         setChartArr(chartOriginArr
-        .slice(dataLength, defaultLimit))
+        .slice(dataLength>700?dataLength:700, defaultLimit>700?defaultLimit:700))
+        console.log(dataLength,defaultLimit)
         setDefaultLimit(chartOriginArr.length)
+        // let setByTime = []
+        // let setByTimeNewArr = []
+        // let cnt = 0
+        // let time = 15;
+        // const arrSum = arr => arr.reduce((a,b) => a + b, 0)
+        // for(let i = 0 ; i<chartOriginArr.length; i++){
+        //     setByTime.push(chartOriginArr[i])
+        //     if(setByTime.length === time){
+        //         cnt++
+        //         let setByTimeArr = [
+        //             cnt,
+        //             dataToArray(setByTime,1)[0],
+        //             dataToArray(setByTime,2)[0],
+        //             dataToArray(setByTime,3)[setByTime.length-1],
+        //             Math.max(...dataToArray(setByTime,4)),
+        //             Math.min(...dataToArray(setByTime,5)),
+        //             arrSum(dataToArray(setByTime,6)),
+        //             arrSum(dataToArray(setByTime,7)),
+        //         ]
+        //         setByTimeNewArr.push(setByTimeArr)
+        //         setByTimeArr=[]
+        //         console.log(setByTimeNewArr)
 
+        //     }
+        //     setChartOriginArr(setByTimeNewArr)
+
+        // }
     },[chartOriginArr,dataLength,defaultLimit])
     
     useEffect(() => {
@@ -68,22 +111,67 @@ const ChartWrapper =({currentPrice})=>{
         }, 1000);
     }, [new Date().getSeconds(),chartArr,chartOriginArr]);
 
+    // let posX = 0;
+    // let posY = 0;
+    
+    // let originalX = 0;
+    // let originalY = 0;
+    // const dragStartHandler = e => {
+    //     // const img = new Image();
+    //     // e.dataTransfer.setDragImage(img, 0, 0);
+    //     posX = e.clientX;
+    //     posY = e.clientY;
+        
+    //     originalX = e.target.offsetLeft;
+    //     originalY = e.target.offsetTop;
+    //     console.log(e.clientX);
+    //     console.log(e.clientY);
+        
+    //     console.log(e.target.offsetLeft);
+    //     console.log(e.target.offsetTop);
+    //     };
+    // const dragHandler = e => {
+    //     e.target.style.left = `${e.target.offsetLeft + e.clientX - posX}px`;
+    //     e.target.style.top = `${e.target.offsetTop + e.clientY - posY}px`;
+    //     posX = e.clientX;
+    //     posY = e.clientY;
+    //     e.target.style.left = `${originalX}px`;
+    //     e.target.style.top = `${originalY}px`;
+    //     };
+    // const dragEndHandler = e => {
+    //     e.target.style.left = `${e.target.offsetLeft + e.clientX - posX}px`;
+    //     e.target.style.top = `${e.target.offsetLeft + e.clientY - posY}px`;
+    //     };    
+
 return(
     <div className="chart_wrapper"
+        // onMouseDown={()=>{
+        //     window.onmousedown = e =>
+        //     console.log(e.clientX)
+
+        // }}
+        // onMouseUp={()=>{
+        //     window.onmouseup = e =>
+        //     console.log(e.clientX)
+
+        // }}
+
+        // onDrag={dragStartHandler}
         onWheel={() => {
             window.onwheel = function (e) {
                 // let set = defaultLimit*0.05
-                console.log(document.body.style.overflow)
                 if(document.body.style.overflow === 'hidden'){
                 e.deltaY> 0
-                ? setDataLength(dataLength < 1 ? dataLength + 0 : dataLength - 8)
-                : setDataLength(dataLength > defaultLimit*0.95 ? dataLength + 0  : dataLength + 8)
+                ? setDataLength(dataLength < 700 ? dataLength + 0 : dataLength - 8)
+                : setDataLength(dataLength > defaultLimit*0.99 ? dataLength + 0  : dataLength + 8)
             }
             };
         }} 
         >
         {isLoading?<img className="loading" src={require('../../assets/images/Infinity.gif')} alt='loading'/>:
         <Chart
+        term={term}
+        setTerm={setTerm}
         chartArr = {chartArr}
         currentPrice={currentPrice}
         dataLength={dataLength}
