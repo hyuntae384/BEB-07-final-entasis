@@ -11,6 +11,9 @@ const Order =({ST_CurrentPrice})=>{
     const [price, setPrice] = useState("");
     const [isFaucet, setIsFaucet] = useState(false)
     const {chainId, account, active, activate, deactivate} = useWeb3React();
+    const [userEth, setUserEth] = useState("")
+    const [userToken, setUserToken] = useState("")
+    const [curPrice, setCurPrice] = useState()
     const countNumber=(e)=>{
         return e.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,",")
     }
@@ -26,6 +29,36 @@ const Order =({ST_CurrentPrice})=>{
     const StABI = TokenABI.abi
     const tokenContract = new web3.eth.Contract(StABI, contractAccount);
 
+    /* useEffect(() => {
+        setCurPrice(ST_CurrentPrice)
+        getUserEth(userAccount);
+        getUserToken(userAccount);
+    },[ST_CurrentPrice]) */
+    
+    //User Eth, token 가져오기
+    async function getUserEth(account){
+        if(account === undefined) setUserEth('');
+        else {
+            let userEth = await web3.eth.getBalance(account);
+            setUserEth(userEth);
+            // console.log(userEth);
+        }
+    }
+
+    async function getUserToken(account){
+        if(account === undefined) setUserToken('')
+        else {
+            let userToken = await tokenContract.methods.balanceOf(account).call();
+            setUserToken(userToken);
+        }
+    }
+
+    /* const userEth = await getUserEth(userAccount);
+    console.log(web3.utils.fromWei(userEth, 'ether'));
+    const userToken = await getUserToken(userAccount);
+    console.log(web3.utils.fromWei(userToken)); */
+
+    
 
     function priceChange(e){
         let curprice = e.target.value;
@@ -50,7 +83,7 @@ const Order =({ST_CurrentPrice})=>{
     }
     // 판매
     async function SendToken(){
-        const data = await tokenContract.methods.transfer(serverAccount, web3.utils.toWei(amount)).encodeABI()
+        /* const data = await tokenContract.methods.transfer(serverAccount, web3.utils.toWei(amount)).encodeABI()
         const tx = {
             from: userAccount,
             to: tokenContract._address,
@@ -62,9 +95,12 @@ const Order =({ST_CurrentPrice})=>{
         await web3.eth.sendTransaction(tx).then(function(receipt){
             console.log(receipt)
             SellToken(pubName, String(price), String(amount), userAccount)
-        })
+        }) */
+        await getUserEth(userAccount);
+        await getUserToken(userAccount);
     }
-    // 판매 구매 조건실행 구현 필요
+    
+
     const ST_1 = {
         name:'BEBE',price:'200',amount:'20'
     };
@@ -77,6 +113,7 @@ const Order =({ST_CurrentPrice})=>{
     const faucetBtn=()=>{
         FaucetWallet(account)
     }
+
     return(
     <div className="order">
         <div className="order_mode">
@@ -84,7 +121,7 @@ const Order =({ST_CurrentPrice})=>{
             <h3>Market Order</h3>
         </div>
         <form>
-            <h6 className="order_available">Available 10.120 ETH</h6>
+            <h6 className="order_available">Available Eth : {web3.utils.fromWei(userEth, 'ether').slice(0, 8)}</h6>
             <div>
             <input type="text" className="order_price" onChange={e => priceChange(e)} placeholder={ST_CurrentPrice}></input>
             {/* <h6 className="order_price_eth">ETH</h6> */}
@@ -104,6 +141,7 @@ const Order =({ST_CurrentPrice})=>{
         <div className='assets'>
             <h4>Assets</h4>
             <div className='assets_wraper'>
+                <h6>{web3.utils.fromWei(userToken, 'ether')}</h6>
                 <h6>{ST_1.name+" ("+ST_1.amount+")"+" "+countNumber(ST_1.price+"ETH")}</h6>
                 <h6>{ST_2.name+" ("+ST_2.amount+")"+" "+countNumber(ST_2.price+"ETH")}</h6>
                 <h6>{ST_3.name+" ("+ST_3.amount+")"+" "+countNumber(ST_3.price+"ETH")}</h6>
