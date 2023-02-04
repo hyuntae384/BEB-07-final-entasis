@@ -65,10 +65,10 @@ const Chart =({currentPrice, chartArr,defaultLimit,dataLength,term,setTerm})=>{
         onMouseLeave = {onMouseLeaveHandler}
         >
         <div className="chart_select">
-        {/* <SelectBox
-            set={0}
-            value={0}
-        ></SelectBox> */}
+        <SelectBox
+            set={term}
+            value={setTerm}
+        ></SelectBox>
         <SelectBox 
             set = {term}
             value={setTerm}
