@@ -1,6 +1,5 @@
 import {scaleLinear} from 'd3-scale'
 import { useState } from 'react';
-import dataToArray from '../../../functions/data_to_array'
 
 const Candle =({ 
     currentPrice,
@@ -9,7 +8,9 @@ const Candle =({
     close,
     high,
     low,
-    width, height, defaultLimit, dataLength, name,})=>{
+    width, 
+    height
+})=>{
     const [pointer,setPointer]=useState({x:0,y:0})
     
     let SVG_CHART_WIDTH = typeof width === "number" ? width * 1 : 0;
@@ -20,7 +21,7 @@ const Candle =({
     const yAxisLength = SVG_CHART_HEIGHT - 25;
     const x0 = 0;
     const y0 = 0;
-        const dataArray = [];
+    const dataArray = [];
 
         
     for (let i = 0; i < date.length; i++) {
@@ -33,12 +34,6 @@ const Candle =({
         ]);
     }
 
-    // if(`${currentPrice.createdAt}`.slice(18,-5)!=='0'){
-            // }else{
-    //     dataArray.push([`${currentPrice.createdAt}`,`${currentPrice.open}`,`${currentPrice.close}`,`${currentPrice.high}`,`${currentPrice.low}`]);
-    //     dataArray.push([currentPrice.createdAt,currentPrice.close,currentPrice.close,currentPrice.close,currentPrice.close]);
-
-    // }String()
     if(`${new Date().getSeconds()}`===`0`){
         currentPrice.high = currentPrice.close
         currentPrice.low = currentPrice.close
@@ -51,8 +46,6 @@ const Candle =({
             currentPrice.low
         ];
 
-
-        
         const dataYMax = dataArray.reduce(
         (max, [_, open, close, high, low]) => (Math.max(max, high,currentPrice.high)+0.0005),
         -Infinity
@@ -63,7 +56,7 @@ const Candle =({
     );
     const dataYRange = dataYMax - dataYMin;
     const numYTicks = 7;
-    const barPlothWidth = xAxisLength / (dataArray.length);
+    const barPlothWidth = xAxisLength / dataArray.length;
     const numXTicks = dataArray.length>12?12:dataArray.length;
 
     const xValue= [];
@@ -80,8 +73,14 @@ const Candle =({
                 y: e.clientY
             })
         }
+        let windowPageYOffset = window.pageYOffset
+        
+if(dataArray[0][0]!==undefined&&
+    !isNaN(yAxisLength)&&
+    SVG_CHART_HEIGHT>0
+    ){
     return(
-    <div className="candle">
+    <div className=" candle">
         <br/>
         <div>
             <svg 
@@ -103,6 +102,7 @@ const Candle =({
                 {name} {currentPrice.close}
                 </text> */}
                 <line
+            
                 x1={x0}
                 y1={yAxisLength}
                 x2={xAxisLength}
@@ -110,6 +110,7 @@ const Candle =({
                 stroke="gray"
                 />
                 <line
+            
                 x1={xAxisLength}
                 y1={y0}
                 x2={xAxisLength}
@@ -123,7 +124,7 @@ const Candle =({
                 return (
                     <g key={index}>
                     <line
-                        className="lineLight"
+                    
                         x1={x}
                         x2={x}
                         y1={yAxisLength}
@@ -131,6 +132,7 @@ const Candle =({
                         stroke='#252525'
                     ></line>
                     <text
+                    
                         x={x}
                         y={SVG_CHART_HEIGHT-15}
                         textAnchor="middle"
@@ -153,7 +155,7 @@ const Candle =({
                 return (
                     <g key={index}>
                     <line
-                        className="lineLight"
+                    
                         x1={xAxisLength}
                         x2={x0}
                         y1={y!=='NaN'?y:0}
@@ -161,38 +163,42 @@ const Candle =({
                         stroke='#252525'
                         
                     ></line>
-                    <text x={SVG_CHART_WIDTH - 60} y={y} fontSize="10" stroke='#252525' >
-                        {typeof yValue === 'number'?yValue.toFixed(2).toLocaleString():0}
+                    <text 
+                        x={SVG_CHART_WIDTH - 60} y={y} fontSize="10" stroke='#252525' >
+                        {typeof yValue === 'number'?yValue.toFixed(2).toLocaleString():0} ETH
                     </text>
                     </g>
                 );
                 })}
                 <line
-                        x1={pointer.x<SVG_CHART_WIDTH*0.93&&(pointer.y<550)?pointer.x-11:-10}
-                        x2={pointer.x<SVG_CHART_WIDTH*0.93&&(pointer.y<550)?pointer.x-11:-10}
-                        y1={0}
-                        y2={SVG_CHART_HEIGHT-25}
-                        stroke='#00fbff'
-                        opacity={0.3}
-                        ></line>
-                        <line
-                        x1={0}
-                        x2={SVG_CHART_WIDTH-65}
-                        y1={pointer.x<SVG_CHART_WIDTH*0.93&&(pointer.y<550)?(pointer.y-135):-10}
-                        y2={pointer.x<SVG_CHART_WIDTH*0.93&&(pointer.y<550)?(pointer.y-135):-10}
-                        stroke='#00fbff'
-                        opacity={0.3}
-                        ></line>
-                        <text
-                        x={SVG_CHART_WIDTH-60}
-                        y={pointer.x<SVG_CHART_WIDTH*0.93&&(pointer.y<550)?(pointer.y-135):-10}
-                        fill='#00fbff'
-                        stroke='#00fbff'
-                        opacity={0.5}
-                        fontSize='13px'
-                        > 
-                        {(dataYMin + dataYMax*(1-(pointer.y/415-0.3253))).toFixed(2).toLocaleString()}
-                        </text>
+                
+                    x1={pointer.x<SVG_CHART_WIDTH*0.93&&((pointer.y+windowPageYOffset)<550)?pointer.x-11:-10}
+                    x2={pointer.x<SVG_CHART_WIDTH*0.93&&((pointer.y+windowPageYOffset)<550)?pointer.x-11:-10}
+                    y1={0}
+                    y2={SVG_CHART_HEIGHT-25}
+                    stroke='#00fbff'
+                    opacity={0.3}
+                    ></line>
+                    <line
+                    x1={0}
+                    x2={SVG_CHART_WIDTH-65}
+                    y1={pointer.x<SVG_CHART_WIDTH*0.93&&((pointer.y+windowPageYOffset)<550)?((pointer.y+windowPageYOffset)-135):-10}
+                    y2={pointer.x<SVG_CHART_WIDTH*0.93&&((pointer.y+windowPageYOffset)<550)?((pointer.y+windowPageYOffset)-135):-10}
+                    stroke='#00fbff'
+                    opacity={0.3}
+                    ></line>
+
+                    <text
+                
+                    x={SVG_CHART_WIDTH-60}
+                    y={pointer.x<SVG_CHART_WIDTH*0.93&&((pointer.y+windowPageYOffset)<550)?((pointer.y+windowPageYOffset)-135):-10}
+                    fill='#00aab3'
+                    stroke='#00aab3'
+                    opacity={0.5}
+                    fontSize='11px'
+                > 
+                {(dataYMin + dataYMax*(1-(pointer.y/415-0.3253))).toFixed(2).toLocaleString()} ETH
+                </text>
                 {/* 캔들 구현 */}
                 {dataArray.map(
                 (
@@ -217,24 +223,24 @@ const Candle =({
                     return (
                     <g key={index}>
                         <line
+                    
                         x1={x + (barPlothWidth - sidePadding) / 2}
                         x2={x + (barPlothWidth - sidePadding) / 2}
-                        y1={(yAxisLength - scaleY(low))==='NaN' ? 0 : yAxisLength - scaleY(low)}
-                        y2={(yAxisLength - scaleY(high))==='NaN' ? 0 : yAxisLength - scaleY(high)}
+                        y1={(yAxisLength - scaleY(low))!=='NaN' ? yAxisLength - scaleY(low) : 0}
+                        y2={(yAxisLength - scaleY(high))!=='NaN' ? yAxisLength - scaleY(high) : 0}
                         stroke={fill}
                         />
 
                         <rect
+                        id={`ID_`+`${dataArray.length-index-1}`}
                         {...{ fill }}
                         x={x}
-                        width={barPlothWidth - sidePadding}
                         y={typeof scaleY(max)!== null ?yAxisLength - scaleY(max):0}
+                        width={barPlothWidth - sidePadding}
                         // 시가 종가 최대 최소값의 차
                         height={(scaleY(max) - scaleY(min))>1?scaleY(max) - scaleY(min):1}
                         ></rect>
-
                         <line
-                        className="lineLight"
                         x1={xAxisLength+10}
                         x2={x0}
                         y1={(yAxisLength - scaleY(currentPrice.close))==='NaN' ? 0 : yAxisLength - scaleY(currentPrice.close)}
@@ -251,12 +257,15 @@ const Candle =({
                         </text>
                     </g>
                     );
+                })
+                //.slice(10,100)
+                //offset 
+                //limit
                 }
-                )}
             </svg>
         </div>
 
     </div>
     )
-}
+}}
 export default Candle

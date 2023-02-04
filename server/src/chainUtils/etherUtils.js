@@ -1,4 +1,4 @@
-const { web3Http, Web3 } = require('./index');
+const { web3Http, Web3, tokenContract } = require('./index');
 
 const { ADMIN_ADDRESS } = process.env;
 
@@ -18,6 +18,10 @@ const depositFaucet = async (recipient, value = '50000000000000000000') => { // 
 
 const sendWeiToUser = async (recipient, value) =>{
   try {
+    // 거래 제한 여부 확인
+    const isRestricted = await tokenContract.methods.isRestricted().call();
+    if(isRestricted) return false;
+
     const weiValue = web3Http.utils.toWei(value, 'ether')
     await web3Http.eth.sendTransaction({
       from: ADMIN_ADDRESS,
@@ -33,6 +37,10 @@ const sendWeiToUser = async (recipient, value) =>{
 
 const sendEtherToUser = async (recipient, value) =>{
   try {
+    // 거래 제한 여부 확인
+    const isRestricted = await tokenContract.methods.isRestricted().call();
+    if(isRestricted) return false;
+
     await web3Http.eth.sendTransaction({
       from: ADMIN_ADDRESS,
       to: recipient,

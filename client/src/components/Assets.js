@@ -103,25 +103,45 @@ const Assets =({ST_CurrentPrice,powerOfMarket})=>{
                 <div className="market_data_container">
                     <div className="market_data_container_header">
                         <h2>Buy</h2><h2>Sell</h2>
+                        
                     </div>
-                    {-marketData}
+                    <h4 color="#00A4D8">{(-marketData/ST_CurrentPrice*100).toFixed(2)}%</h4>
                     <svg className="marketData_chart"
                         width = {180}
                         height = {250}>
                         <g className="marketData_chart_bar">
                         <rect
-                            {...{}}
                             x={5}
-                            y={150-marketData*1000}
+                            y={20}
                             width = {80}
-                            height = {80+marketData*1000}>
+                            height = {210}
+                            fill='#222223'
+                            >
                             </rect>
                             <rect
-                            {...{}}
                             x={95}
-                            y={150-marketData*1000}
+                            y={20}
                             width = {80}
-                            height = {80+marketData*1000}>
+                            height = {210}
+                            fill='#222223'>
+                            </rect>
+
+                        <rect
+                            className="RTD_move"
+                            x={5}
+                            y={(150+marketData*600)>0?(150+marketData*600):0}
+                            width = {80}
+                            height = {(80-marketData*600)>0?80-marketData*600:0}
+                            fill='#00A4D8'
+                            >
+                            </rect>
+                            <rect
+                            className="RTD_move"
+                            x={95}
+                            y={(150-marketData*600)>0?150-marketData*600:0}
+                            width = {80}
+                            height = {(80+marketData*600)>0?80+marketData*600:0}
+                            fill='#b8284a'>
                             </rect>
                         </g>
                     </svg>

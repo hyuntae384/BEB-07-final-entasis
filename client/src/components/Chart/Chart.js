@@ -5,7 +5,7 @@ import SelectBox from "../Select";
 import Candle from "./data/Candle"
 import Volume from "./data/Volume"
 
-const Chart =({currentPrice, chartArr,defaultLimit,dataLength})=>{
+const Chart =({currentPrice, chartArr,defaultLimit,dataLength,term,setTerm})=>{
     const [name, setName] = useState("BEBE");
 
     let date = dataToArray(chartArr,1)
@@ -26,8 +26,6 @@ const Chart =({currentPrice, chartArr,defaultLimit,dataLength})=>{
     const onMouseEnterHandler = () => {
         document.body.style.overflow = 'hidden';
     }
-
-
 
     const onMouseLeaveHandler = () => {
         document.body.style.overflow = 'unset';
@@ -61,12 +59,6 @@ const Chart =({currentPrice, chartArr,defaultLimit,dataLength})=>{
     const size = useWindowSize();
 
 
-    const OPTIONS = [
-        { value: "BEBE", name: "BEBE" },
-        { value: "DEDE", name: "DEDE" },
-        { value: "CECE", name: "CECE" },
-        ];
-
 
     return(
     <div className="chart" 
@@ -74,10 +66,19 @@ const Chart =({currentPrice, chartArr,defaultLimit,dataLength})=>{
         onMouseLeave = {onMouseLeaveHandler}
         >
         <div className="chart_select">
-        <SelectBox options={OPTIONS}></SelectBox>
+        {/* <SelectBox
+            set={0}
+            value={0}
+        ></SelectBox> */}
+        <SelectBox 
+            set = {term}
+            value={setTerm}
+        ></SelectBox>
+
         {/* <h6 className="chart_cp">{name} {ST_CurrentPrice.toLocaleString()}</h6> */}
-        </div>
-        <Candle
+        </div>        <Candle
+            term={term}
+            setTerm={setTerm}
             currentPrice={currentPrice}
             date = {date}
             open = {open}

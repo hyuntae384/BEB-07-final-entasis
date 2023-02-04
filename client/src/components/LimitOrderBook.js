@@ -18,16 +18,15 @@ const LimitOrderBook =({ST_CurrentPrice, powerOfMarket})=>{
             id:4-i,
             name:"bebe",
             price:(ST_CurrentPrice+priceSet*(i+1))>0?(ST_CurrentPrice+priceSet*(i+1)).toFixed(2):0,
-            amount:(-amountSellSet*(i+1))>1?(-amountSellSet*(i+1)).toFixed(2):(i+1),
+            amount:(-amountSellSet*(i+1))>1?(-amountSellSet*(i+1)).toFixed(2):(i+1)*3,
         };
 
         let buyOrder={
             id:5+i,
             name:"bebe",
             price:(ST_CurrentPrice-priceSet*(i+1))>0?(ST_CurrentPrice-priceSet*(i+1)).toFixed(2):0,
-            amount:(amountBuySet*(i+1))>1?(amountBuySet*(i+1)).toFixed(2):(i+1),
+            amount:(amountBuySet*(i+1))>1?(amountBuySet*(i+1)).toFixed(2):(i+1)*3,
         };        
-
 
         orderList[4-i] = sellOrder
         orderList[6+i] = buyOrder
@@ -80,7 +79,7 @@ const LimitOrderBook =({ST_CurrentPrice, powerOfMarket})=>{
             })}
             <div className="market_order">
                     <h3>Market Price</h3>
-                    <h3>{(ST_CurrentPrice>1000?ST_CurrentPrice:(ST_CurrentPrice>100?ST_CurrentPrice:(ST_CurrentPrice>10?ST_CurrentPrice:(ST_CurrentPrice>1?ST_CurrentPrice:ST_CurrentPrice))))}</h3>
+                    <h3>{!isNaN(ST_CurrentPrice)?(ST_CurrentPrice>1000?ST_CurrentPrice.toFixed(0):(ST_CurrentPrice>100?ST_CurrentPrice.toFixed(1):(ST_CurrentPrice>10?ST_CurrentPrice.toFixed(2):(ST_CurrentPrice>1?ST_CurrentPrice.toFixed(3):ST_CurrentPrice)))):<></>}</h3>
                     <h3>ETH</h3>
             </div>
             {orderList.map((e)=>{

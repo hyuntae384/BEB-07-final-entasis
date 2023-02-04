@@ -105,7 +105,7 @@ const Header =()=> {
         content: {
             display: "block",
             justifyContent: "center",
-            background: "#2B2B2B",
+            background: "#222223",
             overflow: "hidden",
             top: "0",
             left: "80%",
@@ -132,7 +132,7 @@ const Header =()=> {
         content: {
             display: "block",
             justifyContent: "center",
-            background: "#2B2B2B",
+            background: "#222223",
             overflow: "hidden",
             top: "15%",
             left: "33%",
@@ -299,8 +299,9 @@ const Header =()=> {
                         </div>
 
                         <div className='exercise_of_voting_rights'>
-                            <h3 className='exercise_of_voting_rights_time_limit'>Exercise of Voting Rights {dividendTimeLimit}</h3>
+
                             <div className='exercise_of_voting_rights_wrapper '>
+                            <h3 className='exercise_of_voting_rights_time_limit'>Exercise of Voting Rights {dividendTimeLimit}</h3>
                             <Modal
                                 appElement={document.getElementById('root') || undefined}
                                 onRequestClose={()=>setVoted()}
@@ -318,7 +319,7 @@ const Header =()=> {
                                 <h3>Your Voting Right has been Exercised!</h3>
                                 </div>
                             </Modal>
-                                <h4>Select Security Token</h4>
+                                <h5>Select Security Token</h5>
                                 <SelectBox options={OPTIONS} 
                                 defaultValue=""></SelectBox>
                                 <h4 className='head'>Dividend</h4>
