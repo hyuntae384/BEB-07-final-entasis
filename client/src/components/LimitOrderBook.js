@@ -9,7 +9,7 @@ const LimitOrderBook =({ST_CurrentPrice, powerOfMarket})=>{
     ST_CurrentPrice=Number(ST_CurrentPrice)
     let priceSet = 0.01;
     let orderList = [];
-    for(let i =0;i<5;i++){
+    for(let i =0;i<7;i++){
             //매수, 매도세를 알 수 있는 지표는?
             //가격이 오른 정도 * 실려있는 거래량?
         let amountBuySet = (powerOfMarket>0?(powerOfMarket*5):(-powerOfMarket)).toFixed(2);
@@ -28,8 +28,8 @@ const LimitOrderBook =({ST_CurrentPrice, powerOfMarket})=>{
             amount:(amountBuySet*(i+1))>1?(amountBuySet*(i+1)).toFixed(2):(i+1)*3,
         };        
 
-        orderList[4-i] = sellOrder
-        orderList[6+i] = buyOrder
+        orderList[6-i] = sellOrder
+        orderList[8+i] = buyOrder
 
     }
 

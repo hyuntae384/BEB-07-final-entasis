@@ -38,8 +38,9 @@ const ChartWrapper =({currentPrice})=>{
                 (resultTotal.data.map(e=>limitChartArr.push(Object.values(e))))
                 setIsChartTotal(limitChartArr)
                 setIsLoading(false)
+                setChartToggle(true)
+                
             },1000)
-            setChartToggle(true)
         } catch (e) {
         console.log(e) 
         }
@@ -47,9 +48,10 @@ const ChartWrapper =({currentPrice})=>{
     setChartTotal()
     }
     useEffect(()=>{
-        console.log(chartArr)
+        setChartOriginArr(isChartTotal)
     })
     useEffect(()=>{
+
         setChartArr(chartOriginArr
         .slice(dataLength>1200?dataLength:1200, defaultLimit>1200?defaultLimit:1200))
         // console.log(dataLength,defaultLimit)
@@ -62,14 +64,14 @@ const ChartWrapper =({currentPrice})=>{
     useEffect(()=>{
         let cnt = 0
         let time = 15;
-        let termNum = 1;
+        let termNum = 0;
         console.log(`${termNum}`,`${termValue}`)
 
         const arrSum = arr => arr.reduce((a,b) => a + b, 0)
         if(`${termNum}`!==`${termValue}`){
-            for(let i = 0 ; i<chartArr.length; i++){
-                setByTime.push(chartArr[i])
-                console.log(i%termValue)
+            for(let i = 0 ; i<chartOriginArr.length; i++){
+                setByTime.push(chartOriginArr[i])
+                // console.log(i%termValue)
                 if(i%Number(termValue)=== 0){
                     cnt++
                     let setByTimeArr = [
@@ -82,17 +84,14 @@ const ChartWrapper =({currentPrice})=>{
                         Number(arrSum(dataToArray(setByTime,6))),
                         Number(arrSum(dataToArray(setByTime,7))),
                     ]
-
-                    setByTimeNewArr.push(setByTimeArr)
-                    setByTimeArr=[]
-                }
-                setChartArr(setByTimeNewArr)
+                setByTimeNewArr.push(setByTimeArr)
+                setByTime=[]
+            }
+            setChartArr(setByTimeNewArr)
             }
             termNum=termValue
             // console.log(termNum,termValue)
             // console.log(setByTimeNewArr)
-
-
         }    
     },[termValue])
 
@@ -100,7 +99,7 @@ const ChartWrapper =({currentPrice})=>{
         const loop = setInterval(() => {
             if(`${new Date().getSeconds()}`===`0`){
                 let index = chartArr[chartArr.length-1]!==undefined?chartArr[chartArr.length-1][0]+1:undefined
-                let createdAtB= currentPrice.createdAt;
+                let createdAtB = currentPrice.createdAt;
                 let openB= typeof chartArr[chartArr.length-1]==='object'&&!isNaN(chartArr[chartArr.length-1][3]) ?chartArr[chartArr.length-1][3]:currentPrice.open;
                 let closeB= currentPrice.close;
                 let highB= currentPrice.high;

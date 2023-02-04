@@ -164,7 +164,7 @@ if(dataArray[0][0]!==undefined&&
                         
                     ></line>
                     <text 
-                        x={SVG_CHART_WIDTH - 60} y={y} fontSize="10" stroke='#252525' >
+                        x={SVG_CHART_WIDTH - 60} y={y+10} fontSize="10" stroke='#252525' >
                         {typeof yValue === 'number'?yValue.toFixed(2).toLocaleString():0} ETH
                     </text>
                     </g>

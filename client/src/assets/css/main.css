@@ -263,9 +263,8 @@ div.btn:hover{
     
 }
 .chart_select{
-    width: 100%;
-
-    margin: 2% 5% 0 0;
+    width: 35%;
+    margin: 0 2% 0 0;
     text-align-last: center;
 }
 .ratio_value{
@@ -337,12 +336,11 @@ div.public_disclosure_wrapper h4{
     background-color:#121212;
 }
 .main_assets, .historys{
-
     margin: 2.5px;
     width: 50%;
-    min-height: 300px;
-    height: auto;
+    height: 360px;
     background-color:#121212;
+    overflow: hidden;
 }
 .main_assets_menu,  .historys_menu{
     width: 100%;
@@ -387,11 +385,12 @@ div.public_disclosure_wrapper h4{
 }
 .limit_order_buy,.limit_order_sell{
     margin: 1.5% 0;
-    padding: 4% 0 ;
+    padding: 3% 0 ;
     align-items: center;
     display: flex;
     justify-content: space-around;
     background-color:#151515;
+    font-size: 10px;
 }
 .limit_order_book_menu{
     margin: 10px 0;
@@ -419,9 +418,9 @@ div.public_disclosure_wrapper h4{
     filter: brightness(1.5);
 }
 .history_wrapper div, .asset_wrapper div{
-    width: 60px;
+    width: 85px;
     height: 12px;
-    padding: 0 2%;
+    padding: 0 1%;
 }
 .history_wrapper,.asset_wrapper{
 
@@ -440,16 +439,21 @@ div.public_disclosure_wrapper h4{
     width: 100%;
     padding: 2px ;
     text-align: center;
+    overflow: scroll;
+
 }
 .main_historys_container{
+    height: 300px;
     padding: 2px;
-
+    overflow: scroll;
+}
+.history_date{
+    width: 100px;
 }
 .main_assets_container{
     margin: 0;
     padding: 0;
     width: 66.5%;
-
 }
 .market_data{
     width: 16%;
@@ -571,7 +575,6 @@ div.public_disclosure_wrapper h4{
 .welcome_tutorial_history{
     width: 200px;
     height: 120px;
-
     top: 85%;
     right: 67%;
 }

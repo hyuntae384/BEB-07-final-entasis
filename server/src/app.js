@@ -81,6 +81,7 @@ let chart_his =(e)=>{ chartHis[0].push(e[0]);chartHis[1].push(e[1])}
 let totalVolFrom = 0;
 let totalVolTo = 0;
 let circuitBreaker = false;
+
 setInterval(async() => {
   chartHis[1].forEach(element => {totalVolTo+=element});  
   setStv()
@@ -108,16 +109,18 @@ setInterval(async() => {
   chart_his([price * (1 + stv)*(1+incomeRatio) * (1+(1 + stv*1000)*(1+incomeRatio*1000)/1000000), volume])
   
   // circuitBreaker ? !circuitBreaker : circuitBreaker
-  if(circuitBreaker) {
-    console.log("서킷브레이크로 인한 if문 진입")
-    circuitBreaker = false;
-    const status = await isRestricted();
-    if(status) {
-      const result = await allowToken(); // 토큰 제한 해제 컨트랙트 메소드
-      if(result) console.log("토큰 제한 해제 완료");
-      else console.log("토큰 제한 해제 실패")
-    }
-  }
+  // if(circuitBreaker) {
+  //   console.log("서킷브레이크로 인한 if문 진입")
+  //   const status = await isRestricted();
+  //   setTimeout(async()=>{
+  //     circuitBreaker = false;
+  //     if(status) {
+  //       const result = await allowToken(); // 토큰 제한 해제 컨트랙트 메소드
+  //       if(result) console.log("토큰 제한 해제 완료");
+  //       else console.log("토큰 제한 해제 실패")
+  //     }
+  //   },60000)
+  // }
 }, circuitBreaker ? 60000 : 1000 );
 
 setInterval(async () => {
