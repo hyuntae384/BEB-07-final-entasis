@@ -5,7 +5,7 @@ import SelectBox from "../Select";
 import Candle from "./data/Candle"
 import Volume from "./data/Volume"
 
-const Chart =({currentPrice, chartArr,defaultLimit,dataLength})=>{
+const Chart =({currentPrice, chartArr,defaultLimit,dataLength,term,setTerm})=>{
     const [name, setName] = useState("BEBE");
 
     let date = dataToArray(chartArr,1)
@@ -59,20 +59,6 @@ const Chart =({currentPrice, chartArr,defaultLimit,dataLength})=>{
     const size = useWindowSize();
 
 
-    const OPTIONS = [
-        { value: "BEBE", name: "BEBE" },
-        { value: "DEDE", name: "DEDE" },
-        { value: "CECE", name: "CECE" },
-        ];
-    const OPTIONS2=[
-        { value: "1 minutes", name: "1 minutes" },
-        { value: "15 minutes", name: "15 minutes" },
-        { value: "1 hours", name: "1 hours" },
-        { value: "4 hours", name: "4 hours" },
-        { value: "1 day", name: "1 day" },
-        { value: "1 week", name: "1 week" },
-        { value: "1 month", name: "1 month" },
-    ]
 
     return(
     <div className="chart" 
@@ -80,12 +66,19 @@ const Chart =({currentPrice, chartArr,defaultLimit,dataLength})=>{
         onMouseLeave = {onMouseLeaveHandler}
         >
         <div className="chart_select">
-        <SelectBox options={OPTIONS}></SelectBox>
-        <SelectBox options={OPTIONS2}></SelectBox>
+        {/* <SelectBox
+            set={0}
+            value={0}
+        ></SelectBox> */}
+        <SelectBox 
+            set = {term}
+            value={setTerm}
+        ></SelectBox>
 
         {/* <h6 className="chart_cp">{name} {ST_CurrentPrice.toLocaleString()}</h6> */}
-        </div>
-        <Candle
+        </div>        <Candle
+            term={term}
+            setTerm={setTerm}
             currentPrice={currentPrice}
             date = {date}
             open = {open}

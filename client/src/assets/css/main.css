@@ -24,6 +24,7 @@
     color: var(--white-color);
     position: relative;
     text-decoration: none;
+    
 }
 :root::-webkit-scrollbar{
     display: none;
@@ -253,8 +254,16 @@ div.btn:hover{
 .down h6{
     color:var(--onPrimary-color);
 }
+.chart_select_wrapper{
+    display: flex;
+    width: 30%;
+
+}
+.chart{
+    
+}
 .chart_select{
-    width: 80%;
+    width: 100%;
 
     margin: 2% 5% 0 0;
     text-align-last: center;
@@ -770,7 +779,6 @@ input{
     top: 19%;
 }
 .chart_select{
-    width: 300px;
     display: flex;
     align-items: center;
 }

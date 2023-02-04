@@ -8,7 +8,9 @@ const Candle =({
     close,
     high,
     low,
-    width, height})=>{
+    width, 
+    height
+})=>{
     const [pointer,setPointer]=useState({x:0,y:0})
     
     let SVG_CHART_WIDTH = typeof width === "number" ? width * 1 : 0;
@@ -54,7 +56,7 @@ const Candle =({
     );
     const dataYRange = dataYMax - dataYMin;
     const numYTicks = 7;
-    const barPlothWidth = xAxisLength / (dataArray.length);
+    const barPlothWidth = xAxisLength / dataArray.length;
     const numXTicks = dataArray.length>12?12:dataArray.length;
 
     const xValue= [];
@@ -233,14 +235,12 @@ if(dataArray[0][0]!==undefined&&
                         id={`ID_`+`${dataArray.length-index-1}`}
                         {...{ fill }}
                         x={x}
-                        width={barPlothWidth - sidePadding}
                         y={typeof scaleY(max)!== null ?yAxisLength - scaleY(max):0}
+                        width={barPlothWidth - sidePadding}
                         // 시가 종가 최대 최소값의 차
                         height={(scaleY(max) - scaleY(min))>1?scaleY(max) - scaleY(min):1}
                         ></rect>
-
                         <line
-                    
                         x1={xAxisLength+10}
                         x2={x0}
                         y1={(yAxisLength - scaleY(currentPrice.close))==='NaN' ? 0 : yAxisLength - scaleY(currentPrice.close)}
@@ -257,8 +257,11 @@ if(dataArray[0][0]!==undefined&&
                         </text>
                     </g>
                     );
+                })
+                //.slice(10,100)
+                //offset 
+                //limit
                 }
-                )}
             </svg>
         </div>
 
