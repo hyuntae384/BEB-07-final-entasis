@@ -17,11 +17,12 @@ const logger = require('./logger');
 const { sequelize, price_his, dividend_his, position_his } = require('./models');
 const {limiter} = require('./limit');
 const { 
-  getSimpleTotalSupply, 
-  showAllTokenHolders, 
-  getTokenBalance, 
-  getTotalSupply, 
-  allowToken, 
+  getSimpleTotalSupply,
+  showAllTokenHolders,
+  getTokenBalance,
+  getTotalSupply,
+  restrictToken,
+  allowToken,
   isRestricted
 } = require('./chainUtils/tokenUtils');
 const {sendEtherToUser, sendWeiToUser, getEtherBalance} = require('./chainUtils/etherUtils');
@@ -79,7 +80,8 @@ let chart_his =(e)=>{ chartHis[0].push(e[0]);chartHis[1].push(e[1])}
 
 let totalVolFrom = 0;
 let totalVolTo = 0;
-let circuitBreaker = false
+let circuitBreaker = false;
+
 setInterval(async() => {
   chartHis[1].forEach(element => {totalVolTo+=element});  
   setStv()
@@ -99,23 +101,27 @@ setInterval(async() => {
     totalVolFrom:totalVolFrom.toFixed(4)
   }
 
-  // console.log(chartData);
+  console.log(chartData);
+  console.log(circuitBreaker);
 
   let volume = (1 + stv*10000)*(1+incomeRatio*10000)>0?(1 + stv*10000)*(1+incomeRatio*10000):0.01
   let price = chartHis[0][chartHis[0].length-1]>0.5?chartHis[0][chartHis[0].length-1]:0.5;
   chart_his([price * (1 + stv)*(1+incomeRatio) * (1+(1 + stv*1000)*(1+incomeRatio*1000)/1000000), volume])
   
   // circuitBreaker ? !circuitBreaker : circuitBreaker
-  if(circuitBreaker) {
-    circuitBreaker = false;
-    const status = await isRestricted();
-    if(status) {
-      const result = await allowToken(); // 토큰 제한 해제 컨트랙트 메소드
-      if(result) console.log("토큰 제한 해제 완료");
-      else console.log("토큰 제한 해제 실패")
-    }
-  }
-}, circuitBreaker ? 6000 : 500 );
+  // if(circuitBreaker) {
+  //   console.log("서킷브레이크로 인한 if문 진입")
+  //   const status = await isRestricted();
+  //   setTimeout(async()=>{
+  //     circuitBreaker = false;
+  //     if(status) {
+  //       const result = await allowToken(); // 토큰 제한 해제 컨트랙트 메소드
+  //       if(result) console.log("토큰 제한 해제 완료");
+  //       else console.log("토큰 제한 해제 실패")
+  //     }
+  //   },60000)
+  // }
+}, circuitBreaker ? 60000 : 1000 );
 
 setInterval(async () => {
   if(`${new Date()}`.slice(22,-32)==='00'){
@@ -171,17 +177,17 @@ setInterval(async () => {
 }, 30000);
 
 
-app.get('/chart/total', async (req, res, next) => {
-  // const { offset, limit } = req.query;
-  try{
-    const total = await price_his.findAll();
-    if(!total) return res.status(400).json({message: "No such data"});
-    return res.status(200).json(total)
-  } catch (err) {
-    console.error(err);
-    return next(err);
-  }
-});
+// app.get('/chart/total', async (req, res, next) => {
+//   // const { offset, limit } = req.query;
+//   try{
+//     const total = await price_his.findAll();
+//     if(!total) return res.status(400).json({message: "No such data"});
+//     return res.status(200).json(total)
+//   } catch (err) {
+//     console.error(err);
+//     return next(err);
+//   }
+// });
 
 app.get('/rtd', async (req, res, next) => {
   try {
@@ -192,6 +198,26 @@ app.get('/rtd', async (req, res, next) => {
     return next(err);
   }
 });
+
+app.post('/restrict', async (req, res, next) => {
+  try {
+    circuitBreaker = true;
+    const status = await isRestricted();
+    if(status) {
+      console.log("이미 제한되어 있는 토큰")
+      return res.status(400).send({message: "this token had already been restricted"})
+    }
+    const result = await restrictToken();
+    if(result) {
+      console.log("토큰 거래 제한 성공");
+      return res.status(200).send({status: "successfully restricted the token"});
+    }
+    return res.status(400).send({status: "failed with the contract"});
+  } catch (err) {
+    console.error(err);
+    return next(err);
+  }
+})
 
 
 app.use('/chart', chartRouter);
@@ -215,4 +241,4 @@ app.listen(app.get('port'), () => {
   logger.info(app.get('port'), 'is up and listening');
 });
 
-module.exports = { app, circuitBreaker, chartData };
+module.exports = app, circuitBreaker, chartData;
