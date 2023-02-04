@@ -69,10 +69,6 @@ const sendTokenToUser = async (recipient, amount) => {
   const adminAccount = web3Http.eth.accounts.privateKeyToAccount(ADMIN_PK);
   const weiAmount = web3Http.utils.toWei(amount, 'ether');
   try {
-    // 거래 제한 여부 확인
-    const isRestricted = await tokenContract.methods.isRestricted().call();
-    if(isRestricted) return false;
-
     const bytedata = await tokenContract.methods.transfer(recipient, weiAmount).encodeABI();
     const tx = {
       from: ADMIN_ADDRESS,
