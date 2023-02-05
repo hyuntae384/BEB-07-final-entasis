@@ -344,7 +344,7 @@ div.public_disclosure_wrapper h4{
 }
 .main_assets_menu,  .history_wrapperA_menu{
     width: 100%;
-    padding: 1% 4%;
+    padding: 0.5% 4%;
     display: flex;
     justify-content: space-between;
 
@@ -399,7 +399,7 @@ div.public_disclosure_wrapper h4{
     margin: 0 auto;
 }
 .history_wrapperA_top{
-    margin: 2%;
+    margin: 1% 2% 0 2% ;
     color: #474747;
     transition: 0.5s;
 }

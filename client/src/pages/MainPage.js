@@ -21,7 +21,7 @@ const MainPage =()=>{
     const [number, setNumber] = useState(0);
     const currentPrice_ref = useRef({});
     const {chainId, account, active, activate, deactivate} = useWeb3React();
-
+    const [userModal, setUserModal] = useState(false);
     
     let powerOfMarket = (currentPrice.open - currentPrice.close)
 
@@ -90,11 +90,14 @@ const MainPage =()=>{
         }
         Position(account)
         EnrollWallet(account)
+        if(account===undefined){
+        setUserPosition();
+        EnrollWallet();
+        }
     },[account]);
         const onMouseEnterHandler = () => {
             document.body.style.overflow = 'unset';
         }
-        console.log()
 
 return(
     <div className="main_page" onMouseEnter={onMouseEnterHandler}>
@@ -103,7 +106,9 @@ return(
             tutorialCnt={isEnroll.cnt}
             isLoading={isLoading}
         />
-        <Header isLoading={isLoading} onMouseEnter={onMouseEnterHandler}/>
+        <Header 
+            userModal={userModal}
+            isLoading={isLoading} onMouseEnter={onMouseEnterHandler}/>
         <Navigator/>
         <div className="main_head">
             <ChartWrapper
@@ -120,6 +125,7 @@ return(
         </div>
         <div className="main_bottom">
             <Historys
+                setUserModal={setUserModal}
                 userPosition={userPosition}
             />
             <Assets
