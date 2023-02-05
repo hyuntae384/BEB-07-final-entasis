@@ -263,9 +263,8 @@ div.btn:hover{
     
 }
 .chart_select{
-    width: 100%;
-
-    margin: 2% 5% 0 0;
+    width: 35%;
+    margin: 0 2% 0 0;
     text-align-last: center;
 }
 .ratio_value{
@@ -336,28 +335,76 @@ div.public_disclosure_wrapper h4{
     height: 620px;
     background-color:#121212;
 }
-.main_assets, .historys{
-
+.main_assets, .history_wrapperA{
     margin: 2.5px;
     width: 50%;
-    min-height: 300px;
-    height: auto;
+    height: 360px;
     background-color:#121212;
+    overflow: hidden;
 }
-.main_assets_menu,  .historys_menu{
+.main_assets_menu,  .history_wrapperA_menu{
     width: 100%;
-    padding: 0 4%;
+    padding: 1% 4%;
     display: flex;
     justify-content: space-between;
 
 }
-.main_assets h4, .historys h4{
+.main_assets h4, .history_wrapperA h4{
     padding: 0.5%;
     color: var(--gray-light-color);
 }
-.main_assets h5, .historys h5{
+.main_assets h5, .history_wrapperA h5{
     color: var(--gray-dark-color);
 
+}
+.history_wrapperA_top{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+.pagination_numbers{
+    display: flex;
+    width: 100%;
+}
+.pagination_btn{
+    margin: auto;
+    transition: 0.5s;
+
+}
+.pagination_btn:hover{
+    filter: brightness(1.5);
+}
+.pagination_numbers .btn{
+    margin: 1%;
+    padding: 0 1%;
+
+}
+.btn_m{
+    border-radius: 20px;
+    background-color:#171717;
+    text-align: center;
+    width: 32px;
+    height: 32px;
+    color: var(--onPrimary-color);
+    margin-right: 2%;
+    padding: 1%;
+}
+.pagination{
+    padding: 0 2%;
+    border-radius: 20px;
+    background-color:#171717;
+    font-size: small;
+    display: flex;
+    width: 60%;
+    margin: 0 auto;
+}
+.history_wrapperA_top{
+    margin: 2%;
+    color: #474747;
+    transition: 0.5s;
+}
+.pagination_numbers .btn{
+    color: #474747;
 }
 .footer{
     margin: 2.5px 0 0 0;
@@ -387,11 +434,12 @@ div.public_disclosure_wrapper h4{
 }
 .limit_order_buy,.limit_order_sell{
     margin: 1.5% 0;
-    padding: 4% 0 ;
+    padding: 3% 0 ;
     align-items: center;
     display: flex;
     justify-content: space-around;
     background-color:#151515;
+    font-size: 10px;
 }
 .limit_order_book_menu{
     margin: 10px 0;
@@ -419,9 +467,9 @@ div.public_disclosure_wrapper h4{
     filter: brightness(1.5);
 }
 .history_wrapper div, .asset_wrapper div{
-    width: 60px;
+    width: 85px;
     height: 12px;
-    padding: 0 2%;
+    padding: 0 1%;
 }
 .history_wrapper,.asset_wrapper{
 
@@ -440,16 +488,19 @@ div.public_disclosure_wrapper h4{
     width: 100%;
     padding: 2px ;
     text-align: center;
-}
-.main_historys_container{
-    padding: 2px;
 
+}
+.main_history_wrapperA_container{
+    height: 300px;
+    padding: 2px;
+}
+.history_date{
+    width: 100px;
 }
 .main_assets_container{
     margin: 0;
     padding: 0;
     width: 66.5%;
-
 }
 .market_data{
     width: 16%;
@@ -571,7 +622,6 @@ div.public_disclosure_wrapper h4{
 .welcome_tutorial_history{
     width: 200px;
     height: 120px;
-
     top: 85%;
     right: 67%;
 }

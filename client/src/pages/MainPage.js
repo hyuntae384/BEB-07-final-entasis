@@ -21,6 +21,8 @@ const MainPage =()=>{
     const [number, setNumber] = useState(0);
     const currentPrice_ref = useRef({});
     const {chainId, account, active, activate, deactivate} = useWeb3React();
+
+    
     let powerOfMarket = (currentPrice.open - currentPrice.close)
 
     useEffect(() => {
@@ -32,13 +34,22 @@ const MainPage =()=>{
         console.log(e) // caught
         }
     })
+        if(!isLoading){
         const loop = setInterval(() => {
-        setIsLoading(false)
         setChartRTD()
         clearInterval(loop);
         powerOfMarket = 0;
         }, 100);
-
+        }else{
+            setTimeout(()=>{
+                const loop = setInterval(() => {
+                    setChartRTD()
+                    clearInterval(loop);
+                    powerOfMarket = 0;
+                    }, 100);
+                setIsLoading(false)
+            },1000)
+        }
     }, [currentPrice_ref.current]);
 
     const copyHandler = (e) => {
@@ -68,6 +79,7 @@ const MainPage =()=>{
             .then(res=>res.data)
             .then(err=>err)
             setUserPosition(resultPosition)
+
         }
         const EnrollWallet = async(wallet) => {
             if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
@@ -82,8 +94,9 @@ const MainPage =()=>{
         const onMouseEnterHandler = () => {
             document.body.style.overflow = 'unset';
         }
-        
-    return(
+        console.log()
+
+return(
     <div className="main_page" onMouseEnter={onMouseEnterHandler}>
         <WelcomePage
             account={account}
@@ -95,6 +108,7 @@ const MainPage =()=>{
         <div className="main_head">
             <ChartWrapper
                 currentPrice={currentPrice}
+                isLoading={isLoading}
             />
             <LimitOrderBook
                 powerOfMarket={-powerOfMarket}
@@ -105,7 +119,9 @@ const MainPage =()=>{
             />
         </div>
         <div className="main_bottom">
-            <Historys/>
+            <Historys
+                userPosition={userPosition}
+            />
             <Assets
                 ST_CurrentPrice={currentPrice.close} 
                 powerOfMarket={powerOfMarket}

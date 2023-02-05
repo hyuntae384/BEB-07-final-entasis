@@ -28,7 +28,6 @@ const Order =({ST_CurrentPrice})=>{
     const userAccount = useWeb3React().account;
     const StABI = TokenABI.abi
     const tokenContract = new web3.eth.Contract(StABI, contractAccount);
-    console.log(curPrice);
 
     useEffect(() => {
         setCurPrice(ST_CurrentPrice)

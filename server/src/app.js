@@ -25,7 +25,8 @@ const {
   allowToken,
   isRestricted
 } = require('./chainUtils/tokenUtils');
-const {sendEtherToUser, sendWeiToUser, getEtherBalance} = require('./chainUtils/etherUtils');
+const {sendEtherToUser, sendWeiToUser, getEtherBalance, sendDividendToUser} = require('./chainUtils/etherUtils');
+const { web3Http } = require('./chainUtils');
 const app = express();
 app.set('port', process.env.PORT || 5050);
 app.set('view engine', 'ejs');
@@ -70,7 +71,6 @@ let stv=0;
 let incomeRatio=0;
 let dividend_ratio = 0.03;
 let voted_ratio
-let next_ratio
 let chartHis = [[130],[1]];
 let chartData
 const setStv =()=>{stv = Math.random()*(0.01-(-0.0101))-0.01};
@@ -81,44 +81,50 @@ let chart_his =(e)=>{ chartHis[0].push(e[0]);chartHis[1].push(e[1])}
 let totalVolFrom = 0;
 let totalVolTo = 0;
 let circuitBreaker = false;
+let allowingToken;
+
 setInterval(async() => {
-  chartHis[1].forEach(element => {totalVolTo+=element});  
-  setStv()
-  chartData = {
-    createdAt: new Date(),
-    open: chartHis[0][0].toFixed(4),
-    close:chartHis[0][chartHis[0].length-1].toFixed(4),
-    high:chartHis[0].reduce((acc,cur)=>{
-      if(acc<cur) return cur 
-      else if(acc>=cur) return acc
-    }).toFixed(4),
-    low:chartHis[0].reduce((acc,cur)=>{
-      if(acc>cur) return cur 
-      else if(acc<=cur) return acc
-    }).toFixed(4),
-    totalVolTo:totalVolTo.toFixed(4),
-    totalVolFrom:totalVolFrom.toFixed(4)
-  }
-
-  console.log(chartData);
-  console.log(circuitBreaker);
-
-  let volume = (1 + stv*10000)*(1+incomeRatio*10000)>0?(1 + stv*10000)*(1+incomeRatio*10000):0.01
-  let price = chartHis[0][chartHis[0].length-1]>0.5?chartHis[0][chartHis[0].length-1]:0.5;
-  chart_his([price * (1 + stv)*(1+incomeRatio) * (1+(1 + stv*1000)*(1+incomeRatio*1000)/1000000), volume])
-  
-  // circuitBreaker ? !circuitBreaker : circuitBreaker
   if(circuitBreaker) {
-    console.log("서킷브레이크로 인한 if문 진입")
-    circuitBreaker = false;
+    console.log("거래 제한으로 인한 price 변동 없음")
     const status = await isRestricted();
-    if(status) {
-      const result = await allowToken(); // 토큰 제한 해제 컨트랙트 메소드
-      if(result) console.log("토큰 제한 해제 완료");
-      else console.log("토큰 제한 해제 실패")
-    }
+    setTimeout(async()=>{
+      if(status) {
+        const result = await allowToken(); // 토큰 제한 해제 컨트랙트 메소드        
+        if(result) {
+          circuitBreaker = false;
+          console.log("토큰 제한 해제 완료");
+        }
+        else console.log("토큰 제한 해제 실패")
+      }
+    }, 10000)
   }
-}, circuitBreaker ? 60000 : 1000 );
+  
+  else {
+    chartHis[1].forEach(element => {totalVolTo+=element});  
+    setStv()
+    chartData = {
+      createdAt: new Date(),
+      open: chartHis[0][0].toFixed(4),
+      close:chartHis[0][chartHis[0].length-1].toFixed(4),
+      high:chartHis[0].reduce((acc,cur)=>{
+        if(acc<cur) return cur 
+        else if(acc>=cur) return acc
+      }).toFixed(4),
+      low:chartHis[0].reduce((acc,cur)=>{
+        if(acc>cur) return cur 
+        else if(acc<=cur) return acc
+      }).toFixed(4),
+      totalVolTo:totalVolTo.toFixed(4),
+      totalVolFrom:totalVolFrom.toFixed(4)
+    }
+    console.log(chartData);
+
+    let volume = (1 + stv*10000)*(1+incomeRatio*10000)>0?(1 + stv*10000)*(1+incomeRatio*10000):0.01
+    let price = chartHis[0][chartHis[0].length-1]>0.5?chartHis[0][chartHis[0].length-1]:0.5;
+    chart_his([price * (1 + stv)*(1+incomeRatio) * (1+(1 + stv*1000)*(1+incomeRatio*1000)/1000000), volume])
+  }
+    
+}, 1000 );
 
 setInterval(async () => {
   if(`${new Date()}`.slice(22,-32)==='00'){
@@ -155,14 +161,17 @@ setInterval(async () => {
       const balance = await getTokenBalance(tokenholders[i]);
       const stake = balance / totalSupply;
       const personalDividend = String((dividend * stake).toFixed(18))
-      await sendWeiToUser(tokenholders[i], personalDividend);
+      await sendDividendToUser(tokenholders[i], personalDividend);
       // const result = await getEtherBalance(tokenholders[i]);
-      // console.log(result);
+
+      const fixedBalance = web3Http.utils.fromWei(balance, 'ether');
+      console.log(fixedBalance);
 
       await position_his.create({
         user_wallet: tokenholders[i],
         order: "dividend",
         price: personalDividend,
+        amount: fixedBalance,
         company_name: "exchange"
       })
     }
@@ -171,20 +180,7 @@ setInterval(async () => {
   // 차기 배당률
   dividend_ratio = (dividend_ratio * (1 + Number(voted_ratio))).toFixed(4) 
 
-}, 30000);
-
-
-// app.get('/chart/total', async (req, res, next) => {
-//   // const { offset, limit } = req.query;
-//   try{
-//     const total = await price_his.findAll();
-//     if(!total) return res.status(400).json({message: "No such data"});
-//     return res.status(200).json(total)
-//   } catch (err) {
-//     console.error(err);
-//     return next(err);
-//   }
-// });
+}, 20000);
 
 app.get('/rtd', async (req, res, next) => {
   try {
@@ -238,4 +234,4 @@ app.listen(app.get('port'), () => {
   logger.info(app.get('port'), 'is up and listening');
 });
 
-module.exports = app, circuitBreaker, chartData;
+module.exports = app;
