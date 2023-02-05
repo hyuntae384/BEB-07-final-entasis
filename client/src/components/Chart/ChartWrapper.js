@@ -53,7 +53,7 @@ const ChartWrapper =({currentPrice})=>{
     useEffect(()=>{
 
         setChartArr(chartOriginArr
-        .slice(dataLength>1200?dataLength:1200, defaultLimit>1200?defaultLimit:1200))
+        .slice(dataLength>chartOriginArr.length*0.3?dataLength:chartOriginArr.length*0.3, defaultLimit>chartOriginArr.length*0.3?defaultLimit:chartOriginArr.length*0.3))
         // console.log(dataLength,defaultLimit)
         setDefaultLimit(chartOriginArr.length)
 
@@ -169,11 +169,11 @@ return(
         // onDrag={dragStartHandler}
         onWheel={() => {
             window.onwheel = function (e) {
-                // let set = defaultLimit*0.05
+                let set = chartOriginArr.length*0.01
                 if(document.body.style.overflow === 'hidden'){
                 e.deltaY> 0
-                ? setDataLength(dataLength < 1200 ? dataLength + 0 : dataLength - 8)
-                : setDataLength(dataLength > defaultLimit*0.99 ? dataLength + 0  : dataLength + 8)
+                ? setDataLength(dataLength < chartOriginArr.length*0.3 ? dataLength + 0 : dataLength - set)
+                : setDataLength(dataLength > defaultLimit*0.99 ? dataLength + 0  : dataLength + set)
             }
             };
         }} 
