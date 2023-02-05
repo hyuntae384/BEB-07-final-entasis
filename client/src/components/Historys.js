@@ -90,16 +90,18 @@ const HistoryWrapper =({userPosition,walletConnected,
                 <h5>Amount</h5>
                 <h5>Fee</h5>
                 <h5>Date</h5>
+                <h5>From</h5>
+
             </div>
             <div className="main_history_wrapperA_container">
-                {positions.slice(offset,limit)!==undefined&&pages>0?positions.slice(offset,limit).map((e)=>{
+                {positions!==undefined&&pages>0?[...positions].reverse().slice(offset,limit).map((e)=>{
                     return (<History
                         key={e.id}
                         order = {e.order}
                         price = {e.price}
                         amount = {e.amount}
                         fee = {e.fee}
-                        date = {`${e.createdAt}`.slice(0,10)}
+                        date = {`${e.createdAt}`.slice(0,10)+' '+`${e.createdAt}`.slice(14,19)}
                         company_name={e.company_name}
                     />)
                 }):<div className="disconnection_status">
