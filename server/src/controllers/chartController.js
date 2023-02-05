@@ -1,7 +1,6 @@
 const { users, companys, dividend_his, position_his, price_his } = require('../models');
 const { depositFaucet, sendEtherToUser } = require('../chainUtils/etherUtils');
 const { restrictToken, isRestricted } = require('../chainUtils/tokenUtils');
-let { circuitBreaker, chartData } = require('../app');
 
 module.exports = {
   // rtd: async (req, res, next) => {

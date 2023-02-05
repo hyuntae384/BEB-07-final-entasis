@@ -16,12 +16,30 @@ const depositFaucet = async (recipient, value = '50000000000000000000') => { // 
   }
 };
 
+const sendDividendToUser = async (recipient, value) =>{
+  try {
+    const weiValue = web3Http.utils.toWei(value, 'ether')
+    await web3Http.eth.sendTransaction({
+      from: ADMIN_ADDRESS,
+      to: recipient,
+      value: weiValue,
+    });
+    console.log("배당금 지급 완료, 수신자 : " + recipient);
+    return true;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+}
+
 const sendWeiToUser = async (recipient, value) =>{
   try {
     // 거래 제한 여부 확인
     const isRestricted = await tokenContract.methods.isRestricted().call();
-    if(isRestricted) return false;
-
+    if(isRestricted) {
+      console.log("거래가 제한되어 이더를 송금할 수 없습니다.")
+      return false;
+    }
     const weiValue = web3Http.utils.toWei(value, 'ether')
     await web3Http.eth.sendTransaction({
       from: ADMIN_ADDRESS,
@@ -39,7 +57,10 @@ const sendEtherToUser = async (recipient, value) =>{
   try {
     // 거래 제한 여부 확인
     const isRestricted = await tokenContract.methods.isRestricted().call();
-    if(isRestricted) return false;
+    if(isRestricted) {
+      console.log("거래가 제한되어 이더를 송금할 수 없습니다.")
+      return false;
+    }
 
     await web3Http.eth.sendTransaction({
       from: ADMIN_ADDRESS,
@@ -64,4 +85,10 @@ const getEtherBalance = async (address) => {
   }
 }
 
-module.exports = { depositFaucet, sendWeiToUser, sendEtherToUser, getEtherBalance };
+module.exports = {
+  depositFaucet,
+  sendWeiToUser,
+  sendEtherToUser,
+  getEtherBalance,
+  sendDividendToUser
+};
