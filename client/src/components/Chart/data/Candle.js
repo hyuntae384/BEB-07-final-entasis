@@ -9,8 +9,11 @@ const Candle =({
     high,
     low,
     width, 
-    height
+    height,
+    isLoading
+
 })=>{
+    // if(isLoading){
     const [pointer,setPointer]=useState({x:0,y:0})
     
     let SVG_CHART_WIDTH = typeof width === "number" ? width * 1 : 0;
@@ -38,6 +41,7 @@ const Candle =({
         currentPrice.high = currentPrice.close
         currentPrice.low = currentPrice.close
     }
+
         dataArray[dataArray.length] = [
             String(currentPrice.createdAt),
             typeof dataArray[dataArray.length-1]==='object'&&!isNaN(dataArray[dataArray.length-1][2]) ?dataArray[dataArray.length-1][2]:currentPrice.open,
@@ -45,6 +49,7 @@ const Candle =({
             currentPrice.high,
             currentPrice.low
         ];
+
 
         const dataYMax = dataArray.reduce(
         (max, [_, open, close, high, low]) => (Math.max(max, high,currentPrice.high)+0.0005),
@@ -88,7 +93,7 @@ if(dataArray[0][0]!==undefined&&
             width={SVG_CHART_WIDTH} 
             height={SVG_CHART_HEIGHT}
             >
-            
+
                 {/* <text
                 x={x0 + 15}
                 y={y0 + yAxisLength * 0.06}
@@ -102,7 +107,6 @@ if(dataArray[0][0]!==undefined&&
                 {name} {currentPrice.close}
                 </text> */}
                 <line
-            
                 x1={x0}
                 y1={yAxisLength}
                 x2={xAxisLength}
