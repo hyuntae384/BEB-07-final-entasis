@@ -4,7 +4,7 @@ import SelectBox from "../Select";
 import Candle from "./data/Candle"
 import Volume from "./data/Volume"
 
-const Chart =({currentPrice, chartArr,defaultLimit,dataLength,term,setTerm})=>{
+const Chart =({currentPrice, chartArr,defaultLimit,dataLength,term,setTerm,isLoading})=>{
     const [name, setName] = useState("BEBE");
 
     let date = dataToArray(chartArr,1)
@@ -89,6 +89,7 @@ const Chart =({currentPrice, chartArr,defaultLimit,dataLength,term,setTerm})=>{
             defaultLimit={defaultLimit}
             dataLength={dataLength}
             name={name}
+            isLoading={isLoading}
         />
         <Volume
             currentPrice={currentPrice}
@@ -101,6 +102,8 @@ const Chart =({currentPrice, chartArr,defaultLimit,dataLength,term,setTerm})=>{
             defaultLimit={defaultLimit}
             dataLength={dataLength}
             name={name}
+            isLoading={isLoading}
+
         />
     </div>
     )

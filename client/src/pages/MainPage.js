@@ -108,6 +108,7 @@ return(
         <div className="main_head">
             <ChartWrapper
                 currentPrice={currentPrice}
+                isLoading={isLoading}
             />
             <LimitOrderBook
                 powerOfMarket={-powerOfMarket}

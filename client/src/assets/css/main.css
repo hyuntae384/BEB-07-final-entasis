@@ -335,27 +335,70 @@ div.public_disclosure_wrapper h4{
     height: 620px;
     background-color:#121212;
 }
-.main_assets, .historys{
+.main_assets, .history_wrapperA{
     margin: 2.5px;
     width: 50%;
     height: 360px;
     background-color:#121212;
     overflow: hidden;
 }
-.main_assets_menu,  .historys_menu{
+.main_assets_menu,  .history_wrapperA_menu{
     width: 100%;
-    padding: 0 4%;
+    padding: 1% 4%;
     display: flex;
     justify-content: space-between;
 
 }
-.main_assets h4, .historys h4{
+.main_assets h4, .history_wrapperA h4{
     padding: 0.5%;
     color: var(--gray-light-color);
 }
-.main_assets h5, .historys h5{
+.main_assets h5, .history_wrapperA h5{
     color: var(--gray-dark-color);
 
+}
+.history_wrapperA_top{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+}
+.pagination_numbers{
+    display: flex;
+    width: 100%;
+}
+.pagination_btn{
+    margin: auto;
+    transition: 0.5s;
+
+}
+.pagination_btn:hover{
+    filter: brightness(1.5);
+}
+.pagination_numbers .btn{
+    margin: 1%;
+    padding: 0 1%;
+
+}
+.pagination_numbers .btn_m{
+    color: var(--onPrimary-color);
+    padding: 1%;
+}
+.pagination{
+    padding: 0 2%;
+    border-radius: 20px;
+    background-color:#171717;
+    font-size: small;
+    display: flex;
+    width: 60%;
+    margin: 0 auto;
+}
+.history_wrapperA_top{
+    margin-top: 1%;
+    color: #474747;
+    transition: 0.5s;
+}
+.pagination_numbers .btn{
+    color: #474747;
 }
 .footer{
     margin: 2.5px 0 0 0;
@@ -439,13 +482,11 @@ div.public_disclosure_wrapper h4{
     width: 100%;
     padding: 2px ;
     text-align: center;
-    overflow: scroll;
 
 }
-.main_historys_container{
+.main_history_wrapperA_container{
     height: 300px;
     padding: 2px;
-    overflow: scroll;
 }
 .history_date{
     width: 100px;

@@ -186,6 +186,7 @@ return(
         currentPrice={currentPrice}
         dataLength={dataLength}
         defaultLimit={defaultLimit}
+        isLoading={isLoading}
         />
         }
     </div>
