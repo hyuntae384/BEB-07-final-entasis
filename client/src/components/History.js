@@ -8,7 +8,14 @@ const History =({
     return(
     <div className="history">
         <div className="history_wrapper">
-            <div className="history_order">
+            <div 
+                style= 
+                    {{color:
+                    order==='buy'?'#0d6097':
+                    order==='sell'?'#ab1c37':
+                    '#00aab3'
+                    }}  
+                className="history_order">
                 {order}
             </div>
             <div className="history_price">
