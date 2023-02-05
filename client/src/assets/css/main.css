@@ -478,24 +478,24 @@ div.public_disclosure_wrapper h4{
     filter: brightness(1.5);
 }
 .history_wrapper,.asset_wrapper{
-    transition: 0.4s;
 }
 .history_wrapper:hover,.asset_wrapper:hover{
     filter: brightness(1.5);
 }
 .history_wrapper div, .asset_wrapper div{
-    width: 85px;
+    width: 60px;
     height: 12px;
     padding: 0 1%;
 }
 .history_wrapper,.asset_wrapper{
+    transition: 0.4s;
 
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     text-align: center;
     margin: 5px 5px;
-    padding: 1% 5px;
+    padding: 1% 10px;
     height: 25px;
     background-color: #151515;
     font-size: 12px;
@@ -511,8 +511,8 @@ div.public_disclosure_wrapper h4{
     height: 300px;
     padding: 2px;
 }
-.history_date{
-    width: 100px;
+div.history_date{
+    width: 120px;
 }
 .main_assets_container{
     margin: 0;
