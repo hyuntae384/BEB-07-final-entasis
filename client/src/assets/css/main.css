@@ -379,8 +379,14 @@ div.public_disclosure_wrapper h4{
     padding: 0 1%;
 
 }
-.pagination_numbers .btn_m{
+.btn_m{
+    border-radius: 20px;
+    background-color:#171717;
+    text-align: center;
+    width: 32px;
+    height: 32px;
     color: var(--onPrimary-color);
+    margin-right: 2%;
     padding: 1%;
 }
 .pagination{
@@ -393,7 +399,7 @@ div.public_disclosure_wrapper h4{
     margin: 0 auto;
 }
 .history_wrapperA_top{
-    margin-top: 1%;
+    margin: 2%;
     color: #474747;
     transition: 0.5s;
 }

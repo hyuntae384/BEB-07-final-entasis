@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Position } from "../apis/user";
 import History from "./History"
 const HistoryWrapper =({userPosition})=>{
     const [currentPageNum, setCurrentPageNum]=useState(1)
@@ -11,16 +10,16 @@ const HistoryWrapper =({userPosition})=>{
 
     let offset = pageSet * (currentPageNum - 1);
     let limit = offset + pageSet-1;
-    console.log()
-    
+    console.log(currentPageNum)
+
     //for(let i = 0 ;i<Math.ceil(positions.length/ 10);i++)
     return(
         <div className="history_wrapperA">
             <div className="history_wrapperA_top">
-                <h4>HistoryWrapper</h4>
+                <h4>History</h4>
                 <div className="pagination">
                     <div 
-                    onClick={()=>setCurrentPageNum(currentPageNum-1)}
+                    onClick={()=>currentPageNum>0?setCurrentPageNum(currentPageNum-1):<></>}
                     className="pagination_btn">
                         {<i className="fas fa-caret-left"></i>}
                     </div>
@@ -43,7 +42,8 @@ const HistoryWrapper =({userPosition})=>{
                             onClick={()=>setCurrentPageNum(Number((pages/2).toFixed(0))-1)}
                             className="pagination_numbers btn">{Number((pages/2).toFixed(0))-1}</div>
                             <div 
-                            className="pagination_numbers btn_m">{Number((pages/2).toFixed(0))}</div>
+                            onClick={()=>setCurrentPageNum(Number((pages/2).toFixed(0)))}
+                            className="pagination_numbers btn">{Number((pages/2).toFixed(0))}</div>
                             <div 
                             onClick={()=>setCurrentPageNum(Number((pages/2).toFixed(0))+1)}
                             className="pagination_numbers btn">{Number((pages/2).toFixed(0))+1}</div>
@@ -61,13 +61,16 @@ const HistoryWrapper =({userPosition})=>{
                         </div>
                     }
                     <div 
-                    onClick={()=>setCurrentPageNum(currentPageNum+1)}
+                    onClick={()=>currentPageNum<pages?setCurrentPageNum(currentPageNum+1):<></>}
                     className="pagination_btn">
                         {<i className="fas fa-caret-right"></i>}
                     </div>
-
+                </div>
+                <div 
+                    className="btn_m">{currentPageNum}
                 </div>
             </div>
+            
             <div className="history_wrapperA_menu">
                 <h5>Order</h5>
                 <h5>Price</h5>
