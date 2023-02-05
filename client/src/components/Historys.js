@@ -2,9 +2,9 @@ import { useWeb3React } from "@web3-react/core";
 import { useEffect, useState } from "react";
 import { injected } from "../connectors";
 import History from "./History"
-const HistoryWrapper =({userPosition,setUserModal})=>{
+const HistoryWrapper =({userPosition,walletConnected,
+    setWalletConnected})=>{
     const [currentPageNum, setCurrentPageNum]=useState(1)
-    const [walletConnected, setWalletConnected] = useState(false)
     const {chainId, account, active, activate, deactivate} = useWeb3React();
 
 
@@ -18,20 +18,14 @@ const HistoryWrapper =({userPosition,setUserModal})=>{
                 window.open('https://metamask.io/download.html');
             }
         });
-        setWalletConnected(true)
-        setUserModal(walletConnected)
+        setWalletConnected(!walletConnected)
     }
     let positions = userPosition!==undefined&& userPosition!==null?userPosition:[]
-    let pageSet = 10; //페이지 단위
-    let pages = Math.ceil(positions.length/ 10);//총 페이지 길이
+    let pageSet = 10;
+    let pages = Math.ceil(positions.length/ 10);
     let offset = pageSet * (currentPageNum - 1);
     let limit = offset + pageSet;
 
-    useEffect(()=>{
-        console.log(userPosition)
-
-    },[userPosition])
-    //for(let i = 0 ;i<Math.ceil(positions.length/ 10);i++)
     return(
         <div className="history_wrapperA">
             <div className="history_wrapperA_top">
@@ -109,11 +103,8 @@ const HistoryWrapper =({userPosition,setUserModal})=>{
                         company_name={e.company_name}
                     />)
                 }):<div className="disconnection_status">
-                
-                <div onClick={handleConnect}>Log In or Sign Up </div>
-                
-                Start Trading
-                
+                <h6>Start Trading</h6>
+                <h6 className='disconnection_status_login' onClick={handleConnect}>Log In or Sign Up </h6>
                 </div>}
             </div>
         </div>

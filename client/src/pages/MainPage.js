@@ -19,12 +19,12 @@ const MainPage =()=>{
     const [userPosition,setUserPosition] = useState();
     const [copy, setCopy] = useState('');
     const [number, setNumber] = useState(0);
+    const [walletConnected, setWalletConnected] = useState(false)
+
     const currentPrice_ref = useRef({});
     const {chainId, account, active, activate, deactivate} = useWeb3React();
-    const [userModal, setUserModal] = useState(false);
     
     let powerOfMarket = (currentPrice.open - currentPrice.close)
-
     useEffect(() => {
         const setChartRTD=(async () => 
         {try {
@@ -107,8 +107,9 @@ return(
             isLoading={isLoading}
         />
         <Header 
-            userModal={userModal}
-            isLoading={isLoading} onMouseEnter={onMouseEnterHandler}/>
+            walletConnected = {walletConnected}
+            setWalletConnected = {setWalletConnected}
+            isLoading = {isLoading} onMouseEnter={onMouseEnterHandler}/>
         <Navigator/>
         <div className="main_head">
             <ChartWrapper
@@ -125,7 +126,8 @@ return(
         </div>
         <div className="main_bottom">
             <Historys
-                setUserModal={setUserModal}
+                walletConnected = {walletConnected}
+                setWalletConnected = {setWalletConnected}
                 userPosition={userPosition}
             />
             <Assets
