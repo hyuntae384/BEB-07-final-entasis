@@ -13,26 +13,23 @@ import axios from 'axios';
 import Welcome from '../pages/TransactionsPage';
 
 // import {Vote} from '../apis/company'
-const Header =()=> {
+const Header =({walletConnected,setWalletConnected})=> {
     const [userModalIsOpen, setUserModalIsOpen] = useState(false)
     const [isFaucet, setIsFaucet] = useState(false)
     const [name, setName] = useState("aa");
     const [stName, setStName] = useState('BEBE');
     const [stAmount, setStAmount] = useState(0);
     const [ratio, setRatio] = useState(0);
-    const [walletConnected, setWalletConnected] = useState(false)
     const [editName, setEditName] = useState(false)
     const [editNameValue,setEditNameValue] = useState('')
     const [voted,setVoted] = useState(false)
     const [isEnroll, setIsEnroll] = useState({})
     const [myPage, setMyPage] =useState({})
 
-
     const countNumber=(e)=>{
         return e.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,",")
     }
     const {chainId, account, active, activate, deactivate} = useWeb3React();
-
     const handleConnect = () => {
         if(active) {
             deactivate();
@@ -68,10 +65,8 @@ const Header =()=> {
     }
     useEffect(()=>{
         MyPage(account)
-        ChName(account,editNameValue)
         EnrollWallet(account)
-        FaucetWallet(account)
-    },[account,editNameValue])
+    },[account,myPage])
 
     const FaucetWallet = async(wallet) => {
         if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
@@ -169,7 +164,11 @@ const Header =()=> {
     // useEffect(()=>{
     //     return Vote(stName,stAmount,ratio,account).status.value
     // },[stName,stAmount,ratio,account])
-
+        const Change =()=>{
+            ChName(account,editNameValue)
+            MyPage(account)
+            setEditName(false)
+        }
 
     const faucetBtn=()=>{
         
@@ -198,12 +197,8 @@ const Header =()=> {
         { value: "DEDE", name: "DEDE" },
         { value: "CECE", name: "CECE" },
     ];
-    const enterHandler=(e)=>{
-        if(e.key === "Enter") return ChName(account,editNameValue); EnrollWallet(account);setEditName(!editName);
 
-    }
     const dividendTimeLimit = (59-new Date().getMinutes())%5+":"+(59-new Date().getSeconds())
-
     return(
         <div className="header">
         
@@ -234,9 +229,9 @@ const Header =()=> {
                     </div>
                     <img className="congratulations" src={require('../assets/images/welcome_connection.gif')} alt='entasis'></img>
                     <h2>Connection Information</h2>
-                    <h3>Name : {isEnroll.name}</h3>
-                    <h3>Tutorials : {isEnroll.cnt<=1?"Complete":"Not Complete Yet"}</h3>
-                    <h4>Account : {account}</h4>
+                    <h4>Name : {isEnroll.name}</h4>
+                    <h4>Tutorials : {isEnroll.cnt<=1?"Complete":"Not Complete Yet"}</h4>
+                    <h4>Account : {account===undefined?'Disconnected':account}</h4>
                     </Modal>}
                 {active?
                 <i className='fas fa-wallet' onClick={()=>userModalOpen()} ></i>:
@@ -261,14 +256,12 @@ const Header =()=> {
                         </div>
                             {editName?
                             <div className='edit_name'>
-                                <input onChange={(e)=>setEditNameValue(e.target.value)} onKeyDown={enterHandler}></input>
+                                <input onChange={(e)=>setEditNameValue(e.target.value)} onKeyPress={(e)=>
+                                e.key === "Enter"? Change():<></>
+                                }></input>
                                 <div className='edit_name_close'>
                                     <img src={require('../assets/images/ok.png')} alt='ok'
-                                    onClick={()=>{
-                                        ChName(account,editNameValue)
-                                        EnrollWallet(account)
-                                        setEditName(!editName)
-                                    }}></img>
+                                    onClick={()=>{Change()}}></img>
                                     <img src={require('../assets/images/close.png')} alt='close' onClick={()=>setEditName(!editName)}></img>
                                 </div>
                             </div>
