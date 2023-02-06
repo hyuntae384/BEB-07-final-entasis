@@ -10,5 +10,5 @@ exports.limiter = limit({
             code: this.statusCode,
             message: "Only 1000 requests per minute."
         });
-    }
+    } // 간단한 체크
 })
