@@ -120,9 +120,9 @@ const Volume =({
                         <rect
                         {...{ fill }}
                         x={x}
-                        y={y}
+                        y={!isNaN(y)?y-0.5:0}
                         width={(barPlothWidth - sidePadding)>0?barPlothWidth - sidePadding:0.01}
-                        height={height}
+                        height={!isNaN(height)?height:0}
                         ></rect>
                     </g>
                     
