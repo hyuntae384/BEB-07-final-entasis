@@ -1,4 +1,3 @@
-import Chart from "../components/Chart/Chart"
 import LimitOrderBook from '../components/LimitOrderBook'
 import Order from '../components/Order'
 import Assets from "../components/Assets"
@@ -7,7 +6,7 @@ import Navigator from "../components/Navigator"
 import Header from "../components/Header"
 import { useEffect, useState, useRef } from "react"
 import Historys from "../components/Historys"
-import Welcome from "./TransactionsPage"
+import WelcomePage from "./WelcomePage"
 import { useWeb3React } from "@web3-react/core"
 import axios from "axios"
 import ChartWrapper from "../components/Chart/ChartWrapper"
@@ -20,10 +19,13 @@ const MainPage =()=>{
     const [userPosition,setUserPosition] = useState();
     const [copy, setCopy] = useState('');
     const [number, setNumber] = useState(0);
+    const [walletConnected, setWalletConnected] = useState(false)
+
     const currentPrice_ref = useRef({});
-    // console.log(currentPrice.close)
+    const {chainId, account, active, activate, deactivate} = useWeb3React();
+    
     let powerOfMarket = (currentPrice.open - currentPrice.close)
-    useEffect(() => {
+
         const setChartRTD=(async () => 
         {try {
             currentPrice_ref.current = await axios.get('http://localhost:5050/rtd')
@@ -32,14 +34,21 @@ const MainPage =()=>{
         console.log(e) // caught
         }
     })
+        if(!isLoading){
         const loop = setInterval(() => {
         setChartRTD()
         clearInterval(loop);
         powerOfMarket = 0;
-        }, 100);
-    }, [currentPrice_ref.current,]);
+        }, 1000);
+        }else{
+            setTimeout(()=>{
+                    setChartRTD()
+                    powerOfMarket = 0;
+                setIsLoading(false)
+            },1000)
+        }
 
-    const {chainId, account, active, activate, deactivate} = useWeb3React();
+
     const copyHandler = (e) => {
         copy = e;
     }
@@ -59,50 +68,68 @@ const MainPage =()=>{
         return  resultSTChart
     }
 
-    const Position = async(wallet) => {
-        if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
-        const resultPosition = await axios.get(position + wallet)
-        .then(res=>res.data)
-        .then(err=>err)
-        setUserPosition(resultPosition)
-    }
-    const EnrollWallet = async(wallet) => {
-        if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
-        const resultEnrollWallet =  await axios.post(enroll + wallet)
-        .then(res=>res.data)
-        .then(err=>err)
-        setIsEnroll(resultEnrollWallet)
-    }
+
     useEffect(()=>{
+        const Position = async(wallet) => {
+            if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
+            const resultPosition = await axios.get(position + wallet)
+            .then(res=>res.data)
+            .then(err=>err)
+            setUserPosition(resultPosition)
+
+        }
+        const EnrollWallet = async(wallet) => {
+            if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
+            const resultEnrollWallet =  await axios.post(enroll + wallet)
+            .then(res=>res.data)
+            .then(err=>err)
+            setIsEnroll(resultEnrollWallet)
+        }
         Position(account)
         EnrollWallet(account)
+        if(account===undefined){
+        setUserPosition();
+        EnrollWallet();
+        }
     },[account]);
         const onMouseEnterHandler = () => {
             document.body.style.overflow = 'unset';
         }
-    return(
+
+return(
     <div className="main_page" onMouseEnter={onMouseEnterHandler}>
-        {/* <Welcome
+        <WelcomePage
             account={account}
             tutorialCnt={isEnroll.cnt}
             isLoading={isLoading}
-        /> */}
-        <Header isLoading={isLoading} onMouseEnter={onMouseEnterHandler}/>
+        />
+        <Header 
+            walletConnected = {walletConnected}
+            setWalletConnected = {setWalletConnected}
+            isLoading = {isLoading} onMouseEnter={onMouseEnterHandler}/>
         <Navigator/>
         <div className="main_head">
             <ChartWrapper
                 currentPrice={currentPrice}
+                isLoading={isLoading}
             />
             <LimitOrderBook
                 powerOfMarket={-powerOfMarket}
                 ST_CurrentPrice={currentPrice.close} 
             />
-            <Order/>
+            <Order
+                ST_CurrentPrice={currentPrice.close} 
+            />
         </div>
         <div className="main_bottom">
-            <Historys/>
+            <Historys
+                walletConnected = {walletConnected}
+                setWalletConnected = {setWalletConnected}
+                userPosition={userPosition}
+            />
             <Assets
-                ST_CurrentPrice={0} 
+                ST_CurrentPrice={currentPrice.close} 
+                powerOfMarket={powerOfMarket}
             />
         </div>
         <Footer/>

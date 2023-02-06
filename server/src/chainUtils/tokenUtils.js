@@ -25,9 +25,29 @@ const getTotalSupply = async () => {
   }
 };
 
+const getSimpleTotalSupply = async () => {
+  try {
+    const totalSupply = await tokenContract.methods.simpleTotalSupply().call();
+    return totalSupply;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+};
+
 const getTokenBalance = async (account) => {
   try {
     const balance = await tokenContract.methods.balanceOf(account).call();
+    return balance;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+};
+
+const getSimpleTokenBalance = async (account) => {
+  try {
+    const balance = await tokenContract.methods.simpleBalanceOf(account).call();
     return balance;
   } catch (err) {
     console.error(err);
@@ -65,7 +85,7 @@ const sendTokenToUser = async (recipient, amount) => {
   }
 };
 
-// 거래 제한 함수 : 테스트 필요
+// 거래 제한 함수
 const restrictToken = async () => {
   const adminAccount = web3Http.eth.accounts.privateKeyToAccount(ADMIN_PK);
   try{
@@ -84,7 +104,7 @@ const restrictToken = async () => {
   }
 };
 
-// 거래 재허용 함수 : 테스트 필요
+// 거래 재허용 함수
 const allowToken = async () => {
   const adminAccount = web3Http.eth.accounts.privateKeyToAccount(ADMIN_PK);
   try{
@@ -103,7 +123,7 @@ const allowToken = async () => {
   }
 };
 
-// 거래 제한 여부 확인 함수 : 테스트 필요
+// 거래 제한 여부 확인 함수
 const isRestricted = async () => {
   try{
     const isRestricted = await tokenContract.methods.isRestricted().call();
@@ -114,13 +134,26 @@ const isRestricted = async () => {
   }
 };
 
+const showAllTokenHolders = async () => {
+  try {
+    const tokenholders = await tokenContract.methods.showAllTokenHolders().call();
+    return tokenholders;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+};
+
 module.exports = { 
   getTotalSupply,
+  getSimpleTotalSupply,
   getTokenBalance, 
+  getSimpleTokenBalance,
   getTokenName, 
   signAndSendTx, 
   sendTokenToUser,
   restrictToken,
   allowToken,
-  isRestricted
+  isRestricted,
+  showAllTokenHolders
 };
