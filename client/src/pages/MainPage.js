@@ -42,8 +42,6 @@ const MainPage =()=>{
         }, 1000);
         }else{
             setTimeout(()=>{
-                    setChartRTD()
-                    powerOfMarket = 0;
                 setIsLoading(false)
             },1000)
         }
@@ -76,7 +74,6 @@ const MainPage =()=>{
             .then(res=>res.data)
             .then(err=>err)
             setUserPosition(resultPosition)
-
         }
         const EnrollWallet = async(wallet) => {
             if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
