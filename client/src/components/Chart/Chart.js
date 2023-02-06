@@ -4,16 +4,16 @@ import SelectBox from "../Select";
 import Candle from "./data/Candle"
 import Volume from "./data/Volume"
 
-const Chart =({currentPrice, chartArr,defaultLimit,dataLength,term,setTerm,isLoading})=>{
+const Chart =({currentPrice, chartTermArr,defaultLimit,dataLength,term,setTerm,isLoading})=>{
     const [name, setName] = useState("BEBE");
 
-    let date = dataToArray(chartArr,1)
-    let open = dataToArray(chartArr,2)
-    let close = dataToArray(chartArr,3)
-    let high = dataToArray(chartArr,4)
-    let low = dataToArray(chartArr,5)
-    let volTo = dataToArray(chartArr,6)
-    let volFrom = dataToArray(chartArr,7)
+    let date = dataToArray(chartTermArr,1)
+    let open = dataToArray(chartTermArr,2)
+    let close = dataToArray(chartTermArr,3)
+    let high = dataToArray(chartTermArr,4)
+    let low = dataToArray(chartTermArr,5)
+    let volTo = dataToArray(chartTermArr,6)
+    let volFrom = dataToArray(chartTermArr,7)
 
     // const onClickListener = () => {
     //     setName("CECE");

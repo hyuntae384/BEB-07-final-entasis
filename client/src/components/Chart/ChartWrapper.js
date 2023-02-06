@@ -10,8 +10,12 @@ const ChartWrapper =({currentPrice})=>{
     const [chartToggle,setChartToggle] = useState(false)
     const [chartOriginArr,setChartOriginArr] = useState([]);
     const [chartArr, setChartArr]  = useState([]);
+    const [chartTermArr, setChartTermArr] = useState([])
     const [isLoading, setIsLoading] = useState(false);
-    const [termValue, setTerm] = useState(1)
+    const [termValue, setTerm] = useState(1);
+    const [offset,setOffset]=useState(0);
+    const [limit, setLimit]=useState(2000);
+    const [total,setTotal] = useState(0);
     const ST_Name = [
         { value: "BEBE", name: "BEBE" },
         { value: "DEDE", name: "DEDE" },
@@ -27,73 +31,37 @@ const ChartWrapper =({currentPrice})=>{
         ]
 
 
-
+useEffect(()=>{
     let limitChartArr=[];
+    let total=0;
+
+    const origin = 'http://localhost:5050/chart/total'
     if(!chartToggle){
-        const setChartTotal=(async() => 
+        const setChartTotal=(async(offset,limit,stname) => 
         {try {
-            const resultTotal = await axios.get('http://localhost:5050/chart/total')
             setIsLoading(true)
+            const resultTotal = await axios.get(origin + `?offset=${offset}&limit=${limit}&stname=${stname}`)
             setTimeout(()=>{
-                (resultTotal.data.map(e=>limitChartArr.push(Object.values(e))))
+                (resultTotal.data.priceinfo.map(e=>limitChartArr.push(Object.values(e))))
+                setTotal(resultTotal.data.totalLength)
                 setIsChartTotal(limitChartArr)
                 setIsLoading(false)
-                setChartToggle(true)
-                
+                setLimit(resultTotal.data.totalLength)
             },1000)
         } catch (e) {
         console.log(e) 
         }
     })
-    setChartTotal()
+    setChartTotal(offset,limit)
     }
+    setChartToggle(true)
+
+})
+
     useEffect(()=>{
         setChartOriginArr(isChartTotal)
-    })
-    useEffect(()=>{
-
-        setChartArr(chartOriginArr
-        .slice(dataLength>chartOriginArr.length*0.3?dataLength:chartOriginArr.length*0.3, defaultLimit>chartOriginArr.length*0.3?defaultLimit:chartOriginArr.length*0.3))
-        // console.log(dataLength,defaultLimit)
-        setDefaultLimit(chartOriginArr.length)
-
-    },[chartOriginArr,dataLength,defaultLimit])
-    let setByTime = []
-    let setByTimeNewArr = []
-
-    useEffect(()=>{
-        let cnt = 0
-        let time = 15;
-        let termNum = 0;
-        // console.log(`${termNum}`,`${termValue}`)
-
-        const arrSum = arr => arr.reduce((a,b) => a + b, 0)
-        if(`${termNum}`!==`${termValue}`){
-            for(let i = 0 ; i<chartOriginArr.length; i++){
-                setByTime.push(chartOriginArr[i])
-                // console.log(i%termValue)
-                if(i%Number(termValue)=== 0){
-                    cnt++
-                    let setByTimeArr = [
-                        cnt,
-                        dataToArray(setByTime,1)[0],
-                        Number(dataToArray(setByTime,2)[0]),
-                        Number(dataToArray(setByTime,3)[setByTime.length-1]),
-                        Number(Math.max(...dataToArray(setByTime,4))),
-                        Number(Math.min(...dataToArray(setByTime,5))),
-                        Number(arrSum(dataToArray(setByTime,6))),
-                        Number(arrSum(dataToArray(setByTime,7))),
-                    ]
-                setByTimeNewArr.push(setByTimeArr)
-                setByTime=[]
-            }
-            setChartArr(setByTimeNewArr)
-            }
-            termNum=termValue
-            // console.log(termNum,termValue)
-            // console.log(setByTimeNewArr)
-        }    
-    },[termValue])
+        
+    },[isChartTotal])
 
     useEffect(() => {
         const loop = setInterval(() => {
@@ -119,8 +87,56 @@ const ChartWrapper =({currentPrice})=>{
             }  
         clearInterval(loop);
         }, 1000);
-    }, [new Date().getSeconds(),chartArr,chartOriginArr]);
+    }, [new Date().getSeconds(),chartOriginArr]);
 
+
+    let setByTime = []
+    let setByTimeNewArr = []
+
+    useEffect(()=>{
+        let cnt = 0
+        let termNum = 0;
+        // console.log(`${termNum}`,`${termValue}`)
+        const arrSum = arr => arr.reduce((a,b) => a + b, 0)
+        if(`${termNum}`!==`${termValue}`){
+            for(let i = 0 ; i<chartOriginArr.length; i++){
+                setByTime.push(chartOriginArr[i])
+                // console.log(i%termValue)
+                if(i%Number(termValue)=== 0){
+                    cnt++
+                    let setByTimeArr = [
+                        cnt,
+                        dataToArray(setByTime,1)[0],
+                        Number(dataToArray(setByTime,2)[0]),
+                        Number(dataToArray(setByTime,3)[setByTime.length-1]),
+                        Number(Math.max(...dataToArray(setByTime,4))),
+                        Number(Math.min(...dataToArray(setByTime,5))),
+                        Number(arrSum(dataToArray(setByTime,6))),
+                        Number(arrSum(dataToArray(setByTime,7))),
+                    ]
+                setByTimeNewArr.push(setByTimeArr)
+                setByTime=[]
+            }
+            setChartArr(setByTimeNewArr)
+            }
+            termNum=termValue
+            // console.log(termNum,termValue)
+        }    
+    },[termValue,chartOriginArr])
+
+    useEffect(()=>{
+        setChartTermArr(chartArr
+        .slice(dataLength>chartArr.length*0.3?dataLength:chartArr.length*0.3, 
+            defaultLimit>chartArr.length*0.3?defaultLimit:chartArr.length*0.3))
+        // console.log(dataLength,defaultLimit)
+        setDefaultLimit(chartArr.length)
+
+    },[chartArr,dataLength,defaultLimit,termValue])
+    useEffect(()=>{
+        console.log(chartTermArr)
+        setChartTermArr(chartArr)
+
+    },[chartArr])
     // let posX = 0;
     // let posY = 0;
     
@@ -182,7 +198,7 @@ return(
         <Chart
         term={term}
         setTerm={setTerm}
-        chartArr = {chartArr}
+        chartTermArr = {chartTermArr}
         currentPrice={currentPrice}
         dataLength={dataLength}
         defaultLimit={defaultLimit}
