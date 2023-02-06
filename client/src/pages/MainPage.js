@@ -25,7 +25,7 @@ const MainPage =()=>{
     const {chainId, account, active, activate, deactivate} = useWeb3React();
     
     let powerOfMarket = (currentPrice.open - currentPrice.close)
-    useEffect(() => {
+
         const setChartRTD=(async () => 
         {try {
             currentPrice_ref.current = await axios.get('http://localhost:5050/rtd')
@@ -39,18 +39,15 @@ const MainPage =()=>{
         setChartRTD()
         clearInterval(loop);
         powerOfMarket = 0;
-        }, 100);
+        }, 1000);
         }else{
             setTimeout(()=>{
-                const loop = setInterval(() => {
                     setChartRTD()
-                    clearInterval(loop);
                     powerOfMarket = 0;
-                    }, 100);
                 setIsLoading(false)
             },1000)
         }
-    }, [currentPrice_ref.current]);
+
 
     const copyHandler = (e) => {
         copy = e;
