@@ -4,8 +4,7 @@ import SelectBox from "../Select";
 import Candle from "./data/Candle"
 import Volume from "./data/Volume"
 
-const Chart =({currentPrice, chartTermArr,defaultLimit,dataLength,term,setTerm,isLoading})=>{
-    const [name, setName] = useState("BEBE");
+const Chart =({currentPrice, chartTermArr,defaultLimit,dataLength,term,setTermValue,isLoading,ST_Name})=>{
 
     let date = dataToArray(chartTermArr,1)
     let open = dataToArray(chartTermArr,2)
@@ -15,12 +14,6 @@ const Chart =({currentPrice, chartTermArr,defaultLimit,dataLength,term,setTerm,i
     let volTo = dataToArray(chartTermArr,6)
     let volFrom = dataToArray(chartTermArr,7)
 
-    // const onClickListener = () => {
-    //     setName("CECE");
-    // };
-    // const loadDataHandler = () => {
-    //     // setdefaultLimit(defaultLimit + 500);
-    // };
     
     const onMouseEnterHandler = () => {
         document.body.style.overflow = 'hidden';
@@ -67,17 +60,17 @@ const Chart =({currentPrice, chartTermArr,defaultLimit,dataLength,term,setTerm,i
         <div className="chart_select">
         <SelectBox
             set={term}
-            value={setTerm}
+            value={ST_Name}
         ></SelectBox>
         <SelectBox 
             set = {term}
-            value={setTerm}
+            value={setTermValue}
         ></SelectBox>
 
-        {/* <h6 className="chart_cp">{name} {ST_CurrentPrice.toLocaleString()}</h6> */}
+        {/* <h6 className="chart_cp">{ST_Name} {ST_CurrentPrice.toLocaleString()}</h6> */}
         </div>        <Candle
             term={term}
-            setTerm={setTerm}
+            setTermValue={setTermValue}
             currentPrice={currentPrice}
             date = {date}
             open = {open}
@@ -88,7 +81,7 @@ const Chart =({currentPrice, chartTermArr,defaultLimit,dataLength,term,setTerm,i
             height={size.height}
             defaultLimit={defaultLimit}
             dataLength={dataLength}
-            name={name}
+            ST_Name={ST_Name}
             isLoading={isLoading}
         />
         <Volume
@@ -101,7 +94,7 @@ const Chart =({currentPrice, chartTermArr,defaultLimit,dataLength,term,setTerm,i
             height={size.height}
             defaultLimit={defaultLimit}
             dataLength={dataLength}
-            name={name}
+            ST_Name={ST_Name}
             isLoading={isLoading}
 
         />

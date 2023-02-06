@@ -150,7 +150,7 @@ if(dataArray[0][0]!==undefined&&
 
                 {/* 가로선 작성(css name => lineLight) */}
                 {Array.from({ length: numYTicks }).map((_, index) => {
-                const y = y0 + index * (yAxisLength / numYTicks);
+                const y = Number(y0 + index * (yAxisLength / numYTicks));
                 const yValue = (
                     dataYMax - index * (dataYRange / numYTicks)
                 );
@@ -188,11 +188,11 @@ if(dataArray[0][0]!==undefined&&
                     x1={0}
                     x2={SVG_CHART_WIDTH-65}
                     y1={pointer.x<SVG_CHART_WIDTH*0.93&&((pointer.y+windowPageYOffset)<550)?((pointer.y+windowPageYOffset)-135):-10}
+                    
                     y2={pointer.x<SVG_CHART_WIDTH*0.93&&((pointer.y+windowPageYOffset)<550)?((pointer.y+windowPageYOffset)-135):-10}
                     stroke='#00fbff'
                     opacity={0.3}
                     ></line>
-
                     <text
                 
                     x={SVG_CHART_WIDTH-60}
@@ -231,8 +231,8 @@ if(dataArray[0][0]!==undefined&&
                     
                         x1={x + (barPlothWidth - sidePadding) / 2}
                         x2={x + (barPlothWidth - sidePadding) / 2}
-                        y1={low!==undefined ? yAxisLength - scaleY(low) : 0}
-                        y2={high!==undefined ? yAxisLength - scaleY(high) : 0}
+                        y1={!isNaN(scaleY(low))? Number(yAxisLength) - scaleY(low) : 0}
+                        y2={!isNaN(scaleY(high)) ? Number(yAxisLength) - scaleY(high) : 0}
                         stroke={fill}
                         />
 
@@ -240,7 +240,7 @@ if(dataArray[0][0]!==undefined&&
                         id={`ID_`+`${dataArray.length-index-1}`}
                         {...{ fill }}
                         x={x}
-                        y={!isNaN(max) ?yAxisLength - scaleY(max):0}
+                        y={!isNaN(scaleY(max)) ?yAxisLength - scaleY(max):0}
                         width={(barPlothWidth - sidePadding)>0?barPlothWidth - sidePadding:0.001}
                         // 시가 종가 최대 최소값의 차
                         height={(scaleY(max) - scaleY(min))>1?scaleY(max) - scaleY(min):1}
@@ -253,13 +253,16 @@ if(dataArray[0][0]!==undefined&&
                         y2={(currentPrice.close!==undefined ? yAxisLength - scaleY(currentPrice.close) : 0)}
                         strokeWidth='0.1'
                         stroke={fill}
-                        ></line>
-                        <text x={SVG_CHART_WIDTH - 60} y={typeof scaleY(currentPrice.close)==='number'?yAxisLength - scaleY(currentPrice.close):0} fontSize="12" 
-                        fill= 
-                        {fill} 
-                        
                         >
-                        {typeof scaleY(currentPrice.close)==='number'?currentPrice.close:0}
+                        {console.log((currentPrice.close!==undefined ? yAxisLength - scaleY(currentPrice.close) : 0))}
+                        </line>
+                        <text
+                        x={SVG_CHART_WIDTH - 60}
+                        y={(typeof Number(scaleY(currentPrice.close))==='number'?yAxisLength - Number(scaleY(currentPrice.close)):0)}
+                        fontSize="12" 
+                        fill={fill} 
+                        >
+                        {currentPrice.close}
                         </text>
                     </g>
                     );
