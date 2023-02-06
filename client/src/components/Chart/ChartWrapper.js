@@ -12,10 +12,12 @@ const ChartWrapper =({currentPrice})=>{
     const [chartArr, setChartArr]  = useState([]);
     const [chartTermArr, setChartTermArr] = useState([])
     const [isLoading, setIsLoading] = useState(false);
-    const [termValue, setTerm] = useState(1);
+    const [termValue, setTermValue] = useState(1);
     const [offset,setOffset]=useState(0);
-    const [limit, setLimit]=useState(2000);
+    const [limit, setLimit]=useState(5000);
     const [total,setTotal] = useState(0);
+    const [termArrLength,setTermArrLength] = useState(2000);
+
     const ST_Name = [
         { value: "BEBE", name: "BEBE" },
         { value: "DEDE", name: "DEDE" },
@@ -47,6 +49,8 @@ useEffect(()=>{
                 setIsChartTotal(limitChartArr)
                 setIsLoading(false)
                 setLimit(resultTotal.data.totalLength)
+                // setOffset(limit/100)
+                total=resultTotal.data.totalLength-1;
             },1000)
         } catch (e) {
         console.log(e) 
@@ -87,7 +91,7 @@ useEffect(()=>{
             }  
         clearInterval(loop);
         }, 1000);
-    }, [new Date().getSeconds(),chartOriginArr]);
+    }, [new Date().getSeconds()]);
 
 
     let setByTime = []
@@ -120,20 +124,21 @@ useEffect(()=>{
             setChartArr(setByTimeNewArr)
             }
             termNum=termValue
-            // console.log(termNum,termValue)
+            setTermArrLength(setByTimeNewArr.length)
+            setDataLength(setByTimeNewArr.length/10)
+
         }    
     },[termValue,chartOriginArr])
 
     useEffect(()=>{
         setChartTermArr(chartArr
-        .slice(dataLength>chartArr.length*0.3?dataLength:chartArr.length*0.3, 
-            defaultLimit>chartArr.length*0.3?defaultLimit:chartArr.length*0.3))
+        .slice(dataLength>termArrLength*0.03?dataLength:termArrLength*0.03, 
+            defaultLimit>termArrLength*0.03?defaultLimit:termArrLength*0.03))
+            setDefaultLimit(termArrLength)
         // console.log(dataLength,defaultLimit)
-        setDefaultLimit(chartArr.length)
 
     },[chartArr,dataLength,defaultLimit,termValue])
     useEffect(()=>{
-        console.log(chartTermArr)
         setChartTermArr(chartArr)
 
     },[chartArr])
@@ -185,10 +190,10 @@ return(
         // onDrag={dragStartHandler}
         onWheel={() => {
             window.onwheel = function (e) {
-                let set = chartOriginArr.length*0.01
+                let set = dataLength*0.05
                 if(document.body.style.overflow === 'hidden'){
                 e.deltaY> 0
-                ? setDataLength(dataLength < chartOriginArr.length*0.3 ? dataLength + 0 : dataLength - set)
+                ? setDataLength(dataLength < termArrLength*0.3 ? dataLength + 0 : dataLength - set)
                 : setDataLength(dataLength > defaultLimit*0.99 ? dataLength + 0  : dataLength + set)
             }
             };
@@ -196,8 +201,9 @@ return(
         >
         {isLoading?<img className="loading" src={require('../../assets/images/Infinity.gif')} alt='loading'/>:
         <Chart
+        ST_Name={ST_Name}
         term={term}
-        setTerm={setTerm}
+        setTermValue={setTermValue}
         chartTermArr = {chartTermArr}
         currentPrice={currentPrice}
         dataLength={dataLength}

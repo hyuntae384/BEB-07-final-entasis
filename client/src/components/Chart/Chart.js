@@ -14,12 +14,6 @@ const Chart =({currentPrice, chartTermArr,defaultLimit,dataLength,term,setTermVa
     let volTo = dataToArray(chartTermArr,6)
     let volFrom = dataToArray(chartTermArr,7)
 
-    // const onClickListener = () => {
-    //     setName("CECE");
-    // };
-    // const loadDataHandler = () => {
-    //     // setdefaultLimit(defaultLimit + 500);
-    // };
     
     const onMouseEnterHandler = () => {
         document.body.style.overflow = 'hidden';

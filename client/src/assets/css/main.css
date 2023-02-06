@@ -15,7 +15,7 @@
     --white-color   : #ffffff;
     --black-color: #000000;
     --gray-light-color: #6f787f;
-    --gray-dark-color: #222223;
+    --gray-dark-color: #2b2b2d;
     --Primary-color: #00A4D8;
     --onPrimary-color: #0d6097;
     --Secondary-color: #ab1c37;
@@ -794,6 +794,7 @@ input{
 }
 
 .order_mode{
+    padding-top: 0;
     display: flex;
     color: var(--gray-dark-color);
     border-bottom: 1px solid var(--gray-dark-color);
@@ -802,7 +803,7 @@ input{
     padding: 0.4%;
 }
 .order div{
-    padding: 2% 0;
+    padding: 0 0 2% 0;
 }
 .order_price, .order_amount{
     margin: 2% 0 0 0 ;
