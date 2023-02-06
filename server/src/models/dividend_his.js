@@ -16,10 +16,11 @@ module.exports = (sequelize, DataTypes) => {
   }
   dividend_his.init({
     company_wallet: DataTypes.STRING,
-    income: DataTypes.INTEGER,
+    income: DataTypes.STRING,
     dividend_ratio: DataTypes.STRING,
-    dividend: DataTypes.INTEGER,
-    next_ratio: DataTypes.STRING
+    dividend: DataTypes.STRING,
+    next_ratio: DataTypes.STRING,
+    voted_ratio: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'dividend_his',

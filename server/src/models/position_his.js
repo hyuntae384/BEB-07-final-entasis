@@ -19,7 +19,9 @@ module.exports = (sequelize, DataTypes) => {
     order: DataTypes.STRING,
     price: DataTypes.STRING,
     amount: DataTypes.STRING,
-    fee: DataTypes.STRING
+    fee: DataTypes.STRING,
+    vote: DataTypes.STRING,
+    company_name: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'position_his',

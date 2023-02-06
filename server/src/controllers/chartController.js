@@ -1,17 +1,26 @@
 const { users, companys, dividend_his, position_his, price_his } = require('../models');
 const { depositFaucet, sendEtherToUser } = require('../chainUtils/etherUtils');
-const { getTokenBalance, getTokenName, signAndSendTx, sendTokenToUser } = require('../chainUtils/tokenUtils');
+const { restrictToken, isRestricted } = require('../chainUtils/tokenUtils');
 
 module.exports = {
   total: async (req, res, next) => {
-    // const { offset, limit } = req.query;
+    const { offset, limit } = req.query;
     try{
+      if (!offset || !limit) {
+          return res.status(400).send("not enough query");
+      }
+      const priceinfo = await price_his.findAll({
+        offset: Number(offset),
+        limit: Number(limit)
+      });
       const total = await price_his.findAll();
       if(!total) return res.status(400).json({message: "No such data"});
-      return res.status(200).json(total)
+      
+      return res.status(200).json({priceinfo:priceinfo,totalLength:total.length});
+
     } catch (err) {
       console.error(err);
       return next(err);
     }
-  }
+  },
 }
