@@ -94,7 +94,7 @@ const Order =({ST_CurrentPrice})=>{
     
 
     const ST_1 = {
-        name:'BEBE',price:'200',amount:'20'
+        name:'ENTA',price:curPrice * web3.utils.fromWei(userToken, 'ether') ,amount: web3.utils.fromWei(userToken, 'ether')
     };
     const ST_2 = {
         name:'DEDE',price:'100',amount:'230'
@@ -133,8 +133,7 @@ const Order =({ST_CurrentPrice})=>{
         <div className='assets'>
             <h4>Assets</h4>
             <div className='assets_wraper'>
-                <h6>{web3.utils.fromWei(userToken, 'ether')}</h6>
-                <h6>{ST_1.name+" ("+ST_1.amount+")"+" "+countNumber(ST_1.price+"ETH")}</h6>
+                <h6>{ST_1.name+" ("+ST_1.amount+")"+" "+ST_1.price+"ETH"}</h6>
                 <h6>{ST_2.name+" ("+ST_2.amount+")"+" "+countNumber(ST_2.price+"ETH")}</h6>
                 <h6>{ST_3.name+" ("+ST_3.amount+")"+" "+countNumber(ST_3.price+"ETH")}</h6>
             </div>
