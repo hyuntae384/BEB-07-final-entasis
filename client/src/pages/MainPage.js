@@ -10,6 +10,10 @@ import WelcomePage from "./WelcomePage"
 import { useWeb3React } from "@web3-react/core"
 import axios from "axios"
 import ChartWrapper from "../components/Chart/ChartWrapper"
+import Web3 from "web3";
+import TokenABI from "../ABIs/ERC1400.json"
+
+
 
 // import {FaucetWallet} from '../apis/user'
 const MainPage =()=>{
@@ -23,6 +27,48 @@ const MainPage =()=>{
 
     const currentPrice_ref = useRef({});
     const {chainId, account, active, activate, deactivate} = useWeb3React();
+
+    // ================================================================
+    // Props Test
+
+    const userAccount = useWeb3React().account;
+    const contractAccount = '0x04794606b3065df94ef3398aA2911e56abE169B6';
+    const serverAccount = '0x48c02B8aFddD9563cEF6703df4DCE1DB78A6b2Eb';
+    const [userEth, setUserEth] = useState("")
+    const [userToken, setUserToken] = useState("")
+    const StABI = TokenABI.abi
+    const web3 = new Web3(
+        window.ethereum || "http://18.182.9.156:8545"
+    );
+    const tokenContract = new web3.eth.Contract(StABI, contractAccount);
+    useEffect(() => {
+        getUserEth(userAccount);
+        getUserToken(userAccount);
+        /* console.log(userEth)
+        console.log(userToken) */
+    },[currentPrice])
+
+
+    async function getUserEth(account){
+        if(account === undefined) setUserEth('');
+        else {
+            let userEth = await web3.eth.getBalance(account);
+            let TransUserEth = web3.utils.fromWei(userEth);
+            setUserEth(Number(TransUserEth).toFixed(4));
+        }
+    }
+
+    async function getUserToken(account){
+        if(account === undefined) setUserToken('')
+        else {
+            let userToken = await tokenContract.methods.balanceOf(account).call();
+            let TransUserToken = web3.utils.fromWei(userToken)
+            setUserToken(TransUserToken);
+        }
+    }
+
+    // ================================================================
+
     
     let powerOfMarket = (currentPrice.open - currentPrice.close)
 
@@ -45,8 +91,7 @@ const MainPage =()=>{
                 setIsLoading(false)
             },1000)
         }
-
-
+    
     const copyHandler = (e) => {
         copy = e;
     }
@@ -115,7 +160,9 @@ return(
                 ST_CurrentPrice={currentPrice.close} 
             />
             <Order
-                ST_CurrentPrice={currentPrice.close} 
+                ST_CurrentPrice={currentPrice.close}
+                userEth={userEth}
+                userToken={userToken}
             />
         </div>
         <div className="main_bottom">
@@ -127,6 +174,8 @@ return(
             <Assets
                 ST_CurrentPrice={currentPrice.close} 
                 powerOfMarket={powerOfMarket}
+                userEth={userEth}
+                userToken={userToken}
             />
         </div>
         <Footer/>
