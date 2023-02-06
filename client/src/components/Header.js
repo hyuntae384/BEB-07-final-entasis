@@ -66,7 +66,7 @@ const Header =({walletConnected,setWalletConnected})=> {
     useEffect(()=>{
         MyPage(account)
         EnrollWallet(account)
-    },[account,myPage])
+    },[account])
 
     const FaucetWallet = async(wallet) => {
         if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
@@ -171,8 +171,9 @@ const Header =({walletConnected,setWalletConnected})=> {
         }
 
     const faucetBtn=()=>{
-        
-        //     <Modal
+        console.log(FaucetWallet(account))
+        // return(
+        // <Modal
         //     appElement={document.getElementById('root') || undefined}
         //     onRequestClose={()=>setVoted()}
         //     isOpen={voted}
@@ -189,8 +190,7 @@ const Header =({walletConnected,setWalletConnected})=> {
         //     <h2>Your Voting Right has been Exercised!</h2>
         //     </div>
         // </Modal>
-        // )}else
-        FaucetWallet(account)
+        // )
     }
     const OPTIONS = [
         { value: "BEBE", name: "BEBE" },
