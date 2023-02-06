@@ -65,7 +65,7 @@ const ChartWrapper =({currentPrice})=>{
         let cnt = 0
         let time = 15;
         let termNum = 0;
-        console.log(`${termNum}`,`${termValue}`)
+        // console.log(`${termNum}`,`${termValue}`)
 
         const arrSum = arr => arr.reduce((a,b) => a + b, 0)
         if(`${termNum}`!==`${termValue}`){
