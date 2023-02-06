@@ -15,15 +15,14 @@ const Candle =({
 })=>{
     // if(isLoading){
     const [pointer,setPointer]=useState({x:0,y:0})
-    
     let SVG_CHART_WIDTH = typeof width === "number" ? width * 1 : 0;
     let SVG_CHART_HEIGHT = typeof height === "number" ? height * 1 : 0;
 
     const xForPrice = 75;
     const xAxisLength = SVG_CHART_WIDTH - xForPrice;
-    const yAxisLength = SVG_CHART_HEIGHT - 25;
+    const yAxisLength = `${SVG_CHART_HEIGHT>25?SVG_CHART_HEIGHT-25:0}`
     const x0 = 0;
-    const y0 = 0;
+    const y0 = '0';
     const dataArray = [];
 
         
@@ -134,6 +133,7 @@ if(dataArray[0][0]!==undefined&&
                         y2={y0}
                         stroke='#252525'
                     ></line>
+
                     <text
                     
                         x={x}
@@ -161,11 +161,12 @@ if(dataArray[0][0]!==undefined&&
                     
                         x1={xAxisLength}
                         x2={x0}
-                        y1={y!=='NaN'?y:0}
-                        y2={y!=='NaN'?y:0}
+                        y1={y}
+                        y2={y}
                         stroke='#252525'
                         
                     ></line>
+
                     <text 
                         x={SVG_CHART_WIDTH - 60} y={y+10} fontSize="10" stroke='#252525' >
                         {typeof yValue === 'number'?yValue.toFixed(2).toLocaleString():0} ETH
@@ -182,6 +183,7 @@ if(dataArray[0][0]!==undefined&&
                     stroke='#00fbff'
                     opacity={0.3}
                     ></line>
+
                     <line
                     x1={0}
                     x2={SVG_CHART_WIDTH-65}
@@ -229,8 +231,8 @@ if(dataArray[0][0]!==undefined&&
                     
                         x1={x + (barPlothWidth - sidePadding) / 2}
                         x2={x + (barPlothWidth - sidePadding) / 2}
-                        y1={(yAxisLength - scaleY(low))!=='NaN' ? yAxisLength - scaleY(low) : 0}
-                        y2={(yAxisLength - scaleY(high))!=='NaN' ? yAxisLength - scaleY(high) : 0}
+                        y1={low!==undefined ? yAxisLength - scaleY(low) : 0}
+                        y2={high!==undefined ? yAxisLength - scaleY(high) : 0}
                         stroke={fill}
                         />
 
@@ -238,16 +240,17 @@ if(dataArray[0][0]!==undefined&&
                         id={`ID_`+`${dataArray.length-index-1}`}
                         {...{ fill }}
                         x={x}
-                        y={typeof scaleY(max)!== null ?yAxisLength - scaleY(max):0}
+                        y={!isNaN(max) ?yAxisLength - scaleY(max):0}
                         width={(barPlothWidth - sidePadding)>0?barPlothWidth - sidePadding:0.001}
                         // 시가 종가 최대 최소값의 차
                         height={(scaleY(max) - scaleY(min))>1?scaleY(max) - scaleY(min):1}
                         ></rect>
+
                         <line
                         x1={xAxisLength+10}
                         x2={x0}
-                        y1={(yAxisLength - scaleY(currentPrice.close))==='NaN' ? 0 : yAxisLength - scaleY(currentPrice.close)}
-                        y2={(yAxisLength - scaleY(currentPrice.close))==='NaN' ? 0 : yAxisLength - scaleY(currentPrice.close)}
+                        y1={(currentPrice.close!==undefined ? yAxisLength - scaleY(currentPrice.close) : 0)}
+                        y2={(currentPrice.close!==undefined ? yAxisLength - scaleY(currentPrice.close) : 0)}
                         strokeWidth='0.1'
                         stroke={fill}
                         ></line>
