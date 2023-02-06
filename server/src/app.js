@@ -71,7 +71,7 @@ let stv=0;
 let incomeRatio=0;
 let dividend_ratio = 0.03;
 let voted_ratio
-let chartHis = [[130],[1]];
+let chartHis = [[421],[1]];
 let chartData
 const setStv =()=>{stv = Math.random()*(0.01-(-0.0101))-0.01};
 const setIncomeRatio =()=>{incomeRatio = Math.random()*(0.001-(-0.00101))-0.001};
