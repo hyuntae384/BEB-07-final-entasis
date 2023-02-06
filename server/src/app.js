@@ -81,22 +81,26 @@ let chart_his =(e)=>{ chartHis[0].push(e[0]);chartHis[1].push(e[1])}
 let totalVolFrom = 0;
 let totalVolTo = 0;
 let circuitBreaker = false;
-
+let toggle = true;
 // 1초
 setInterval(async() => {
   if(circuitBreaker) {
-    console.log("거래 제한으로 인한 price 변동 없음")
-    setTimeout(async()=>{
-      const status = await isRestricted();
-      if(status) {
-        const result = await allowToken(); // 토큰 제한 해제 컨트랙트 메소드        
-        if(result) {
-          circuitBreaker = false;
-          console.log("토큰 제한 해제 완료");
-        }
-        else console.log("토큰 제한 해제 실패")
-      }
-    }, 10000)
+    if(toggle){
+      toggle = false;
+      console.log("거래 제한으로 인한 price 변동 없음")
+      setTimeout(async()=>{
+        const status = await isRestricted();
+        if(status) {
+          const result = await allowToken(); // 토큰 제한 해제 컨트랙트 메소드        
+          if(result) {
+            circuitBreaker = false;
+            console.log("토큰 제한 해제 완료");
+          }
+          else console.log("토큰 제한 해제 실패")
+        }  
+        toggle = true; 
+      }, 10000)
+    }
   }
   else {
     chartHis[1].forEach(element => {totalVolTo+=element});  
@@ -122,7 +126,7 @@ setInterval(async() => {
     let price = chartHis[0][chartHis[0].length-1]>0.5?chartHis[0][chartHis[0].length-1]:0.5;
     chart_his([price * (1 + stv)*(1+incomeRatio) * (1+(1 + stv*1000)*(1+incomeRatio*1000)/1000000), volume])
   }
-}, 3000 );
+}, 1000 );
 
 // 1분
 setInterval(async () => {
@@ -133,7 +137,7 @@ setInterval(async () => {
     chartHis[0].splice(0,chartHis[0].length-1);
     chartHis[1].splice(0,chartHis[1].length-1);
   }
-}, 3000);
+}, 1000);
 
 //5분
 setInterval(async () => {
