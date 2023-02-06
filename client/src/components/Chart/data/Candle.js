@@ -253,13 +253,16 @@ if(dataArray[0][0]!==undefined&&
                         y2={(currentPrice.close!==undefined ? yAxisLength - scaleY(currentPrice.close) : 0)}
                         strokeWidth='0.1'
                         stroke={fill}
-                        ></line>
-                        <text x={SVG_CHART_WIDTH - 60} y={typeof scaleY(currentPrice.close)==='number'?yAxisLength - scaleY(currentPrice.close):0} fontSize="12" 
-                        fill= 
-                        {fill} 
-                        
                         >
-                        {typeof scaleY(currentPrice.close)==='number'?currentPrice.close:0}
+                        {console.log((currentPrice.close!==undefined ? yAxisLength - scaleY(currentPrice.close) : 0))}
+                        </line>
+                        <text
+                        x={SVG_CHART_WIDTH - 60}
+                        y={(typeof Number(scaleY(currentPrice.close))==='number'?yAxisLength - Number(scaleY(currentPrice.close)):0)}
+                        fontSize="12" 
+                        fill={fill} 
+                        >
+                        {currentPrice.close}
                         </text>
                     </g>
                     );
