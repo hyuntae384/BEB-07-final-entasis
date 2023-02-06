@@ -31,10 +31,11 @@ const Order =({ST_CurrentPrice,userEth,userToken})=>{
 
     useEffect(() => {
         setCurPrice(ST_CurrentPrice)
+        priceChange()
     },[ST_CurrentPrice])
 
-    function priceChange(e){
-        let curprice = e.target.value;
+    function priceChange(){
+        let curprice = curPrice;
         setPrice(curprice)
     }
 
@@ -94,7 +95,7 @@ const Order =({ST_CurrentPrice,userEth,userToken})=>{
         <form>
             <h6 className="order_available">Available Eth : {userEth}</h6>
             <div>
-            <input type="text" className="order_price" onChange={e => priceChange(e)} placeholder={curPrice}></input>
+            <input type="text" className="order_price" /* onChange={e => priceChange(e)} */ placeholder={curPrice} readOnly></input>
             {/* <h6 className="order_price_eth">ETH</h6> */}
             </div>
             <input type="text" className="order_amount" onChange={e => amountChange(e)} placeholder='Amount'></input>
