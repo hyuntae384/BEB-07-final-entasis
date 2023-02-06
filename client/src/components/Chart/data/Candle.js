@@ -61,9 +61,8 @@ const Candle =({
     );
     const dataYRange = dataYMax - dataYMin;
     const numYTicks = 7;
-    const barPlothWidth = xAxisLength / dataArray.length;
+    const barPlothWidth = xAxisLength / dataArray.length>0?xAxisLength / dataArray.length:0.001;
     const numXTicks = dataArray.length>12?12:dataArray.length;
-
     const xValue= [];
     const generateDate = () => {
         for (let i = 0; i < 12; i++) {
@@ -240,7 +239,7 @@ if(dataArray[0][0]!==undefined&&
                         {...{ fill }}
                         x={x}
                         y={typeof scaleY(max)!== null ?yAxisLength - scaleY(max):0}
-                        width={barPlothWidth - sidePadding}
+                        width={(barPlothWidth - sidePadding)>0?barPlothWidth - sidePadding:0.001}
                         // 시가 종가 최대 최소값의 차
                         height={(scaleY(max) - scaleY(min))>1?scaleY(max) - scaleY(min):1}
                         ></rect>
