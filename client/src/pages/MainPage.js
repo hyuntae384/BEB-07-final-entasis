@@ -13,9 +13,8 @@ import ChartWrapper from "../components/Chart/ChartWrapper"
 import Web3 from "web3";
 import TokenABI from "../ABIs/ERC1400.json"
 
-
-
 // import {FaucetWallet} from '../apis/user'
+
 const MainPage =()=>{
     const [currentPrice, setCurrentPrice] = useState(0)
     const [isLoading, setIsLoading] = useState(true);
@@ -24,9 +23,12 @@ const MainPage =()=>{
     const [copy, setCopy] = useState('');
     const [number, setNumber] = useState(0);
     const [walletConnected, setWalletConnected] = useState(false)
+    const [isCircuitBreaker,setIsCircuitBreaker] = useState(false)
+    const [tokenName, setTokenName] = useState('beb')
 
-    const currentPrice_ref = useRef({});
     const {chainId, account, active, activate, deactivate} = useWeb3React();
+    const currentPrice_ref = useRef({});
+
 
     // ================================================================
     // Props Test
@@ -48,7 +50,6 @@ const MainPage =()=>{
         console.log(userToken) */
     },[currentPrice])
 
-
     async function getUserEth(account){
         if(account === undefined) setUserEth('');
         else {
@@ -69,12 +70,10 @@ const MainPage =()=>{
 
     // ================================================================
 
-    
     let powerOfMarket = (currentPrice.open - currentPrice.close)
-
         const setChartRTD=(async () => 
         {try {
-            currentPrice_ref.current = await axios.get('http://localhost:5050/rtd')
+            currentPrice_ref.current = await axios.get('http://localhost:5050/rtd/'+tokenName)
             setCurrentPrice(currentPrice_ref.current.data)
         } catch (e) {
         console.log(e) // caught
@@ -110,7 +109,6 @@ const MainPage =()=>{
         .then(err=>err)
         return  resultSTChart
     }
-
 
     useEffect(()=>{
         const Position = async(wallet) => {
@@ -149,9 +147,13 @@ return(
             walletConnected = {walletConnected}
             setWalletConnected = {setWalletConnected}
             isLoading = {isLoading} onMouseEnter={onMouseEnterHandler}/>
-        <Navigator/>
+        <Navigator
+            isCircuitBreaker={isCircuitBreaker}
+        />
         <div className="main_head">
             <ChartWrapper
+                tokenName={tokenName}
+                setTokenName={setTokenName}
                 currentPrice={currentPrice}
                 isLoading={isLoading}
             />
@@ -178,7 +180,9 @@ return(
                 userToken={userToken}
             />
         </div>
-        <Footer/>
+        <Footer
+            setIsCircuitBreaker={setIsCircuitBreaker}
+        />
     </div>
     )
 }

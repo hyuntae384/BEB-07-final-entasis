@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   dividend_his.init({
-    company_wallet: DataTypes.STRING,
+    token_name: DataTypes.STRING,
     income: DataTypes.STRING,
     dividend_ratio: DataTypes.STRING,
     dividend: DataTypes.STRING,

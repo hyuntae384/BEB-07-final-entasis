@@ -3,7 +3,7 @@ import React, { useState, useEffect} from "react";
 import dataToArray from "../../functions/data_to_array";
 import Chart from "./Chart";
 
-const ChartWrapper =({currentPrice})=>{
+const ChartWrapper =({currentPrice,tokenName,setTokenName})=>{
     const [defaultLimit, setDefaultLimit] = useState(0);
     const [dataLength, setDataLength] = useState(0);
     const [isChartTotal, setIsChartTotal] = useState([]);
@@ -201,6 +201,8 @@ return(
         >
         {isLoading?<img className="loading" src={require('../../assets/images/Infinity.gif')} alt='loading'/>:
         <Chart
+        tokenName = {tokenName} 
+        setTokenName = {setTokenName} 
         ST_Name={ST_Name}
         term={term}
         setTermValue={setTermValue}
