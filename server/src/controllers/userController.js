@@ -72,12 +72,18 @@ module.exports = {
 
   // 무한 스크롤 기능 구현시 offset, limit을 이용한 수정 필요
   position: async (req, res, next) => {
-    const { wallet } = req.query;
+    const { wallet,offset,limit } = req.query;
     try {
+      if(!wallet) return res.status(400).json({message:'not enough query'});
       const userPosition = await position_his.findAll({
         where: { user_wallet: wallet },
+        offset: Number(offset),
+        limit: Number(limit)
       })
-      return res.status(200).json(userPosition)
+      const total = await price_his.findAll();
+      if(!total) return res.status(400).json({message:"No such data"});
+      return res.status(200).json({userPosition:userPosition,totalLength: total.length});
+      
     } catch (err) {
       console.error(err);
       return next(err);
