@@ -11,7 +11,6 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      dividend_his.belongsTo(models.companys, { foreignKey: 'company_wallet', sourceKey: 'wallet' });
     }
   }
   dividend_his.init({
