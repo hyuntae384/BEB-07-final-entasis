@@ -289,12 +289,21 @@ div.public_disclosure_wrapper h4{
 }
 .navigator div{
     width: 33.33%;
-
 }
 .navigator h4{
     color:var(--gray-light-color);
     transition: 0.4s;
-    filter: brightness(1);}
+    filter: brightness(1);
+}
+
+.is_circuit_breaker h4{
+    color: var(--Secondary-color);
+}
+.is_circuit_breaker{
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
 .navigator h4:hover{
     filter: brightness(2);
 }
