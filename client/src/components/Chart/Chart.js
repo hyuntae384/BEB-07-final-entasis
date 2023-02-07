@@ -4,7 +4,8 @@ import SelectBox from "../Select";
 import Candle from "./data/Candle"
 import Volume from "./data/Volume"
 
-const Chart =({currentPrice, chartTermArr,defaultLimit,dataLength,term,setTermValue,isLoading,ST_Name})=>{
+const Chart =({currentPrice, chartTermArr,defaultLimit,dataLength,term,setTermValue,isLoading,tokenName,
+    setTokenName,ST_Name})=>{
 
     let date = dataToArray(chartTermArr,1)
     let open = dataToArray(chartTermArr,2)
