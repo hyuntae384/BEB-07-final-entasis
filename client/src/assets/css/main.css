@@ -344,6 +344,27 @@ div.public_disclosure_wrapper h4{
     height: 620px;
     background-color:#121212;
 }
+
+.trading_record_data{
+    margin: 2%;
+    display: flex;
+}
+.trading_record_data_left,.trading_record_data_right{
+    margin: 2%;
+
+
+}
+.trading_record_data_set{
+    margin: 10px;
+    height: 30px;
+    display: flex;
+    align-items: baseline;
+    text-align: center;
+}
+.trading_record_data_set h2, .trading_record_data_set h3{
+    margin: 1%;
+}
+
 .main_assets, .history_wrapperA{
     margin: 2.5px;
     width: 50%;
@@ -351,9 +372,15 @@ div.public_disclosure_wrapper h4{
     background-color:#121212;
     overflow: hidden;
 }
+.main_assets_top, .history_wrapperA_top{
+    margin: 2.5px;
+
+    height: 8%;
+}
 .main_assets_menu,  .history_wrapperA_menu{
     width: 100%;
     padding: 0.5% 4% 0 4%;
+    height: 20px;
     display: flex;
     justify-content: space-between;
 
@@ -361,6 +388,7 @@ div.public_disclosure_wrapper h4{
 .main_assets h4, .history_wrapperA h4{
     padding: 0.5%;
     color: var(--gray-light-color);
+    height: 30px;
 }
 .main_assets h5, .history_wrapperA h5{
     color: var(--gray-dark-color);
