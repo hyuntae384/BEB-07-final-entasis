@@ -11,7 +11,6 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      companys.hasMany(models.dividend_his, { foreignKey: 'company_wallet', sourceKey: 'wallet' });
     }
   }
   companys.init({
