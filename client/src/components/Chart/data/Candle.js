@@ -254,11 +254,10 @@ if(dataArray[0][0]!==undefined&&
                         strokeWidth='0.1'
                         stroke={fill}
                         >
-                        {console.log((currentPrice.close!==undefined ? yAxisLength - scaleY(currentPrice.close) : 0))}
                         </line>
                         <text
                         x={SVG_CHART_WIDTH - 60}
-                        y={(typeof Number(scaleY(currentPrice.close))==='number'?yAxisLength - Number(scaleY(currentPrice.close)):0)}
+                        y={(!isNaN(scaleY(currentPrice.close))?yAxisLength - Number(scaleY(currentPrice.close)):0)}
                         fontSize="12" 
                         fill={fill} 
                         >

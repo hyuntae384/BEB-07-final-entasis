@@ -246,7 +246,8 @@ setInterval(async() => {
 
 // 1분
 setInterval(async () => {
-  if(`${new Date()}`.slice(22,-32)==='00'){
+  console.log(`${new Date()}`.slice(23,-32))
+  if(`${new Date()}`.slice(23,-32)==='0'){
 
     //ENTA
     enta_his.create(chartDataENTA)
@@ -333,7 +334,7 @@ setInterval(async () => {
     if(entaTokenholders[i] !== process.env.ADMIN_ADDRESS) { // 거래소 제외
       const balance = await getENTATokenBalance(entaTokenholders[i]);
       const stake = balance / entaTotalSupply;
-      const personalDividend = String((dividend * stake).toFixed(18))
+      const personalDividend = String((dividendENTA * stake).toFixed(18))
       await sendDividendToUser(entaTokenholders[i], personalDividend);
       // const result = await getEtherBalance(entaTokenholders[i]);
 
@@ -361,7 +362,7 @@ setInterval(async () => {
     if(bebTokenholders[i] !== process.env.ADMIN_ADDRESS) { // 거래소 제외
       const balance = await getBEBTokenBalance(bebTokenholders[i]);
       const stake = balance / bebTotalSupply;
-      const personalDividend = String((dividend * stake).toFixed(18))
+      const personalDividend = String((dividendBEB * stake).toFixed(18))
       await sendDividendToUser(bebTokenholders[i], personalDividend);
       // const result = await getEtherBalance(bebTokenholders[i]);
 
@@ -388,7 +389,7 @@ setInterval(async () => {
     if(leoTokenholders[i] !== process.env.ADMIN_ADDRESS) { // 거래소 제외
       const balance = await getENTATokenBalance(leoTokenholders[i]);
       const stake = balance / leoTotalSupply;
-      const personalDividend = String((dividend * stake).toFixed(18))
+      const personalDividend = String((dividendLEO * stake).toFixed(18))
       await sendDividendToUser(leoTokenholders[i], personalDividend);
       // const result = await getEtherBalance(leoTokenholders[i]);
 
