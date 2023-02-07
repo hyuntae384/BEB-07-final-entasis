@@ -6,13 +6,13 @@ import {BuyToken, SellToken} from '../apis/token';
 import Web3 from "web3";
 import TokenABI from "../ABIs/ERC1400.json"
 
-const Order =({ST_CurrentPrice})=>{
+const Order =({ST_CurrentPrice,userEth,userToken})=>{
     const [amount, setAmount] = useState("");
     const [price, setPrice] = useState("");
     const [isFaucet, setIsFaucet] = useState(false)
     const {chainId, account, active, activate, deactivate} = useWeb3React();
-    const [userEth, setUserEth] = useState("")
-    const [userToken, setUserToken] = useState("")
+    /* const [userEth, setUserEth] = useState("")
+    const [userToken, setUserToken] = useState("") */
     const [curPrice, setCurPrice] = useState()
     const countNumber=(e)=>{
         return e.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,",")
@@ -31,31 +31,11 @@ const Order =({ST_CurrentPrice})=>{
 
     useEffect(() => {
         setCurPrice(ST_CurrentPrice)
-        getUserEth(userAccount);
-        getUserToken(userAccount);
+        priceChange()
     },[ST_CurrentPrice])
-    
-    //User Eth, token 가져오기------------------------------------
-    async function getUserEth(account){
-        if(account === undefined) setUserEth('');
-        else {
-            let userEth = await web3.eth.getBalance(account);
-            setUserEth(userEth);
-        }
-    }
 
-    async function getUserToken(account){
-        if(account === undefined) setUserToken('')
-        else {
-            let userToken = await tokenContract.methods.balanceOf(account).call();
-            setUserToken(userToken);
-        }
-    }    
-
-    //-----------------------------------------------------------
-
-    function priceChange(e){
-        let curprice = e.target.value;
+    function priceChange(){
+        let curprice = curPrice;
         setPrice(curprice)
     }
 
@@ -94,7 +74,7 @@ const Order =({ST_CurrentPrice})=>{
     
 
     const ST_1 = {
-        name:'BEBE',price:'200',amount:'20'
+        name:'ENTA',price:(curPrice * userToken).toFixed(4) ,amount: userToken
     };
     const ST_2 = {
         name:'DEDE',price:'100',amount:'230'
@@ -113,9 +93,9 @@ const Order =({ST_CurrentPrice})=>{
             <h3>Market Order</h3>
         </div>
         <form>
-            <h6 className="order_available">Available Eth : {web3.utils.fromWei(userEth, 'ether').slice(0, 8)}</h6>
+            <h6 className="order_available">Available Eth : {userEth}</h6>
             <div>
-            <input type="text" className="order_price" onChange={e => priceChange(e)} placeholder={curPrice}></input>
+            <input type="text" className="order_price" /* onChange={e => priceChange(e)} */ placeholder={curPrice} readOnly></input>
             {/* <h6 className="order_price_eth">ETH</h6> */}
             </div>
             <input type="text" className="order_amount" onChange={e => amountChange(e)} placeholder='Amount'></input>
@@ -133,8 +113,7 @@ const Order =({ST_CurrentPrice})=>{
         <div className='assets'>
             <h4>Assets</h4>
             <div className='assets_wraper'>
-                <h6>{web3.utils.fromWei(userToken, 'ether')}</h6>
-                <h6>{ST_1.name+" ("+ST_1.amount+")"+" "+countNumber(ST_1.price+"ETH")}</h6>
+                <h6>{ST_1.name+" ("+ST_1.amount+")"+" "+ST_1.price+"ETH"}</h6>
                 <h6>{ST_2.name+" ("+ST_2.amount+")"+" "+countNumber(ST_2.price+"ETH")}</h6>
                 <h6>{ST_3.name+" ("+ST_3.amount+")"+" "+countNumber(ST_3.price+"ETH")}</h6>
             </div>

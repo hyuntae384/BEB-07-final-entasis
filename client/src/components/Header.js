@@ -33,6 +33,7 @@ const Header =({walletConnected,setWalletConnected})=> {
     const handleConnect = () => {
         if(active) {
             deactivate();
+            localStorage.setItem('isWalletConnected', false)
             return;
         }
         activate(injected, (error) => {
@@ -40,8 +41,27 @@ const Header =({walletConnected,setWalletConnected})=> {
                 window.open('https://metamask.io/download.html');
             }
         });
+        try {
+            localStorage.setItem('isWalletConnected', true) 
+        } catch (ex) {
+            console.log(ex)
+        }
         setWalletConnected(true)
     }
+
+    useEffect(() => { 
+        const connectWalletOnPageLoad = async () => { 
+          if (localStorage?.getItem('isWalletConnected') === 'true') { 
+            try { 
+              await activate(injected) 
+            } catch (ex) { 
+              console. log(ex) 
+            } 
+          } 
+        } 
+        connectWalletOnPageLoad() 
+      }, [])
+
     const origin = "http://localhost:5050/";
     const getUserURL = origin + "user/"; 
     const enroll = getUserURL + "enroll/?wallet="
@@ -67,6 +87,10 @@ const Header =({walletConnected,setWalletConnected})=> {
         MyPage(account)
         EnrollWallet(account)
     },[account])
+
+    /* window.addEventListener("unload", function(e) {
+        localStorage.setItem('isWalletConnected', false)
+    }) */
 
     const FaucetWallet = async(wallet) => {
         if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
