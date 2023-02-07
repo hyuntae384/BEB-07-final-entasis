@@ -871,6 +871,7 @@ input{
     margin: 2% 0 0 0 ;
     border-radius: 10px;
     overflow: hidden;
+    padding: 0;
 }
 .order_buy,.order_sell{
     width: 50%;

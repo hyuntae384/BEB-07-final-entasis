@@ -11,19 +11,9 @@ const History =({
 
         const [modalIsOpen, setModalIsOpen] = useState(false);
     
-        const modalOpen =()=>{
-            document.body.style.overflow = 'hidden';
-            setModalIsOpen(true)
-            }
-        const modalClose =()=>{
-            document.body.style.overflow = 'unset';
-            setModalIsOpen(false)
-            console.log(modalIsOpen)
-
-            }
-
             useEffect(()=>{
             },[modalIsOpen])
+
         const modalStyle = {
             overlay: {
                 position: "fixed",
@@ -36,8 +26,8 @@ const History =({
                 justifyContent: "center",
                 background: "#2B2B2B",
                 overflow: "scroll",
-                top:'30%',
-                bottom:'20%',
+                top:'25%',
+                bottom:'10%',
                 left:'20%',
                 right:'20%',
                 border:"0",
@@ -49,6 +39,15 @@ const History =({
             },
         };
 // console.log(modalIsOpen)
+const modalOpen =()=>{
+    document.body.style.overflow = 'hidden';
+    setModalIsOpen(!modalIsOpen)
+    }
+const modalClose =()=>{
+    document.body.style.overflow = 'unset';
+    setModalIsOpen(!modalIsOpen)
+    }
+
     return(
     <div className="history" onClick={modalOpen}>
         <Modal
@@ -59,8 +58,8 @@ const History =({
             >   
             <div className="trading_record">
                 <h1 className='trading_record_header'>Trading Record</h1>
-                <div className='close' onClick={modalClose}>
-                    <img src={require('../assets/images/close.png')}></img>
+                <div className='close'>
+                    <img src={require('../assets/images/close.png')} onClick={modalClose}></img>
                     </div>
                     <div className='trading_record_data'>
                         <div className='trading_record_data_left'>
@@ -70,6 +69,9 @@ const History =({
                             <div className='trading_record_data_set'><h2>Fee</h2></div>
                             <div className='trading_record_data_set'><h2>Date</h2></div>
                             <div className='trading_record_data_set'><h2>From</h2></div>
+                            <div className='trading_record_data_set'><h2>Tx In</h2></div>
+                            <div className='trading_record_data_set'><h2>Tx Out</h2></div>
+                            
                         </div>
                         <div className='trading_record_data_right'>
                             <div className='trading_record_data_set'><h2></h2><h3
@@ -84,6 +86,9 @@ const History =({
                             <div className='trading_record_data_set'><h3>{fee!==null?fee:'-'}</h3></div>
                             <div className='trading_record_data_set'><h3>{date}</h3></div>
                             <div className='trading_record_data_set'><h3>{token_name}</h3></div>
+                            <div className='trading_record_data_set'><h3>{}0x7986E4e9F15EaBD03a23fC166EFD42247875dD80</h3></div>
+                            <div className='trading_record_data_set'><h3>{}0x7986E4e9F15EaBD03a23fC166EFD42247875dD80</h3></div>
+
                         </div>
 
                     </div>
