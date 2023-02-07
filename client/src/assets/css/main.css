@@ -263,16 +263,17 @@ div.btn:hover{
     width: 500px;
     display: flex;
     justify-content: right;
-    
 }
-.chart_current h4{
+.chart_current h5{
     margin: 0 5px;
+    color: var(--gray-light-color);
 }
 .chart_select_top{
     justify-content: space-between;
     display: flex;
     width: 95%;
     margin: 0;
+    align-items: baseline;    
 
 }
 .chart_select{
