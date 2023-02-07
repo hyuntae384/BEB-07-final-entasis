@@ -2,8 +2,8 @@ import { useWeb3React } from "@web3-react/core";
 import { useEffect, useState } from "react";
 import { injected } from "../connectors";
 import History from "./History"
-const HistoryWrapper =({userPosition,walletConnected,
-    setWalletConnected})=>{
+const HistoryWrapper =({userPosition,walletConnected,setWalletConnected,setOffset,setLimit
+})=>{
     const [currentPageNum, setCurrentPageNum]=useState(1)
     const {chainId, account, active, activate, deactivate} = useWeb3React();
 
@@ -22,10 +22,15 @@ const HistoryWrapper =({userPosition,walletConnected,
     }
     let positions = userPosition!==undefined&& userPosition!==null?userPosition:[]
     let pageSet = 10;
-    let pages = Math.ceil(positions.length/ 10);
+    let pages = Math.ceil(positions.totalLength/ 10);
     let offset = pageSet * (currentPageNum - 1);
     let limit = offset + pageSet;
+    // console.log(offset,limit)
 
+    useEffect(()=>{
+        setOffset(offset)
+        setLimit(limit)
+    },[offset])
     return(
         <div className="history_wrapperA">
             <div className="history_wrapperA_top">
@@ -94,7 +99,7 @@ const HistoryWrapper =({userPosition,walletConnected,
 
             </div>
             <div className="main_history_wrapperA_container">
-                {positions!==undefined&&pages>0?[...positions].reverse().slice(offset,limit).map((e)=>{
+                {positions!==undefined&&pages>0?[...positions.userPosition].reverse().slice(offset,limit).map((e)=>{
                     return (<History
                         key={e.id}
                         order = {e.order}
