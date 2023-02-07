@@ -34,12 +34,6 @@ const sendDividendToUser = async (recipient, value) =>{
 
 const sendWeiToUser = async (recipient, value) =>{
   try {
-    // 거래 제한 여부 확인
-    const isRestricted = await tokenContract.methods.isRestricted().call();
-    if(isRestricted) {
-      console.log("거래가 제한되어 이더를 송금할 수 없습니다.")
-      return false;
-    }
     const weiValue = web3Http.utils.toWei(value, 'ether')
     await web3Http.eth.sendTransaction({
       from: ADMIN_ADDRESS,
@@ -55,13 +49,6 @@ const sendWeiToUser = async (recipient, value) =>{
 
 const sendEtherToUser = async (recipient, value) =>{
   try {
-    // 거래 제한 여부 확인
-    const isRestricted = await tokenContract.methods.isRestricted().call();
-    if(isRestricted) {
-      console.log("거래가 제한되어 이더를 송금할 수 없습니다.")
-      return false;
-    }
-
     await web3Http.eth.sendTransaction({
       from: ADMIN_ADDRESS,
       to: recipient,

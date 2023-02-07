@@ -1,18 +1,28 @@
 const { users, companys, dividend_his, position_his, price_his } = require('../models');
 const { depositFaucet, sendEtherToUser } = require('../chainUtils/etherUtils');
-const { getTotalSupply, getTokenBalance, getTokenName, signAndSendTx, sendTokenToUser } = require('../chainUtils/tokenUtils');
+const { getTotalSupply, getTokenBalance, getTokenName, signAndSendTx, sendTokenToUser } = require('../chainUtils/ENTAUtils');
+const { ENTA_Contract, BEB_Contract, LEO_Contract, web3Http } = require('../chainUtils/index');
 
 module.exports = {
     vote: async (req,res,next) => {
-        const { name, ratio, user_wallet, st_amount} = req.body;
+        const { name, ratio, user_wallet } = req.body;
         const company = await companys.findOne({where: { name }});
+        let balance;
         try{
             if(!company) return res.status(400).send({message: "no such company"})
+            if(name == 'ENTAToken') balance = await ENTA_Contract.methods.balanceOf(user_wallet).call();
+            else if (name == 'BEBToken') balance = await BEB_Contract.methods.balanceOf(user_wallet).call();
+            else if (name == 'LEOToken') balance = await LEO_Contract.methods.balanceOf(user_wallet).call();
+
+            // 정상적으로 자료형에 맞게 들어가는지 확인하기
+            const simpleBalance = web3Http.utils.fromWei(balance, 'ether');
+
             await position_his.create({
                 user_wallet,
                 order: "vote",
                 vote: ratio,
-                company_name: name
+                token_name: name,
+                amount: simpleBalance
             })
         } catch(err) {
             console.err(err);

@@ -10,21 +10,41 @@ const cookieParser = require('cookie-parser');
 
 const userRouter = require('./routes/userRouter');
 const companyRouter = require('./routes/companyRouter');
-const tokenRouter = require('./routes/tokenRouter');
+const entaRouter = require('./routes/entaRouter');
+const bebRouter = require('./routes/bebRouter');
+const leoRouter = require('./routes/leoRouter');
 const chartRouter = require('./routes/chartRouter');
 
 const logger = require('./logger');
-const { sequelize, price_his, dividend_his, position_his } = require('./models');
-const {limiter} = require('./limit');
+const { sequelize, price_his, dividend_his, position_his, enta_his, beb_his, leo_his } = require('./models');
+const { limiter } = require('./limit');
 const { 
-  getSimpleTotalSupply,
-  showAllTokenHolders,
-  getTokenBalance,
-  getTotalSupply,
-  restrictToken,
-  allowToken,
-  isRestricted
-} = require('./chainUtils/tokenUtils');
+  getENTASimpleTotalSupply,
+  showAllENTATokenHolders,
+  getENTATokenBalance,
+  getENTATotalSupply,
+  restrictENTAToken,
+  allowENTAToken,
+  isRestrictedENTA
+} = require('./chainUtils/ENTAUtils');
+const { 
+  getBEBSimpleTotalSupply,
+  showAllBEBTokenHolders,
+  getBEBTokenBalance,
+  getBEBTotalSupply,
+  restrictBEBToken,
+  allowBEBToken,
+  isRestrictedBEB
+} = require('./chainUtils/BEBUtils');
+const { 
+  getLEOSimpleTotalSupply,
+  showAllLEOTokenHolders,
+  getLEOTokenBalance,
+  getLEOTotalSupply,
+  restrictLEOToken,
+  allowLEOToken,
+  isRestrictedLEO
+} = require('./chainUtils/LEOUtils');
 const {sendEtherToUser, sendWeiToUser, getEtherBalance, sendDividendToUser} = require('./chainUtils/etherUtils');
 const { web3Http } = require('./chainUtils');
 const app = express();
@@ -67,6 +87,8 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 //   }),
 // );
 
+//===================================가격  변동 로직=================================//
+
 let stv=0;
 let incomeRatio=0;
 let dividend_ratio = 0.03;
@@ -82,6 +104,7 @@ let totalVolFrom = 0;
 let totalVolTo = 0;
 let circuitBreaker = false;
 let toggle = true;
+
 // 1초
 setInterval(async() => {
   if(circuitBreaker) {
@@ -89,9 +112,9 @@ setInterval(async() => {
       toggle = false;
       console.log("거래 제한으로 인한 price 변동 없음")
       setTimeout(async()=>{
-        const status = await isRestricted();
+        const status = await isRestrictedENTA();
         if(status) {
-          const result = await allowToken(); // 토큰 제한 해제 컨트랙트 메소드        
+          const result = await allowENTAToken(); // 토큰 제한 해제 컨트랙트 메소드        
           if(result) {
             circuitBreaker = false;
             console.log("토큰 제한 해제 완료");
@@ -128,10 +151,12 @@ setInterval(async() => {
   }
 }, 1000 );
 
+//==================================================================================//
+
 // 1분
 setInterval(async () => {
   if(`${new Date()}`.slice(22,-32)==='00'){
-    price_his.create(chartData)
+    price_his.create(chartData) // enta_his 로 수정될 필요 있음 (price_his는 테스트용)
     totalVolFrom = totalVolTo
     totalVolTo=0
     chartHis[0].splice(0,chartHis[0].length-1);
@@ -139,29 +164,32 @@ setInterval(async () => {
   }
 }, 1000);
 
-//5분
+//==================================================================================//
+
+// 5분
+// 3개 토큰 모두 배당금이 지급될 수 있도록 해야함
 setInterval(async () => {
   setIncomeRatio();
   setVotedRatio();
   let incomeRatioSet = incomeRatio>0 ? incomeRatio : 0.0001
-  let income = (incomeRatioSet * chartHis[0][chartHis[0].length-1] * await getSimpleTotalSupply()).toFixed(10)
+  let income = (incomeRatioSet * chartHis[0][chartHis[0].length-1] * await getENTASimpleTotalSupply()).toFixed(10)
   // console.log(income);
   let dividend = dividend_ratio * income;
   await dividend_his.create({ // 수정 필요
     company_wallet: process.env.ADMIN_ADDRESS,
     income: income,
-    voted_ratio: voted_ratio, // 투표 결과 배당률
-    dividend_ratio: dividend_ratio, // 직전 배당률 -> 수정해야함
+    voted_ratio: voted_ratio, // 선출된 배당률
+    dividend_ratio: dividend_ratio, // 계산된 배당률
     dividend: dividend, // 총 배당금
   })
   
-  // 배당금 분배
-  let tokenholders = await showAllTokenHolders();
-  let totalSupply = await getTotalSupply();
+  // 배당금 분배 => 3개 토큰 모두 배당금 분배가 가능해야함
+  let tokenholders = await showAllENTATokenHolders();
+  let totalSupply = await getENTATotalSupply();
 
   for(let i=0; i<tokenholders.length; i++) {
     if(tokenholders[i] !== process.env.ADMIN_ADDRESS) { // 거래소 제외
-      const balance = await getTokenBalance(tokenholders[i]);
+      const balance = await getENTATokenBalance(tokenholders[i]);
       const stake = balance / totalSupply;
       const personalDividend = String((dividend * stake).toFixed(18))
       await sendDividendToUser(tokenholders[i], personalDividend);
@@ -175,16 +203,17 @@ setInterval(async () => {
         order: "dividend",
         price: personalDividend,
         amount: fixedBalance,
-        company_name: "exchange"
+        token_name: "ENTAToken"
       })
     }
   }
-
   // 차기 배당률
   dividend_ratio = (dividend_ratio * (1 + Number(voted_ratio))).toFixed(4) 
-
 }, 20000);
 
+//==================================================================================//
+
+// 3개 토큰에 대한 rtd 1초마다 모두 보낼 수 있어야 함.
 app.get('/rtd', async (req, res, next) => {
   try {
     if(!chartData) return res.status(400).json({message: "No such data"});
@@ -195,15 +224,16 @@ app.get('/rtd', async (req, res, next) => {
   }
 });
 
+// 3개 토큰 모두 거래제한 걸 수 있도록 해야함
 app.post('/restrict', async (req, res, next) => {
   try {
     circuitBreaker = true;
-    const status = await isRestricted();
+    const status = await isRestrictedENTA();
     if(status) {
       console.log("이미 제한되어 있는 토큰")
       return res.status(400).send({message: "this token had already been restricted"})
     }
-    const result = await restrictToken();
+    const result = await restrictENTAToken();
     if(result) {
       console.log("토큰 거래 제한 성공");
       return res.status(200).send({status: "successfully restricted the token"});
@@ -219,7 +249,9 @@ app.post('/restrict', async (req, res, next) => {
 app.use('/chart', chartRouter);
 app.use('/user', userRouter);
 app.use('/company', companyRouter);
-app.use('/token', tokenRouter);
+app.use('/enta', entaRouter);
+app.use('/beb', bebRouter);
+app.use('/leo', leoRouter);
 
 app.use((req, res, next) => {
   const err = new Error(`${req.method} ${req.url} There is no Router`);
