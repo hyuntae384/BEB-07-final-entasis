@@ -1,5 +1,6 @@
 import { useWeb3React } from "@web3-react/core";
 import { useEffect, useState } from "react";
+import Modal from "react-modal";
 import { injected } from "../connectors";
 import History from "./History"
 const HistoryWrapper =({userPosition,walletConnected,setWalletConnected,setOffset,setLimit
@@ -26,13 +27,14 @@ const HistoryWrapper =({userPosition,walletConnected,setWalletConnected,setOffse
     let offset = pageSet * (currentPageNum - 1);
     let limit = offset + pageSet;
     // console.log(offset,limit)
-
     useEffect(()=>{
         setOffset(offset)
         setLimit(limit)
     },[offset])
+
     return(
-        <div className="history_wrapperA">
+        <div className="history_wrapperA" >
+
             <div className="history_wrapperA_top">
                 <h4>History</h4>
                 <div className="pagination">
@@ -96,7 +98,7 @@ const HistoryWrapper =({userPosition,walletConnected,setWalletConnected,setOffse
                 <h5>Fee</h5>
                 <h5>Date</h5>
                 <h5>From</h5>
-
+    
             </div>
             <div className="main_history_wrapperA_container">
                 {positions!==undefined&&pages>0?[...positions.userPosition].reverse().slice(offset,limit).map((e)=>{
