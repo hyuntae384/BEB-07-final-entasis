@@ -1,5 +1,5 @@
 import Asset from "./Asset"
-const Assets =({ST_CurrentPrice,powerOfMarket,userEth,userToken})=>{
+const Assets =({ST_CurrentPrice,powerOfMarket,userEth,userToken,totalCurrentPrices})=>{
     // `/user/asset/?address=${address}`
 
     const AssetsArray = [
