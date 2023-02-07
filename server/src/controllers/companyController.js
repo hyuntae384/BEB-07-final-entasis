@@ -31,38 +31,29 @@ module.exports = {
     },
     
     pdisclosure: async(req,res,next) => {
-        const {cpd} = req.query;
-        // 참조키 활용 이게 맞는지.....ㅋㅋ
-        /*
-        const companyinfo = await companys.findOne({
-            where: {cpd},
-            include: [
-                {
-                    model: dividend_his,
-                    as: "company_wallet",
-                    where: {cpd}
-                }
-            ]
-        });
-        console.log(companyinfo);
-        */ 
+        const { name } = req.query;
         try{
-            if(!companyinfo || !cpd) return res.status(400).send({message: "Non-existent data or invaild query "});
-            // 배당금 추후논의
+            const company = await companys.findOne({where: { name }});
+            if(!name || !company) return res.status(400).send({message: "invalid token name"})
+
+            const companyinfo = await dividend_his.findOne({
+                where: { token_name: name },
+                order: [['id', 'DESC']]
+            })
+            if(!companyinfo) return res.status(400).send({message: "No dividend data with such token name "});
+
             const result = {
-                name:companyinfo.name,
-                total_asset: companyinfo.asset,
-                income:3,
-                dividend_ratio:3,
-                dividend:3,
-                next_ratio:3
-              }
+                name,
+                // total_asset에 관한 부분은 클라이언트에서
+                income: companyinfo.income,
+                dividend_ratio: companyinfo.dividend_ratio,
+                dividend: companyinfo.dividend,
+                voted_ratio: companyinfo.voted_ratio
+            }
             return res.status(200).send(result);
         } catch (err){
-            console.err(err);
+            console.error(err);
             return next(err);
         }
     },
-
-
 }
