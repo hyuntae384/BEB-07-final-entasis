@@ -1,26 +1,29 @@
-import { useState } from 'react';
-import ReactModal from 'react-modal';
+import { useEffect, useState } from 'react';
+import Modal from 'react-modal';
 
 const History =({
-    key,
     order,
     price,
     amount,
     fee,
     date,
-    company_name})=>{
+    token_name})=>{
 
-        const [pdModalIsOpen, setPdModalIsOpen] = useState(false);
+        const [modalIsOpen, setModalIsOpen] = useState(false);
     
-        const PdModalOpen =()=>{
+        const modalOpen =()=>{
             document.body.style.overflow = 'hidden';
-            setPdModalIsOpen(true)
+            setModalIsOpen(true)
             }
-        const PdModalClose =()=>{
+        const modalClose =()=>{
             document.body.style.overflow = 'unset';
-            setPdModalIsOpen(false)
+            setModalIsOpen(false)
+            console.log(modalIsOpen)
+
             }
 
+            useEffect(()=>{
+            },[modalIsOpen])
         const modalStyle = {
             overlay: {
                 position: "fixed",
@@ -45,18 +48,18 @@ const History =({
                 opacity:'0.8'
             },
         };
-
+// console.log(modalIsOpen)
     return(
-    <div className="history" onClick={()=>PdModalOpen()}>
-        <ReactModal
+    <div className="history" onClick={modalOpen}>
+        <Modal
             appElement={document.getElementById('root') || undefined}
-            onRequestClose={()=>PdModalClose()}
-            isOpen={pdModalIsOpen}
+            onRequestClose={modalClose}
+            isOpen={modalIsOpen}
             style={modalStyle}
             >   
             <div className="trading_record">
-                <h1>Trading Record</h1>
-                <div className='close' onClick={()=>PdModalClose()}>
+                <h1 className='trading_record_header'>Trading Record</h1>
+                <div className='close' onClick={modalClose}>
                     <img src={require('../assets/images/close.png')}></img>
                     </div>
                     <div className='trading_record_data'>
@@ -69,21 +72,27 @@ const History =({
                             <div className='trading_record_data_set'><h2>From</h2></div>
                         </div>
                         <div className='trading_record_data_right'>
-                            <div className='trading_record_data_set'><h2></h2><h3>{order}</h3></div>
-                            <div className='trading_record_data_set'><h2></h2><h3>{price}</h3></div>
-                            <div className='trading_record_data_set'><h2></h2><h3>{amount}</h3></div>
-                            <div className='trading_record_data_set'><h2></h2><h3>{fee}</h3></div>
-                            <div className='trading_record_data_set'><h2></h2><h3>{date}</h3></div>
-                            <div className='trading_record_data_set'><h2></h2><h3>{company_name}</h3></div>
+                            <div className='trading_record_data_set'><h2></h2><h3
+                            style={{color:
+                                order==='buy'?'#0d6097':
+                                order==='sell'?'#ab1c37':
+                                '#00aab3'
+                                }}
+                            >{order}</h3></div>
+                            <div className='trading_record_data_set'><h3>{price}</h3><h5>ETH</h5></div>
+                            <div className='trading_record_data_set'><h3>{amount!==null?amount:'-'}</h3></div>
+                            <div className='trading_record_data_set'><h3>{fee!==null?fee:'-'}</h3></div>
+                            <div className='trading_record_data_set'><h3>{date}</h3></div>
+                            <div className='trading_record_data_set'><h3>{token_name}</h3></div>
                         </div>
 
                     </div>
-                <div className='logo'>
+                <div className='trading_record_data_logo'>
                     <img src={require('../assets/images/ENTASIS.png')}></img>
                 </div>
         
             </div>
-        </ReactModal>
+        </Modal>
         <div className="history_wrapper">
             <div 
                 style= 
@@ -108,7 +117,7 @@ const History =({
                 {date}
             </div>
             <div className="history_company_name">
-                {company_name}
+                {token_name}
             </div>
         </div>
     </div>
