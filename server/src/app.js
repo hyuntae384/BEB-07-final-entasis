@@ -140,11 +140,7 @@ let totalVolFromLEO = 0;
 let totalVolToLEO = 0;
 
 
-let totalCurrentPrices={
-  enta : chartHisENTA[0][chartHisENTA[0].length-1].toFixed(4),
-  beb : chartHisBEB[0][chartHisBEB[0].length-1].toFixed(4),
-  leo : chartHisLEO[0][chartHisLEO[0].length-1].toFixed(4),
-}
+
 
 // 1초
 setInterval(async() => {
@@ -189,7 +185,11 @@ setInterval(async() => {
       }).toFixed(4),
       totalVolTo:totalVolToENTA.toFixed(4),
       totalVolFrom:totalVolFromENTA.toFixed(4),
-      totalCurrentPrices
+      totalCurrentPrices:{
+  enta : chartHisENTA[0][chartHisENTA[0].length-1].toFixed(4),
+  beb : chartHisBEB[0][chartHisBEB[0].length-1].toFixed(4),
+  leo : chartHisLEO[0][chartHisLEO[0].length-1].toFixed(4),
+}
     }
     console.log(chartDataENTA);
 
@@ -214,7 +214,11 @@ setInterval(async() => {
       }).toFixed(4),
       totalVolTo:totalVolToBEB.toFixed(4),
       totalVolFrom:totalVolFromBEB.toFixed(4),
-      totalCurrentPrices
+      totalCurrentPrices:{
+  enta : chartHisENTA[0][chartHisENTA[0].length-1].toFixed(4),
+  beb : chartHisBEB[0][chartHisBEB[0].length-1].toFixed(4),
+  leo : chartHisLEO[0][chartHisLEO[0].length-1].toFixed(4),
+}
     }
     console.log(chartDataBEB);
 
@@ -239,7 +243,11 @@ setInterval(async() => {
       }).toFixed(4),
       totalVolTo:totalVolToLEO.toFixed(4),
       totalVolFrom:totalVolFromLEO.toFixed(4),
-      totalCurrentPrices
+      totalCurrentPrices:{
+  enta : chartHisENTA[0][chartHisENTA[0].length-1].toFixed(4),
+  beb : chartHisBEB[0][chartHisBEB[0].length-1].toFixed(4),
+  leo : chartHisLEO[0][chartHisLEO[0].length-1].toFixed(4),
+}
     }
     console.log(chartDataLEO);
 
