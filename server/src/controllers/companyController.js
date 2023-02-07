@@ -24,6 +24,8 @@ module.exports = {
                 token_name: name,
                 amount: simpleBalance
             })
+
+            return res.status(200).send({"status": "success"})
         } catch(err) {
             console.err(err);
             return next(err);
