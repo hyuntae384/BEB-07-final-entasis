@@ -1,5 +1,5 @@
 import Asset from "./Asset"
-const Assets =({ST_CurrentPrice,powerOfMarket,userEth,userToken})=>{
+const Assets =({ST_CurrentPrice,powerOfMarket,userEth,userToken,totalCurrentPrices})=>{
     // `/user/asset/?address=${address}`
 
     const AssetsArray = [
@@ -81,10 +81,24 @@ const Assets =({ST_CurrentPrice,powerOfMarket,userEth,userToken})=>{
         <div className="main_assets_top">
             <h4>Account Detail</h4>
             <div className="rate_on_investment">
-                
+            </div>
+
+            <div className='chains'>
+                <i className='fab fa-bitcoin'/>
+                <i className='fab fa-ethereum'/>
+            </div>
+            <div className='social'>
+                <i className='fab fa-facebook-f'/>
+                <i className='fab fa-instagram'/>
+                <i className='fab fa-reddit-alien'/>
+                <i className='fab fa-youtube'/>
+                <i className='fab fa-tiktok'/>
+                <i className='fab fa-google'/>
+                <i className='fab fab fa-apple'/>
             </div>
             <div></div>
         </div>
+
 
         <div className="main_assets_menu">
             <h5>Total Price</h5>

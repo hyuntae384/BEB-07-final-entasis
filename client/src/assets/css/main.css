@@ -259,13 +259,35 @@ div.btn:hover{
     width: 30%;
 
 }
-.chart{
+.chart_current{
+    width: 500px;
+    display: flex;
+    justify-content: right;
     
 }
+.chart_current h4{
+    margin: 0 5px;
+}
+.chart_select_top{
+    justify-content: space-between;
+    display: flex;
+    width: 95%;
+    margin: 0;
+
+}
 .chart_select{
-    width: 35%;
+    align-items: center;
+    width: 100px;
     margin: 0 2% 0 0;
     text-align-last: center;
+}
+.chart_select_box{
+    width: 300px;
+    text-align: left;
+}
+.chart_current_date{
+    display: flex;
+    margin: 0 2%;
 }
 .ratio_value{
     display: flex;
@@ -295,9 +317,29 @@ div.public_disclosure_wrapper h4{
     transition: 0.4s;
     filter: brightness(1);
 }
-
+.until_the_next_dividend_release{
+    text-align: center;
+}
 .is_circuit_breaker h4{
     color: var(--Secondary-color);
+}
+.circuit_breaker{
+    width: 350px;
+    color: var(--gray-light-color);
+}
+.circuit_breaker_top{
+    display: flex;
+    align-items: center;
+}
+
+a.circuit_breaker_link{
+    text-decoration: none;
+    color: var(--white-color);
+    transition: 0.5s;
+}
+a.circuit_breaker_link:hover{
+    filter: brightness(1.5);
+    color: var(--onSecondary-color);
 }
 .is_circuit_breaker{
     align-items: center;
@@ -344,25 +386,40 @@ div.public_disclosure_wrapper h4{
     height: 620px;
     background-color:#121212;
 }
-
+.trading_record{
+    margin: 20px;
+    align-items: baseline;
+}
+.trading_record_header{
+    text-align: center;
+}
 .trading_record_data{
     margin: 2%;
     display: flex;
 }
 .trading_record_data_left,.trading_record_data_right{
     margin: 2%;
-
-
 }
-.trading_record_data_set{
+.trading_record_data_set h5{
+    margin: 10px 0 0 5px;
+    height: 12px;
+    align-items: baseline;
+}
+.trading_record_data_set h3{
+    align-items: baseline;
+    margin: auto 0;
+    height: 20px;
+}
+.trading_record_data_set {
     margin: 10px;
     height: 30px;
     display: flex;
-    align-items: baseline;
     text-align: center;
 }
-.trading_record_data_set h2, .trading_record_data_set h3{
-    margin: 1%;
+.trading_record_data_logo{
+    margin-top: 30px;
+    text-align: center;
+    align-items: baseline;
 }
 
 .main_assets, .history_wrapperA{
@@ -515,6 +572,8 @@ div.public_disclosure_wrapper h4{
     filter: brightness(1.5);
 }
 .history_wrapper,.asset_wrapper{
+    cursor: pointer;
+
 }
 .history_wrapper:hover,.asset_wrapper:hover{
     filter: brightness(1.5);
@@ -649,22 +708,32 @@ div.history_date{
     right: 52%;
 }
 .welcome_tutorial_limit_order_book{
-    width: 200px;
-    height: 120px;
+    width: 260px;
+    height: 180px;
     top: 42%;
-    right: 19.4%;
+    right: 17.2%;
 }
+.welcome_tutorial_body{
+    margin: 4% 2%;
+}
+
 .welcome_tutorial_order{
-    width: 200px;
-    height: 120px;
-    top: 65%;
-    right: 2%;
+    width: 250px;
+    height: 140px;
+    top: 55%;
+    right: 0.5%;
+}
+.welcome_tutorial_order h6{
+    margin: 4% 2%;
 }
 .welcome_tutorial_public_disclosure{
-    width: 200px;
-    height: 120px;
+    width: 260px;
+    height: 160px;
     top: 7%;
-    right: 78%;
+    right: 82%;
+}
+.welcome_tutorial_public_disclosure h6{
+    margin: 4% 2%;
 }
 .welcome_tutorial_assets{
     width: 200px;
@@ -733,6 +802,28 @@ div.history_date{
     height: auto;
     top: 50%;
     right: 50%;
+}
+.chart_body{
+    margin: 2% auto;
+    justify-content: center;
+    align-items: center;
+    width: 92%;
+    height: 60%;
+    position: relative;
+
+}
+.chart_img{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%,-50%);
+    /* transform: scale(0.7); */
+
+}
+.chart_foot{
+    margin: 0 5%;
 }
 .welcome_tutorial,
 .welcome_tutorial_wallet,
@@ -840,7 +931,7 @@ input{
     padding: 0.4%;
 }
 .order div{
-    padding: 0 0 2% 0;
+    margin: 2% 0 2% 0;
 }
 .order_price, .order_amount{
     margin: 2% 0 0 0 ;
@@ -856,6 +947,7 @@ input{
     margin: 2% 0 0 0 ;
     border-radius: 10px;
     overflow: hidden;
+    padding: 0;
 }
 .order_buy,.order_sell{
     width: 50%;
@@ -883,10 +975,7 @@ input{
     right: 1.5%;
     top: 19%;
 }
-.chart_select{
-    display: flex;
-    align-items: center;
-}
+
 .chart_cp{
     margin-left: 10px;
     width: 120px;
@@ -911,12 +1000,14 @@ input{
 }
 .footer{
     padding: 1%;
-
+    text-align: center;
 }
 .footer_top{
     display: flex;
     justify-content: space-between;
-
+}
+.footer .footer_top .footer_top_left{
+    text-align: left;
 }
 .footer .footer_top .footer_top_right{
     width: 800px;
@@ -941,4 +1032,21 @@ input{
     margin: 2%;
     padding: 1%;
 
+}
+.footer_body{
+    justify-content: space-between;
+    display: flex;
+}
+.footer_body_left{
+    text-align: left;
+    width: 40%;
+}
+.footer_body_right{
+    text-align: right;
+}
+.circuit_breaker_top{
+    transition: 0.5s;
+}
+.circuit_breaker_top:hover{
+    filter: brightness(2.0);
 }

@@ -109,7 +109,7 @@ const HistoryWrapper =({userPosition,walletConnected,setWalletConnected,setOffse
                         amount = {e.amount}
                         fee = {e.fee}
                         date = {`${e.createdAt}`.slice(0,10)+' '+`${e.createdAt}`.slice(14,19)}
-                        company_name={e.company_name}
+                        token_name={e.token_name}
                     />)
                 }):<div className="disconnection_status">
                 <h6>Start Trading</h6>

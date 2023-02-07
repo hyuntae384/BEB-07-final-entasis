@@ -95,6 +95,7 @@ const setStv =()=>{stv = Math.random()*(0.01-(-0.01001))-0.01};
 let circuitBreaker = false;
 let toggle = true;
 
+
 //ENTA
 let incomeRatioENTA=0;
 let dividend_ratio_ENTA = 0.03;
@@ -183,7 +184,12 @@ setInterval(async() => {
         else if(acc<=cur) return acc
       }).toFixed(4),
       totalVolTo:totalVolToENTA.toFixed(4),
-      totalVolFrom:totalVolFromENTA.toFixed(4)
+      totalVolFrom:totalVolFromENTA.toFixed(4),
+      totalCurrentPrices:{
+  enta : chartHisENTA[0][chartHisENTA[0].length-1].toFixed(4),
+  beb : chartHisBEB[0][chartHisBEB[0].length-1].toFixed(4),
+  leo : chartHisLEO[0][chartHisLEO[0].length-1].toFixed(4),
+}
     }
     console.log(chartDataENTA);
 
@@ -207,7 +213,12 @@ setInterval(async() => {
         else if(acc<=cur) return acc
       }).toFixed(4),
       totalVolTo:totalVolToBEB.toFixed(4),
-      totalVolFrom:totalVolFromBEB.toFixed(4)
+      totalVolFrom:totalVolFromBEB.toFixed(4),
+      totalCurrentPrices:{
+  enta : chartHisENTA[0][chartHisENTA[0].length-1].toFixed(4),
+  beb : chartHisBEB[0][chartHisBEB[0].length-1].toFixed(4),
+  leo : chartHisLEO[0][chartHisLEO[0].length-1].toFixed(4),
+}
     }
     console.log(chartDataBEB);
 
@@ -231,14 +242,18 @@ setInterval(async() => {
         else if(acc<=cur) return acc
       }).toFixed(4),
       totalVolTo:totalVolToLEO.toFixed(4),
-      totalVolFrom:totalVolFromLEO.toFixed(4)
+      totalVolFrom:totalVolFromLEO.toFixed(4),
+      totalCurrentPrices:{
+  enta : chartHisENTA[0][chartHisENTA[0].length-1].toFixed(4),
+  beb : chartHisBEB[0][chartHisBEB[0].length-1].toFixed(4),
+  leo : chartHisLEO[0][chartHisLEO[0].length-1].toFixed(4),
+}
     }
     console.log(chartDataLEO);
 
     let volumeLEO = (1 + stv*10000)*(1+incomeRatioLEO*10000)>0?(1 + stv*10000)*(1+incomeRatioLEO*10000):0.01
     let priceLEO = chartHisLEO[0][chartHisLEO[0].length-1]>0.5?chartHisLEO[0][chartHisLEO[0].length-1]:0.5;
     chart_his_LEO([priceLEO * (1 + stv)*(1+incomeRatioLEO) * (1+(1 + stv*1000)*(1+incomeRatioLEO*1000)/1000000), volumeLEO])
-
   }
 }, 1000 );
 

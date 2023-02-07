@@ -13,7 +13,7 @@ import axios from 'axios';
 import Welcome from '../pages/TransactionsPage';
 
 // import {Vote} from '../apis/company'
-const Header =({walletConnected,setWalletConnected})=> {
+const Header =({walletConnected,setWalletConnected,totalCurrentPrices})=> {
     const [userModalIsOpen, setUserModalIsOpen] = useState(false)
     const [isFaucet, setIsFaucet] = useState(false)
     const [name, setName] = useState("aa");

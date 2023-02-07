@@ -1,25 +1,18 @@
-import { useState } from 'react';
-import ReactModal from 'react-modal';
+import { useEffect, useState } from 'react';
+import Modal from 'react-modal';
 
 const History =({
-    key,
     order,
     price,
     amount,
     fee,
     date,
-    company_name})=>{
+    token_name})=>{
 
-        const [pdModalIsOpen, setPdModalIsOpen] = useState(false);
+        const [modalIsOpen, setModalIsOpen] = useState(false);
     
-        const PdModalOpen =()=>{
-            document.body.style.overflow = 'hidden';
-            setPdModalIsOpen(true)
-            }
-        const PdModalClose =()=>{
-            document.body.style.overflow = 'unset';
-            setPdModalIsOpen(false)
-            }
+            useEffect(()=>{
+            },[modalIsOpen])
 
         const modalStyle = {
             overlay: {
@@ -33,8 +26,8 @@ const History =({
                 justifyContent: "center",
                 background: "#2B2B2B",
                 overflow: "scroll",
-                top:'30%',
-                bottom:'20%',
+                top:'25%',
+                bottom:'10%',
                 left:'20%',
                 right:'20%',
                 border:"0",
@@ -45,19 +38,28 @@ const History =({
                 opacity:'0.8'
             },
         };
+// console.log(modalIsOpen)
+const modalOpen =()=>{
+    document.body.style.overflow = 'hidden';
+    setModalIsOpen(!modalIsOpen)
+    }
+const modalClose =()=>{
+    document.body.style.overflow = 'unset';
+    setModalIsOpen(!modalIsOpen)
+    }
 
     return(
-    <div className="history" onClick={()=>PdModalOpen()}>
-        <ReactModal
+    <div className="history" onClick={modalOpen}>
+        <Modal
             appElement={document.getElementById('root') || undefined}
-            onRequestClose={()=>PdModalClose()}
-            isOpen={pdModalIsOpen}
+            onRequestClose={modalClose}
+            isOpen={modalIsOpen}
             style={modalStyle}
             >   
             <div className="trading_record">
-                <h1>Trading Record</h1>
-                <div className='close' onClick={()=>PdModalClose()}>
-                    <img src={require('../assets/images/close.png')}></img>
+                <h1 className='trading_record_header'>Trading Record</h1>
+                <div className='close'>
+                    <img src={require('../assets/images/close.png')} onClick={modalClose}></img>
                     </div>
                     <div className='trading_record_data'>
                         <div className='trading_record_data_left'>
@@ -67,23 +69,35 @@ const History =({
                             <div className='trading_record_data_set'><h2>Fee</h2></div>
                             <div className='trading_record_data_set'><h2>Date</h2></div>
                             <div className='trading_record_data_set'><h2>From</h2></div>
+                            <div className='trading_record_data_set'><h2>Tx In</h2></div>
+                            <div className='trading_record_data_set'><h2>Tx Out</h2></div>
+                            
                         </div>
                         <div className='trading_record_data_right'>
-                            <div className='trading_record_data_set'><h2></h2><h3>{order}</h3></div>
-                            <div className='trading_record_data_set'><h2></h2><h3>{price}</h3></div>
-                            <div className='trading_record_data_set'><h2></h2><h3>{amount}</h3></div>
-                            <div className='trading_record_data_set'><h2></h2><h3>{fee}</h3></div>
-                            <div className='trading_record_data_set'><h2></h2><h3>{date}</h3></div>
-                            <div className='trading_record_data_set'><h2></h2><h3>{company_name}</h3></div>
+                            <div className='trading_record_data_set'><h2></h2><h3
+                            style={{color:
+                                order==='buy'?'#0d6097':
+                                order==='sell'?'#ab1c37':
+                                '#00aab3'
+                                }}
+                            >{order}</h3></div>
+                            <div className='trading_record_data_set'><h3>{price}</h3><h5>ETH</h5></div>
+                            <div className='trading_record_data_set'><h3>{amount!==null?amount:'-'}</h3></div>
+                            <div className='trading_record_data_set'><h3>{fee!==null?fee:'-'}</h3></div>
+                            <div className='trading_record_data_set'><h3>{date}</h3></div>
+                            <div className='trading_record_data_set'><h3>{token_name}</h3></div>
+                            <div className='trading_record_data_set'><h3>{}0x7986E4e9F15EaBD03a23fC166EFD42247875dD80</h3></div>
+                            <div className='trading_record_data_set'><h3>{}0x7986E4e9F15EaBD03a23fC166EFD42247875dD80</h3></div>
+
                         </div>
 
                     </div>
-                <div className='logo'>
+                <div className='trading_record_data_logo'>
                     <img src={require('../assets/images/ENTASIS.png')}></img>
                 </div>
         
             </div>
-        </ReactModal>
+        </Modal>
         <div className="history_wrapper">
             <div 
                 style= 
@@ -108,7 +122,7 @@ const History =({
                 {date}
             </div>
             <div className="history_company_name">
-                {company_name}
+                {token_name}
             </div>
         </div>
     </div>
