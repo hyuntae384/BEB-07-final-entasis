@@ -6,8 +6,12 @@ WORKDIR /usr/src/app
 # Copying this separately prevents re-running npm install on every code change.
 COPY package*.json ./
 # Install production dependencies.
-RUN npm install --only=production
+RUN npm install --production
 # Copy local code to the container image.
 COPY . .
+# Create Build File
+RUN npm run build
+# Port setting 
+EXPOSE 5050
 # Run the web service on container startup.
 CMD [ "npm", "start" ]

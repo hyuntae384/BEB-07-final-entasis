@@ -61,4 +61,4 @@ jobs:
       - name: Docker run
         run: |
           docker ps -q --filter ${{env.CONTAINER_NAME}} | grep -q . && docker stop ${{env.CONTAINER_NAME}} && docker rm -fv ${{env.CONTAINER_NAME}}
-          docker run -d -p 80:8080 --name ${{env.NAME}} --restart always ${{ env.DOCKER_IMAGE }}:latest
+          docker run -d -p 80:5050 --name ${{env.NAME}} --restart always ${{ env.DOCKER_IMAGE }}:latest
