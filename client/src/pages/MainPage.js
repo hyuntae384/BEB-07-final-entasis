@@ -24,7 +24,7 @@ const MainPage =()=>{
     const [number, setNumber] = useState(0);
     const [walletConnected, setWalletConnected] = useState(false)
     const [isCircuitBreaker,setIsCircuitBreaker] = useState(false)
-    const [tokenName, setTokenName] = useState('beb')
+    const [tokenName, setTokenName] = useState('enta')
 
     const {chainId, account, active, activate, deactivate} = useWeb3React();
     const currentPrice_ref = useRef({});
@@ -38,6 +38,15 @@ const MainPage =()=>{
     const serverAccount = '0x48c02B8aFddD9563cEF6703df4DCE1DB78A6b2Eb';
     const [userEth, setUserEth] = useState("")
     const [userToken, setUserToken] = useState("")
+
+    const ST_Name = [
+        { value: "enta", name: "ENTA" },
+        { value: "beb", name: "BEB" },
+        { value: "leo", name: "LEO" },
+        ];
+console.log(tokenName)
+
+
     const StABI = TokenABI.abi
     const web3 = new Web3(
         window.ethereum || "http://18.182.9.156:8545"
@@ -152,6 +161,7 @@ return(
         />
         <div className="main_head">
             <ChartWrapper
+                ST_Name={ST_Name}
                 tokenName={tokenName}
                 setTokenName={setTokenName}
                 currentPrice={currentPrice}
