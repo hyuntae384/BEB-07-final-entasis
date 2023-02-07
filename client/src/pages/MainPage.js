@@ -33,10 +33,12 @@ const MainPage =()=>{
     // ================================================================
     // Props Test
     const userAccount = useWeb3React().account;
-    const contractAccount = '0x04794606b3065df94ef3398aA2911e56abE169B6';
-    const serverAccount = '0x48c02B8aFddD9563cEF6703df4DCE1DB78A6b2Eb';
+    /* const contractAccount = '0x04794606b3065df94ef3398aA2911e56abE169B6';
+    const serverAccount = '0x48c02B8aFddD9563cEF6703df4DCE1DB78A6b2Eb'; */
     const [userEth, setUserEth] = useState("")
-    const [userToken, setUserToken] = useState("")
+    const [userEntaToken, setUserEntaToken] = useState("")
+    const [userBebToken, setUserBebToken] = useState("")
+    const [userLeoToken, setUserLeoToken] = useState("")
 
     const ST_Name = [
         { value: "enta", name: "ENTA" },
@@ -47,12 +49,16 @@ const MainPage =()=>{
 
     const StABI = TokenABI.abi
     const web3 = new Web3(
-        window.ethereum || "http://18.182.9.156:8545"
+        window.ethereum || process.env.REACT_APP_GANACHE_NETWORK
     );
-    const tokenContract = new web3.eth.Contract(StABI, contractAccount);
+    const EntaTokenContract = new web3.eth.Contract(StABI, process.env.REACT_APP_ENTA_CA);
+    const BebTokenContract = new web3.eth.Contract(StABI, process.env.REACT_APP_BEB_CA);
+    const LeoTokenContract = new web3.eth.Contract(StABI, process.env.REACT_APP_LEO_CA);
     useEffect(() => {
         getUserEth(userAccount);
-        getUserToken(userAccount);
+        getUserEntaToken(userAccount);
+        getUserBebToken(userAccount);
+        getUserLeoToken(userAccount);
         /* console.log(userEth)
         console.log(userToken) */
     },[currentPrice])
@@ -66,12 +72,30 @@ const MainPage =()=>{
         }
     }
 
-    async function getUserToken(account){
-        if(account === undefined) setUserToken('')
+    async function getUserEntaToken(account){
+        if(account === undefined) setUserEntaToken('')
         else {
-            let userToken = await tokenContract.methods.balanceOf(account).call();
+            let userToken = await EntaTokenContract.methods.balanceOf(account).call();
             let TransUserToken = web3.utils.fromWei(userToken)
-            setUserToken(TransUserToken);
+            setUserEntaToken(TransUserToken);
+        }
+    }
+
+    async function getUserBebToken(account){
+        if(account === undefined) setUserBebToken('')
+        else {
+            let userToken = await BebTokenContract.methods.balanceOf(account).call();
+            let TransUserToken = web3.utils.fromWei(userToken)
+            setUserBebToken(TransUserToken);
+        }
+    }
+
+    async function getUserLeoToken(account){
+        if(account === undefined) setUserLeoToken('')
+        else {
+            let userToken = await LeoTokenContract.methods.balanceOf(account).call();
+            let TransUserToken = web3.utils.fromWei(userToken)
+            setUserLeoToken(TransUserToken);
         }
     }
 
@@ -183,9 +207,11 @@ return(
             <Order
                 ST_CurrentPrice={currentPrice.close}
                 userEth={userEth}
-                userToken={userToken}
+                userEntaToken={userEntaToken}
+                userBebToken={userBebToken}
+                userLeoToken={userLeoToken}
+                tokenName={tokenName}
                 totalCurrentPrices={currentPrice.totalCurrentPrices}
-
             />
         </div>
         <div className="main_bottom">
@@ -200,8 +226,9 @@ return(
                 ST_CurrentPrice={currentPrice.close} 
                 powerOfMarket={powerOfMarket}
                 userEth={userEth}
-                userToken={userToken}
-                totalCurrentPrices={currentPrice.totalCurrentPrices}
+                userEntaToken={userEntaToken}
+                userBebToken={userBebToken}
+                userLeoToken={userLeoToken}
             />
         </div>
         <Footer

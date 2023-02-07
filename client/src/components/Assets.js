@@ -1,26 +1,26 @@
 import Asset from "./Asset"
-const Assets =({ST_CurrentPrice,powerOfMarket,userEth,userToken,totalCurrentPrices})=>{
+const Assets =({ST_CurrentPrice,powerOfMarket,userEth,userEntaToken,userBebToken,userLeoToken,totalCurrentPrices})=>{
     // `/user/asset/?address=${address}`
 
     const AssetsArray = [
         {
             id:1,
             price : 1.250,
-            amount : userToken,
+            amount : userEntaToken,
             dividend_income_ratio : 0.005,
             date : 0,
         },
         {
             id:2,
             price : 1.250,
-            amount : 330.123,
+            amount : userBebToken,
             dividend_income_ratio : 0.005,
             date : 0,
         },
         {
             id:3,
             price : 1.250,
-            amount : 28.2,
+            amount : userLeoToken,
             dividend_income_ratio : 0.005,
             date : 0,
         },
