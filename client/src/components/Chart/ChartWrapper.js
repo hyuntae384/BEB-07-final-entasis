@@ -116,7 +116,7 @@ useEffect(()=>{
             }
             termNum=termValue
             setTermArrLength(setByTimeNewArr.length)
-            setDataLength(setByTimeNewArr.length/10)
+            setDataLength(setByTimeNewArr.length/1000)
         }    
     },[termValue,chartOriginArr])
 
