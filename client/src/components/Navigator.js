@@ -14,7 +14,7 @@ const Navigator =({isCircuitBreaker/*company*/})=>{
     let time = new Date()
     let date = (59-time.getMinutes())%5+":"+(59-time.getSeconds());
     let circuitBreakerTimeer = time.getSeconds()
-    console.log(time.getSeconds())
+    // console.log(time.getSeconds())
 
     useEffect(()=>{
         if(isCircuitBreaker){
