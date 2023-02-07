@@ -344,25 +344,40 @@ div.public_disclosure_wrapper h4{
     height: 620px;
     background-color:#121212;
 }
-
+.trading_record{
+    margin: 20px;
+    align-items: baseline;
+}
+.trading_record_header{
+    text-align: center;
+}
 .trading_record_data{
     margin: 2%;
     display: flex;
 }
 .trading_record_data_left,.trading_record_data_right{
     margin: 2%;
-
-
 }
-.trading_record_data_set{
+.trading_record_data_set h5{
+    margin: 10px 0 0 5px;
+    height: 12px;
+    align-items: baseline;
+}
+.trading_record_data_set h3{
+    align-items: baseline;
+    margin: auto 0;
+    height: 20px;
+}
+.trading_record_data_set {
     margin: 10px;
     height: 30px;
     display: flex;
-    align-items: baseline;
     text-align: center;
 }
-.trading_record_data_set h2, .trading_record_data_set h3{
-    margin: 1%;
+.trading_record_data_logo{
+    margin-top: 30px;
+    text-align: center;
+    align-items: baseline;
 }
 
 .main_assets, .history_wrapperA{
