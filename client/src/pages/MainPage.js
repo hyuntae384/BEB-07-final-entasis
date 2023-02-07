@@ -10,8 +10,11 @@ import WelcomePage from "./WelcomePage"
 import { useWeb3React } from "@web3-react/core"
 import axios from "axios"
 import ChartWrapper from "../components/Chart/ChartWrapper"
+import Web3 from "web3";
+import TokenABI from "../ABIs/ERC1400.json"
 
 // import {FaucetWallet} from '../apis/user'
+
 const MainPage =()=>{
     const [currentPrice, setCurrentPrice] = useState(0)
     const [isLoading, setIsLoading] = useState(true);
@@ -20,15 +23,68 @@ const MainPage =()=>{
     const [copy, setCopy] = useState('');
     const [number, setNumber] = useState(0);
     const [walletConnected, setWalletConnected] = useState(false)
-
-    const currentPrice_ref = useRef({});
+    const [isCircuitBreaker,setIsCircuitBreaker] = useState(false)
+    const [tokenName, setTokenName] = useState('enta')
+    const [offset, setOffset]=useState(0)
+    const [limit, setLimit]=useState(10)
     const {chainId, account, active, activate, deactivate} = useWeb3React();
-    
-    let powerOfMarket = (currentPrice.open - currentPrice.close)
+    const currentPrice_ref = useRef({});
+console.log(offset,limit)
 
+    // ================================================================
+    // Props Test
+    const userAccount = useWeb3React().account;
+    const contractAccount = '0x04794606b3065df94ef3398aA2911e56abE169B6';
+    const serverAccount = '0x48c02B8aFddD9563cEF6703df4DCE1DB78A6b2Eb';
+    const [userEth, setUserEth] = useState("")
+    const [userToken, setUserToken] = useState("")
+
+    const ST_Name = [
+        { value: "enta", name: "ENTA" },
+        { value: "beb", name: "BEB" },
+        { value: "leo", name: "LEO" },
+        ];
+
+
+    const StABI = TokenABI.abi
+    const web3 = new Web3(
+        window.ethereum || "http://18.182.9.156:8545"
+    );
+    const tokenContract = new web3.eth.Contract(StABI, contractAccount);
+    useEffect(() => {
+        getUserEth(userAccount);
+        getUserToken(userAccount);
+        /* console.log(userEth)
+        console.log(userToken) */
+    },[currentPrice])
+
+    async function getUserEth(account){
+        if(account === undefined) setUserEth('');
+        else {
+            let userEth = await web3.eth.getBalance(account);
+            let TransUserEth = web3.utils.fromWei(userEth);
+            setUserEth(Number(TransUserEth).toFixed(4));
+        }
+    }
+
+    async function getUserToken(account){
+        if(account === undefined) setUserToken('')
+        else {
+            let userToken = await tokenContract.methods.balanceOf(account).call();
+            let TransUserToken = web3.utils.fromWei(userToken)
+            setUserToken(TransUserToken);
+        }
+    }
+
+    // ================================================================
+
+    let powerOfMarket = (currentPrice.open - currentPrice.close)
+    useEffect(()=>{
+        let name = ' '
+        if(name !== tokenName){
         const setChartRTD=(async () => 
         {try {
-            currentPrice_ref.current = await axios.get('http://localhost:5050/rtd')
+            currentPrice_ref.current = await axios.get('http://localhost:5050/rtd/'+tokenName)
             setCurrentPrice(currentPrice_ref.current.data)
         } catch (e) {
         console.log(e) // caught
@@ -42,13 +98,13 @@ const MainPage =()=>{
         }, 1000);
         }else{
             setTimeout(()=>{
-                    setChartRTD()
-                    powerOfMarket = 0;
                 setIsLoading(false)
             },1000)
         }
-
-
+    }
+        name = tokenName;
+    })
+    
     const copyHandler = (e) => {
         copy = e;
     }
@@ -67,17 +123,20 @@ const MainPage =()=>{
         .then(err=>err)
         return  resultSTChart
     }
-
-
+    
     useEffect(()=>{
-        const Position = async(wallet) => {
+        const Position = async(wallet,offset,limit) => {
             if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
-            const resultPosition = await axios.get(position + wallet)
+            const resultPosition = await axios.get(position + wallet + `&offset=${offset}&limit=${limit}`)
             .then(res=>res.data)
             .then(err=>err)
             setUserPosition(resultPosition)
-
+            console.log(resultPosition)
         }
+        Position(account,offset,limit)
+    },[account,offset])
+
+        useEffect(()=>{
         const EnrollWallet = async(wallet) => {
             if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
             const resultEnrollWallet =  await axios.post(enroll + wallet)
@@ -85,7 +144,6 @@ const MainPage =()=>{
             .then(err=>err)
             setIsEnroll(resultEnrollWallet)
         }
-        Position(account)
         EnrollWallet(account)
         if(account===undefined){
         setUserPosition();
@@ -107,9 +165,14 @@ return(
             walletConnected = {walletConnected}
             setWalletConnected = {setWalletConnected}
             isLoading = {isLoading} onMouseEnter={onMouseEnterHandler}/>
-        <Navigator/>
+        <Navigator
+            isCircuitBreaker={isCircuitBreaker}
+        />
         <div className="main_head">
             <ChartWrapper
+                ST_Name={ST_Name}
+                tokenName={tokenName}
+                setTokenName={setTokenName}
                 currentPrice={currentPrice}
                 isLoading={isLoading}
             />
@@ -118,11 +181,15 @@ return(
                 ST_CurrentPrice={currentPrice.close} 
             />
             <Order
-                ST_CurrentPrice={currentPrice.close} 
+                ST_CurrentPrice={currentPrice.close}
+                userEth={userEth}
+                userToken={userToken}
             />
         </div>
         <div className="main_bottom">
             <Historys
+                setOffset={setOffset}
+                setLimit={setLimit}
                 walletConnected = {walletConnected}
                 setWalletConnected = {setWalletConnected}
                 userPosition={userPosition}
@@ -130,9 +197,13 @@ return(
             <Assets
                 ST_CurrentPrice={currentPrice.close} 
                 powerOfMarket={powerOfMarket}
+                userEth={userEth}
+                userToken={userToken}
             />
         </div>
-        <Footer/>
+        <Footer
+            setIsCircuitBreaker={setIsCircuitBreaker}
+        />
     </div>
     )
 }
