@@ -263,16 +263,17 @@ div.btn:hover{
     width: 500px;
     display: flex;
     justify-content: right;
-    
 }
-.chart_current h4{
+.chart_current h5{
     margin: 0 5px;
+    color: var(--gray-light-color);
 }
 .chart_select_top{
     justify-content: space-between;
     display: flex;
     width: 95%;
     margin: 0;
+    align-items: baseline;    
 
 }
 .chart_select{
@@ -329,7 +330,16 @@ div.public_disclosure_wrapper h4{
 }
 .circuit_breaker_top{
     display: flex;
+    cursor: pointer;
     align-items: center;
+    justify-content: right;
+}
+.circuit_breaker_top h1{
+    margin-left: 5px;
+}
+.circuit_breaker_btn{
+height: 30px;
+width: 30px;
 }
 
 a.circuit_breaker_link{
@@ -1049,4 +1059,12 @@ input{
 }
 .circuit_breaker_top:hover{
     filter: brightness(2.0);
+}
+
+.warning_circuit_breaker{
+    text-align: center;
+    
+}
+.warning_circuit_breaker img{
+    margin: 20px 0;    
 }
