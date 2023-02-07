@@ -29,7 +29,6 @@ const MainPage =()=>{
     const [limit, setLimit]=useState(10)
     const {chainId, account, active, activate, deactivate} = useWeb3React();
     const currentPrice_ref = useRef({});
-console.log(offset,limit)
 
     // ================================================================
     // Props Test
@@ -131,7 +130,6 @@ console.log(offset,limit)
             .then(res=>res.data)
             .then(err=>err)
             setUserPosition(resultPosition)
-            console.log(resultPosition)
         }
         Position(account,offset,limit)
     },[account,offset])
@@ -164,7 +162,9 @@ return(
         <Header 
             walletConnected = {walletConnected}
             setWalletConnected = {setWalletConnected}
-            isLoading = {isLoading} onMouseEnter={onMouseEnterHandler}/>
+            isLoading = {isLoading} onMouseEnter={onMouseEnterHandler}
+            totalCurrentPrices={currentPrice.totalCurrentPrices}
+        />
         <Navigator
             isCircuitBreaker={isCircuitBreaker}
         />
@@ -184,6 +184,8 @@ return(
                 ST_CurrentPrice={currentPrice.close}
                 userEth={userEth}
                 userToken={userToken}
+                totalCurrentPrices={currentPrice.totalCurrentPrices}
+
             />
         </div>
         <div className="main_bottom">
@@ -199,6 +201,7 @@ return(
                 powerOfMarket={powerOfMarket}
                 userEth={userEth}
                 userToken={userToken}
+                totalCurrentPrices={currentPrice.totalCurrentPrices}
             />
         </div>
         <Footer
