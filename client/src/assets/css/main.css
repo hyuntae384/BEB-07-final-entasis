@@ -330,7 +330,16 @@ div.public_disclosure_wrapper h4{
 }
 .circuit_breaker_top{
     display: flex;
+    cursor: pointer;
     align-items: center;
+    justify-content: right;
+}
+.circuit_breaker_top h1{
+    margin-left: 5px;
+}
+.circuit_breaker_btn{
+height: 30px;
+width: 30px;
 }
 
 a.circuit_breaker_link{
@@ -1050,4 +1059,12 @@ input{
 }
 .circuit_breaker_top:hover{
     filter: brightness(2.0);
+}
+
+.warning_circuit_breaker{
+    text-align: center;
+    
+}
+.warning_circuit_breaker img{
+    margin: 20px 0;    
 }
