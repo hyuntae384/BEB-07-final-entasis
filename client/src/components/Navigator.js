@@ -7,23 +7,29 @@ import '../assets/css/main.css';
 import SelectBox from './Select';
 import Tutorials from "./Tutorials";
 
-const Navigator =({isCircuitBreaker/*company*/})=>{
+const Navigator =({isCircuitBreaker,setIsCircuitBreaker/*company*/})=>{
     const [pdModalIsOpen, setPdModalIsOpen] = useState(false);
     const [tutorialsClicked,setTutorialsClicked] = useState(false)
     // const [isDate, setIsDate] = useState(0);
     let time = new Date()
     let date = (59-time.getMinutes())%5+":"+(59-time.getSeconds());
-    let circuitBreakerTimeer = time.getSeconds()
-    // console.log(time.getSeconds())
+    let [circuitBreakerTimer,setCircuitBreakerTimer] = useState(60)
+    let i = 60 ;
 
     useEffect(()=>{
         if(isCircuitBreaker){
+        const setTime = setInterval(()=>{
+            if(i>0){
+                i--
+                setCircuitBreakerTimer(i)
+            }else{
+                clearInterval(setTime)
+                setIsCircuitBreaker(false)
+            }
+        },1000)}
+    },[isCircuitBreaker,i])
 
-        }
-    },[new Date().getSeconds()])
-    // useEffect(()=>{
-    //     setIsDate(date)
-    // },[pdModalIsOpen]);
+
 
     const countNumber=(e)=>{
         return e.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,",")
@@ -58,21 +64,6 @@ const Navigator =({isCircuitBreaker/*company*/})=>{
             
         },
     };
-    const ST_1 = {
-        name:'BEBE',
-        price:'200',
-        amount:'20'
-    };
-    const ST_2 = {
-        name:'DEDE',
-        price:'100',
-        amount:'230'
-    };;
-    const ST_3 = {
-        name:'CECE',
-        price:'400',
-        amount:'10'
-    };;
     const company = {
         name:'BEBE',
         total_asset:'4000000000',
@@ -138,12 +129,12 @@ const Navigator =({isCircuitBreaker/*company*/})=>{
             </div>
             </Modal>
             </div>
-            {isCircuitBreaker?
-                <div>
+            {!isCircuitBreaker?
+                <div className="until_the_next_dividend_release">
                 <h4>Until the Next Dividend Release {date}</h4>
                 </div>
                 : <div className="is_circuit_breaker">
-                <h4>Circuit Breaker {date}</h4>
+                <h4>Circuit Breaker {'00:'+circuitBreakerTimer}</h4>
                 </div>     
                 }  
 
