@@ -25,14 +25,14 @@ const MainPage =()=>{
     const [walletConnected, setWalletConnected] = useState(false)
     const [isCircuitBreaker,setIsCircuitBreaker] = useState(false)
     const [tokenName, setTokenName] = useState('enta')
-
+    const [offset, setOffset]=useState(0)
+    const [limit, setLimit]=useState(10)
     const {chainId, account, active, activate, deactivate} = useWeb3React();
     const currentPrice_ref = useRef({});
-
+console.log(offset,limit)
 
     // ================================================================
     // Props Test
-
     const userAccount = useWeb3React().account;
     const contractAccount = '0x04794606b3065df94ef3398aA2911e56abE169B6';
     const serverAccount = '0x48c02B8aFddD9563cEF6703df4DCE1DB78A6b2Eb';
@@ -44,7 +44,6 @@ const MainPage =()=>{
         { value: "beb", name: "BEB" },
         { value: "leo", name: "LEO" },
         ];
-console.log(tokenName)
 
 
     const StABI = TokenABI.abi
@@ -80,6 +79,9 @@ console.log(tokenName)
     // ================================================================
 
     let powerOfMarket = (currentPrice.open - currentPrice.close)
+    useEffect(()=>{
+        let name = ' '
+        if(name !== tokenName){
         const setChartRTD=(async () => 
         {try {
             currentPrice_ref.current = await axios.get('http://localhost:5050/rtd/'+tokenName)
@@ -99,6 +101,9 @@ console.log(tokenName)
                 setIsLoading(false)
             },1000)
         }
+    }
+        name = tokenName;
+    })
     
     const copyHandler = (e) => {
         copy = e;
@@ -118,15 +123,20 @@ console.log(tokenName)
         .then(err=>err)
         return  resultSTChart
     }
-
+    
     useEffect(()=>{
-        const Position = async(wallet) => {
+        const Position = async(wallet,offset,limit) => {
             if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
-            const resultPosition = await axios.get(position + wallet)
+            const resultPosition = await axios.get(position + wallet + `&offset=${offset}&limit=${limit}`)
             .then(res=>res.data)
             .then(err=>err)
             setUserPosition(resultPosition)
+            console.log(resultPosition)
         }
+        Position(account,offset,limit)
+    },[account,offset])
+
+        useEffect(()=>{
         const EnrollWallet = async(wallet) => {
             if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
             const resultEnrollWallet =  await axios.post(enroll + wallet)
@@ -134,7 +144,6 @@ console.log(tokenName)
             .then(err=>err)
             setIsEnroll(resultEnrollWallet)
         }
-        Position(account)
         EnrollWallet(account)
         if(account===undefined){
         setUserPosition();
@@ -179,6 +188,8 @@ return(
         </div>
         <div className="main_bottom">
             <Historys
+                setOffset={setOffset}
+                setLimit={setLimit}
                 walletConnected = {walletConnected}
                 setWalletConnected = {setWalletConnected}
                 userPosition={userPosition}

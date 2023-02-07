@@ -60,8 +60,8 @@ const Chart =({currentPrice, chartTermArr,defaultLimit,dataLength,term,setTermVa
         >
         <div className="chart_select">
         <SelectBox
-            set={term}
-            value={ST_Name}
+            set={ST_Name}
+            value={setTokenName}
         ></SelectBox>
         <SelectBox 
             set = {term}

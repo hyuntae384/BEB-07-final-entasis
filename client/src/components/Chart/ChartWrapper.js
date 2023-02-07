@@ -3,7 +3,7 @@ import React, { useState, useEffect} from "react";
 import dataToArray from "../../functions/data_to_array";
 import Chart from "./Chart";
 
-const ChartWrapper =({currentPrice,tokenName,setTokenName})=>{
+const ChartWrapper =({currentPrice,tokenName,setTokenName,ST_Name})=>{
     const [defaultLimit, setDefaultLimit] = useState(0);
     const [dataLength, setDataLength] = useState(0);
     const [isChartTotal, setIsChartTotal] = useState([]);
@@ -14,15 +14,10 @@ const ChartWrapper =({currentPrice,tokenName,setTokenName})=>{
     const [isLoading, setIsLoading] = useState(false);
     const [termValue, setTermValue] = useState(1);
     const [offset,setOffset]=useState(0);
-    const [limit, setLimit]=useState(5000);
+    const [limit, setLimit]=useState(10000);
     const [total,setTotal] = useState(0);
     const [termArrLength,setTermArrLength] = useState(2000);
 
-    const ST_Name = [
-        { value: "BEBE", name: "BEBE" },
-        { value: "DEDE", name: "DEDE" },
-        { value: "CECE", name: "CECE" },
-        ];
     const term = [
         { value: "1", name: "1 minutes" },
         { value: "15", name: "15 minutes" },
@@ -32,40 +27,34 @@ const ChartWrapper =({currentPrice,tokenName,setTokenName})=>{
         { value: "10080", name: "1 week" },
         ]
 
-
 useEffect(()=>{
     let limitChartArr=[];
-    let total=0;
 
-    const origin = 'http://localhost:5050/chart/total'
-    if(!chartToggle){
-        const setChartTotal=(async(offset,limit,stname) => 
+    const origin = 'http://localhost:5050/chart/'
+        const setChartTotal=(async(offset,limit,tokenName) => 
         {try {
-            setIsLoading(true)
-            const resultTotal = await axios.get(origin + `?offset=${offset}&limit=${limit}&stname=${stname}`)
+            // setIsLoading(true)
+            const resultTotal = await axios.get(origin + tokenName + `?offset=${offset}&limit=${limit}`)
             setTimeout(()=>{
                 (resultTotal.data.priceinfo.map(e=>limitChartArr.push(Object.values(e))))
-                setTotal(resultTotal.data.totalLength)
                 setIsChartTotal(limitChartArr)
-                setIsLoading(false)
-                setLimit(resultTotal.data.totalLength)
+                // setIsLoading(false)
                 // setOffset(limit/100)
-                total=resultTotal.data.totalLength-1;
+                // total=resultTotal.data.totalLength-1;
             },1000)
         } catch (e) {
         console.log(e) 
         }
     })
-    setChartTotal(offset,limit)
-    }
-    setChartToggle(true)
+    setChartTotal(offset,limit,tokenName)
+    console.log(tokenName)
 
-})
+},[tokenName])
 
     useEffect(()=>{
         setChartOriginArr(isChartTotal)
         
-    },[isChartTotal])
+    },[isChartTotal,tokenName])
 
     useEffect(() => {
         const loop = setInterval(() => {
@@ -89,6 +78,7 @@ useEffect(()=>{
                     totalVolFromB,
                 ]]);
             }  
+
         clearInterval(loop);
         }, 1000);
     }, [new Date().getSeconds()]);
@@ -98,6 +88,7 @@ useEffect(()=>{
     let setByTimeNewArr = []
 
     useEffect(()=>{
+
         let cnt = 0
         let termNum = 0;
         // console.log(`${termNum}`,`${termValue}`)
@@ -126,7 +117,6 @@ useEffect(()=>{
             termNum=termValue
             setTermArrLength(setByTimeNewArr.length)
             setDataLength(setByTimeNewArr.length/10)
-
         }    
     },[termValue,chartOriginArr])
 
@@ -193,8 +183,8 @@ return(
                 let set = dataLength*0.05
                 if(document.body.style.overflow === 'hidden'){
                 e.deltaY> 0
-                ? setDataLength(dataLength < termArrLength*0.3 ? dataLength + 0 : dataLength - set)
-                : setDataLength(dataLength > defaultLimit*0.99 ? dataLength + 0  : dataLength + set)
+                ? setDataLength(dataLength < 1 ? dataLength + 0 : dataLength - set)
+                : setDataLength(dataLength > defaultLimit-10 ? dataLength + 0  : dataLength + set)
             }
             };
         }} 
