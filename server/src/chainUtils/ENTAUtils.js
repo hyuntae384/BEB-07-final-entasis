@@ -1,6 +1,6 @@
-const { tokenContract, web3Http } = require('./index');
+const { ENTA_Contract, web3Http } = require('./index');
 
-const { ADMIN_ADDRESS, ADMIN_PK, TOKEN_CA, GAS, GASPRICE } = process.env;
+const { ADMIN_ADDRESS, ADMIN_PK, ENTA_CA, GAS, GASPRICE } = process.env;
 
 const signAndSendTx = async (account, tx) => {
   try {
@@ -15,9 +15,9 @@ const signAndSendTx = async (account, tx) => {
   }
 };
 
-const getTotalSupply = async () => {
+const getENTATotalSupply = async () => {
   try {
-    const totalSupply = await tokenContract.methods.totalSupply().call();
+    const totalSupply = await ENTA_Contract.methods.totalSupply().call();
     return totalSupply;
   } catch (err) {
     console.error(err);
@@ -25,9 +25,9 @@ const getTotalSupply = async () => {
   }
 };
 
-const getSimpleTotalSupply = async () => {
+const getENTASimpleTotalSupply = async () => {
   try {
-    const totalSupply = await tokenContract.methods.simpleTotalSupply().call();
+    const totalSupply = await ENTA_Contract.methods.simpleTotalSupply().call();
     return totalSupply;
   } catch (err) {
     console.error(err);
@@ -35,9 +35,9 @@ const getSimpleTotalSupply = async () => {
   }
 };
 
-const getTokenBalance = async (account) => {
+const getENTATokenBalance = async (account) => {
   try {
-    const balance = await tokenContract.methods.balanceOf(account).call();
+    const balance = await ENTA_Contract.methods.balanceOf(account).call();
     return balance;
   } catch (err) {
     console.error(err);
@@ -45,9 +45,9 @@ const getTokenBalance = async (account) => {
   }
 };
 
-const getSimpleTokenBalance = async (account) => {
+const getENTASimpleTokenBalance = async (account) => {
   try {
-    const balance = await tokenContract.methods.simpleBalanceOf(account).call();
+    const balance = await ENTA_Contract.methods.simpleBalanceOf(account).call();
     return balance;
   } catch (err) {
     console.error(err);
@@ -55,9 +55,9 @@ const getSimpleTokenBalance = async (account) => {
   }
 };
 
-const getTokenName = async () => {
+const getENTATokenName = async () => {
   try {
-    const name = await tokenContract.methods.name().call();
+    const name = await ENTA_Contract.methods.name().call();
     return name;
   } catch (err) {
     console.error(err);
@@ -65,14 +65,14 @@ const getTokenName = async () => {
   }
 };
 
-const sendTokenToUser = async (recipient, amount) => {
+const sendENTATokenToUser = async (recipient, amount) => {
   const adminAccount = web3Http.eth.accounts.privateKeyToAccount(ADMIN_PK);
   const weiAmount = web3Http.utils.toWei(amount, 'ether');
   try {
-    const bytedata = await tokenContract.methods.transfer(recipient, weiAmount).encodeABI();
+    const bytedata = await ENTA_Contract.methods.transfer(recipient, weiAmount).encodeABI();
     const tx = {
       from: ADMIN_ADDRESS,
-      to: TOKEN_CA,
+      to: ENTA_CA,
       amount,
       gas: GAS,
       gasPrice: GASPRICE,
@@ -86,15 +86,15 @@ const sendTokenToUser = async (recipient, amount) => {
 };
 
 // 거래 제한 함수
-const restrictToken = async () => {
+const restrictENTAToken = async () => {
   const adminAccount = web3Http.eth.accounts.privateKeyToAccount(ADMIN_PK);
   try{
-    const bytedata = await tokenContract.methods.restrictToken().encodeABI();
+    const bytedata = await ENTA_Contract.methods.restrictToken().encodeABI();
     const tx = {
       from: ADMIN_ADDRESS,
       gasPrice:GASPRICE,
       gas: GAS,
-      to: TOKEN_CA,
+      to: ENTA_CA,
       data: bytedata
     }
     return signAndSendTx(adminAccount, tx);
@@ -105,15 +105,15 @@ const restrictToken = async () => {
 };
 
 // 거래 재허용 함수
-const allowToken = async () => {
+const allowENTAToken = async () => {
   const adminAccount = web3Http.eth.accounts.privateKeyToAccount(ADMIN_PK);
   try{
-    const bytedata = await tokenContract.methods.allowToken().encodeABI();
+    const bytedata = await ENTA_Contract.methods.allowToken().encodeABI();
     const tx = {
       from: ADMIN_ADDRESS,
       gasPrice:GASPRICE,
       gas: GAS,
-      to: TOKEN_CA,
+      to: ENTA_CA,
       data: bytedata
     }
     return signAndSendTx(adminAccount, tx);
@@ -124,9 +124,9 @@ const allowToken = async () => {
 };
 
 // 거래 제한 여부 확인 함수
-const isRestricted = async () => {
+const isRestrictedENTA = async () => {
   try{
-    const isRestricted = await tokenContract.methods.isRestricted().call();
+    const isRestricted = await ENTA_Contract.methods.isRestricted().call();
     return isRestricted;
   } catch (err) {
     console.error(err);
@@ -134,9 +134,9 @@ const isRestricted = async () => {
   }
 };
 
-const showAllTokenHolders = async () => {
+const showAllENTATokenHolders = async () => {
   try {
-    const tokenholders = await tokenContract.methods.showAllTokenHolders().call();
+    const tokenholders = await ENTA_Contract.methods.showAllTokenHolders().call();
     return tokenholders;
   } catch (err) {
     console.error(err);
@@ -145,15 +145,15 @@ const showAllTokenHolders = async () => {
 };
 
 module.exports = { 
-  getTotalSupply,
-  getSimpleTotalSupply,
-  getTokenBalance, 
-  getSimpleTokenBalance,
-  getTokenName, 
+  getENTATotalSupply,
+  getENTASimpleTotalSupply,
+  getENTATokenBalance, 
+  getENTASimpleTokenBalance,
+  getENTATokenName, 
   signAndSendTx, 
-  sendTokenToUser,
-  restrictToken,
-  allowToken,
-  isRestricted,
-  showAllTokenHolders
+  sendENTATokenToUser,
+  restrictENTAToken,
+  allowENTAToken,
+  isRestrictedENTA,
+  showAllENTATokenHolders
 };
