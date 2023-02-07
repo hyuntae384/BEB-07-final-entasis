@@ -7,11 +7,20 @@ import '../assets/css/main.css';
 import SelectBox from './Select';
 import Tutorials from "./Tutorials";
 
-const Navigator =({/*company*/})=>{
+const Navigator =({isCircuitBreaker/*company*/})=>{
     const [pdModalIsOpen, setPdModalIsOpen] = useState(false);
     const [tutorialsClicked,setTutorialsClicked] = useState(false)
     // const [isDate, setIsDate] = useState(0);
-    let date = (59-new Date().getMinutes())%5+":"+(59-new Date().getSeconds());
+    let time = new Date()
+    let date = (59-time.getMinutes())%5+":"+(59-time.getSeconds());
+    let circuitBreakerTimeer = time.getSeconds()
+    console.log(time.getSeconds())
+
+    useEffect(()=>{
+        if(isCircuitBreaker){
+
+        }
+    },[new Date().getSeconds()])
     // useEffect(()=>{
     //     setIsDate(date)
     // },[pdModalIsOpen]);
@@ -124,12 +133,20 @@ const Navigator =({/*company*/})=>{
                     <h3>{countNumber(company.divided)} ETH</h3>   
                 <h2>Current Dividend Ratio</h2>
                     <h3>{company.divided_ratio} %</h3> 
-                <h2>Next Dividend Ratio</h2>
-                    <h3>{company.divided_ratio*100+'%'} * ( 1 + {company.next_ratio} ) = {company.divided_ratio * company.next_ratio} %</h3>   
+                    <h2>Next Dividend Ratio</h2>
+                    <h3>{company.divided_ratio*100+'%'} * ( 1 + {company.next_ratio} ) = {company.divided_ratio * company.next_ratio} %</h3>
             </div>
             </Modal>
             </div>
-            <h4>Until the Next Dividend Release {date}</h4>
+            {isCircuitBreaker?
+                <div>
+                <h4>Until the Next Dividend Release {date}</h4>
+                </div>
+                : <div className="is_circuit_breaker">
+                <h4>Circuit Breaker {date}</h4>
+                </div>     
+                }  
+
             <div className="navigation_right">
             <Link to='/' onClick={()=>setTutorialsClicked(!tutorialsClicked)}><h4 >Tutorial</h4></Link>
                 {tutorialsClicked?<Tutorials account={account} tutorialCnt={0}/>:<></>}
