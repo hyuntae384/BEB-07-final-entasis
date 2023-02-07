@@ -1,5 +1,18 @@
-const Footer =()=>{
+import axios from 'axios';
+import { useState } from 'react';
 
+const Footer =()=>{
+    const [isRestricted,setIsRestricted] = useState({});
+
+    const restrict = "http://localhost:5050/restrict";
+
+    const Restrict = async(wallet) => {
+        if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
+        const resultRestrict =  await axios.post(restrict)
+        .then(res=>res.data)
+        .then(err=>console.log(err))
+        console.log(resultRestrict)
+    }
     return(
     <div className="footer">
         <div className="footer_top">
@@ -25,9 +38,9 @@ const Footer =()=>{
         <div className="footer_body">
         <div>
 
-        <h5>블록체인기반 거래소 ENTASIS는</h5>
-        <h5>기업의 STO(Security Token Offering : 보안토큰공개)를 </h5>
-        <h5>주관하며, 개인은 ST(Security Token: 보안토큰)를 매매 할 수 있다.</h5>
+        <h5>블록체인기반 거래소 ENTASIS</h5>
+        <h5>기업의 자금 조달을 위한 STO(Security Token Offering : 보안토큰공개)를 </h5>
+        <h5>주관하며, 투자자는 ST(Security Token: 보안토큰)를 매매 할 수 있다.</h5>
         <h5>ST의 기능은 </h5>
         <h5>지분의 토큰화, </h5>
         <h5>투명한 거래내역 공개,  </h5>
@@ -53,7 +66,7 @@ const Footer =()=>{
         <div></div>
         <div></div>
         <div></div>
-        <div><img src={require('../assets/images/danger.png')} alt='danger'></img></div>
+        <div onClick={Restrict}><img src={require('../assets/images/danger.png')} alt='danger'></img></div>
 
         </div>
     </div>

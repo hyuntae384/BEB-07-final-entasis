@@ -53,7 +53,7 @@ const ChartWrapper =({currentPrice})=>{
     useEffect(()=>{
 
         setChartArr(chartOriginArr
-        .slice(dataLength>1200?dataLength:1200, defaultLimit>1200?defaultLimit:1200))
+        .slice(dataLength>chartOriginArr.length*0.3?dataLength:chartOriginArr.length*0.3, defaultLimit>chartOriginArr.length*0.3?defaultLimit:chartOriginArr.length*0.3))
         // console.log(dataLength,defaultLimit)
         setDefaultLimit(chartOriginArr.length)
 
@@ -65,7 +65,7 @@ const ChartWrapper =({currentPrice})=>{
         let cnt = 0
         let time = 15;
         let termNum = 0;
-        console.log(`${termNum}`,`${termValue}`)
+        // console.log(`${termNum}`,`${termValue}`)
 
         const arrSum = arr => arr.reduce((a,b) => a + b, 0)
         if(`${termNum}`!==`${termValue}`){
@@ -169,11 +169,11 @@ return(
         // onDrag={dragStartHandler}
         onWheel={() => {
             window.onwheel = function (e) {
-                // let set = defaultLimit*0.05
+                let set = chartOriginArr.length*0.01
                 if(document.body.style.overflow === 'hidden'){
                 e.deltaY> 0
-                ? setDataLength(dataLength < 1200 ? dataLength + 0 : dataLength - 8)
-                : setDataLength(dataLength > defaultLimit*0.99 ? dataLength + 0  : dataLength + 8)
+                ? setDataLength(dataLength < chartOriginArr.length*0.3 ? dataLength + 0 : dataLength - set)
+                : setDataLength(dataLength > defaultLimit*0.99 ? dataLength + 0  : dataLength + set)
             }
             };
         }} 

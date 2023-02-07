@@ -19,13 +19,13 @@ const MainPage =()=>{
     const [userPosition,setUserPosition] = useState();
     const [copy, setCopy] = useState('');
     const [number, setNumber] = useState(0);
+    const [walletConnected, setWalletConnected] = useState(false)
+
     const currentPrice_ref = useRef({});
     const {chainId, account, active, activate, deactivate} = useWeb3React();
-
     
     let powerOfMarket = (currentPrice.open - currentPrice.close)
 
-    useEffect(() => {
         const setChartRTD=(async () => 
         {try {
             currentPrice_ref.current = await axios.get('http://localhost:5050/rtd')
@@ -39,18 +39,15 @@ const MainPage =()=>{
         setChartRTD()
         clearInterval(loop);
         powerOfMarket = 0;
-        }, 100);
+        }, 1000);
         }else{
             setTimeout(()=>{
-                const loop = setInterval(() => {
                     setChartRTD()
-                    clearInterval(loop);
                     powerOfMarket = 0;
-                    }, 100);
                 setIsLoading(false)
             },1000)
         }
-    }, [currentPrice_ref.current]);
+
 
     const copyHandler = (e) => {
         copy = e;
@@ -90,11 +87,14 @@ const MainPage =()=>{
         }
         Position(account)
         EnrollWallet(account)
+        if(account===undefined){
+        setUserPosition();
+        EnrollWallet();
+        }
     },[account]);
         const onMouseEnterHandler = () => {
             document.body.style.overflow = 'unset';
         }
-        console.log()
 
 return(
     <div className="main_page" onMouseEnter={onMouseEnterHandler}>
@@ -103,7 +103,10 @@ return(
             tutorialCnt={isEnroll.cnt}
             isLoading={isLoading}
         />
-        <Header isLoading={isLoading} onMouseEnter={onMouseEnterHandler}/>
+        <Header 
+            walletConnected = {walletConnected}
+            setWalletConnected = {setWalletConnected}
+            isLoading = {isLoading} onMouseEnter={onMouseEnterHandler}/>
         <Navigator/>
         <div className="main_head">
             <ChartWrapper
@@ -120,6 +123,8 @@ return(
         </div>
         <div className="main_bottom">
             <Historys
+                walletConnected = {walletConnected}
+                setWalletConnected = {setWalletConnected}
                 userPosition={userPosition}
             />
             <Assets

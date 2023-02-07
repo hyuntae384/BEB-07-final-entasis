@@ -45,7 +45,7 @@ const Volume =({
     const dataYMin = 0
     const dataYRange = dataYMax;
     const numYTicks = 4;
-    const barPlothWidth = xAxisLength / dataArray.length;
+    const barPlothWidth = xAxisLength / dataArray.length>0?xAxisLength / dataArray.length:0.001;
     const handleMouseMove=(e)=>{
         setPointer({
             x: e.clientX,
@@ -120,9 +120,9 @@ const Volume =({
                         <rect
                         {...{ fill }}
                         x={x}
-                        y={y}
-                        width={barPlothWidth - sidePadding}
-                        height={height}
+                        y={!isNaN(y)?y-0.5:0}
+                        width={(barPlothWidth - sidePadding)>0?barPlothWidth - sidePadding:0.01}
+                        height={!isNaN(height)?height:0}
                         ></rect>
                     </g>
                     

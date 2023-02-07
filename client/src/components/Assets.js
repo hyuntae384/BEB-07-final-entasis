@@ -78,7 +78,14 @@ const Assets =({ST_CurrentPrice,powerOfMarket})=>{
     
     return(
     <div className="main_assets" >
-        <h4>Assets Detail</h4>
+        <div className="main_assets_top">
+            <h4>Account Detail</h4>
+            <div className="rate_on_investment">
+                
+            </div>
+            <div></div>
+        </div>
+
         <div className="main_assets_menu">
             <h5>Total Price</h5>
             <h5>Amount</h5>

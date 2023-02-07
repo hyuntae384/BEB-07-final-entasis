@@ -338,13 +338,13 @@ div.public_disclosure_wrapper h4{
 .main_assets, .history_wrapperA{
     margin: 2.5px;
     width: 50%;
-    height: 360px;
+    height: 380px;
     background-color:#121212;
     overflow: hidden;
 }
 .main_assets_menu,  .history_wrapperA_menu{
     width: 100%;
-    padding: 1% 4%;
+    padding: 0.5% 4% 0 4%;
     display: flex;
     justify-content: space-between;
 
@@ -357,10 +357,18 @@ div.public_disclosure_wrapper h4{
     color: var(--gray-dark-color);
 
 }
-.history_wrapperA_top{
+.disconnection_status{
+    width: 100%;
+    text-align: center;
+    margin-top: 130px;
+}
+.history_wrapperA_top, .main_assets_top{
     display: flex;
     align-items: baseline;
     justify-content: space-between;
+    margin: 1% 2% 0 2% ;
+    color: #474747;
+    transition: 0.5s;
 }
 .pagination_numbers{
     display: flex;
@@ -383,11 +391,23 @@ div.public_disclosure_wrapper h4{
     border-radius: 20px;
     background-color:#171717;
     text-align: center;
-    width: 32px;
+    width: auto;
+    min-width: 32px;
     height: 32px;
     color: var(--onPrimary-color);
     margin-right: 2%;
     padding: 1%;
+}
+.disconnection_status_login{
+    margin: auto;
+    width: 100px;
+    color:var(--Primary-color);
+    cursor: pointer;
+    transition: 0.5s;
+}
+.disconnection_status_login:hover{
+    color: var();
+    filter: brightness(1.5);
 }
 .pagination{
     padding: 0 2%;
@@ -397,11 +417,6 @@ div.public_disclosure_wrapper h4{
     display: flex;
     width: 60%;
     margin: 0 auto;
-}
-.history_wrapperA_top{
-    margin: 2%;
-    color: #474747;
-    transition: 0.5s;
 }
 .pagination_numbers .btn{
     color: #474747;
@@ -440,6 +455,8 @@ div.public_disclosure_wrapper h4{
     justify-content: space-around;
     background-color:#151515;
     font-size: 10px;
+    cursor: pointer;
+
 }
 .limit_order_book_menu{
     margin: 10px 0;
@@ -458,27 +475,27 @@ div.public_disclosure_wrapper h4{
     width: 50px;
 }
 .limit_order_buy:hover,.limit_order_sell:hover,.market_order:hover{
-    filter: brightness(0.9);
+    filter: brightness(1.5);
 }
 .history_wrapper,.asset_wrapper{
-    transition: 0.4s;
 }
 .history_wrapper:hover,.asset_wrapper:hover{
     filter: brightness(1.5);
 }
 .history_wrapper div, .asset_wrapper div{
-    width: 85px;
+    width: 60px;
     height: 12px;
     padding: 0 1%;
 }
 .history_wrapper,.asset_wrapper{
+    transition: 0.4s;
 
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     text-align: center;
     margin: 5px 5px;
-    padding: 1% 5px;
+    padding: 1% 10px;
     height: 25px;
     background-color: #151515;
     font-size: 12px;
@@ -494,8 +511,8 @@ div.public_disclosure_wrapper h4{
     height: 300px;
     padding: 2px;
 }
-.history_date{
-    width: 100px;
+div.history_date{
+    width: 120px;
 }
 .main_assets_container{
     margin: 0;

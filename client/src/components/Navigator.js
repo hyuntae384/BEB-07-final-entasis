@@ -131,9 +131,9 @@ const Navigator =({/*company*/})=>{
             </div>
             <h4>Until the Next Dividend Release {date}</h4>
             <div className="navigation_right">
-            <Link to='/' onClick={()=>setTutorialsClicked(!tutorialsClicked)}><h4 >Tutorials</h4></Link>
+            <Link to='/' onClick={()=>setTutorialsClicked(!tutorialsClicked)}><h4 >Tutorial</h4></Link>
                 {tutorialsClicked?<Tutorials account={account} tutorialCnt={0}/>:<></>}
-                <Link to='/transaction'><h4>Transaction</h4></Link>
+                <Link to='/transaction'><h4>Transactions</h4></Link>
             </div>
 
         </div>
