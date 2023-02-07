@@ -6,7 +6,7 @@ import {BuyToken, SellToken} from '../apis/token';
 import Web3 from "web3";
 import TokenABI from "../ABIs/ERC1400.json"
 
-const Order =({ST_CurrentPrice,userEth,userToken})=>{
+const Order =({ST_CurrentPrice,userEth,userToken,totalCurrentPrices})=>{
     const [amount, setAmount] = useState("");
     const [price, setPrice] = useState("");
     const [isFaucet, setIsFaucet] = useState(false)
