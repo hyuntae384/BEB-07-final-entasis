@@ -1,12 +1,13 @@
 import axios from 'axios';
 import { useState } from 'react';
 
-const Footer =()=>{
+const Footer =({setIsCircuitBreaker})=>{
     const [isRestricted,setIsRestricted] = useState({});
 
     const restrict = "http://localhost:5050/restrict";
 
     const Restrict = async(wallet) => {
+        setIsCircuitBreaker(true)
         if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
         const resultRestrict =  await axios.post(restrict)
         .then(res=>res.data)
