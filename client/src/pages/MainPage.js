@@ -175,7 +175,6 @@ const MainPage =()=>{
         const onMouseEnterHandler = () => {
             document.body.style.overflow = 'unset';
         }
-
 return(
     <div className="main_page" onMouseEnter={onMouseEnterHandler}>
         <WelcomePage
@@ -191,6 +190,7 @@ return(
         />
         <Navigator
             isCircuitBreaker={isCircuitBreaker}
+            setIsCircuitBreaker={setIsCircuitBreaker}
         />
         <div className="main_head">
             <ChartWrapper

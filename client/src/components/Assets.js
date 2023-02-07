@@ -1,26 +1,26 @@
 import Asset from "./Asset"
-const Assets =({ST_CurrentPrice,powerOfMarket,userEth,userEntaToken,userBebToken,userLeoToken,totalCurrentPrices})=>{
+const Assets =({ST_CurrentPrice,powerOfMarket,userEth,userToken,totalCurrentPrices})=>{
     // `/user/asset/?address=${address}`
 
     const AssetsArray = [
         {
             id:1,
             price : 1.250,
-            amount : userEntaToken,
+            amount : userToken,
             dividend_income_ratio : 0.005,
             date : 0,
         },
         {
             id:2,
             price : 1.250,
-            amount : userBebToken,
+            amount : 330.123,
             dividend_income_ratio : 0.005,
             date : 0,
         },
         {
             id:3,
             price : 1.250,
-            amount : userLeoToken,
+            amount : 28.2,
             dividend_income_ratio : 0.005,
             date : 0,
         },
@@ -81,10 +81,24 @@ const Assets =({ST_CurrentPrice,powerOfMarket,userEth,userEntaToken,userBebToken
         <div className="main_assets_top">
             <h4>Account Detail</h4>
             <div className="rate_on_investment">
-                
+            </div>
+
+            <div className='chains'>
+                <i className='fab fa-bitcoin'/>
+                <i className='fab fa-ethereum'/>
+            </div>
+            <div className='social'>
+                <i className='fab fa-facebook-f'/>
+                <i className='fab fa-instagram'/>
+                <i className='fab fa-reddit-alien'/>
+                <i className='fab fa-youtube'/>
+                <i className='fab fa-tiktok'/>
+                <i className='fab fa-google'/>
+                <i className='fab fab fa-apple'/>
             </div>
             <div></div>
         </div>
+
 
         <div className="main_assets_menu">
             <h5>Total Price</h5>

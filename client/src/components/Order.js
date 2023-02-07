@@ -31,8 +31,8 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
         setToken(tokenName)
         contractChange(token)
     },[ST_CurrentPrice])
-    console.log(totalCurrentPrices)
-    console.log(curPrice)
+    // console.log(totalCurrentPrices)
+    // console.log(curPrice)
     function contractChange(token){
         if(token === 'enta') setTokenConteact(EntaTokenContract)
         if(token === 'beb') setTokenConteact(BebTokenContract)

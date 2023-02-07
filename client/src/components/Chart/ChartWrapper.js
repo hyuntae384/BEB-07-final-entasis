@@ -83,6 +83,7 @@ useEffect(()=>{
         }, 1000);
     }, [new Date().getSeconds()]);
 
+        
 
     let setByTime = []
     let setByTimeNewArr = []
@@ -116,7 +117,7 @@ useEffect(()=>{
             }
             termNum=termValue
             setTermArrLength(setByTimeNewArr.length)
-            setDataLength(setByTimeNewArr.length/1000)
+            setDataLength(setByTimeNewArr.length/5)
         }    
     },[termValue,chartOriginArr])
 
@@ -184,7 +185,7 @@ return(
                 if(document.body.style.overflow === 'hidden'){
                 e.deltaY> 0
                 ? setDataLength(dataLength < 1 ? dataLength + 0 : dataLength - set)
-                : setDataLength(dataLength > defaultLimit-10 ? dataLength + 0  : dataLength + set)
+                : setDataLength(dataLength > defaultLimit-100 ? dataLength + 0  : dataLength + set)
             }
             };
         }} 

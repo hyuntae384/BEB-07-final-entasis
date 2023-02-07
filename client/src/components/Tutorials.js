@@ -105,8 +105,19 @@ const Tutorials =({tutorialCnt, account})=>{
         <div className='welcome_tutorial_top'>
         <i className='fas fa-arrow-up'></i>
         <h4>Chart</h4>
-        <h5 className='count'>2/10</h5>
         </div>
+        <div className='chart_body'>
+            <img className='chart_img' src={require('../assets/images/chart_tutorials.webp')}/>
+        </div>
+        <div className='chart_foot'>
+        <h5>Key Takeaways</h5>
+        <h6>Bar and candlestick charts show the open, high, low, and last/closing price for a particular time frame.
+            A line chart shows just the closing price for a time frame.
+            Time frames for the charts may be based on time, ticks (number of transactions), volume, or price.
+        </h6>
+        </div>
+        <h5 className='count'>2/10</h5>
+        
         <div className='skip' onClick={()=>{setChart();}}>Next</div>
         </Modal>
     )}
@@ -123,6 +134,14 @@ const Tutorials =({tutorialCnt, account})=>{
         <h4>Limit Order Book</h4>
         <i className='fas fa-arrow-up'></i>
         </div>
+
+        <div className='welcome_tutorial_body'>
+            <h5>KEY TAKEAWAYS</h5>
+            <h6>A limit order book is a record of outstanding limit orders maintained by the security specialist who works at the exchange.</h6>
+            <h6>A limit order is a type of order to buy or sell a security at a specific price or better.</h6>
+            <h6>When a limit order for a security is entered, it is kept on record by the security specialist.</h6>
+
+        </div>
         <h5 className='count'>3/10</h5>
         <div className='skip' onClick={()=>{setLimitOrderBook();}}>Next</div>
         </Modal>
@@ -136,8 +155,13 @@ const Tutorials =({tutorialCnt, account})=>{
         style={modalStyle}
         className="welcome_tutorial_order" onClick={() => setOrder()} onFocus={document.body.style.overflow='hidden'}>
         <div className='welcome_tutorial_top'>
-        <h4>Order</h4>
+        <h4>Market Order</h4>
         <i className='fas fa-arrow-up'></i>
+        </div>
+        <div>
+        <h6>
+            A market order is an order to buy or sell a stock at the market's current best available price. A market order typically ensures an execution, but it does not guarantee a specified price. 
+        </h6>
         </div>
         <h5 className='count'>4/10</h5>
         <div className='skip' onClick={()=>{setOrder();}}>Next</div>
@@ -155,6 +179,9 @@ const Tutorials =({tutorialCnt, account})=>{
         <h4>Public Disclosure</h4>
         <i className='fas fa-arrow-left'></i>
         </div>
+        <div>
+            <h6>A public disclosure is any non-confidential communication which an inventor or invention owner makes to one or more members of the public, revealing the existence of the invention and enabling an appropriately experienced individual to reproduce the invention.</h6>
+        </div>
         <h5 className='count'>5/10</h5>
         <div className='skip' onClick={()=>{setPublicDisclosure();}}>Next</div>
         </Modal>
@@ -168,8 +195,11 @@ const Tutorials =({tutorialCnt, account})=>{
         style={modalStyle}
         className="welcome_tutorial_assets" onClick={() => setAssets()} onFocus={document.body.style.overflow='hidden'}>
         <div className='welcome_tutorial_top'>
-        <h4>Assets</h4>
+        <h4>MyAccount</h4>
         <i className='fas fa-arrow-up'></i>
+        </div>
+        <div>
+            <h6>Manage Your Assets and Exercise your Voting Rights here.</h6>
         </div>
         <h5 className='count'>6/10</h5>
         <div className='skip' onClick={()=>{setAssets();}}>Next</div>

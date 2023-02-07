@@ -58,18 +58,27 @@ const Chart =({currentPrice, chartTermArr,defaultLimit,dataLength,term,setTermVa
         onMouseEnter ={onMouseEnterHandler}
         onMouseLeave = {onMouseLeaveHandler}
         >
-        <div className="chart_select">
-        <SelectBox
-            set={ST_Name}
-            value={setTokenName}
-        ></SelectBox>
-        <SelectBox 
-            set = {term}
-            value={setTermValue}
-        ></SelectBox>
 
-        {/* <h6 className="chart_cp">{ST_Name} {ST_CurrentPrice.toLocaleString()}</h6> */}
-        </div>        <Candle
+        <div className="chart_select_top">
+        <div className="chart_select_box">
+            <SelectBox
+                set={ST_Name}
+                value={setTokenName}
+            ></SelectBox>
+            <SelectBox 
+                set = {term}
+                value={setTermValue}
+            ></SelectBox>
+        </div>
+        {currentPrice!==0?
+        <div className="chart_current">
+            <div className="chart_current_date"><h4>ENTA</h4><h4>{currentPrice.totalCurrentPrices.enta}</h4></div>
+            <div className="chart_current_date"><h4>BEB</h4><h4>{currentPrice.totalCurrentPrices.beb}</h4></div>
+            <div className="chart_current_date"><h4>LEO</h4><h4>{currentPrice.totalCurrentPrices.leo}</h4></div>
+        </div>
+        :<></>}
+        </div>
+                <Candle
             term={term}
             setTermValue={setTermValue}
             currentPrice={currentPrice}
