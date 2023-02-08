@@ -7,6 +7,7 @@ const morgan = require('morgan');
 const ejs = require('ejs');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+const limit = require('express-rate-limit');
 
 const userRouter = require('./routes/userRouter');
 const companyRouter = require('./routes/companyRouter');
@@ -17,7 +18,6 @@ const chartRouter = require('./routes/chartRouter');
 
 const logger = require('./logger');
 const { sequelize, price_his, dividend_his, position_his, enta_his, beb_his, leo_his } = require('./models');
-const { limiter } = require('./limit');
 const { 
   getENTASimpleTotalSupply,
   showAllENTATokenHolders,
@@ -65,12 +65,24 @@ app.use(
   cors({
     origin: [
       'http://localhost:3000', // cross-site인 모든 주소 기입
+      'http://entasis.s3-website.ap-northeast-2.amazonaws.com/'
     ],
     credentials: true,
   }),
 );
 
-app.use(limiter);
+app.use(limit({
+  windowMs: 60 * 1000,
+  max: 100,
+  delayMs: 1000,
+  handler(req,res) {
+      res.status(this.statusCode).json({
+          code: this.statusCode,
+          message: "Only 100 requests per minute."
+      });
+  }
+}));
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
