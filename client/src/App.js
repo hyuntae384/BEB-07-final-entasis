@@ -7,8 +7,32 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<MainPage/>}/>
-        <Route path='/transaction' element={<TransactionPage/>}/>
+        <Route path='/' element={<MainPage
+                // ST_CurrentPrice={currentPrice.close} 
+                // powerOfMarket={powerOfMarket}
+                // userEth={userEth}
+                // // userEntaToken={userEntaToken}
+                // // userBebToken={userBebToken}
+                // // userLeoToken={userLeoToken}
+                // setOffset={setOffset}
+                // setLimit={setLimit}
+                // walletConnected = {walletConnected}
+                // setWalletConnected = {setWalletConnected}
+                // userPosition={userPosition}
+        />}/>
+        <Route path='/transaction' element={<TransactionPage
+                // ST_CurrentPrice={currentPrice.close} 
+                // powerOfMarket={powerOfMarket}
+                // userEth={userEth}
+                // // userEntaToken={userEntaToken}
+                // // userBebToken={userBebToken}
+                // // userLeoToken={userLeoToken}
+                // setOffset={setOffset}
+                // setLimit={setLimit}
+                // walletConnected = {walletConnected}
+                // setWalletConnected = {setWalletConnected}
+                // userPosition={userPosition}
+        />}/>
       </Routes>
     </BrowserRouter>
   );
