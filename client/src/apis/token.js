@@ -4,7 +4,7 @@ import { useState } from 'react';
 // Test API Request
 export const BuyToken = async(token,price,amount,wallet) => {
     if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
-    const resultBuyToken= await axios.post(`http://localhost:5050/${token}/buy`, {"price":price,"amount":amount,"wallet":wallet})
+    const resultBuyToken= await axios.post("http://localhost:5050/"+token+"/buy", {"price":price,"amount":amount,"wallet":wallet})
     .then(res=>res)
     .then(err=>err)
     return resultBuyToken
@@ -12,7 +12,7 @@ export const BuyToken = async(token,price,amount,wallet) => {
 
 export const SellToken = async(token,price,amount,wallet) => {
     if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
-    const resultSellToken = await axios.post(`"http://localhost:5050/${token}/sell"`, {"price":price,"amount":amount,"wallet":wallet})
+    const resultSellToken = await axios.post("http://localhost:5050/"+token+"/sell", {"price":price,"amount":amount,"wallet":wallet})
     .then(res=>res)
     .then(err=>err)
     return resultSellToken

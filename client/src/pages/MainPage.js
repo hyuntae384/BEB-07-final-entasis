@@ -16,7 +16,16 @@ import TokenABI from "../ABIs/ERC1400.json"
 // import {FaucetWallet} from '../apis/user'
 
 const MainPage =()=>{
-    const [currentPrice, setCurrentPrice] = useState(0)
+    const [currentPrice, setCurrentPrice] = useState({
+        close : "0",
+        createdAt : "0",
+        high : "0",
+        low : "0",
+        open : "0",
+        totalCurrentPrices : {enta: '0', beb: '0', leo: '0'},
+        totalVolFrom : "0",
+        totalVolTo : "0"
+    })
     const [isLoading, setIsLoading] = useState(true);
     const [isEnroll,setIsEnroll] =useState({});
     const [userPosition,setUserPosition] = useState();
@@ -60,8 +69,8 @@ const MainPage =()=>{
         getUserEntaToken(userAccount);
         getUserBebToken(userAccount);
         getUserLeoToken(userAccount);
-        console.log(userEth)
-        /* console.log(userAccount) */
+        /* console.log(userEth)
+        console.log(currentPrice) */
     },[currentPrice])
 
     async function getUserEth(account){
@@ -69,7 +78,6 @@ const MainPage =()=>{
         else {
             let userEth = await web3.eth.getBalance(account);
             let TransUserEth = web3.utils.fromWei(userEth);
-            console.log(userEth)
             setUserEth(Number(TransUserEth).toFixed(4));
         }
     }
@@ -209,9 +217,9 @@ return(
             <Order
                 ST_CurrentPrice={currentPrice.close}
                 userEth={userEth}
-                // userEntaToken={userEntaToken}
-                // userBebToken={userBebToken}
-                // userLeoToken={userLeoToken}
+                userEntaToken={userEntaToken}
+                userBebToken={userBebToken}
+                userLeoToken={userLeoToken}
                 tokenName={tokenName}
                 totalCurrentPrices={currentPrice.totalCurrentPrices}
             />
@@ -228,9 +236,9 @@ return(
                 ST_CurrentPrice={currentPrice.close} 
                 powerOfMarket={powerOfMarket}
                 userEth={userEth}
-                // userEntaToken={userEntaToken}
-                // userBebToken={userBebToken}
-                // userLeoToken={userLeoToken}
+                userEntaToken={userEntaToken}
+                userBebToken={userBebToken}
+                userLeoToken={userLeoToken}
             />
         </div>
         <Footer
