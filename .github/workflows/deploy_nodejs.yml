@@ -10,7 +10,7 @@ on:
   workflow_dispatch: 
 
 env:
-  DOCKER_IMAGE: ghcr.io/pdhyeong/beb-07-final-entasis
+  DOCKER_IMAGE: ghcr.io/codestates-beb/beb-07-final-entasis
   NAME: entasis
 
 jobs:
@@ -37,7 +37,7 @@ jobs:
           password: ${{secrets.PS_TOKEN}}
 
       - name: Docker image push
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v4
         with: 
           context: ${{env.working-directory}}
           push: true
