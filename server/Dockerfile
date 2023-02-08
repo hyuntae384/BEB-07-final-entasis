@@ -9,8 +9,6 @@ COPY package*.json ./
 RUN npm install --production
 # Copy local code to the container image.
 COPY . .
-# Create Build File
-RUN npm run build
 # Port setting 
 EXPOSE 5050
 # Run the web service on container startup.
