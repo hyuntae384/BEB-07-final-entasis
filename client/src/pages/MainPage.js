@@ -209,9 +209,9 @@ return(
             <Order
                 ST_CurrentPrice={currentPrice.close}
                 userEth={userEth}
-                userEntaToken={userEntaToken}
-                userBebToken={userBebToken}
-                userLeoToken={userLeoToken}
+                // userEntaToken={userEntaToken}
+                // userBebToken={userBebToken}
+                // userLeoToken={userLeoToken}
                 tokenName={tokenName}
                 totalCurrentPrices={currentPrice.totalCurrentPrices}
             />
@@ -228,9 +228,9 @@ return(
                 ST_CurrentPrice={currentPrice.close} 
                 powerOfMarket={powerOfMarket}
                 userEth={userEth}
-                userEntaToken={userEntaToken}
-                userBebToken={userBebToken}
-                userLeoToken={userLeoToken}
+                // userEntaToken={userEntaToken}
+                // userBebToken={userBebToken}
+                // userLeoToken={userLeoToken}
             />
         </div>
         <Footer
