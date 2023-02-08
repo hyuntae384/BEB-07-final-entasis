@@ -1,6 +1,6 @@
 const limit = require('express-rate-limit');
 
-// 테스트 요망
+// 테스트 요망함
 exports.limiter = limit({
     windowMs: 60 * 1000,
     max: 1000,
