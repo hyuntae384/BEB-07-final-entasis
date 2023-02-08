@@ -54,13 +54,14 @@ const MainPage =()=>{
     const EntaTokenContract = new web3.eth.Contract(StABI, process.env.REACT_APP_ENTA_CA);
     const BebTokenContract = new web3.eth.Contract(StABI, process.env.REACT_APP_BEB_CA);
     const LeoTokenContract = new web3.eth.Contract(StABI, process.env.REACT_APP_LEO_CA);
+    
     useEffect(() => {
         getUserEth(userAccount);
         getUserEntaToken(userAccount);
         getUserBebToken(userAccount);
         getUserLeoToken(userAccount);
-        /* console.log(userEth)
-        console.log(userToken) */
+        console.log(userEth)
+        /* console.log(userAccount) */
     },[currentPrice])
 
     async function getUserEth(account){
@@ -68,6 +69,7 @@ const MainPage =()=>{
         else {
             let userEth = await web3.eth.getBalance(account);
             let TransUserEth = web3.utils.fromWei(userEth);
+            console.log(userEth)
             setUserEth(Number(TransUserEth).toFixed(4));
         }
     }
