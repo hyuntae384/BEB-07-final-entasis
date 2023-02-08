@@ -71,7 +71,7 @@ app.use(
   }),
 );
 
-// 리미트 분리
+// 리미트분리
 app.use(limit({
   windowMs: 60 * 1000,
   max: 100,
