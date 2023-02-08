@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import Modal from 'react-modal';
+import { Link } from 'react-router-dom';
 
 const History =({
     order,
@@ -86,8 +87,8 @@ const modalClose =()=>{
                             <div className='trading_record_data_set'><h3>{fee!==null?fee:'-'}</h3></div>
                             <div className='trading_record_data_set'><h3>{date}</h3></div>
                             <div className='trading_record_data_set'><h3>{token_name}</h3></div>
-                            <div className='trading_record_data_set'><h3>{}0x7986E4e9F15EaBD03a23fC166EFD42247875dD80</h3></div>
-                            <div className='trading_record_data_set'><h3>{}0x7986E4e9F15EaBD03a23fC166EFD42247875dD80</h3></div>
+                            <Link to='/transaction'><div className='trading_record_data_set'><h3>{}0x7986E4e9F15EaBD03a23fC166EFD42247875dD80</h3></div></Link>
+                            <Link to='/transaction'><div className='trading_record_data_set'><h3>{}0x7986E4e9F15EaBD03a23fC166EFD42247875dD80</h3></div></Link>
 
                         </div>
 

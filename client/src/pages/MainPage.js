@@ -16,7 +16,16 @@ import TokenABI from "../ABIs/ERC1400.json"
 // import {FaucetWallet} from '../apis/user'
 
 const MainPage =()=>{
-    const [currentPrice, setCurrentPrice] = useState(0)
+    const [currentPrice, setCurrentPrice] = useState({
+        close : "0",
+        createdAt : "0",
+        high : "0",
+        low : "0",
+        open : "0",
+        totalCurrentPrices : {enta: '0', beb: '0', leo: '0'},
+        totalVolFrom : "0",
+        totalVolTo : "0"
+    })
     const [isLoading, setIsLoading] = useState(true);
     const [isEnroll,setIsEnroll] =useState({});
     const [userPosition,setUserPosition] = useState();
@@ -54,13 +63,14 @@ const MainPage =()=>{
     const EntaTokenContract = new web3.eth.Contract(StABI, process.env.REACT_APP_ENTA_CA);
     const BebTokenContract = new web3.eth.Contract(StABI, process.env.REACT_APP_BEB_CA);
     const LeoTokenContract = new web3.eth.Contract(StABI, process.env.REACT_APP_LEO_CA);
+    
     useEffect(() => {
         getUserEth(userAccount);
         getUserEntaToken(userAccount);
         getUserBebToken(userAccount);
         getUserLeoToken(userAccount);
         /* console.log(userEth)
-        console.log(userToken) */
+        console.log(currentPrice) */
     },[currentPrice])
 
     async function getUserEth(account){

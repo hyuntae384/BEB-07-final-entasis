@@ -7,6 +7,7 @@ const morgan = require('morgan');
 const ejs = require('ejs');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+const limit = require('express-rate-limit');
 
 const userRouter = require('./routes/userRouter');
 const companyRouter = require('./routes/companyRouter');
@@ -17,7 +18,6 @@ const chartRouter = require('./routes/chartRouter');
 
 const logger = require('./logger');
 const { sequelize, price_his, dividend_his, position_his, enta_his, beb_his, leo_his } = require('./models');
-const { limiter } = require('./limit');
 const { 
   getENTASimpleTotalSupply,
   showAllENTATokenHolders,
@@ -65,16 +65,31 @@ app.use(
   cors({
     origin: [
       'http://localhost:3000', // cross-site인 모든 주소 기입
+      'http://entasis.s3-website.ap-northeast-2.amazonaws.com/'
     ],
     credentials: true,
   }),
 );
 
-app.use(limiter);
+// 리미트분리
+app.use(limit({
+  windowMs: 60 * 1000,
+  max: 100,
+  delayMs: 1000,
+  handler(req,res) {
+      res.status(this.statusCode).json({
+          code: this.statusCode,
+          message: "Only 100 requests per minute."
+      });
+  }
+}));
+
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
+
 // app.use(
 //   session({
 //     resave: false,
@@ -100,7 +115,7 @@ let toggle = true;
 let incomeRatioENTA=0;
 let dividend_ratio_ENTA = 0.03;
 let voted_ratio_ENTA
-let chartHisENTA = [[5.5],[1]];
+let chartHisENTA = [[6.40],[1]];
 let chartDataENTA
 const setIncomeRatioENTA =()=>{incomeRatioENTA = Math.random()*(0.001-(-0.001001))-0.001};
 const setVotedRatioENTA =()=> {voted_ratio_ENTA = (Math.random()*(0.05-(-0.05))-0.05).toFixed(3)};
@@ -115,7 +130,7 @@ let totalVolToENTA = 0;
 let incomeRatioBEB=0;
 let dividend_ratio_BEB = 0.03;
 let voted_ratio_BEB
-let chartHisBEB = [[1.2],[1]];
+let chartHisBEB = [[0.74],[1]];
 let chartDataBEB
 const setIncomeRatioBEB =()=>{incomeRatioBEB = Math.random()*(0.001-(-0.001001))-0.001};
 const setVotedRatioBEB =()=> {voted_ratio_BEB = (Math.random()*(0.05-(-0.05))-0.05).toFixed(3)};
@@ -130,7 +145,7 @@ let totalVolToBEB = 0;
 let incomeRatioLEO=0;
 let dividend_ratio_LEO = 0.03;
 let voted_ratio_LEO
-let chartHisLEO = [[20.8],[1]];
+let chartHisLEO = [[18.80],[1]];
 let chartDataLEO
 const setIncomeRatioLEO =()=>{incomeRatioLEO = Math.random()*(0.001-(-0.001001))-0.001};
 const setVotedRatioLEO =()=> {voted_ratio_LEO = (Math.random()*(0.05-(-0.05))-0.05).toFixed(3)};
@@ -261,7 +276,7 @@ setInterval(async() => {
 
 // 1분
 setInterval(async () => {
-  console.log(`${new Date()}`.slice(23,-32))
+  console.log(`${new Date()}`.slice(22,-32))
   if(`${new Date()}`.slice(23,-32)==='0'){
 
     //ENTA
@@ -422,7 +437,7 @@ setInterval(async () => {
   }
   // 차기 배당률
   dividend_ratio_LEO = (dividend_ratio_LEO * (1 + Number(voted_ratio_LEO))).toFixed(4) 
-}, 20000);
+}, 300000);
 
 //=========================================================================================================//
 
@@ -501,6 +516,7 @@ app.use((err, req, res, next) => {
   return res.status(err.status || 500).json(err.message);
 });
 
+// 서버 리스너
 app.listen(app.get('port'), () => {
   logger.info(app.get('port'), 'is up and listening');
 });

@@ -12,10 +12,10 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
     const [isFaucet, setIsFaucet] = useState(false)
     const {chainId, account, active, activate, deactivate} = useWeb3React();
     const [curPrice, setCurPrice] = useState()
-    const countNumber=(e)=>{
+    /* const countNumber=(e)=>{
         return e.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,",")
-    }
-    const [token, setToken] = useState("ENTA");
+    } */
+    const [token, setToken] = useState("enta");
     const web3 = new Web3(
         window.ethereum || process.env.REACT_APP_GANACHE_NETWORK
     );
@@ -25,18 +25,25 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
     const LeoTokenContract = new web3.eth.Contract(StABI, process.env.REACT_APP_LEO_CA);
     const BebTokenContract = new web3.eth.Contract(StABI, process.env.REACT_APP_BEB_CA);
     const [tokenContract, setTokenConteact] = useState(EntaTokenContract);
+    const [isRestricted, setIsRestricted] = useState(false);
     useEffect(() => {
         setCurPrice(ST_CurrentPrice)
         priceChange()
         setToken(tokenName)
         contractChange(token)
+        changeRestricted()
     },[ST_CurrentPrice])
-    // console.log(totalCurrentPrices)
+    
     // console.log(curPrice)
     function contractChange(token){
         if(token === 'enta') setTokenConteact(EntaTokenContract)
         if(token === 'beb') setTokenConteact(BebTokenContract)
         if(token === 'leo') setTokenConteact(LeoTokenContract)
+    }
+
+    async function changeRestricted(){
+        const isRestricted = await tokenContract.methods.isRestricted().call()
+        setIsRestricted(isRestricted)
     }
 
     function priceChange(){
@@ -57,6 +64,7 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
             value: web3.utils.toWei(String(totalValue), 'ether')
         }).then(function(receipt){
             console.log(receipt)
+            console.log(token)
             BuyToken(token, String(price), String(amount), userAccount)
         });
     }
@@ -73,19 +81,19 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
 
         await web3.eth.sendTransaction(tx).then(function(receipt){
             console.log(receipt)
+            console.log(token)
             SellToken(token, String(price), String(amount), userAccount)
         })
     }
-    
 
     const ST_1 = {
-        name:'ENTA',price:(curPrice * userEntaToken).toFixed(4) ,amount: userEntaToken
+        name:'ENTA',price:(totalCurrentPrices.enta * userEntaToken).toFixed(4) ,amount: userEntaToken
     };
     const ST_2 = {
-        name:'BEB',price:(curPrice * userBebToken).toFixed(4) ,amount: userBebToken
+        name:'BEB',price:(totalCurrentPrices.beb * userBebToken).toFixed(4) ,amount: userBebToken
     };
     const ST_3 = {
-        name:'LEO',price:(curPrice * userLeoToken).toFixed(4) ,amount: userLeoToken
+        name:'LEO',price:(totalCurrentPrices.leo * userLeoToken).toFixed(4) ,amount: userLeoToken
     };
     const faucetBtn=()=>{
         FaucetWallet(account)
@@ -119,8 +127,8 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
             <h4>Assets</h4>
             <div className='assets_wraper'>
                 <h6>{ST_1.name+" ("+ST_1.amount+")"+" "+ST_1.price+"ETH"}</h6>
-                <h6>{ST_2.name+" ("+ST_2.amount+")"+" "+countNumber(ST_2.price+"ETH")}</h6>
-                <h6>{ST_3.name+" ("+ST_3.amount+")"+" "+countNumber(ST_3.price+"ETH")}</h6>
+                <h6>{ST_2.name+" ("+ST_2.amount+")"+" "+ST_2.price+"ETH"}</h6>
+                <h6>{ST_3.name+" ("+ST_3.amount+")"+" "+ST_3.price+"ETH"}</h6>
             </div>
         </div>
         <div className='deposit'>
