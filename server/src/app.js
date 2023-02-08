@@ -100,7 +100,7 @@ let toggle = true;
 let incomeRatioENTA=0;
 let dividend_ratio_ENTA = 0.03;
 let voted_ratio_ENTA
-let chartHisENTA = [[5.5],[1]];
+let chartHisENTA = [[6.40],[1]];
 let chartDataENTA
 const setIncomeRatioENTA =()=>{incomeRatioENTA = Math.random()*(0.001-(-0.001001))-0.001};
 const setVotedRatioENTA =()=> {voted_ratio_ENTA = (Math.random()*(0.05-(-0.05))-0.05).toFixed(3)};
@@ -115,7 +115,7 @@ let totalVolToENTA = 0;
 let incomeRatioBEB=0;
 let dividend_ratio_BEB = 0.03;
 let voted_ratio_BEB
-let chartHisBEB = [[1.2],[1]];
+let chartHisBEB = [[0.74],[1]];
 let chartDataBEB
 const setIncomeRatioBEB =()=>{incomeRatioBEB = Math.random()*(0.001-(-0.001001))-0.001};
 const setVotedRatioBEB =()=> {voted_ratio_BEB = (Math.random()*(0.05-(-0.05))-0.05).toFixed(3)};
@@ -130,7 +130,7 @@ let totalVolToBEB = 0;
 let incomeRatioLEO=0;
 let dividend_ratio_LEO = 0.03;
 let voted_ratio_LEO
-let chartHisLEO = [[20.8],[1]];
+let chartHisLEO = [[18.80],[1]];
 let chartDataLEO
 const setIncomeRatioLEO =()=>{incomeRatioLEO = Math.random()*(0.001-(-0.001001))-0.001};
 const setVotedRatioLEO =()=> {voted_ratio_LEO = (Math.random()*(0.05-(-0.05))-0.05).toFixed(3)};
@@ -261,7 +261,7 @@ setInterval(async() => {
 
 // 1분
 setInterval(async () => {
-  console.log(`${new Date()}`.slice(23,-32))
+  console.log(`${new Date()}`.slice(22,-32))
   if(`${new Date()}`.slice(23,-32)==='0'){
 
     //ENTA
@@ -422,7 +422,7 @@ setInterval(async () => {
   }
   // 차기 배당률
   dividend_ratio_LEO = (dividend_ratio_LEO * (1 + Number(voted_ratio_LEO))).toFixed(4) 
-}, 20000);
+}, 300000);
 
 //=========================================================================================================//
 
