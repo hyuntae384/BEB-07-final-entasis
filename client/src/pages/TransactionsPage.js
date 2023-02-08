@@ -4,6 +4,8 @@ import Header from '../components/Header';
 import Navigator from '../components/Navigator';
 import Web3 from "web3";
 import TokenABI from "../ABIs/ERC1400.json"
+import Assets from '../components/Assets';
+import Historys from '../components/Historys'
 
 const TransactionPage =()=>{
     const modalStyle = {
@@ -89,6 +91,24 @@ return(
                 <div>value : {web3.utils.fromWei(BN(txObj.value).toString(), 'ether')}</div>
             </div>}
         </div>
+
+        {/* <Historys  
+                setOffset={setOffset}
+                setLimit={setLimit}
+                walletConnected = {walletConnected}
+                setWalletConnected = {setWalletConnected}
+                userPosition={userPosition}
+            />
+            <Assets
+                ST_CurrentPrice={currentPrice.close} 
+                powerOfMarket={powerOfMarket}
+                userEth={userEth}
+                // userEntaToken={userEntaToken}
+                // userBebToken={userBebToken}
+                // userLeoToken={userLeoToken}
+            /> */}
+
+
         {/* <div>Blockchain Explorer</div>
         <div>Search</div>
         <div>Security Token Price</div>
