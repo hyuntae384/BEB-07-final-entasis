@@ -11,7 +11,7 @@ on:
 
 env:
   DOCKER_IMAGE: ghcr.io/pdhyeong/beb-07-final-entasis
-  NAME: entasis
+  NAME: entasis1
 
 jobs:
   build:
