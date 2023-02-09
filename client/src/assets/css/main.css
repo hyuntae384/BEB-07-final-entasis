@@ -489,6 +489,8 @@ a.circuit_breaker_link:hover{
 .pagination_numbers{
     display: flex;
     width: 100%;
+    text-align: center;
+    justify-content: space-around;
 }
 .pagination_btn{
     margin: auto;
@@ -498,10 +500,13 @@ a.circuit_breaker_link:hover{
 .pagination_btn:hover{
     filter: brightness(1.5);
 }
+.pagination_numbers_btn{
+    
+}
 .pagination_numbers .btn{
     margin: 1%;
     padding: 0 1%;
-
+    width: 15px;
 }
 .btn_m{
     border-radius: 20px;
