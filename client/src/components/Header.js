@@ -219,7 +219,6 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices})=> {
             return resultVote
         }
         Vote(stName,ratio,account)
-        console.log(vote)
     },[ratio])
     const OPTIONS = [
         { value: "ENTAToken", name: "ENTA" },
@@ -240,7 +239,6 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices})=> {
             .then(err=>err)
         }
         CPD(stName)
-        console.log(companyPD)
     },[stName])
 
     return(
