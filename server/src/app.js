@@ -367,7 +367,7 @@ setInterval(async () => {
       const balance = await getENTATokenBalance(entaTokenholders[i]);
       const stake = balance / entaTotalSupply;
       const personalDividend = String((dividendENTA * stake).toFixed(18))
-      await sendDividendToUser(entaTokenholders[i], personalDividend);
+      const dividendTx = await sendDividendToUser(entaTokenholders[i], personalDividend);
       // const result = await getEtherBalance(entaTokenholders[i]);
 
       const fixedBalance = web3Http.utils.fromWei(balance, 'ether');
@@ -378,7 +378,8 @@ setInterval(async () => {
         order: "dividend",
         price: personalDividend,
         amount: fixedBalance,
-        token_name: "ENTAToken"
+        token_name: "ENTAToken",
+        txout: dividendTx.transactionHash
       })
     }
   }
@@ -395,7 +396,7 @@ setInterval(async () => {
       const balance = await getBEBTokenBalance(bebTokenholders[i]);
       const stake = balance / bebTotalSupply;
       const personalDividend = String((dividendBEB * stake).toFixed(18))
-      await sendDividendToUser(bebTokenholders[i], personalDividend);
+      const dividendTx = await sendDividendToUser(bebTokenholders[i], personalDividend);
       // const result = await getEtherBalance(bebTokenholders[i]);
 
       const fixedBalance = web3Http.utils.fromWei(balance, 'ether');
@@ -406,7 +407,8 @@ setInterval(async () => {
         order: "dividend",
         price: personalDividend,
         amount: fixedBalance,
-        token_name: "BEBToken"
+        token_name: "BEBToken",
+        txout: dividendTx.transactionHash
       })
     }
   }
@@ -422,7 +424,7 @@ setInterval(async () => {
       const balance = await getENTATokenBalance(leoTokenholders[i]);
       const stake = balance / leoTotalSupply;
       const personalDividend = String((dividendLEO * stake).toFixed(18))
-      await sendDividendToUser(leoTokenholders[i], personalDividend);
+      const dividendTx = await sendDividendToUser(leoTokenholders[i], personalDividend);
       // const result = await getEtherBalance(leoTokenholders[i]);
 
       const fixedBalance = web3Http.utils.fromWei(balance, 'ether');
@@ -433,13 +435,14 @@ setInterval(async () => {
         order: "dividend",
         price: personalDividend,
         amount: fixedBalance,
-        token_name: "LEOToken"
+        token_name: "LEOToken",
+        txout: dividendTx.transactionHash
       })
     }
   }
   // 차기 배당률
   dividend_ratio_LEO = (dividend_ratio_LEO * (1 + Number(voted_ratio_LEO))).toFixed(4) 
-}, 300000);
+}, 10000);
 
 //=========================================================================================================//
 
