@@ -1,4 +1,5 @@
 FROM node:12
+
 # Create and change to the app directory.
 WORKDIR /usr/src/app
 # Copy application dependency manifests to the container image.
