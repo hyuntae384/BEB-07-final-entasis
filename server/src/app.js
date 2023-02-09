@@ -276,8 +276,8 @@ setInterval(async() => {
 
 // 1분
 setInterval(async () => {
-  console.log(`${new Date()}`.slice(23,-32))
-  if(`${new Date()}`.slice(23,-32)==='0'){
+  console.log(`${new Date()}`.slice(22,-38))
+  if(`${new Date()}`.slice(22,-38)==='00'){
 
     //ENTA
     enta_his.create(chartDataENTA)
