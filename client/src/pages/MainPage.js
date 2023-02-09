@@ -15,7 +15,7 @@ import TokenABI from "../ABIs/ERC1400.json"
 
 // import {FaucetWallet} from '../apis/user'
 
-const MainPage =({setTxs})=>{
+const MainPage =({setTxs,isWelcome,setIsWelcome})=>{
     const [currentPrice, setCurrentPrice] = useState({
         close : "0",
         createdAt : "0",
@@ -27,6 +27,7 @@ const MainPage =({setTxs})=>{
         totalVolTo : "0"
     })
     const [isLoading, setIsLoading] = useState(true);
+    
     const [isEnroll,setIsEnroll] =useState({});
     const [userPosition,setUserPosition] = useState();
     const [copy, setCopy] = useState('');
@@ -201,6 +202,8 @@ const MainPage =({setTxs})=>{
 return(
     <div className="main_page" onMouseEnter={onMouseEnterHandler}>
         <WelcomePage
+            isWelcome={isWelcome}
+            setIsWelcome={setIsWelcome}
             account={account}
             tutorialCnt={isEnroll.cnt}
             isLoading={isLoading}

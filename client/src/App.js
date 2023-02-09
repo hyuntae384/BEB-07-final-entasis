@@ -4,6 +4,7 @@ import Tutorials from './components/Tutorials';
 import MainPage from './pages/MainPage';
 import TransactionPage from './pages/TransactionsPage';
 function App() {
+  const [isWelcome,setIsWelcome]=useState(false)
   const [txs, setTxs] = useState({
     transaction_in:"",
     transaction_out:""
@@ -13,6 +14,9 @@ function App() {
       <Routes>
         <Route path='/' element={<MainPage
                 setTxs={setTxs}
+                isWelcome={isWelcome}
+                setIsWelcome={setIsWelcome}
+
                 // ST_CurrentPrice={currentPrice.close} 
                 // powerOfMarket={powerOfMarket}
                 // userEth={userEth}
