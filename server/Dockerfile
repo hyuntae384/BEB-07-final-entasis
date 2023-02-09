@@ -7,7 +7,6 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 # Install production dependencies.
 RUN npm install
-
 # Copy local code to the container image.
 COPY . .
 # Port setting 
