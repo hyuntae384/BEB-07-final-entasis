@@ -9,7 +9,6 @@ import Historys from '../components/Historys'
 import Footer from '../components/Footer';
 
 const TransactionPage =({txs})=>{
-    console.log(txs)
     const modalStyle = {
         overlay: {
             position: "fixed",
@@ -42,7 +41,6 @@ const TransactionPage =({txs})=>{
     const [txInObj, setTxInObj] = useState([]);
     const [txOutObj, setTxOutObj] = useState([]);
     const BN = web3.utils.BN;
-    console.log(transactionIn)
 
     async function getTxIn(tx) {
         const txdata =  await web3.eth.getTransaction(tx)
