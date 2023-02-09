@@ -62,4 +62,17 @@ jobs:
       - name: Docker run
         run: |
           docker stop ${{env.NAME}} && docker rm ${{env.NAME}} && docker rmi ${{env.DOCKER_IMAGE}}
-          docker run -d -p 80:5050 -e NODE_ENV=${{secrets.NODE_ENV}} -e COOKIE_SECRET=${{secrets.COOKIE_SECRET}} -e MYSQL_USERNAME=${{secrets.MYSQL_USERNAME}} -e MYSQL_PASSWORD=${{secrets.MYSQL_PASSWORD}} -e GANACHE_NETWORK=${{secrets.GANACHE_NETWORK}} -e ENTA_CA=${{secrets.ENTA_CA}} -e BEB_CA=${{secrets.BEB_CA}} -e LEO_CA=${{secrets.LEO_CA}} -e ADMIN_ADDRESS=${{secrets.ADMIN_ADDRESS}} -e ADMIN_PK=${{secrets.ADMIN_PK}} -e GAS=${{secrets.GAS}} -e GASPRICE=${{secrets.GASPRICE}} --name ${{env.NAME}} --restart always ${{ env.DOCKER_IMAGE }}:latest
+          docker run -d -p 80:5050 \
+          -e NODE_ENV=${{secrets.NODE_ENV}} \
+          -e COOKIE_SECRET=${{secrets.COOKIE_SECRET}} \
+          -e MYSQL_USERNAME=${{secrets.MYSQL_USERNAME}} \
+          -e MYSQL_PASSWORD=${{secrets.MYSQL_PASSWORD}} \
+          -e GANACHE_NETWORK=${{secrets.GANACHE_NETWORK}} \
+          -e ENTA_CA=${{secrets.ENTA_CA}} \
+          -e BEB_CA=${{secrets.BEB_CA}} \
+          -e LEO_CA=${{secrets.LEO_CA}} \
+          -e ADMIN_ADDRESS=${{secrets.ADMIN_ADDRESS}} \
+          -e ADMIN_PK=${{secrets.ADMIN_PK}} \
+          -e GAS=${{secrets.GAS}} \
+          -e GASPRICE=${{secrets.GASPRICE}} \
+          --name ${{env.NAME}} --restart always ${{ env.DOCKER_IMAGE }}:latest
