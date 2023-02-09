@@ -450,6 +450,24 @@ a.circuit_breaker_link:hover{
     background-color:#121212;
     overflow: hidden;
 }
+.footer_assets_top{
+    color: var(--gray-dark-color);
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1%;
+}
+.footer_assets_top .chains{
+    width: 3%;
+    text-align: left;
+
+}
+.footer_assets_top .social{
+    width: 10%;
+
+}
+.footer_assets_top .chains i,.footer_assets_top .social i{
+    margin: 2%;
+}
 .main_assets_top, .history_wrapperA_top{
     margin: 2.5px;
 
@@ -1028,7 +1046,9 @@ input{
     transform: translate(50%,-50%);
 }
 .footer{
-    padding: 1%;
+    padding: 2% 2% 2% 2%;
+    height: 500px;
+
     text-align: center;
 }
 .footer_top{
@@ -1176,4 +1196,7 @@ input.input_transaction{
 }
 .team_introduce_member h3{
     color: var(--gray-light-color);
+}
+.footer_name{
+    margin-left: 15px;
 }

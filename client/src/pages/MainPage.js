@@ -39,6 +39,8 @@ const MainPage =({setTxs,isWelcome,setIsWelcome})=>{
     const [offset, setOffset]=useState(0)
     const [limit, setLimit]=useState(10)
     const [refresh, setRefresh] = useState(false)
+    const [stName, setStName] = useState('ENTAToken');
+    const [companyPD, setCompanyPD] =useState([]) 
 
     const {chainId, account, active, activate, deactivate} = useWeb3React();
     const currentPrice_ref = useRef({});
@@ -59,7 +61,12 @@ const MainPage =({setTxs,isWelcome,setIsWelcome})=>{
         { value: "beb", name: "BEB" },
         { value: "leo", name: "LEO" },
         ];
-
+    const OPTIONS = [
+        { value: "ENTAToken", name: "ENTA" },
+        { value: "BEBToken", name: "BEB" },
+        { value: "LEOToken", name: "LEO" },
+    ];
+        
 
     const StABI = TokenABI.abi
     const web3 = new Web3(
@@ -114,6 +121,7 @@ const MainPage =({setTxs,isWelcome,setIsWelcome})=>{
         }
     }
 
+
     // ================================================================
 
     let powerOfMarket = (currentPrice.open - currentPrice.close)
@@ -157,6 +165,7 @@ const MainPage =({setTxs,isWelcome,setIsWelcome})=>{
     // URL
     const origin = "http://localhost:5050/";
     const getUserURL = origin + "user/"; 
+    const getCompanyURL = origin + "company/"; 
     const enroll = getUserURL + "enroll/?wallet="
     const position = getUserURL + "position/?wallet="
     const chart = origin + "chart/data"
@@ -183,6 +192,18 @@ const MainPage =({setTxs,isWelcome,setIsWelcome})=>{
         .then(err=>err)
         setIsEnroll(resultEnrollWallet)
     }
+
+    const pdisclosure = getCompanyURL + "pdisclosure/?name="
+    useEffect(()=>{
+        const CPD = async(name) => {
+            if(name===null || name ===undefined)return new Error('Invalid Request!')
+            const resultCPD =  axios.get(pdisclosure + name)
+            .then(res=>
+                setCompanyPD(res.data))
+            .then(err=>err)
+        }
+        CPD(stName)
+    },[stName])
 
     useEffect(()=>{
         if(account!==undefined){
@@ -215,10 +236,20 @@ return(
             setWalletConnected = {setWalletConnected}
             isLoading = {isLoading} onMouseEnter={onMouseEnterHandler}
             totalCurrentPrices={currentPrice.totalCurrentPrices}
+            stName={stName}
+            setStName={setStName}
+            companyPD={companyPD}
+            OPTIONS={OPTIONS}
+
         />
         <Navigator
+            totalCurrentPrices={currentPrice.totalCurrentPrices}
+            stName={stName}
+            setStName={setStName}
+            companyPD={companyPD}
             isCircuitBreaker={isCircuitBreaker}
             setIsCircuitBreaker={setIsCircuitBreaker}
+            OPTIONS={OPTIONS}
         />
         <div className="main_head">
             <ChartWrapper

@@ -12,18 +12,16 @@ import axios from 'axios';
 import Welcome from '../pages/TransactionsPage';
 
 // import {Vote} from '../apis/company'
-const Header =({walletConnected,setWalletConnected,totalCurrentPrices})=> {
+const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,setStName,companyPD,OPTIONS})=> {
     const [userModalIsOpen, setUserModalIsOpen] = useState(false)
     const [isFaucet, setIsFaucet] = useState(false)
     const [isEnroll, setIsEnroll] = useState(false)
     const [name, setName] = useState("aa");
     const [vote,setVote] =useState()
-    const [stName, setStName] = useState('ENTAToken');
     const [ratio, setRatio] = useState(0);
     const [editName, setEditName] = useState(false)
     const [editNameValue,setEditNameValue] = useState('')
     const [voted,setVoted] = useState(false)
-    const [companyPD, setCompanyPD] =useState([]) 
     const [myPage, setMyPage] =useState({})
 
     const countNumber=(e)=>{
@@ -70,7 +68,7 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices})=> {
     const mypage = getUserURL + "mypage/?wallet="
     const enroll = getUserURL + "enroll/?wallet="
     const voteURL = getCompanyURL + "vote"
-    const pdisclosure = getCompanyURL + "pdisclosure/?name="
+
 
 
     const MyPage = async(wallet) => {
@@ -202,8 +200,6 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices})=> {
         document.body.style.overflow = 'unset';
         setUserModalIsOpen(false)
         }
-
-
     useEffect(()=>{
         const Vote = async(st_name,ratio,wallet) => {
             if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
@@ -220,26 +216,7 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices})=> {
         }
         Vote(stName,ratio,account)
     },[ratio])
-    const OPTIONS = [
-        { value: "ENTAToken", name: "ENTA" },
-        { value: "BEBToken", name: "BEB" },
-        { value: "LEOToken", name: "LEO" },
-    ];
-
     const dividendTimeLimit = (59-new Date().getMinutes())%5+":"+(59-new Date().getSeconds())
-
-
-    useEffect(()=>{
-        const CPD = async(name) => {
-            if(name===null || name ===undefined)return new Error('Invalid Request!')
-            const resultCPD =  axios.get(pdisclosure + name)
-            .then(res=>
-                setCompanyPD(res.data))
-            .then(err=>err)
-        }
-        CPD(stName)
-    },[stName])
-
     return(
         <div className="header">
         
@@ -249,9 +226,6 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices})=> {
             <Link to='/'>
                 <img className='entasis_main_logo' src={require('../assets/images/ENTASIS.png')}></img>
             </Link>
-
-
-
             <div className='header_user'>
             <div className="btn" onClick={handleConnect}>{active ? <h2>disconnect</h2> : <h2>connect</h2>}</div>
             {active&&isEnroll.cnt===0?<Tutorials
