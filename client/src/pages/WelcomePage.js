@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import {Tutorial} from '../apis/user'
 const WelcomePage =({isLoading, tutorialCnt, account,isWelcome,setIsWelcome})=>{
     const [welcomeClose, setWelcomeClose] = useState(false)
-    console.log(isWelcome)
     useEffect(()=>{
         Tutorial(account,tutorialCnt)
     },[account,tutorialCnt])

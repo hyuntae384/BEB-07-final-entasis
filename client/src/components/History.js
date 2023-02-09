@@ -51,6 +51,10 @@ const modalOpen =()=>{
 const modalClose =()=>{
     document.body.style.overflow = 'unset';
     setModalIsOpen(!modalIsOpen)
+    setTxs({
+        transaction_in:{tx_in},
+        transaction_out:{tx_out}
+        })
     }
 
     return(
@@ -91,18 +95,19 @@ const modalClose =()=>{
                             <div className='trading_record_data_set'><h3>{fee!==null?fee:'-'}</h3></div>
                             <div className='trading_record_data_set'><h3>{date}</h3></div>
                             <div className='trading_record_data_set'><h3>{token_name}</h3></div>
-                            <Link to='/transaction'><div className='trading_record_data_set'
-                            onClick={()=>setTxs({
-                                transaction_in:{tx_in},
-                                transaction_out:{tx_out}
-                            })}
-                            ><h3>{tx_in}</h3></div></Link>
-                            <Link to='/transaction'><div className='trading_record_data_set'
-                            onClick={()=>setTxs({
-                            transaction_in:{tx_in},
-                            transaction_out:{tx_out}
-                            })}
-                            ><h3>{tx_out}</h3></div></Link>
+                            <div className='trading_record_data_set'
+                            onClick={modalClose}>
+                            <Link to='/transaction'>
+                            <h3>{tx_in}</h3>
+                            </Link>
+                            </div>
+                            <div className='trading_record_data_set'
+                            onClick={modalClose}
+                            >
+                            <Link to='/transaction'>
+                            <h3>{tx_out}</h3>
+                            </Link>
+                            </div>
 
                         </div>
                     </div>
@@ -130,7 +135,7 @@ const modalClose =()=>{
                 {amount}
             </div>
             <div className="history_fee">
-                {fee}
+                {Number(fee).toFixed(4)}
             </div>
             <div className="history_date">
                 {date}

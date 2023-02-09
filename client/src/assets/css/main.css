@@ -457,7 +457,7 @@ a.circuit_breaker_link:hover{
 }
 .main_assets_menu,  .history_wrapperA_menu{
     width: 100%;
-    padding: 0.5% 4% 0 4%;
+    padding: 0.5% 7% 0 7%;
     height: 20px;
     display: flex;
     justify-content: space-between;
@@ -607,7 +607,10 @@ a.circuit_breaker_link:hover{
 .history_wrapper div, .asset_wrapper div{
     width: 60px;
     height: 12px;
-    padding: 0 1%;
+
+}
+.history_wrapper div{
+    width: 20%;
 }
 .history_wrapper,.asset_wrapper{
     transition: 0.4s;
@@ -617,7 +620,7 @@ a.circuit_breaker_link:hover{
     align-items: center;
     text-align: center;
     margin: 5px 5px;
-    padding: 1% 10px;
+    /* padding: 1% 10px; */
     height: 25px;
     background-color: #151515;
     font-size: 12px;
@@ -634,7 +637,7 @@ a.circuit_breaker_link:hover{
     padding: 2px;
 }
 div.history_date{
-    width: 120px;
+    display: inline;
 }
 .main_assets_container{
     margin: 0;
@@ -1107,7 +1110,7 @@ input{
 .show_transaction_in,.show_transaction_out{
     width: 100%;
     min-height: 300px;
-    height: 500px;
+    height: 460px;
     /* margin: 5px; */
     padding: 5px;
     align-items: center;
@@ -1140,7 +1143,7 @@ input.input_transaction{
 }
 .info div h3{
     color: var(--gray-light-color);
-    margin: 1%;
+    margin: 0.5%;
 }
 .show_transaction_in_top h1,.show_transaction_out_top h1{
     color: var(--gray-light-color);
