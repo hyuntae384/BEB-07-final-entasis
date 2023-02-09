@@ -51,16 +51,16 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices})=> {
 
     useEffect(() => { 
         const connectWalletOnPageLoad = async () => { 
-          if (localStorage?.getItem('isWalletConnected') === 'true') { 
-            try { 
-              await activate(injected) 
-            } catch (ex) { 
-              console. log(ex) 
+            if (localStorage?.getItem('isWalletConnected') === 'true') { 
+                try { 
+                await activate(injected) 
+                } catch (ex) { 
+                console. log(ex) 
+                } 
             } 
-          } 
-        } 
-        connectWalletOnPageLoad() 
-      }, [])
+            } 
+            connectWalletOnPageLoad() 
+        }, [])
 
     const origin = "http://localhost:5050/";
     const getUserURL = origin + "user/"; 
@@ -85,6 +85,8 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices})=> {
     }
     useEffect(()=>{
         MyPage(account)
+    },[account])
+    useEffect(()=>{
         EnrollWallet(account)
     },[account])
 

@@ -19,6 +19,7 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
     const web3 = new Web3(
         window.ethereum || process.env.REACT_APP_GANACHE_NETWORK
     );
+
     const userAccount = useWeb3React().account;
     const StABI = TokenABI.abi
     const EntaTokenContract = new web3.eth.Contract(StABI, process.env.REACT_APP_ENTA_CA);
