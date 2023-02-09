@@ -26,13 +26,11 @@ const HistoryWrapper =({userPosition,walletConnected,setWalletConnected,setOffse
     let pages = Math.ceil(positions.totalLength/ 10);
     let offset = pageSet * (currentPageNum - 1);
     let limit = offset + pageSet;
-    // console.log(offset,limit)
     useEffect(()=>{
         setOffset(pageSet * (currentPageNum - 1))
         setLimit(pageSet * (currentPageNum - 1)+pageSet)
-        console.log(offset,limit)
     },[offset])
-
+console.log(positions.totalLength)
     return(
         <div className="history_wrapperA" >
 

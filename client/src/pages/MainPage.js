@@ -40,6 +40,7 @@ const MainPage =()=>{
     const {chainId, account, active, activate, deactivate} = useWeb3React();
     const currentPrice_ref = useRef({});
 
+
     // ================================================================
     // Props Test
     const userAccount = useWeb3React().account;
@@ -114,6 +115,8 @@ const MainPage =()=>{
 
     let powerOfMarket = (currentPrice.open - currentPrice.close)
     useEffect(()=>{
+        // console.log('set')
+
         let name = ' '
         if(name !== tokenName&&totalChartData===true){
             const setChartRTD=(async () => 
@@ -124,23 +127,27 @@ const MainPage =()=>{
                     console.log(e) // caught
                 }
             })
+
+        const loop = setInterval(() => {
             if(!isLoading){
-                const loop = setInterval(() => {
                 setChartRTD()
                 clearInterval(loop);
                 powerOfMarket = 0;
-            }, 1000);
-        }else{
-            setTimeout(()=>{
-                setIsLoading(false)
-            },1000)
-        }
+            }else{
+                setTimeout(()=>{
+                    setIsLoading(false)
+                },1000)
+            }
+            clearInterval(loop);
+
+        }, 1000);
+
         }
         name = tokenName;
-    },[tokenName,totalChartData])
+    })
 
     
-    console.log(tokenName,totalChartData)
+    // console.log(tokenName,totalChartData)
     const copyHandler = (e) => {
         copy = e;
     }
@@ -150,7 +157,6 @@ const MainPage =()=>{
     const enroll = getUserURL + "enroll/?wallet="
     const position = getUserURL + "position/?wallet="
     const chart = origin + "chart/data"
-
     // API Request
     const getChart = async({ offset, limit, unit, st_name}) => {
         if(st_name===null || st_name ===undefined)return new Error('Invalid Request!')
@@ -198,6 +204,7 @@ return(
             isLoading={isLoading}
         />
         <Header 
+            isEnroll={isEnroll}
             walletConnected = {walletConnected}
             setWalletConnected = {setWalletConnected}
             isLoading = {isLoading} onMouseEnter={onMouseEnterHandler}

@@ -48,7 +48,7 @@ useEffect(()=>{
         }
     })
     setChartTotal(offset,limit,tokenName)
-    console.log(tokenName)
+    // console.log(tokenName)
 
 },[tokenName])
 
@@ -118,7 +118,7 @@ useEffect(()=>{
             }
             termNum=termValue
             setTermArrLength(setByTimeNewArr.length)
-            setDataLength(setByTimeNewArr.length/5)
+            setDataLength(setByTimeNewArr.length/2)
         }    
     },[termValue,chartOriginArr])
 
