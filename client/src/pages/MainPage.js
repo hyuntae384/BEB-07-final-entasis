@@ -293,6 +293,9 @@ return(
                 userEntaToken={userEntaToken}
                 userBebToken={userBebToken}
                 userLeoToken={userLeoToken}
+                userPosition={userPosition}
+                userAccount={userAccount}
+                totalCurrentPrices={currentPrice.totalCurrentPrices}
             />
         </div>
         <Footer
