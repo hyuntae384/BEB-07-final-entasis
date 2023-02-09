@@ -40,6 +40,7 @@ const MainPage =()=>{
     const {chainId, account, active, activate, deactivate} = useWeb3React();
     const currentPrice_ref = useRef({});
 
+
     // ================================================================
     // Props Test
     const userAccount = useWeb3React().account;
@@ -156,7 +157,6 @@ const MainPage =()=>{
     const enroll = getUserURL + "enroll/?wallet="
     const position = getUserURL + "position/?wallet="
     const chart = origin + "chart/data"
-
     // API Request
     const getChart = async({ offset, limit, unit, st_name}) => {
         if(st_name===null || st_name ===undefined)return new Error('Invalid Request!')
