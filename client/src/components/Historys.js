@@ -28,9 +28,8 @@ const HistoryWrapper =({userPosition,walletConnected,setWalletConnected,setOffse
     let limit = offset + pageSet;
     useEffect(()=>{
         setOffset(pageSet * (currentPageNum - 1))
-        setLimit(pageSet * (currentPageNum - 1)+pageSet)
+        setLimit(pageSet * (currentPageNum - 1)+pageSet-1)
     },[offset])
-console.log(positions.totalLength)
     return(
         <div className="history_wrapperA" >
 
@@ -42,9 +41,18 @@ console.log(positions.totalLength)
                     className="pagination_btn">
                         {<i className="fas fa-caret-left"></i>}
                     </div>
-                    {pages<=10?<div className="pagination_numbers">{Array(pages).fill().map((_,i)=>{<div 
+                    
+                    {pages<=10?
+                    <div className="pagination_numbers">
+                    
+                    {Array(pages).fill().map((_,i)=>{
+                        return <div 
                     onClick={()=>setCurrentPageNum(i+1)}
-                    className="pagination_numbers btn">{i+1}</div>})}</div>:
+                    className="pagination_numbers btn">
+                    <div className="pagination_numbers_btn">{i+1}</div>
+                    </div>})}
+                    
+                    </div>:
                         <div className="pagination_numbers">
                             <div 
                             onClick={()=>setCurrentPageNum(1)}
@@ -100,7 +108,7 @@ console.log(positions.totalLength)
     
             </div>
             <div className="main_history_wrapperA_container">
-                {positions!==undefined&&pages>0?[...positions.userPosition].reverse().slice(offset,limit).map((e)=>{
+                {positions!==undefined&&pages>0?[...positions.userPosition].reverse().map((e)=>{
                     return (<History
                         key={e.id}
                         order = {e.order}
