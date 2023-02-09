@@ -114,6 +114,8 @@ const MainPage =()=>{
 
     let powerOfMarket = (currentPrice.open - currentPrice.close)
     useEffect(()=>{
+        // console.log('set')
+
         let name = ' '
         if(name !== tokenName&&totalChartData===true){
             const setChartRTD=(async () => 
@@ -124,23 +126,27 @@ const MainPage =()=>{
                     console.log(e) // caught
                 }
             })
+
+        const loop = setInterval(() => {
             if(!isLoading){
-                const loop = setInterval(() => {
                 setChartRTD()
                 clearInterval(loop);
                 powerOfMarket = 0;
-            }, 1000);
-        }else{
-            setTimeout(()=>{
-                setIsLoading(false)
-            },1000)
-        }
+            }else{
+                setTimeout(()=>{
+                    setIsLoading(false)
+                },1000)
+            }
+            clearInterval(loop);
+
+        }, 1000);
+
         }
         name = tokenName;
-    },[tokenName,totalChartData])
+    })
 
     
-    console.log(tokenName,totalChartData)
+    // console.log(tokenName,totalChartData)
     const copyHandler = (e) => {
         copy = e;
     }
@@ -198,6 +204,7 @@ return(
             isLoading={isLoading}
         />
         <Header 
+            isEnroll={isEnroll}
             walletConnected = {walletConnected}
             setWalletConnected = {setWalletConnected}
             isLoading = {isLoading} onMouseEnter={onMouseEnterHandler}

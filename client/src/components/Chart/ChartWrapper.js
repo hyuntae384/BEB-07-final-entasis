@@ -48,7 +48,7 @@ useEffect(()=>{
         }
     })
     setChartTotal(offset,limit,tokenName)
-    console.log(tokenName)
+    // console.log(tokenName)
 
 },[tokenName])
 

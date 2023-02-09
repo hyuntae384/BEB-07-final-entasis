@@ -278,13 +278,25 @@ div.btn:hover{
 }
 .chart_select{
     align-items: center;
-    width: 100px;
+    width: 100%;
     margin: 0 2% 0 0;
     text-align-last: center;
+    
 }
 .chart_select_box{
-    width: 300px;
+    width: 220px;
     text-align: left;
+    display: flex;
+
+}
+.chart_select_box_wrapper{
+    width: 95%;
+    display: flex;
+    margin: 0;
+    align-items: baseline;  
+    justify-content: space-between;  
+
+
 }
 .chart_current_date{
     display: flex;
