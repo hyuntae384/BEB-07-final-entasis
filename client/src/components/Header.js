@@ -229,7 +229,6 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices})=> {
     const dividendTimeLimit = (59-new Date().getMinutes())%5+":"+(59-new Date().getSeconds())
 
 
-
     useEffect(()=>{
         const CPD = async(name) => {
             if(name===null || name ===undefined)return new Error('Invalid Request!')
