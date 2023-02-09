@@ -9,6 +9,11 @@ import Historys from '../components/Historys'
 import Footer from '../components/Footer';
 
 const TransactionPage =({txs})=>{
+    document.body.style.overflow = 'unset';
+    for(let i = window.innerHeight ; i>1 ;i--){
+        window.scrollTo(i,i)
+    }
+    console.log(window.innerHeight)
     const modalStyle = {
         overlay: {
             position: "fixed",
