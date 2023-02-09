@@ -202,9 +202,7 @@ if(dataArray[0][0]!==undefined&&
                     opacity={0.5}
                     fontSize='11px'
                 > 
-                {(Number(dataYMax)-Number(dataYMin)*(550-Number(pointer.y))/415).toFixed(2).toLocaleString()}ETH
-                {console.log(pointer.y)}
-                {/* {(dataYMin + dataYMax*(1-(pointer.y/415-0.3253))).toFixed(2).toLocaleString()} ETH */}
+                {((Number(dataYMax)-Number(dataYMin))*(550-Number(pointer.y))/415+dataYMin).toFixed(2).toLocaleString()}ETH
                 </text>
                 {/* 캔들 구현 */}
                 {dataArray.map(

@@ -34,6 +34,7 @@ const MainPage =()=>{
     const [walletConnected, setWalletConnected] = useState(false)
     const [isCircuitBreaker,setIsCircuitBreaker] = useState(false)
     const [tokenName, setTokenName] = useState('enta')
+    const [totalChartData, setTotalChartData] = useState(false)
     const [offset, setOffset]=useState(0)
     const [limit, setLimit]=useState(10)
     const {chainId, account, active, activate, deactivate} = useWeb3React();
@@ -114,30 +115,32 @@ const MainPage =()=>{
     let powerOfMarket = (currentPrice.open - currentPrice.close)
     useEffect(()=>{
         let name = ' '
-        if(name !== tokenName){
-        const setChartRTD=(async () => 
-        {try {
-            currentPrice_ref.current = await axios.get('http://localhost:5050/rtd/'+tokenName)
-            setCurrentPrice(currentPrice_ref.current.data)
-        } catch (e) {
-        console.log(e) // caught
-        }
-    })
-        if(!isLoading){
-        const loop = setInterval(() => {
-        setChartRTD()
-        clearInterval(loop);
-        powerOfMarket = 0;
-        }, 1000);
+        if(name !== tokenName&&totalChartData===true){
+            const setChartRTD=(async () => 
+                {try {
+                    currentPrice_ref.current = await axios.get('http://localhost:5050/rtd/'+tokenName)
+                    setCurrentPrice(currentPrice_ref.current.data)
+                } catch (e) {
+                    console.log(e) // caught
+                }
+            })
+            if(!isLoading){
+                const loop = setInterval(() => {
+                setChartRTD()
+                clearInterval(loop);
+                powerOfMarket = 0;
+            }, 1000);
         }else{
             setTimeout(()=>{
                 setIsLoading(false)
             },1000)
         }
-    }
+        }
         name = tokenName;
-    })
+    },[tokenName,totalChartData])
+
     
+    console.log(tokenName,totalChartData)
     const copyHandler = (e) => {
         copy = e;
     }
@@ -156,35 +159,37 @@ const MainPage =()=>{
         .then(err=>err)
         return  resultSTChart
     }
-    
+    const Position = async(wallet,offset,limit) => {
+        if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
+        const resultPosition = await axios.get(position + wallet + `&offset=${offset}&limit=${limit}`)
+        .then(res=>res.data)
+        .then(err=>err)
+        setUserPosition(resultPosition)
+    }
+    const EnrollWallet = async(wallet) => {
+        if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
+        const resultEnrollWallet =  await axios.post(enroll + wallet)
+        .then(res=>res.data)
+        .then(err=>err)
+        setIsEnroll(resultEnrollWallet)
+    }
+
     useEffect(()=>{
-        const Position = async(wallet,offset,limit) => {
-            if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
-            const resultPosition = await axios.get(position + wallet + `&offset=${offset}&limit=${limit}`)
-            .then(res=>res.data)
-            .then(err=>err)
-            setUserPosition(resultPosition)
-        }
+        if(account!==undefined){
         Position(account,offset,limit)
+        }
     },[account,offset])
 
-        useEffect(()=>{
-        const EnrollWallet = async(wallet) => {
-            if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
-            const resultEnrollWallet =  await axios.post(enroll + wallet)
-            .then(res=>res.data)
-            .then(err=>err)
-            setIsEnroll(resultEnrollWallet)
-        }
-        EnrollWallet(account)
-        if(account===undefined){
-        setUserPosition();
-        EnrollWallet();
-        }
+    useEffect(()=>{
+    if(account!==undefined){
+    EnrollWallet(account)
+    }
     },[account]);
+
         const onMouseEnterHandler = () => {
             document.body.style.overflow = 'unset';
         }
+        
 return(
     <div className="main_page" onMouseEnter={onMouseEnterHandler}>
         <WelcomePage
@@ -209,6 +214,7 @@ return(
                 setTokenName={setTokenName}
                 currentPrice={currentPrice}
                 isLoading={isLoading}
+                setTotalChartData={setTotalChartData}
             />
             <LimitOrderBook
                 powerOfMarket={-powerOfMarket}

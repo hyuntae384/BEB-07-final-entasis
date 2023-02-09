@@ -3,7 +3,7 @@ import React, { useState, useEffect} from "react";
 import dataToArray from "../../functions/data_to_array";
 import Chart from "./Chart";
 
-const ChartWrapper =({currentPrice,tokenName,setTokenName,ST_Name})=>{
+const ChartWrapper =({currentPrice,tokenName,setTokenName,ST_Name,setTotalChartData})=>{
     const [defaultLimit, setDefaultLimit] = useState(0);
     const [dataLength, setDataLength] = useState(0);
     const [isChartTotal, setIsChartTotal] = useState([]);
@@ -38,6 +38,7 @@ useEffect(()=>{
             setTimeout(()=>{
                 (resultTotal.data.priceinfo.map(e=>limitChartArr.push(Object.values(e))))
                 setIsChartTotal(limitChartArr)
+                setTotalChartData(true)
                 // setIsLoading(false)
                 // setOffset(limit/100)
                 // total=resultTotal.data.totalLength-1;

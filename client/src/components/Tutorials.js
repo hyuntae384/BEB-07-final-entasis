@@ -217,8 +217,13 @@ const Tutorials =({tutorialCnt, account})=>{
         <h4>History</h4>
         <i className='fas fa-arrow-down'></i>
         </div>
+        <div>
+            <h6>Check Your Records of Trading</h6>
+            <h6>And Dividend Income here.</h6>
+            <h6>Orders, Transaction Hash, Date</h6>
+        </div>
         <h5 className='count'>7/10</h5>
-        <div className='skip' onClick={()=>{setWallet();}}>Next</div>
+        <div className='skip' onClick={()=>{setWallet()}}>Next</div>
         </Modal>
     )}
     if(isAccount){
@@ -233,6 +238,12 @@ const Tutorials =({tutorialCnt, account})=>{
         <h4>Account</h4>
         <i className='fas fa-arrow-down'></i>
         </div>
+        <div>
+            <h6>Check Your Assets Detail.</h6>
+            <h6>Dividend Income, Asset Amount, Current Price</h6>
+            <h6>And Market Data</h6>
+        </div>
+
         <h5 className='count'>8/10</h5>
         <div className='skip' onClick={()=>{setWallet();}}>Next</div>
         </Modal>
@@ -250,6 +261,10 @@ const Tutorials =({tutorialCnt, account})=>{
         <h4>Faucet</h4>
         <i className='fas fa-arrow-right'></i>
         </div>
+        <div>
+            <h6>This Button gives you 10.00 ETH</h6>
+            <h6></h6>
+        </div>
         <h5 className='count'>9/10</h5>
         <div className='skip' onClick={()=>{setWallet();}}>Next</div>
         </Modal>
@@ -263,9 +278,15 @@ const Tutorials =({tutorialCnt, account})=>{
         style={modalStyle}
         className="welcome_tutorial_transaction" onClick={() => setTransaction()} onFocus={document.body.style.overflow='hidden'}>
         <div className='welcome_tutorial_top'>
-        <h4>Transaction</h4>
+        <h4>Transactions</h4>
         <i className='fas fa-arrow-up'></i>
         </div>
+        <div>
+            <h6>All Trades are Recorded in Transaction.</h6>
+            <h6>Dividend Income, Asset Amount, Current Price</h6>
+            <h6>And Market Data</h6>
+        </div>
+
         <h5 className='count'>10/10</h5>
         <div className='skip' onClick={()=>{setWallet();}}>Next</div>
         </Modal>
