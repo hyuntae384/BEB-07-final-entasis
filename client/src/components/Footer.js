@@ -73,9 +73,26 @@ const Footer =({setIsCircuitBreaker})=>{
 
     return(
     <div className="footer">
+        <div className="footer_assets_top">
+            <div className='chains'>
+                <i className='fab fa-bitcoin'/>
+                <i className='fab fa-ethereum'/>
+            </div>
+            <div className='social'>
+                <i className='fab fa-facebook-f'/>
+                <i className='fab fa-instagram'/>
+                <i className='fab fa-reddit-alien'/>
+                <i className='fab fa-youtube'/>
+                <i className='fab fa-tiktok'/>
+                <i className='fab fa-google'/>
+                <i className='fab fab fa-apple'/>
+            </div>
+        </div>
         <div className="footer_top">
+        
             <div className='footer_top_left'>
-            <img className='footer_foot' src = {require('../assets/images/logo_blue.png')} alt='logo'/>
+            <img className='footer_logo' src = {require('../assets/images/logo_blue.png')} alt='logo'/>
+            <img className='footer_name' src = {require('../assets/images/ENTASIS_white.png')} alt='logo'/>
 
                 <div className='footer_top_left_introduce'>
                     <h5>블록체인기반 거래소 ENTASIS</h5>
@@ -149,7 +166,6 @@ const Footer =({setIsCircuitBreaker})=>{
         <div className="footer_bottom">
 
         </div>
-        <img className='footer_foot' src = {require('../assets/images/ENTASIS_white.png')} alt='logo'/>
 
     </div>
     )
