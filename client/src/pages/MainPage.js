@@ -15,7 +15,7 @@ import TokenABI from "../ABIs/ERC1400.json"
 
 // import {FaucetWallet} from '../apis/user'
 
-const MainPage =()=>{
+const MainPage =({setTxs})=>{
     const [currentPrice, setCurrentPrice] = useState({
         close : "0",
         createdAt : "0",
@@ -37,6 +37,7 @@ const MainPage =()=>{
     const [totalChartData, setTotalChartData] = useState(false)
     const [offset, setOffset]=useState(0)
     const [limit, setLimit]=useState(10)
+
     const {chainId, account, active, activate, deactivate} = useWeb3React();
     const currentPrice_ref = useRef({});
 // console.log(offset,limit)
@@ -170,7 +171,7 @@ const MainPage =()=>{
         const resultPosition = await axios.get(position + wallet + `&offset=${offset}&limit=${limit}`)
         .then(res=>res.data)
         .then(err=>err)
-        console.log(resultPosition)
+        // console.log(resultPosition)
         setUserPosition(resultPosition)
     }
     const EnrollWallet = async(wallet) => {
@@ -240,6 +241,7 @@ return(
         </div>
         <div className="main_bottom">
             <Historys
+                setTxs={setTxs}
                 setOffset={setOffset}
                 setLimit={setLimit}
                 walletConnected = {walletConnected}

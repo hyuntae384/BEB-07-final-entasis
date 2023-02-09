@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { injected } from "../connectors";
 import History from "./History"
-const HistoryWrapper =({userPosition,walletConnected,setWalletConnected,setOffset,setLimit
+const HistoryWrapper =({userPosition,walletConnected,setWalletConnected,setOffset,setLimit,setTxs
 })=>{
     const [currentPageNum, setCurrentPageNum]=useState(1)
     const {chainId, account, active, activate, deactivate} = useWeb3React();
@@ -108,8 +108,9 @@ const HistoryWrapper =({userPosition,walletConnected,setWalletConnected,setOffse
     
             </div>
             <div className="main_history_wrapperA_container">
-                {positions!==undefined&&pages>0?[...positions.userPosition].reverse().map((e)=>{
+                {positions!==undefined&&pages>0?[...positions.userPosition].map((e)=>{
                     return (<History
+                        setTxs={setTxs}
                         key={e.id}
                         order = {e.order}
                         price = {e.price}
@@ -117,6 +118,8 @@ const HistoryWrapper =({userPosition,walletConnected,setWalletConnected,setOffse
                         fee = {e.fee}
                         date = {`${e.createdAt}`.slice(0,10)+' '+`${e.createdAt}`.slice(14,19)}
                         token_name={e.token_name}
+                        tx_in={e.txin}
+                        tx_out={e.txout}
                     />)
                 }):<div className="disconnection_status">
                 <h6>Start Trading</h6>
@@ -126,5 +129,4 @@ const HistoryWrapper =({userPosition,walletConnected,setWalletConnected,setOffse
         </div>
     )
 }
-
 export default HistoryWrapper
