@@ -63,4 +63,3 @@ jobs:
         run: |
           docker ps -a && docker stop ${{env.NAME}} && docker rm ${{env.NAME}} && docker rmi ${{env.DOCKER_IMAGE}}
           docker run -d -p 80:5050 -e GASPRICE=${{secrets.GASPRICE}} --name ${{env.NAME}} --restart always ${{ env.DOCKER_IMAGE }}:latest
-          echo $GASPRICE
