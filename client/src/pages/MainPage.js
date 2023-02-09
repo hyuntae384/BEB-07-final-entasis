@@ -39,7 +39,7 @@ const MainPage =()=>{
     const [limit, setLimit]=useState(10)
     const {chainId, account, active, activate, deactivate} = useWeb3React();
     const currentPrice_ref = useRef({});
-
+// console.log(offset,limit)
 
     // ================================================================
     // Props Test
@@ -170,6 +170,7 @@ const MainPage =()=>{
         const resultPosition = await axios.get(position + wallet + `&offset=${offset}&limit=${limit}`)
         .then(res=>res.data)
         .then(err=>err)
+        console.log(resultPosition)
         setUserPosition(resultPosition)
     }
     const EnrollWallet = async(wallet) => {
@@ -182,7 +183,7 @@ const MainPage =()=>{
 
     useEffect(()=>{
         if(account!==undefined){
-        Position(account,offset,limit)
+        Position(account,offset,10)
         }
     },[account,offset])
 
