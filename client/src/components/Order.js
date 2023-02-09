@@ -66,7 +66,7 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
         }).then(function(receipt){
             console.log(receipt)
             console.log(token)
-            BuyToken(token, String(price), String(amount), userAccount)
+            BuyToken(token, String(price), String(amount), userAccount, receipt.transactionHash)
         });
     }
     // 판매
@@ -83,7 +83,7 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
         await web3.eth.sendTransaction(tx).then(function(receipt){
             console.log(receipt)
             console.log(token)
-            SellToken(token, String(price), String(amount), userAccount)
+            SellToken(token, String(price), String(amount), userAccount, receipt.transactionHash)
         })
     }
 
