@@ -8,7 +8,6 @@ import '../assets/css/main.css';
 import { ChName, Score, Position} from '../apis/user'
 import Tutorials from './Tutorials';
 import SelectBox from './Select';
-import { Vote } from '../apis/company';
 import axios from 'axios';
 import Welcome from '../pages/TransactionsPage';
 
@@ -16,20 +15,22 @@ import Welcome from '../pages/TransactionsPage';
 const Header =({walletConnected,setWalletConnected,totalCurrentPrices})=> {
     const [userModalIsOpen, setUserModalIsOpen] = useState(false)
     const [isFaucet, setIsFaucet] = useState(false)
+    const [isEnroll, setIsEnroll] = useState(false)
     const [name, setName] = useState("aa");
-    const [stName, setStName] = useState('BEBE');
-    const [stAmount, setStAmount] = useState(0);
+    const [vote,setVote] =useState()
+    const [stName, setStName] = useState('ENTAToken');
     const [ratio, setRatio] = useState(0);
     const [editName, setEditName] = useState(false)
     const [editNameValue,setEditNameValue] = useState('')
     const [voted,setVoted] = useState(false)
-    const [isEnroll, setIsEnroll] = useState({})
+    const [companyPD, setCompanyPD] =useState([]) 
     const [myPage, setMyPage] =useState({})
 
     const countNumber=(e)=>{
         return e.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,",")
     }
     const {chainId, account, active, activate, deactivate} = useWeb3React();
+
     const handleConnect = () => {
         if(active) {
             deactivate();
@@ -60,15 +61,18 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices})=> {
             } 
             } 
             connectWalletOnPageLoad() 
-        }, [])
+        }, [injected])
 
     const origin = "http://localhost:5050/";
     const getUserURL = origin + "user/"; 
-    const enroll = getUserURL + "enroll/?wallet="
+    const getCompanyURL = origin + "company/"; 
     const faucet = getUserURL + "faucet/?wallet="
     const mypage = getUserURL + "mypage/?wallet="
-    
-    
+    const enroll = getUserURL + "enroll/?wallet="
+    const voteURL = getCompanyURL + "vote"
+    const pdisclosure = getCompanyURL + "pdisclosure/?name="
+
+
     const MyPage = async(wallet) => {
         if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
         const resultAccount = await axios.get(mypage + wallet)
@@ -85,10 +89,9 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices})=> {
     }
     useEffect(()=>{
         MyPage(account)
-    },[account])
-    useEffect(()=>{
         EnrollWallet(account)
     },[account])
+
 
     /* window.addEventListener("unload", function(e) {
         localStorage.setItem('isWalletConnected', false)
@@ -103,6 +106,20 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices})=> {
             if(error.response.data.message==='user has already used the faucet'){setIsFaucet(true)}
         })
         return resultFaucetWallet
+    }
+
+    useEffect(()=>{
+        MyPage(account)
+
+    },[account,editNameValue,editName])
+
+    const Change =()=>{
+        ChName(account,editNameValue)
+        MyPage(account)
+        setEditName(false)
+    }
+    const faucetBtn=()=>{
+        console.log(FaucetWallet(account))
     }
 //     var Contract = require('web3-eth-contract');
 // // set provider for all later instances to use
@@ -187,44 +204,43 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices})=> {
         }
 
 
-    // useEffect(()=>{
-    //     return Vote(stName,stAmount,ratio,account).status.value
-    // },[stName,stAmount,ratio,account])
-        const Change =()=>{
-            ChName(account,editNameValue)
-            MyPage(account)
-            setEditName(false)
+    useEffect(()=>{
+        const Vote = async(st_name,ratio,wallet) => {
+            if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
+            const voteJSON = {
+                name:st_name,
+                ratio:ratio,
+                user_wallet:wallet
+            }
+            const resultVote=  axios.post(voteURL,voteJSON)
+            .then(res=>res.data.status)
+            .then(err=>err)
+            setVote(resultVote)
+            return resultVote
         }
-
-    const faucetBtn=()=>{
-        console.log(FaucetWallet(account))
-        // return(
-        // <Modal
-        //     appElement={document.getElementById('root') || undefined}
-        //     onRequestClose={()=>setVoted()}
-        //     isOpen={voted}
-        //     style={modalStyle_2}
-        // >   <div className='welcome_connection'>
-        //     <img src={require('../assets/images/ENTASIS.png')} alt='entasis'></img><br/>
-        //     <h3>You voted for {ratio}</h3>
-        //     <h5>Corporation Name {stName}</h5>
-        //     <h5>Ownership Ratio {user.amount/*/totalSupply */}</h5>
-        //     <h5>Security Token {stName}</h5>
-        //     <div className='voted'>
-        //     <img className="congratulations" src={require('../assets/images/voted.gif')} alt='entasis'></img>
-        //     </div>
-        //     <h2>Your Voting Right has been Exercised!</h2>
-        //     </div>
-        // </Modal>
-        // )
-    }
+        Vote(stName,ratio,account)
+    },[ratio])
     const OPTIONS = [
-        { value: "BEBE", name: "BEBE" },
-        { value: "DEDE", name: "DEDE" },
-        { value: "CECE", name: "CECE" },
+        { value: "ENTAToken", name: "ENTA" },
+        { value: "BEBToken", name: "BEB" },
+        { value: "LEOToken", name: "LEO" },
     ];
 
     const dividendTimeLimit = (59-new Date().getMinutes())%5+":"+(59-new Date().getSeconds())
+
+
+
+    useEffect(()=>{
+        const CPD = async(name) => {
+            if(name===null || name ===undefined)return new Error('Invalid Request!')
+            const resultCPD =  axios.get(pdisclosure + name)
+            .then(res=>
+                setCompanyPD(res.data))
+            .then(err=>err)
+        }
+        CPD(stName)
+    },[stName])
+
     return(
         <div className="header">
         
@@ -339,15 +355,17 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices})=> {
                                 </div>
                             </Modal>
                                 <h5>Select Security Token</h5>
-                                <SelectBox options={OPTIONS} 
-                                defaultValue=""></SelectBox>
+                                <SelectBox
+                                set={OPTIONS} 
+                                value={setStName}
+                                ></SelectBox>
                                 <h4 className='head'>Dividend</h4>
                                 <div className='exercise_of_voting_rights_wrapper body'>
                                     
                                     <div className='left'>
                                         <h5>Current</h5>
                                         <div className='ratio_value'>
-                                            <h5>{}5%</h5>
+                                            <h5>{companyPD.voted_ratio}</h5>
                                         </div>
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
                                         setRatio(+0.05)}}><h6>Vote</h6></div>
@@ -365,7 +383,7 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices})=> {
                                     <div className='middle'>
                                         <h5>Result</h5>
                                         <div className='ratio_value'>
-                                            <h5>{}0.03</h5>
+                                            <h5>{companyPD.voted_ratio*companyPD.dividend_ratio}</h5>
                                         </div>
                                         <div className='vote_value up'><h6>+0.05</h6></div>
                                         <div className='vote_value up'><h6>+0.04</h6></div>
@@ -383,7 +401,7 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices})=> {
                                     <div className='right'>
                                         <h5>Next</h5>
                                         <div className='ratio_value'>
-                                            <h5>{}5.49%</h5>
+                                            <h5>{companyPD.dividend_ratio}</h5>
                                         </div>
                                         <div className='vote_btn'></div>
                                         <div className='vote_btn'></div>

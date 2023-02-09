@@ -76,8 +76,8 @@ app.use(
 // 리미트분리
 app.use(limit({
   windowMs: 60 * 1000,
-  max: 100,
-  delayMs: 1000,
+  max: 2000,
+  delayMs: 100,
   handler(req,res) {
       res.status(this.statusCode).json({
           code: this.statusCode,
@@ -278,8 +278,8 @@ setInterval(async() => {
 
 // 1분
 setInterval(async () => {
-  console.log(`${new Date()}`.slice(23,-32))
-  if(`${new Date()}`.slice(23,-32)==='0'){
+  console.log(`${new Date()}`.slice(22,-32))
+  if(`${new Date()}`.slice(22,-32)==='00'){
 
     //ENTA
     enta_his.create(chartDataENTA)
@@ -439,7 +439,7 @@ setInterval(async () => {
   }
   // 차기 배당률
   dividend_ratio_LEO = (dividend_ratio_LEO * (1 + Number(voted_ratio_LEO))).toFixed(4) 
-}, 300000);
+}, 600000);
 
 //=========================================================================================================//
 
