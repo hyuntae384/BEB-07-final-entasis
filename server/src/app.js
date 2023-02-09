@@ -7,6 +7,8 @@ const morgan = require('morgan');
 const ejs = require('ejs');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+
+// 트래픽 제어
 const limit = require('express-rate-limit');
 
 const userRouter = require('./routes/userRouter');
