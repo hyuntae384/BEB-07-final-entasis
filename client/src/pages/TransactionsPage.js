@@ -83,7 +83,21 @@ return(
                     </div>
                 </div>
                 <div className='info'>
-                    {(txInObj === null) ? <></> : <div>
+                    {(txInObj === null) ? 
+                    <div>
+                        <h3>Transaction Hash : </h3>
+                        <h3>Block Hash : </h3>
+                        <h3>Block Number : </h3>
+                        <h3>From : </h3>
+                        <h3>To : </h3>
+                        <h3>Gas : </h3>
+                        <h3>Gas Price : </h3>
+                        <h3>Input : </h3>
+                        <h3>Nonce : </h3>
+                        <h3>Transaction Index : </h3>
+                        <h3>value :</h3>
+                    </div>
+                    : <div>
                         <h3>Transaction Hash : {transactionIn}</h3>
                         <h3>Block Hash : {txInObj.blockHash}</h3>
                         <h3>Block Number : {txInObj.blockNumber}</h3>
@@ -112,7 +126,22 @@ return(
                     </div>
                 </div>
                 <div  className='info'>
-                {(txOutObj === null) ? <></> : <div>
+                {(txOutObj === null) ? 
+                    <div>
+                        <h3>Transaction Hash : </h3>
+                        <h3>Block Hash : </h3>
+                        <h3>Block Number : </h3>
+                        <h3>From : </h3>
+                        <h3>To : </h3>
+                        <h3>Gas : </h3>
+                        <h3>Gas Price : </h3>
+                        <h3>Input : </h3>
+                        <h3>Nonce : </h3>
+                        <h3>Transaction Index : </h3>
+                        <h3>value :</h3>
+                    </div>
+
+                : <div>
                     <h3>Transaction Hash : {transactionOut}</h3>
                     <h3>Block Hash : {txOutObj.blockHash}</h3>
                     <h3>Block Number : {txOutObj.blockNumber}</h3>

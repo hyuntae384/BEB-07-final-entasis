@@ -1107,7 +1107,7 @@ input{
 .show_transaction_in,.show_transaction_out{
     width: 100%;
     min-height: 300px;
-    height: 500px;
+    height: 460px;
     /* margin: 5px; */
     padding: 5px;
     align-items: center;
@@ -1140,7 +1140,7 @@ input.input_transaction{
 }
 .info div h3{
     color: var(--gray-light-color);
-    margin: 1%;
+    margin: 0.5%;
 }
 .show_transaction_in_top h1,.show_transaction_out_top h1{
     color: var(--gray-light-color);
