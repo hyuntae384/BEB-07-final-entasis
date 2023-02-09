@@ -115,7 +115,7 @@ let toggle = true;
 let incomeRatioENTA=0;
 let dividend_ratio_ENTA = 0.03;
 let voted_ratio_ENTA
-let chartHisENTA = [[6.40],[1]];
+let chartHisENTA = [[40.7444],[1]];
 let chartDataENTA
 const setIncomeRatioENTA =()=>{incomeRatioENTA = Math.random()*(0.001-(-0.001001))-0.001};
 const setVotedRatioENTA =()=> {voted_ratio_ENTA = (Math.random()*(0.05-(-0.05))-0.05).toFixed(3)};
@@ -130,7 +130,7 @@ let totalVolToENTA = 0;
 let incomeRatioBEB=0;
 let dividend_ratio_BEB = 0.03;
 let voted_ratio_BEB
-let chartHisBEB = [[0.74],[1]];
+let chartHisBEB = [[1.1549],[1]];
 let chartDataBEB
 const setIncomeRatioBEB =()=>{incomeRatioBEB = Math.random()*(0.001-(-0.001001))-0.001};
 const setVotedRatioBEB =()=> {voted_ratio_BEB = (Math.random()*(0.05-(-0.05))-0.05).toFixed(3)};
@@ -145,7 +145,7 @@ let totalVolToBEB = 0;
 let incomeRatioLEO=0;
 let dividend_ratio_LEO = 0.03;
 let voted_ratio_LEO
-let chartHisLEO = [[18.80],[1]];
+let chartHisLEO = [[40.1213],[1]];
 let chartDataLEO
 const setIncomeRatioLEO =()=>{incomeRatioLEO = Math.random()*(0.001-(-0.001001))-0.001};
 const setVotedRatioLEO =()=> {voted_ratio_LEO = (Math.random()*(0.05-(-0.05))-0.05).toFixed(3)};
@@ -178,7 +178,7 @@ setInterval(async() => {
           else console.log("토큰 제한 해제 실패")
         }  
         toggle = true; 
-      }, 10000)
+      }, 60000)
     }
   }
   else {
@@ -276,7 +276,7 @@ setInterval(async() => {
 
 // 1분
 setInterval(async () => {
-  console.log(`${new Date()}`.slice(22,-32))
+  console.log(`${new Date()}`.slice(23,-32))
   if(`${new Date()}`.slice(23,-32)==='0'){
 
     //ENTA
