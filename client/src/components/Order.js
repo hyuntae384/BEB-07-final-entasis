@@ -6,7 +6,7 @@ import {BuyToken, SellToken} from '../apis/token';
 import Web3 from "web3";
 import TokenABI from "../ABIs/ERC1400.json"
 
-const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,tokenName,totalCurrentPrices})=>{
+const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,tokenName,totalCurrentPrices,refresh,setRefresh})=>{
     const [amount, setAmount] = useState("");
     const [price, setPrice] = useState("");
     const [isFaucet, setIsFaucet] = useState(false)
@@ -68,6 +68,7 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
             console.log(token)
             BuyToken(token, String(price), String(amount), userAccount, receipt.transactionHash)
         });
+        setRefresh(!refresh)
     }
     // 판매
     async function SendToken(){
@@ -85,8 +86,8 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
             console.log(token)
             SellToken(token, String(price), String(amount), userAccount, receipt.transactionHash)
         })
+        setRefresh(!refresh)
     }
-
     const ST_1 = {
         name:'ENTA',price:(totalCurrentPrices.enta * userEntaToken).toFixed(4) ,amount: userEntaToken
     };

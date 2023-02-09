@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { injected } from "../connectors";
 import History from "./History"
-const HistoryWrapper =({userPosition,walletConnected,setWalletConnected,setOffset,setLimit,setTxs
+const HistoryWrapper =({userPosition,walletConnected,setWalletConnected,setOffset,setLimit,setTxs,refresh
 })=>{
     const [currentPageNum, setCurrentPageNum]=useState(1)
     const {chainId, account, active, activate, deactivate} = useWeb3React();
@@ -29,7 +29,7 @@ const HistoryWrapper =({userPosition,walletConnected,setWalletConnected,setOffse
     useEffect(()=>{
         setOffset(pageSet * (currentPageNum - 1))
         setLimit(pageSet * (currentPageNum - 1)+pageSet-1)
-    },[offset])
+    },[offset,userPosition,refresh])
     return(
         <div className="history_wrapperA" >
 

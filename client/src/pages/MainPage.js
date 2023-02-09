@@ -38,6 +38,7 @@ const MainPage =({setTxs,isWelcome,setIsWelcome})=>{
     const [totalChartData, setTotalChartData] = useState(false)
     const [offset, setOffset]=useState(0)
     const [limit, setLimit]=useState(10)
+    const [refresh, setRefresh] = useState(false)
 
     const {chainId, account, active, activate, deactivate} = useWeb3React();
     const currentPrice_ref = useRef({});
@@ -187,7 +188,7 @@ const MainPage =({setTxs,isWelcome,setIsWelcome})=>{
         if(account!==undefined){
         Position(account,offset,10)
         }
-    },[account,offset])
+    },[currentPrice,account,offset,refresh])
 
     useEffect(()=>{
     if(account!==undefined){
@@ -233,6 +234,8 @@ return(
                 ST_CurrentPrice={currentPrice.close} 
             />
             <Order
+                refresh={refresh}
+                setRefresh={setRefresh}
                 ST_CurrentPrice={currentPrice.close}
                 userEth={userEth}
                 userEntaToken={userEntaToken}
@@ -244,6 +247,7 @@ return(
         </div>
         <div className="main_bottom">
             <Historys
+                refresh={refresh}
                 setTxs={setTxs}
                 setOffset={setOffset}
                 setLimit={setLimit}
