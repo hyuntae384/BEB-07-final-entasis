@@ -78,7 +78,8 @@ module.exports = {
       const userPosition = await position_his.findAll({
         where: { user_wallet: wallet },
         offset: Number(offset),
-        limit: Number(limit)
+        limit: Number(limit),
+        order: [['id', 'DESC']],
       })
       const total = await position_his.findAll({ where: { user_wallet: wallet } });
       if(!total) return res.status(400).json({message:"No such data"});
