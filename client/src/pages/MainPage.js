@@ -66,7 +66,7 @@ const MainPage =({setTxs,isWelcome,setIsWelcome})=>{
     const [chartTermArr, setChartTermArr] = useState([])
     const [chartOriginArr,setChartOriginArr] = useState([]);
     const [isChartTotal, setIsChartTotal] = useState([]);
-    const apiAddress = "http://localhost:5050/user/personaldividend/?wallet="
+    const apiAddress = "http://15.165.204.25:5050/user/personaldividend/?wallet="
 
 
     const [userDividend, setUserDividend] = useState({
@@ -87,7 +87,7 @@ const MainPage =({setTxs,isWelcome,setIsWelcome})=>{
 useEffect(()=>{
     let limitChartArr=[];
 
-    const origin = 'http://localhost:5050/chart/'
+    const origin = 'http://15.165.204.25:5050/chart/'
         const setChartTotal=(async(offset,limit,tokenName) => 
         {try {
             // setIsLoading(true)
