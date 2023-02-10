@@ -56,7 +56,7 @@ useEffect(()=>{
         setChartOriginArr(isChartTotal)
         
     },[isChartTotal,tokenName])
-console.log(`${new Date().getSeconds()}`)
+// console.log(`${new Date().getSeconds()}`)
     useEffect(() => {
         const loop = setInterval(() => {
             if(`${new Date().getSeconds()}`===`59`){
