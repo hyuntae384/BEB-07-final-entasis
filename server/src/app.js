@@ -504,6 +504,7 @@ app.post('/restrict', async (req, res, next) => {
   }
 })
 
+
 app.use('/chart', chartRouter);
 app.use('/user', userRouter);
 app.use('/company', companyRouter);
@@ -523,6 +524,7 @@ app.use((err, req, res, next) => {
   res.locals.error = process.env.NODE_ENV !== 'production' ? err : {};
   return res.status(err.status || 500).json(err.message);
 });
+
 
 // 서버 리스너
 app.listen(app.get('port'), () => {
