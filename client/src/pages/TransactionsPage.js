@@ -7,20 +7,21 @@ import TokenABI from "../ABIs/ERC1400.json"
 import Assets from '../components/Assets';
 import Historys from '../components/Historys'
 import Footer from '../components/Footer';
+import { Link } from 'react-router-dom';
 
 const TransactionPage =({txs,
 
-    isEnroll,
-    walletConnected ,
-    setWalletConnected ,
-    isLoading ,
-    totalCurrentPrices,
-    stName,
-    setStName,
-    companyPD,
-    isCircuitBreaker,
-    setIsCircuitBreaker,
-    OPTIONS,
+    // isEnroll,
+    // walletConnected ,
+    // setWalletConnected ,
+    // isLoading ,
+    // totalCurrentPrices,
+    // stName,
+    // setStName,
+    // companyPD,
+    // isCircuitBreaker,
+    // setIsCircuitBreaker,
+    // OPTIONS,
 
 })=>{
     document.body.style.overflow = 'unset';
@@ -86,31 +87,26 @@ const TransactionPage =({txs,
     },[transactionOut])
 return(
     <div className='transaction'>
-        <Header
-            isEnroll={isEnroll}
-            walletConnected = {walletConnected}
-            setWalletConnected = {setWalletConnected}
-            isLoading = {isLoading} onMouseEnter={onMouseEnterHandler}
-            totalCurrentPrices={currentPrice.totalCurrentPrices}
-            stName={stName}
-            setStName={setStName}
-            companyPD={companyPD}
-            OPTIONS={OPTIONS}
+            <div className="header">
+        
+        <Link to='/'>
+            <img src={require('../assets/images/logo.png')}></img>
+        </Link>
+        <Link to='/'>
+            <img className='entasis_main_logo' src={require('../assets/images/ENTASIS.png')}></img>
+        </Link>
+    </div>
+    <div className="navigator">
+    <div className="public_disclosure">
+        <div className="public_disclosure_wrapper">
+        </div>
+        </div>
+            <div className="navigation_right">
+                <Link to='/transaction'><h4>Transactions</h4></Link>
+            </div>
 
+        </div>
 
-        />
-
-
-        <Navigator
-            totalCurrentPrices={currentPrice.totalCurrentPrices}
-            stName={stName}
-            setStName={setStName}
-            companyPD={companyPD}
-            isCircuitBreaker={isCircuitBreaker}
-            setIsCircuitBreaker={setIsCircuitBreaker}
-            OPTIONS={OPTIONS}
-
-        />
         <div className='transactions'>
 
             <div className="show_transaction_in">
@@ -155,6 +151,7 @@ return(
 
                 </div>
             </div>
+
 
             <div className="show_transaction_out">
                 <div className='show_transaction_out_top'>

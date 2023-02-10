@@ -38,7 +38,7 @@ useEffect(()=>{
             setTimeout(()=>{
                 (resultTotal.data.priceinfo.map(e=>limitChartArr.push(Object.values(e))))
                 setIsChartTotal(limitChartArr)
-                setTotalChartData(true)
+                setTotalChartData(true)         
                 // setIsLoading(false)
                 // setOffset(limit/100)
                 // total=resultTotal.data.totalLength-1;
