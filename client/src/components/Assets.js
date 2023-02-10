@@ -80,7 +80,7 @@ const Assets =({ST_CurrentPrice,powerOfMarket,userEth,userEntaToken,userBebToken
     // 유저 총 배당 수익금
     const totalUserDividendIncome = userDividend.ENTAToken + userDividend.BEBToken + userDividend.LEOToken
     const totalUserDividendIncomeRatio = totalUserDividendIncome / sumTokenValue
-    console.log(totalUserDividendIncomeRatio)
+    // console.log(totalUserDividendIncomeRatio)
     const AssetsArray = [
         {
             id:1,
