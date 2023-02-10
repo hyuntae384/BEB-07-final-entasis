@@ -8,7 +8,21 @@ import Assets from '../components/Assets';
 import Historys from '../components/Historys'
 import Footer from '../components/Footer';
 
-const TransactionPage =({txs})=>{
+const TransactionPage =({txs,
+
+    isEnroll,
+    walletConnected ,
+    setWalletConnected ,
+    isLoading ,
+    totalCurrentPrices,
+    stName,
+    setStName,
+    companyPD,
+    isCircuitBreaker,
+    setIsCircuitBreaker,
+    OPTIONS,
+
+})=>{
     document.body.style.overflow = 'unset';
     for(let i = window.innerHeight ; i>1 ;i--){
         window.scrollTo(i,i)
@@ -72,8 +86,31 @@ const TransactionPage =({txs})=>{
     },[transactionOut])
 return(
     <div className='transaction'>
-        <Header/>
-        <Navigator/>
+        <Header
+            isEnroll={isEnroll}
+            walletConnected = {walletConnected}
+            setWalletConnected = {setWalletConnected}
+            isLoading = {isLoading} onMouseEnter={onMouseEnterHandler}
+            totalCurrentPrices={currentPrice.totalCurrentPrices}
+            stName={stName}
+            setStName={setStName}
+            companyPD={companyPD}
+            OPTIONS={OPTIONS}
+
+
+        />
+
+
+        <Navigator
+            totalCurrentPrices={currentPrice.totalCurrentPrices}
+            stName={stName}
+            setStName={setStName}
+            companyPD={companyPD}
+            isCircuitBreaker={isCircuitBreaker}
+            setIsCircuitBreaker={setIsCircuitBreaker}
+            OPTIONS={OPTIONS}
+
+        />
         <div className='transactions'>
 
             <div className="show_transaction_in">
