@@ -7,7 +7,6 @@ const HistoryWrapper =({userPosition,walletConnected,setWalletConnected,setOffse
 })=>{
     const [currentPageNum, setCurrentPageNum]=useState(1)
     const {chainId, account, active, activate, deactivate} = useWeb3React();
-console.log(userPosition)
 
     const handleConnect = () => {
         if(active) {
