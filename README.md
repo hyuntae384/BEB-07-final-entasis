@@ -252,7 +252,7 @@ STO를 통해 현재 증권 거래 비용에 포함된 브로커들의 수수료
 
 ## Database
 <div>
-    <img src="https://img.shields.io/badge/AWS RDS-527FFF?style=for-the-badge&logo=AWS RDS&logoColor=white">
+    <img src="https://img.shields.io/badge/amazon rds-527FFF?style=for-the-badge&logo=amozon rds&logoColor=white">
     <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=MySQL&logoColor=white">
     <img src="https://img.shields.io/badge/Sequelize-52B0E7?style=for-the-badge&logo=Sequelize&logoColor=white"> 
 </div>
