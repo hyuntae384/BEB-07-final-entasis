@@ -7,7 +7,8 @@ import '../assets/css/main.css';
 import SelectBox from './Select';
 import Tutorials from "./Tutorials";
 
-const Navigator =({isCircuitBreaker,setIsCircuitBreaker/*company*/})=>{
+const Navigator =({isCircuitBreaker,setIsCircuitBreaker,stName,setStName,companyPD,OPTIONS,totalCurrentPrices
+})=>{
     const [pdModalIsOpen, setPdModalIsOpen] = useState(false);
     const [tutorialsClicked,setTutorialsClicked] = useState(false)
     // const [isDate, setIsDate] = useState(0);
@@ -29,11 +30,15 @@ const Navigator =({isCircuitBreaker,setIsCircuitBreaker/*company*/})=>{
         },1000)}
     },[isCircuitBreaker,i])
 
+const SelectCoorp = (e) =>{
+    if(e==='ENTAToken'){}
+    if(e==='BEBToken'){}
+    if(e==='LEOToken'){}
+}
 
-
-    const countNumber=(e)=>{
-        return e.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,",")
-    }
+    // const countNumber=(e)=>{
+    //     return e.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,",")
+    // }
     
     const modalStyle = {
         
@@ -107,25 +112,30 @@ const Navigator =({isCircuitBreaker,setIsCircuitBreaker/*company*/})=>{
                 <div className='close' onClick={()=>PdModalClose()}>
                     <img src={require('../assets/images/close.png')}></img>
                 </div>
+                <SelectBox
+                    set={OPTIONS} 
+                    value={setStName}
+                ></SelectBox>
                 <div>
                     <h2>Name</h2>
-                    <h3>{company.name}</h3>
+                    <h3>{companyPD.name}</h3>
                 </div>
                 <div>
                     <h2>Total Assets</h2>
-                    <h3>{countNumber(company.total_asset)} ETH</h3>
+                    <h3>{console.log(totalCurrentPrices)} ETH</h3>
+
                 </div>
                 <div>
                     <h2>Income</h2>
-                    <h3>{countNumber(company.income)} ETH</h3>
+                    <h3>{toString(companyPD.income)} ETH</h3>
                 </div>
 
                 <h2>Current Dividend</h2>
-                    <h3>{countNumber(company.divided)} ETH</h3>   
+                    <h3>{toString(companyPD.dividend)} ETH</h3>   
                 <h2>Current Dividend Ratio</h2>
-                    <h3>{company.divided_ratio} %</h3> 
+                    <h3>{companyPD.dividend_ratio} %</h3> 
                     <h2>Next Dividend Ratio</h2>
-                    <h3>{company.divided_ratio*100+'%'} * ( 1 + {company.next_ratio} ) = {company.divided_ratio * company.next_ratio} %</h3>
+                    <h3>{companyPD.dividend_ratio*100+'%'} * ( 1 + {companyPD.voted_ratio} ) = {companyPD.dividend_ratio * companyPD.voted_ratio} %</h3>
             </div>
             </Modal>
             </div>
