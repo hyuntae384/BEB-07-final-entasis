@@ -526,7 +526,6 @@ app.use((err, req, res, next) => {
   return res.status(err.status || 500).json(err.message);
 });
 
-
 // 서버 리스너
 app.listen(app.get('port'), () => {
   logger.info(app.get('port'), 'is up and listening');
