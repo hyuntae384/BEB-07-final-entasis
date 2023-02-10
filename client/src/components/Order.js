@@ -62,11 +62,42 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
             setAmount(Math.floor(userEth/ST_1.price))
             e.target.value = Math.floor(userEth/ST_1.price)
         }else setAmount(curamount)
+        if(curamount*ST_2.price>userEth){
+            setAmount(Math.floor(userEth/ST_2.price))
+            e.target.value = Math.floor(userEth/ST_2.price)
+        }else setAmount(curamount)
+        if(curamount*ST_3.price>userEth){
+            setAmount(Math.floor(userEth/ST_3.price))
+            e.target.value = Math.floor(userEth/ST_3.price)
+        }else setAmount(curamount)
+
+
 
         //sell
         if(token === 'enta'&&curamount>ST_1.amount) {setAmount(ST_1.amount);e.target.value =ST_1.amount}
         if(token === 'beb'&&curamount>ST_2.amount) {setAmount(ST_2.amount);e.target.value =ST_2.amount}
         if(token === 'leo'&&curamount>ST_3.amount) {setAmount(ST_3.amount);e.target.value =ST_3.amount}
+
+
+        // if(){}
+        
+        let buyMaxST_1 = Math.floor(userEth/ST_1.price)
+        let sellMaxST_1 = ST_1.amount
+        let buyMaxST_2 = Math.floor(userEth/ST_2.price)
+        let sellMaxST_2 = ST_2.amount
+        let buyMaxST_3 = Math.floor(userEth/ST_3.price)
+        let sellMaxST_3 = ST_3.amount
+        let amountMax = (buyMax,sellMax)=>{Math.max(buyMax,sellMax)}
+        amountMax()
+        if(token === 'enta'){}
+        if(token === 'beb'){}
+        if(token === 'leo'){}
+        
+        if((amountMax<curamount)){
+            setAmount(amountMax)
+            e.target.value = amountMax
+        }
+
 
 
     }
