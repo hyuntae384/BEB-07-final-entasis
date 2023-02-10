@@ -19,14 +19,14 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
     } */
     const [token, setToken] = useState("enta");
     const web3 = new Web3(
-        window.ethereum || process.env.REACT_APP_GANACHE_NETWORK
+        window.ethereum || "18.183.252.200"
     );
-
+    const serverAddress = "0xcF2d1489aa02781EED54C7E531d91668Bd3f3703"
     const userAccount = useWeb3React().account;
     const StABI = TokenABI.abi
-    const EntaTokenContract = new web3.eth.Contract(StABI, process.env.REACT_APP_ENTA_CA);
-    const LeoTokenContract = new web3.eth.Contract(StABI, process.env.REACT_APP_LEO_CA);
-    const BebTokenContract = new web3.eth.Contract(StABI, process.env.REACT_APP_BEB_CA);
+    const EntaTokenContract = new web3.eth.Contract(StABI, "0x7E8D575B3f4a8f419977CEDc14B2b7A229E09D07");
+    const LeoTokenContract = new web3.eth.Contract(StABI, "0xd0A913d056748C1f33687eE90d3d996599bbeb07");
+    const BebTokenContract = new web3.eth.Contract(StABI, "0xF642aEB3d76fc01149bb10dcD88120528aefDB16");
     const [tokenContract, setTokenConteact] = useState(EntaTokenContract);
     const [isRestricted, setIsRestricted] = useState(false);
     useEffect(() => {
@@ -63,7 +63,7 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
         const totalValue = amount * price * 1.0004;
         web3.eth.sendTransaction({
             from: userAccount,
-            to: process.env.REACT_APP_ADMIN_ADDRESS,
+            to: serverAddress,
             value: web3.utils.toWei(String(totalValue), 'ether')
         }).then(function(receipt){
             console.log(receipt)
@@ -74,7 +74,7 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
     }
     // 판매
     async function SendToken(){
-        const data = await tokenContract.methods.transfer(process.env.REACT_APP_ADMIN_ADDRESS, web3.utils.toWei(amount)).encodeABI()
+        const data = await tokenContract.methods.transfer(serverAddress, web3.utils.toWei(amount)).encodeABI()
         const tx = {
             from: userAccount,
             to: tokenContract._address,
