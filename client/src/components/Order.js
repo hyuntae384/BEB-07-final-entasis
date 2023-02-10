@@ -5,8 +5,10 @@ import {FaucetWallet, EnrollWallet, ChName, Tutorial, Score, Position, Account} 
 import {BuyToken, SellToken} from '../apis/token';
 import Web3 from "web3";
 import TokenABI from "../ABIs/ERC1400.json"
+import SelectBox from "./Select";
 
-const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,tokenName,totalCurrentPrices,refresh,setRefresh})=>{
+const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,tokenName,totalCurrentPrices,refresh,setRefresh,ST_Name,setTokenName})=>{
+
     const [amount, setAmount] = useState("");
     const [price, setPrice] = useState("");
     const [isFaucet, setIsFaucet] = useState(false)
@@ -106,6 +108,12 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
         <div className="order_mode">
             {/* <h3>Limit</h3> */}
             <h3>Market Order</h3>
+            <div className="order_select">
+                <SelectBox
+                    set={ST_Name}
+                    value={setTokenName}
+                ></SelectBox>
+            </div>
         </div>
         <form>
             <h6 className="order_available">Available Eth : {userEth}</h6>
