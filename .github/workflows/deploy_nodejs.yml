@@ -63,7 +63,7 @@ jobs:
         run: |
 
           docker stop ${{env.NAME}} && docker rm ${{env.NAME}} && docker rmi ${{env.DOCKER_IMAGE}}
-          docker run -d -p 5050:5050 \
+          docker run -d --ip 172.20.0.2 -p 5050:5050 \
           -e NODE_ENV=${{secrets.NODE_ENV}} \
           -e COOKIE_SECRET=${{secrets.COOKIE_SECRET}} \
           -e MYSQL_USERNAME=${{secrets.MYSQL_USERNAME}} \
