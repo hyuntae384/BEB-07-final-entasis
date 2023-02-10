@@ -505,6 +505,7 @@ app.post('/restrict', async (req, res, next) => {
   }
 })
 
+
 app.use('/chart', chartRouter);
 app.use('/user', userRouter);
 app.use('/company', companyRouter);
