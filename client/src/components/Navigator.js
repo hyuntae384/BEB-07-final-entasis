@@ -11,10 +11,12 @@ const Navigator =({isCircuitBreaker,setIsCircuitBreaker,stName,setStName,company
 })=>{
     const [pdModalIsOpen, setPdModalIsOpen] = useState(false);
     const [tutorialsClicked,setTutorialsClicked] = useState(false)
+    const [coorpName,setCoorpName] = useState('')
     // const [isDate, setIsDate] = useState(0);
     let time = new Date()
     let date = (59-time.getMinutes())%5+":"+(59-time.getSeconds());
     let [circuitBreakerTimer,setCircuitBreakerTimer] = useState(60)
+    
     let i = 60 ;
 
     useEffect(()=>{
@@ -31,11 +33,13 @@ const Navigator =({isCircuitBreaker,setIsCircuitBreaker,stName,setStName,company
     },[isCircuitBreaker,i])
 
 const SelectCoorp = (e) =>{
-    if(e==='ENTAToken'){}
-    if(e==='BEBToken'){}
-    if(e==='LEOToken'){}
-}
-
+    if(e==='ENTAToken')return totalCurrentPrices.enta
+    if(e==='BEBToken')return totalCurrentPrices.beb
+    if(e==='LEOToken')return totalCurrentPrices.leo
+}   
+    useEffect(()=>{
+        setCoorpName(SelectCoorp(stName))
+    })
     // const countNumber=(e)=>{
     //     return e.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,",")
     // }
@@ -55,7 +59,7 @@ const SelectCoorp = (e) =>{
         content: {
             display: "block",
             justifyContent: "center",
-            background: "#2B2B2B",
+            background: "#222223",
             overflow: "hidden",
             top: "0",
             left: "0",
@@ -116,26 +120,30 @@ const SelectCoorp = (e) =>{
                     set={OPTIONS} 
                     value={setStName}
                 ></SelectBox>
-                <div>
-                    <h2>Name</h2>
-                    <h3>{companyPD.name}</h3>
+                <div className="myaccount_section">
+                    <h3>Name</h3>
+                    <h5>{companyPD.name}</h5>
                 </div>
-                <div>
-                    <h2>Total Assets</h2>
-                    <h3>{console.log(totalCurrentPrices)} ETH</h3>
+                <div className="myaccount_section">
+                    <h3>Total Assets</h3>
+                    <h5>{Number(coorpName).toFixed(4)} ETH</h5>
 
                 </div>
-                <div>
-                    <h2>Income</h2>
-                    <h3>{toString(companyPD.income)} ETH</h3>
+                <div className="myaccount_section">
+                    <h3>Income</h3>
+                    <h5>{(Number(companyPD.income).toFixed(4))} ETH</h5>
                 </div>
-
-                <h2>Current Dividend</h2>
-                    <h3>{toString(companyPD.dividend)} ETH</h3>   
-                <h2>Current Dividend Ratio</h2>
-                    <h3>{companyPD.dividend_ratio} %</h3> 
-                    <h2>Next Dividend Ratio</h2>
-                    <h3>{companyPD.dividend_ratio*100+'%'} * ( 1 + {companyPD.voted_ratio} ) = {companyPD.dividend_ratio * companyPD.voted_ratio} %</h3>
+                <div className="myaccount_section">
+                    <h3>Current Dividend</h3>
+                    <h5>{(Number(companyPD.dividend).toFixed(4))} ETH</h5> </div>
+                <div className="myaccount_section">
+                    <h3>Current Dividend Ratio</h3>
+                    <h5>{companyPD.dividend_ratio} %</h5> 
+                </div>
+                <div className="myaccount_section">
+                    <h3>Next Dividend Ratio</h3>
+                    <h5>{companyPD.dividend_ratio*100+'%'} * ( 1 + {Number(companyPD.voted_ratio)}) = {(companyPD.dividend_ratio*100 * (1+Number(companyPD.voted_ratio))).toFixed(2)} %</h5>
+                </div>
             </div>
             </Modal>
             </div>
