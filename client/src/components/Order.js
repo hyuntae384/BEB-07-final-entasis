@@ -7,78 +7,11 @@ import Web3 from "web3";
 import TokenABI from "../ABIs/ERC1400.json"
 import SelectBox from "./Select";
 
-const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,tokenName,totalCurrentPrices,refresh,setRefresh,ST_Name,setTokenName})=>{
-
-    const [amount, setAmount] = useState("");
-    const [price, setPrice] = useState("");
-    const [isFaucet, setIsFaucet] = useState(false)
-    const {chainId, account, active, activate, deactivate} = useWeb3React();
-    const [curPrice, setCurPrice] = useState()
-    /* const countNumber=(e)=>{
-        return e.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,",")
-    } */
-    const [token, setToken] = useState("enta");
-    const web3 = new Web3(
-        window.ethereum || "18.183.252.200"
-    );
-    const serverAddress = "0xcF2d1489aa02781EED54C7E531d91668Bd3f3703"
-    const userAccount = useWeb3React().account;
-    const StABI = TokenABI.abi
-    const EntaTokenContract = new web3.eth.Contract(StABI, "0x7E8D575B3f4a8f419977CEDc14B2b7A229E09D07");
-    const LeoTokenContract = new web3.eth.Contract(StABI, "0xd0A913d056748C1f33687eE90d3d996599bbeb07");
-    const BebTokenContract = new web3.eth.Contract(StABI, "0xF642aEB3d76fc01149bb10dcD88120528aefDB16");
-    const [tokenContract, setTokenConteact] = useState(EntaTokenContract);
-    const [isRestricted, setIsRestricted] = useState(false);
-    useEffect(() => {
-        setCurPrice(ST_CurrentPrice)
-        priceChange()
-        setToken(tokenName)
-        contractChange(token)
-        changeRestricted()
-    },[ST_CurrentPrice])
-    
-    // console.log(curPrice)
-    function contractChange(token){
-        if(token === 'enta') setTokenConteact(EntaTokenContract)
-        if(token === 'beb') setTokenConteact(BebTokenContract)
-        if(token === 'leo') setTokenConteact(LeoTokenContract)
-    }
-
-    async function changeRestricted(){
-        const isRestricted = await tokenContract.methods.isRestricted().call()
-        setIsRestricted(isRestricted)
-    }
-
-    function priceChange(){
-        let curprice = curPrice;
-        setPrice(curprice)
-    }
-
-    function amountChange(e){
-        let curamount = e.target.value;
-        
-        let buyMaxST_1 = Math.floor(Number(userEth)/Number(totalCurrentPrices.enta))
-        let sellMaxST_1 = ST_1.amount
-        let buyMaxST_2 = Math.floor(userEth/totalCurrentPrices.beb)
-        let sellMaxST_2 = ST_2.amount
-        let buyMaxST_3 = Math.floor(userEth/totalCurrentPrices.leo)
-        let sellMaxST_3 = ST_3.amount
-        let amountMax = (buyMax,sellMax)=>{return Math.max(buyMax,sellMax)}
-        if((token === 'enta')&&(amountMax(buyMaxST_1,sellMaxST_1)<curamount)){
-            setAmount(amountMax(buyMaxST_1,sellMaxST_1))
-            e.target.value=amountMax(buyMaxST_1,sellMaxST_1)
-        }
-        if((token === 'beb')&&(amountMax(buyMaxST_2,sellMaxST_2)<curamount)){
-            setAmount(amountMax(buyMaxST_2,sellMaxST_2))
-            e.target.value=amountMax(buyMaxST_2,sellMaxST_2)
-        }
-        if((token === 'leo')&&(amountMax(buyMaxST_3,sellMaxST_3)<curamount)){
-            setAmount(amountMax(buyMaxST_3,sellMaxST_3))
-            e.target.value=amountMax(buyMaxST_3,sellMaxST_3)
-        }
+const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,tokenName,totalCurrentPrices,refresh,setRefresh,ST_Name,setTokenName,amount,price,web3,userAccount,serverAddress,token,tokenContract,setAmount,curPrice,isFaucet,faucetBtn,account
+})=>{
 
 
-    }
+
     // 구매
     async function SendETH(){
         const totalValue = amount * price * 1.0004;
@@ -111,6 +44,8 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
         })
         setRefresh(!refresh)
     }
+
+
     const ST_1 = {
         name:'ENTA',price:(totalCurrentPrices.enta * userEntaToken).toFixed(4) ,amount: userEntaToken
     };
@@ -120,9 +55,32 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
     const ST_3 = {
         name:'LEO',price:(totalCurrentPrices.leo * userLeoToken).toFixed(4) ,amount: userLeoToken
     };
-    const faucetBtn=()=>{
-        FaucetWallet(account)
+
+    function amountChange(e){
+        let curamount = e.target.value;
+        
+        let buyMaxST_1 = Math.floor(Number(userEth)/Number(totalCurrentPrices.enta))
+        let sellMaxST_1 = ST_1.amount
+        let buyMaxST_2 = Math.floor(userEth/totalCurrentPrices.beb)
+        let sellMaxST_2 = ST_2.amount
+        let buyMaxST_3 = Math.floor(userEth/totalCurrentPrices.leo)
+        let sellMaxST_3 = ST_3.amount
+        let amountMax = (buyMax,sellMax)=>{return Math.max(buyMax,sellMax)}
+        if((token === 'enta')&&(amountMax(buyMaxST_1,sellMaxST_1)<curamount)){
+            setAmount(amountMax(buyMaxST_1,sellMaxST_1))
+            e.target.value=amountMax(buyMaxST_1,sellMaxST_1)
+        }
+        else if((token === 'beb')&&(amountMax(buyMaxST_2,sellMaxST_2)<curamount)){
+            setAmount(amountMax(buyMaxST_2,sellMaxST_2))
+            e.target.value=amountMax(buyMaxST_2,sellMaxST_2)
+            console.log(e.target.value)
+        }
+        else if((token === 'leo')&&(amountMax(buyMaxST_3,sellMaxST_3)<curamount)){
+            setAmount(amountMax(buyMaxST_3,sellMaxST_3))
+            e.target.value=amountMax(buyMaxST_3,sellMaxST_3)
+        } else setAmount(curamount)
     }
+
 
     return(
     <div className="order">

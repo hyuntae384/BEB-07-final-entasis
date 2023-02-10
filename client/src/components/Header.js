@@ -12,121 +12,10 @@ import axios from 'axios';
 import Welcome from '../pages/TransactionsPage';
 
 // import {Vote} from '../apis/company'
-const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,setStName,companyPD,OPTIONS})=> {
+const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,setStName,companyPD,OPTIONS,active,handleConnect,isEnroll,account,setEditName,editName,setEditNameValue,Change,mypage,isFaucet,faucetBtn,dividendTimeLimit,setVoted,voted,ratio,setRatio
+})=> {
     const [userModalIsOpen, setUserModalIsOpen] = useState(false)
-    const [isFaucet, setIsFaucet] = useState(false)
-    const [isEnroll, setIsEnroll] = useState(false)
-    const [name, setName] = useState("aa");
-    const [vote,setVote] =useState()
-    const [ratio, setRatio] = useState(0);
-    const [editName, setEditName] = useState(false)
-    const [editNameValue,setEditNameValue] = useState('')
-    const [voted,setVoted] = useState(false)
-    const [myPage, setMyPage] =useState({})
 
-    const countNumber=(e)=>{
-        return e.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,",")
-    }
-    const {chainId, account, active, activate, deactivate} = useWeb3React();
-
-    const handleConnect = () => {
-        if(active) {
-            deactivate();
-            localStorage.setItem('isWalletConnected', false)
-            return;
-        }
-        activate(injected, (error) => {
-            if('/No ethereum provider was found on window.ethereum/'.test(error)) {
-                window.open('https://metamask.io/download.html');
-            }
-        });
-        try {
-            localStorage.setItem('isWalletConnected', true) 
-        } catch (ex) {
-            console.log(ex)
-        }
-        setWalletConnected(true)
-    }
-
-    useEffect(() => { 
-        const connectWalletOnPageLoad = async () => { 
-            if (localStorage?.getItem('isWalletConnected') === 'true') { 
-                try { 
-                await activate(injected) 
-                } catch (ex) { 
-                console. log(ex) 
-                } 
-            } 
-            } 
-            connectWalletOnPageLoad() 
-        }, [injected])
-
-    const origin = "http://localhost:5050/";
-    const getUserURL = origin + "user/"; 
-    const getCompanyURL = origin + "company/"; 
-    const faucet = getUserURL + "faucet/?wallet="
-    const mypage = getUserURL + "mypage/?wallet="
-    const enroll = getUserURL + "enroll/?wallet="
-    const voteURL = getCompanyURL + "vote"
-
-
-
-    const MyPage = async(wallet) => {
-        if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
-        const resultAccount = await axios.get(mypage + wallet)
-        .then(res=>res)
-        .then(err=>err)
-        setMyPage(resultAccount)
-    }
-    const EnrollWallet = async(wallet) => {
-        if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
-        const resultEnrollWallet =  await axios.post(enroll + wallet)
-        .then(res=>res.data)
-        .then(err=>err)
-        setIsEnroll(resultEnrollWallet)
-    }
-    useEffect(()=>{
-        MyPage(account)
-        EnrollWallet(account)
-    },[account])
-
-
-    /* window.addEventListener("unload", function(e) {
-        localStorage.setItem('isWalletConnected', false)
-    }) */
-
-    const FaucetWallet = async(wallet) => {
-        if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
-        const faucetJSON = {'wallet':wallet}
-        const resultFaucetWallet = await axios.put(faucet + wallet,faucetJSON)
-        .then(res=>res.data.status)
-        .catch((error)=>{
-            if(error.response.data.message==='user has already used the faucet'){setIsFaucet(true)}
-        })
-        return resultFaucetWallet
-    }
-
-    useEffect(()=>{
-        MyPage(account)
-
-    },[account,editNameValue,editName])
-
-    const Change =()=>{
-        ChName(account,editNameValue)
-        MyPage(account)
-        setEditName(false)
-    }
-    const faucetBtn=()=>{
-        console.log(FaucetWallet(account))
-    }
-//     var Contract = require('web3-eth-contract');
-// // set provider for all later instances to use
-//     Contract.setProvider('ws://localhost:8546');
-//     var contract = new Contract(jsonInterface, address);
-//     contract.methods.somFunc().send({from: ....})
-//     .on('receipt', function(){
-//         ...
-//     });
     const modalStyle = {
         overlay: {
             position: "fixed",
@@ -182,6 +71,7 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,set
             opacity:0.9
         },
     };
+    
 
     let data ={
         name:'', 
@@ -200,23 +90,7 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,set
         document.body.style.overflow = 'unset';
         setUserModalIsOpen(false)
         }
-    useEffect(()=>{
-        const Vote = async(st_name,ratio,wallet) => {
-            if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
-            const voteJSON = {
-                name:st_name,
-                ratio:ratio,
-                user_wallet:wallet
-            }
-            const resultVote=  axios.post(voteURL,voteJSON)
-            .then(res=>res.data.status)
-            .then(err=>err)
-            setVote(resultVote)
-            return resultVote
-        }
-        Vote(stName,ratio,account)
-    },[ratio])
-    const dividendTimeLimit = (59-new Date().getMinutes())%5+":"+(59-new Date().getSeconds())
+
     return(
         <div className="header">
         
@@ -288,7 +162,7 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,set
                         <div className='assets'>
                             <h2>Assets</h2>
                             <div className='assets_wraper'>
-                                <h4>{mypage.amount}</h4>
+                                <h4>{isFaucet.amount}</h4>
                             </div>
                         </div>
                         <div className='deposit'>

@@ -7,39 +7,13 @@ import '../assets/css/main.css';
 import SelectBox from './Select';
 import Tutorials from "./Tutorials";
 
-const Navigator =({isCircuitBreaker,setIsCircuitBreaker,stName,setStName,companyPD,OPTIONS,totalCurrentPrices
+const Navigator =({isCircuitBreaker,setIsCircuitBreaker,stName,setStName,companyPD,OPTIONS,totalCurrentPrices,coorpName,circuitBreakerTimer
 })=>{
     const [pdModalIsOpen, setPdModalIsOpen] = useState(false);
     const [tutorialsClicked,setTutorialsClicked] = useState(false)
-    const [coorpName,setCoorpName] = useState('')
-    // const [isDate, setIsDate] = useState(0);
     let time = new Date()
     let date = (59-time.getMinutes())%5+":"+(59-time.getSeconds());
-    let [circuitBreakerTimer,setCircuitBreakerTimer] = useState(60)
-    
-    let i = 60 ;
 
-    useEffect(()=>{
-        if(isCircuitBreaker){
-        const setTime = setInterval(()=>{
-            if(i>0){
-                i--
-                setCircuitBreakerTimer(i)
-            }else{
-                clearInterval(setTime)
-                setIsCircuitBreaker(false)
-            }
-        },1000)}
-    },[isCircuitBreaker,i])
-
-const SelectCoorp = (e) =>{
-    if(e==='ENTAToken')return totalCurrentPrices.enta
-    if(e==='BEBToken')return totalCurrentPrices.beb
-    if(e==='LEOToken')return totalCurrentPrices.leo
-}   
-    useEffect(()=>{
-        setCoorpName(SelectCoorp(stName))
-    })
     // const countNumber=(e)=>{
     //     return e.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,",")
     // }
