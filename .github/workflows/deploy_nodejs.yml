@@ -3,7 +3,8 @@ name: nodejs deploy
 on:
   push: 
     branches: 
-      - AWS
+      - main
+      - dev
     paths: 
       - server/**
   workflow_dispatch: 
