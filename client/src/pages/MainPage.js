@@ -124,10 +124,6 @@ const MainPage =({setTxs,isWelcome,setIsWelcome})=>{
 
     // ================================================================
 
-    document.body.style.overflow = 'unset';
-    for(let i = window.innerHeight ; i>1 ;i--){
-        window.scrollTo(i,i)
-    }
     let powerOfMarket = (currentPrice.open - currentPrice.close)
     useEffect(()=>{
         // console.log('set')
@@ -247,7 +243,6 @@ return(
 
         />
         <Navigator
-        
             totalCurrentPrices={currentPrice.totalCurrentPrices}
             stName={stName}
             setStName={setStName}

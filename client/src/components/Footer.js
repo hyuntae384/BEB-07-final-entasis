@@ -90,7 +90,7 @@ const Footer =({setIsCircuitBreaker})=>{
         </div>
         <div className="footer_top">
         <Link to='/'>
-
+        
             <div className='footer_top_left'>
                     <img className='footer_logo' src = {require('../assets/images/logo_blue.png')} alt='logo'/>
                     <img className='footer_name' src = {require('../assets/images/ENTASIS_white.png')} alt='logo'/>

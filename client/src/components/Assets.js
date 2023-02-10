@@ -190,18 +190,18 @@ const Assets =({ST_CurrentPrice,powerOfMarket,userEth,userEntaToken,userBebToken
                         <rect
                             className="RTD_move"
                             x={5}
-                            y={(150+marketData*600)>0?(150+marketData*600):0}
+                            y={(150+marketData*100)>0?(80+marketData*100):0}
                             width = {80}
-                            height = {(80-marketData*600)>0?80-marketData*600:0}
+                            height = {(80-marketData*100)>0?150-marketData*100:0}
                             fill='#00A4D8'
                             >
                             </rect>
                             <rect
                             className="RTD_move"
                             x={95}
-                            y={(150-marketData*600)>0?150-marketData*600:0}
+                            y={(150-marketData*100)>0?80-marketData*100:0}
                             width = {80}
-                            height = {(80+marketData*600)>0?80+marketData*600:0}
+                            height = {(80+marketData*100)>0?150+marketData*100:0}
                             fill='#b8284a'>
                             </rect>
                         </g>
