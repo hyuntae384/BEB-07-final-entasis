@@ -1,7 +1,7 @@
 import Asset from "./Asset"
 import {useState, useEffect} from 'react'
 import axios from 'axios';
-const Assets =({ST_CurrentPrice,powerOfMarket,userEth,userEntaToken,userBebToken,userLeoToken,totalCurrentPrices, userPosition, userAccount})=>{
+const Assets =({ST_CurrentPrice,powerOfMarket,userEth,userEntaToken,userBebToken,userLeoToken,totalCurrentPrices, userPosition, userAccount,userDividend})=>{
     // `/user/asset/?address=${address}`
     /* console.log(userPosition.userPosition) */
     /* const [userPosi, setUserPosi] = useState('')
@@ -49,24 +49,7 @@ const Assets =({ST_CurrentPrice,powerOfMarket,userEth,userEntaToken,userBebToken
     // 유저가 받은 총 배당금
     // 총 수익률
 
-    useEffect(() => {
-        getDividend(userAccount)
-    }, [ST_CurrentPrice])
 
-    const [userDividend, setUserDividend] = useState({
-        ENTAToken:'0',
-        BEBToken:'0',
-        LEOToken:'0'
-    })
-    const apiAddress = "http://localhost:5050/user/personaldividend/?wallet="
-
-    const getDividend = async(wallet) => {
-        if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
-        const resultAmount = await axios.get(apiAddress + wallet)
-        .then(res=>res)
-        .then(err=>err)
-        setUserDividend(resultAmount.data)
-    }
     
     const totalValue = {
         enta : totalCurrentPrices.enta * userEntaToken,
