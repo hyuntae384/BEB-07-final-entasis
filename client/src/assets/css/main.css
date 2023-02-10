@@ -1206,3 +1206,10 @@ input.input_transaction{
 .myaccount_section h3{
     color:  #474747;
 }
+.total_assets{
+    display: flex;
+    align-items: baseline;
+}
+.total_assets h6{
+    margin: 0 2%;
+}
