@@ -1200,3 +1200,9 @@ input.input_transaction{
 .footer_name{
     margin-left: 15px;
 }
+.myaccount_section{
+    margin: 4%;
+}
+.myaccount_section h3{
+    color:  #474747;
+}
