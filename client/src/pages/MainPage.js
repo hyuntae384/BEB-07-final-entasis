@@ -304,7 +304,7 @@ useEffect(()=>{
         if(name !== tokenName&&totalChartData===true){
             const setChartRTD=(async () => 
                 {try {
-                    currentPrice_ref.current = await axios.get('http://localhost:5050/rtd/'+tokenName)
+                    currentPrice_ref.current = await axios.get('http://15.165.204.25:5050/rtd/'+tokenName)
                     setCurrentPrice(currentPrice_ref.current.data)
                 } catch (e) {
                     console.log(e) // caught
@@ -337,7 +337,7 @@ useEffect(()=>{
         copy = e;
     }
     // URL
-    const origin = "http://localhost:5050/";
+    const origin = "http://15.165.204.25:5050/";
     const chart = origin + "chart/data"
 
     const getUserURL = origin + "user/"; 
