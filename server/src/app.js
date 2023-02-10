@@ -76,7 +76,7 @@ app.use(
 // 리미트분리
 app.use(limit({
   windowMs: 60 * 1000,
-  max: 2000,
+  max: 20000,
   delayMs: 100,
   handler(req,res) {
       res.status(this.statusCode).json({
