@@ -3,32 +3,9 @@ import { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { injected } from "../connectors";
 import History from "./History"
-const HistoryWrapper =({userPosition,walletConnected,setWalletConnected,setOffset,setLimit,setTxs,refresh
+const HistoryWrapper =({setTxs,currentPageNum,setCurrentPageNum,pages,positions,account,handleConnect
 })=>{
-    const [currentPageNum, setCurrentPageNum]=useState(1)
-    const {chainId, account, active, activate, deactivate} = useWeb3React();
 
-    const handleConnect = () => {
-        if(active) {
-            deactivate();
-            return;
-        }
-        activate(injected, (error) => {
-            if('/No ethereum provider was found on window.ethereum/'.test(error)) {
-                window.open('https://metamask.io/download.html');
-            }
-        });
-        setWalletConnected(!walletConnected)
-    }
-    let positions = userPosition!==undefined&& userPosition!==null?userPosition:[]
-    let pageSet = 10;
-    let pages = Math.ceil(positions.totalLength/ 10);
-    let offset = pageSet * (currentPageNum - 1);
-    let limit = offset + pageSet;
-    useEffect(()=>{
-        setOffset(pageSet * (currentPageNum - 1))
-        setLimit(pageSet * (currentPageNum - 1)+pageSet-1)
-    },[offset,userPosition,refresh])
     return(
         <div className="history_wrapperA" >
 
