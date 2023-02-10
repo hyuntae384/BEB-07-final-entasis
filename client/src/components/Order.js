@@ -56,7 +56,19 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
 
     function amountChange(e){
         let curamount = e.target.value;
-        setAmount(curamount)
+        
+        //buy
+        if(curamount*ST_1.price>userEth){
+            setAmount(Math.floor(userEth/ST_1.price))
+            e.target.value = Math.floor(userEth/ST_1.price)
+        }else setAmount(curamount)
+
+        //sell
+        if(token === 'enta'&&curamount>ST_1.amount) {setAmount(ST_1.amount);e.target.value =ST_1.amount}
+        if(token === 'beb'&&curamount>ST_2.amount) {setAmount(ST_2.amount);e.target.value =ST_2.amount}
+        if(token === 'leo'&&curamount>ST_3.amount) {setAmount(ST_3.amount);e.target.value =ST_3.amount}
+
+
     }
     // 구매
     async function SendETH(){
