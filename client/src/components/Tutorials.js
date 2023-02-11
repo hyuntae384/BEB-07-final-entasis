@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import {Tutorial} from '../apis/user'
-const Tutorials =({tutorialCnt, account,faucetBtn})=>{
+const Tutorials =({tutorialCnt, account,faucetBtn,setUserModalIsOpen,setPdModalIsOpen})=>{
     const [start, setStart] = useState(true)
     const [wallet, setWallet] = useState(true)
     const [chart, setChart] = useState(true)
@@ -54,6 +54,8 @@ const Tutorials =({tutorialCnt, account,faucetBtn})=>{
     }    
     // account={account===typeof 'string'?account:0}
     // tutorialCnt={isEnroll.cnt===typeof 'number'?isEnroll.cnt:0}
+
+
     window.scrollTo({
         top:0,
         behavior:'smooth'
@@ -100,6 +102,8 @@ const Tutorials =({tutorialCnt, account,faucetBtn})=>{
         <div className='next' onClick={()=>setWallet()}>Next</div>
         </Modal>
     )}
+
+
     if(chart){
         return (
         <Modal
@@ -188,6 +192,8 @@ const Tutorials =({tutorialCnt, account,faucetBtn})=>{
         style={modalStyle}
         className="welcome_tutorial_public_disclosure" onClick={() => setPublicDisclosure()} onFocus={document.body.style.overflow='hidden'}>
         <div className='welcome_tutorial_top'>
+        {setPdModalIsOpen(true)}
+
         <h4>Public Disclosure</h4>
         <i className='fas fa-arrow-left'></i>
         </div>
@@ -196,7 +202,7 @@ const Tutorials =({tutorialCnt, account,faucetBtn})=>{
         </div>
         <h5 className='count' >5/10</h5>
         <h5 className='skip' onClick={skipHandler}>Skip</h5>
-        <div className='next' onClick={()=>{setPublicDisclosure();}}>Next</div>
+        <div className='next' onClick={()=>{setPublicDisclosure();setPdModalIsOpen(false);}}>Next</div>
         </Modal>
     )}
     if(assets){
@@ -207,16 +213,17 @@ const Tutorials =({tutorialCnt, account,faucetBtn})=>{
         isOpen={assets}
         style={modalStyle}
         className="welcome_tutorial_assets" onClick={() => setAssets()} onFocus={document.body.style.overflow='hidden'}>
+        {setUserModalIsOpen(true)}
         <div className='welcome_tutorial_top'>
         <h4>MyAccount</h4>
-        <i className='fas fa-arrow-up'></i>
+        <i className='fas fa-arrow-right'></i>
         </div>
         <div>
             <h6>Manage Your Assets and Exercise your Voting Rights here.</h6>
         </div>
         <h5 className='count' >6/10</h5>
         <h5 className='skip' onClick={skipHandler}>Skip</h5>
-        <div className='next' onClick={()=>{setAssets();}}>Next</div>
+        <div className='next' onClick={()=>{setAssets();setUserModalIsOpen(false);}}>Next</div>
         </Modal>
     )}
     if(history){
@@ -279,7 +286,7 @@ const Tutorials =({tutorialCnt, account,faucetBtn})=>{
         </div>
         <div>
             <h6>This Button gives you 50.00 ETH</h6>
-            <h6 onClick={faucetBtn(account)}>Faucet</h6>
+            <h6 onClick={()=>faucetBtn(account)}>Faucet</h6>
         </div>
         <h5 className='count' >9/10</h5>
         <h5 className='skip' onClick={skipHandler}>Skip</h5>
