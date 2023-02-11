@@ -337,13 +337,13 @@ contract ERC1400 is ERC1400Interface, OwnerHelper {
         return (false, 0);
     }
 
-    // stakeholder에 추가하는 함수
+    // stakeholders에 추가하는 함수
     function addStakeholder(address _stakeholder) internal {
         (bool _isStakeholder, ) = isStakeholder(_stakeholder);
         if(!_isStakeholder) stakeholders.push(_stakeholder);
     }
 
-    // stakeholder에서 제거하는 함수
+    // stakeholders에서 제거하는 함수
     function removeStakeholder(address _stakeholder) internal {
         (bool _isStakeholder, uint256 s) = isStakeholder(_stakeholder);
         if(_isStakeholder){
@@ -391,7 +391,7 @@ contract ERC1400 is ERC1400Interface, OwnerHelper {
         return true;
     }
 
-    // 스테이킹 보상을 회수하는 함수
+    // 스테이킹 보상을 인출하는 함수 (만료일 지나야 작동)
     function withdrawReward() public returns(uint256) {
         require(block.timestamp >= finishAt[msg.sender], "Not withdrawable time yet");
         uint256 reward = rewards[msg.sender] + stakes[msg.sender];
@@ -409,7 +409,7 @@ contract ERC1400 is ERC1400Interface, OwnerHelper {
         return rewards[_stakeholder];
     }
 
-    // 모든 스테이크홀더의 보상액의 총액을 구하는 함수
+    // 모든 스테이크홀더의 보상액 총합을 구하는 함수
     function totalRewards() public view returns(uint256) {
         uint256 _totalRewards = 0;
         for(uint256 s = 0; s < stakeholders.length; s++){
