@@ -222,6 +222,10 @@ div.btn:hover{
 .exercise_of_voting_right, .deposit{
     margin-top: 30%;
 }
+.deposit h4{
+    color: var(--gray-light-color);
+
+}
 .exercise_of_voting_rights_wrapper{
     bottom: 0%;
     padding: 2%;
