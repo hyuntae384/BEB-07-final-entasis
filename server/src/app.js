@@ -17,7 +17,7 @@ const entaRouter = require('./routes/entaRouter');
 const bebRouter = require('./routes/bebRouter');
 const leoRouter = require('./routes/leoRouter');
 const chartRouter = require('./routes/chartRouter');
-
+const rtdRouter = require('./routes/rtdRouter');
 const logger = require('./logger');
 const { sequelize, price_his, dividend_his, position_his, enta_his, beb_his, leo_his } = require('./models');
 const { 
@@ -48,6 +48,8 @@ const {
   allowLEOToken,
   isRestrictedLEO
 } = require('./chainUtils/LEOUtils');
+
+let chartDataENTA,chartDataBEB,chartDataLEO,circuitBreaker
 
 const {sendEtherToUser, sendWeiToUser, getEtherBalance, sendDividendToUser} = require('./chainUtils/etherUtils');
 const { web3Http } = require('./chainUtils');
@@ -108,7 +110,7 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 // );
 
 //=======================================가격  변동 로직==========================================//
-
+/*
 //STV
 let stv=0;
 const setStv =()=>{stv = Math.random()*(0.01-(-0.01001))-0.01};
@@ -424,7 +426,7 @@ setInterval(async () => {
   let leoTokenholders = await showAllLEOTokenHolders();
   let leoTotalSupply = await getLEOTotalSupply();
   for(let i=0; i<leoTokenholders.length; i++) {
-    const balance = await getENTATokenBalance(leoTokenholders[i]);
+    const balance = await getLEOTokenBalance(leoTokenholders[i]);
     if((leoTokenholders[i] !== process.env.ADMIN_ADDRESS) && balance > 0) { // 거래소 제외
       const stake = balance / leoTotalSupply;
       const personalDividend = String((dividendLEO * stake).toFixed(18))
@@ -447,12 +449,12 @@ setInterval(async () => {
   // 차기 배당률
   dividend_ratio_LEO = (dividend_ratio_LEO * (1 + Number(voted_ratio_LEO))).toFixed(4) 
 }, 600000);
-
-
+*/
 //=========================================================================================================//
 
 // 3개 토큰에 대한 rtd 1초마다 모두 보낼 수 있어야 함.
 //ENTA
+/*
 app.get('/rtd/enta', async (req, res, next) => {
   try {
     if(!chartDataENTA) return res.status(400).json({message: "No such data"});
@@ -506,8 +508,9 @@ app.post('/restrict', async (req, res, next) => {
     return next(err);
   }
 })
+*/
 
-
+app.use('/rtd',rtdRouter);
 app.use('/chart', chartRouter);
 app.use('/user', userRouter);
 app.use('/company', companyRouter);
