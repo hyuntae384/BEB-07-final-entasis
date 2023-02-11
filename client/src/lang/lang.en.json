@@ -57,6 +57,8 @@
     "Current" : "Current",
     "Vote" : "Vote",
     "Result" : "Result",
-    "Next" : "Next"
-
+    "Next" : "Next",
+    "Market Order" : "Market Order",
+    "Max Open" : "Max Open",
+    "Available Eth" : "Available Eth"
 }
