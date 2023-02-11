@@ -20,9 +20,9 @@ const Candle =({
 
     const xForPrice = 75;
     const xAxisLength = SVG_CHART_WIDTH - xForPrice;
-    const yAxisLength = `${SVG_CHART_HEIGHT>25?SVG_CHART_HEIGHT-25:0}`
+    const yAxisLength = `${SVG_CHART_HEIGHT>20?SVG_CHART_HEIGHT-20:0}`
     const x0 = 0;
-    const y0 = '0';
+    const y0 = 0;
     const dataArray = [];
 
         
@@ -84,13 +84,11 @@ if(dataArray[0][0]!==undefined&&
     ){
     return(
     <div className=" candle">
-        <br/>
         <div>
             <svg 
             onMouseMove={handleMouseMove}
             width={SVG_CHART_WIDTH} 
-            height={SVG_CHART_HEIGHT}
-            >
+            height={SVG_CHART_HEIGHT}>
 
                 {/* <text
                 x={x0 + 15}
@@ -137,7 +135,7 @@ if(dataArray[0][0]!==undefined&&
                     <text
                     
                         x={x}
-                        y={SVG_CHART_HEIGHT-15}
+                        y={SVG_CHART_HEIGHT}
                         textAnchor="middle"
                         stroke='#252525'
                         fontSize={SVG_CHART_WIDTH < 800 ? 8 : 10}
