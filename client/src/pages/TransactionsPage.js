@@ -25,9 +25,10 @@ const TransactionPage =({txs,
 
 })=>{
     document.body.style.overflow = 'unset';
-    for(let i = window.innerHeight ; i>1 ;i--){
-        window.scrollTo(i,i)
-    }
+    window.scrollTo(0,0)
+
+    // for(let i = window.innerHeight ; i>1 ;i--){
+    // }
     // console.log(window.innerHeight)
     const modalStyle = {
         overlay: {
