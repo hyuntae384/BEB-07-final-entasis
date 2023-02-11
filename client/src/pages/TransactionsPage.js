@@ -28,7 +28,7 @@ const TransactionPage =({txs,
     for(let i = window.innerHeight ; i>1 ;i--){
         window.scrollTo(i,i)
     }
-    console.log(window.innerHeight)
+    // console.log(window.innerHeight)
     const modalStyle = {
         overlay: {
             position: "fixed",
