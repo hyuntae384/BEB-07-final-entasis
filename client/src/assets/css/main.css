@@ -705,6 +705,7 @@ div.history_date{
     text-align: center;
     align-items: center;
     justify-content: center;
+    margin-top: 4px;
     height: 100%;
     width: 100%;
     opacity: 0.9;
@@ -1151,11 +1152,11 @@ input{
 }
 .transaction{
     height: 100%;
-
+    margin-top: 5px;
 }
 .transactions{
-    width: 99%;
-    margin: auto;
+    width: 100%;
+    margin: 0;
     background-color: #000000;
 
 }
@@ -1178,13 +1179,20 @@ input{
     border-bottom: 1px solid var(--gray-dark-color);
 }
 input.input_transaction{
-    width: 96%;
+    width: 92%;
     height: 30px;
     padding: 5px;
     margin: 5px;
     text-align-last: right;
     background-color: #101010;
     border: 2px solid #000000;
+}
+.fa-magnifying-glass{
+    text-align: center;
+}
+.input_transaction_wrapper i{
+    width: 25px;
+    margin: auto;
 }
 .input_transaction_wrapper{
     width: 35%;
