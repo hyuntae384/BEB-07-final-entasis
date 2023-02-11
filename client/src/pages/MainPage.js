@@ -4,6 +4,7 @@ import Assets from "../components/Assets"
 import Footer from "../components/Footer"
 import Navigator from "../components/Navigator"
 import Header from "../components/Header"
+import Staking from "../components/Staking"
 import { useEffect, useState, useRef } from "react"
 import Historys from "../components/Historys"
 import WelcomePage from "./WelcomePage"
@@ -53,6 +54,10 @@ const MainPage =({setTxs,isWelcome,setIsWelcome,setIsChartTotal,tokenName,accoun
         { value: "1440", name: "1 day" },
         { value: "10080", name: "1 week" },
         ]
+
+    // Staking =========================================================
+    const [staking, setStaking] = useState();
+    // Staking =========================================================
 
 useEffect(()=>{
     let limitChartArr=[];
@@ -400,15 +405,15 @@ const SelectCoorp = (e) =>{
     const EntaTokenContract = new web3.eth.Contract(StABI, "0x0675FB9AE378C64f0F213A667C8510F99c4e663D");
     const LeoTokenContract = new web3.eth.Contract(StABI, "0x8cB36311D10680270a4976EC0f9D84bf8D9444E1");
     const BebTokenContract = new web3.eth.Contract(StABI, "0xa3d2841e639fF266E7B36c4bFcF7Bf360e0f211a");
-    const [tokenContract, setTokenConteact] = useState(EntaTokenContract);
+    const [tokenContract, setTokenContract] = useState(EntaTokenContract);
     const [isRestricted, setIsRestricted] = useState(false);
 
     
     // console.log(curPrice)
     function contractChange(token){
-        if(token === 'enta') setTokenConteact(EntaTokenContract)
-        if(token === 'beb') setTokenConteact(BebTokenContract)
-        if(token === 'leo') setTokenConteact(LeoTokenContract)
+        if(token === 'enta') setTokenContract(EntaTokenContract)
+        if(token === 'beb') setTokenContract(BebTokenContract)
+        if(token === 'leo') setTokenContract(LeoTokenContract)
     }
 
     async function changeRestricted(){
@@ -454,6 +459,21 @@ return(
                 powerOfMarket={-powerOfMarket}
                 ST_CurrentPrice={currentPrice.close} 
             />
+            {(staking ?
+            <Staking
+            setStaking={setStaking}
+            stName={stName}
+            tokenContract={tokenContract}
+            setTokenContract={setTokenContract}
+            setTokenName={setTokenName}
+            userAccount={userAccount}
+            web3={web3}
+            curPrice={currentPrice.close}
+            userEntaToken={userEntaToken}
+            userBebToken={userBebToken}
+            userLeoToken={userLeoToken}
+            />
+            : 
             <Order
                 myPage={myPage}
                 stName={stName}
@@ -481,7 +501,10 @@ return(
                 userLeoToken={userLeoToken}
                 tokenName={tokenName}
                 totalCurrentPrices={currentPrice.totalCurrentPrices}
+                setStaking={setStaking}
             />
+            )}
+            
         </div>
         <div className="main_bottom">
             <Historys
