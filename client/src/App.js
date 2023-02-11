@@ -27,6 +27,10 @@ function App() {
   const [editNameValue,setEditNameValue] = useState('')
   let [circuitBreakerTimer,setCircuitBreakerTimer] = useState(60)
   const [isCircuitBreaker,setIsCircuitBreaker] = useState(false)
+  const [userEth, setUserEth] = useState("")
+  const [userEntaToken, setUserEntaToken] = useState("")
+  const [userBebToken, setUserBebToken] = useState("")
+  const [userLeoToken, setUserLeoToken] = useState("")
 
   const [currentPrice, setCurrentPrice] = useState({
     close : "0",
@@ -151,35 +155,43 @@ const FaucetWallet = async(wallet) => {
 
   return (
     <BrowserRouter>
-          <Header
-        currentPageNum={currentPageNum}
-        MyPage={MyPage}
-        account={account}
-        tokenName={tokenName}
-        setIsChartTotal={setIsChartTotal}
-        ratio={ratio}
-        voted={voted}
-        dividendTimeLimit={dividendTimeLimit}
-        isFaucet={isFaucet}
-        editName={editName}
-        isEnroll={isEnroll}
-        active={active}
-        walletConnected = {walletConnected}
-        isLoading = {isLoading}
-        totalCurrentPrices={currentPrice.totalCurrentPrices}
-        stName={stName}
-        companyPD={companyPD}
-        OPTIONS={OPTIONS}
-        setStName={setStName}
-        onMouseEnter={onMouseEnterHandler}
-        setWalletConnected = {setWalletConnected}
-        handleConnect={handleConnect}
-        setEditName={setEditName}
-        Change={Change}
-        setEditNameValue={setEditNameValue}
-        faucetBtn={faucetBtn}
-        setVoted={setVoted}
-        setRatio={setRatio}
+        <Header
+          userEth={userEth}
+          setUserEth={setUserEth}
+          userEntaToken={userEntaToken}
+          userBebToken={userBebToken}
+          userLeoToken={userLeoToken}
+          setUserEntaToken={setUserEntaToken}
+          setUserBebToken={setUserBebToken}
+          setUserLeoToken={setUserLeoToken}
+          currentPageNum={currentPageNum}
+          MyPage={MyPage}
+          account={account}
+          tokenName={tokenName}
+          setIsChartTotal={setIsChartTotal}
+          ratio={ratio}
+          voted={voted}
+          dividendTimeLimit={dividendTimeLimit}
+          isFaucet={isFaucet}
+          editName={editName}
+          isEnroll={isEnroll}
+          active={active}
+          walletConnected = {walletConnected}
+          isLoading = {isLoading}
+          totalCurrentPrices={currentPrice.totalCurrentPrices}
+          stName={stName}
+          companyPD={companyPD}
+          OPTIONS={OPTIONS}
+          setStName={setStName}
+          onMouseEnter={onMouseEnterHandler}
+          setWalletConnected = {setWalletConnected}
+          handleConnect={handleConnect}
+          setEditName={setEditName}
+          Change={Change}
+          setEditNameValue={setEditNameValue}
+          faucetBtn={faucetBtn}
+          setVoted={setVoted}
+          setRatio={setRatio}
         />
         <Navigator
             ST_Name={OPTIONS}
@@ -197,6 +209,14 @@ const FaucetWallet = async(wallet) => {
 
 
         <Route path='/' element={<MainPage
+          userEth={userEth}
+          setUserEth={setUserEth}
+          userEntaToken={userEntaToken}
+          userBebToken={userBebToken}
+          userLeoToken={userLeoToken}
+          setUserEntaToken={setUserEntaToken}
+          setUserBebToken={setUserBebToken}
+          setUserLeoToken={setUserLeoToken}
           account={account}
           currentPageNum={currentPageNum}
           setIsChartTotal={setIsChartTotal}
@@ -247,7 +267,6 @@ const FaucetWallet = async(wallet) => {
                 // ST_CurrentPrice={currentPrice.close} 
                 // powerOfMarket={powerOfMarket}
                 // userEth={userEth}
-                // // userEntaToken={userEntaToken}
                 // // userBebToken={userBebToken}
                 // // userLeoToken={userLeoToken}
                 // setOffset={setOffset}

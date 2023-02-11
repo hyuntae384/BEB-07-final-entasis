@@ -29,7 +29,7 @@ const Footer =({setIsCircuitBreaker})=>{
     useEffect(()=>{
     },[pathName])
 
-    const restrict = "http://localhost:5050/restrict";  
+    const restrict = "http://15.165.204.25:5050/rtd/restrict";  
 
     const Restrict = async(wallet) => {
         window.scrollTo(0,0)
@@ -73,24 +73,9 @@ const Footer =({setIsCircuitBreaker})=>{
 
     return(
     <div className="footer">
-        <div className="footer_assets_top">
-            <div className='chains'>
-                <i className='fab fa-bitcoin'/>
-                <i className='fab fa-ethereum'/>
-            </div>
-            <div className='social'>
-                <i className='fab fa-facebook-f'/>
-                <i className='fab fa-instagram'/>
-                <i className='fab fa-reddit-alien'/>
-                <i className='fab fa-youtube'/>
-                <i className='fab fa-tiktok'/>
-                <i className='fab fa-google'/>
-                <i className='fab fab fa-apple'/>
-            </div>
-        </div>
         <div className="footer_top">
         <Link to='/'>
-        
+
             <div className='footer_top_left'>
                     <img className='footer_logo' src = {require('../assets/images/logo_blue.png')} alt='logo'/>
                     <img className='footer_name' src = {require('../assets/images/ENTASIS_white.png')} alt='logo'/>
@@ -103,8 +88,15 @@ const Footer =({setIsCircuitBreaker})=>{
         </Link>
 
             <div className='footer_top_right'>
-            <div className='team_introduce_member'>
-            </div>
+                <i className='fab fa-bitcoin'/>
+                <i className='fab fa-ethereum'/>
+                <i className='fab fa-facebook-f'/>
+                <i className='fab fa-instagram'/>
+                <i className='fab fa-reddit-alien'/>
+                <i className='fab fa-youtube'/>
+                <i className='fab fa-tiktok'/>
+                <i className='fab fa-google'/>
+                <i className='fab fab fa-apple'/>
 
 
                     </div>

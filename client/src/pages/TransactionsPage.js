@@ -142,7 +142,7 @@ return(
                     </button> */}
                     <div className='input_transaction_wrapper'>
                         <input type="text" className="input_transaction" onChange={e => TxOutAddress(e)} placeholder={transactionIn!==undefined ?transactionIn:'Search Transaction Hash'}></input>
-                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <i className="fa-solid fa-magnifying-glass"></i>
                     </div>
                 </div>
                 <div  className='info'>
