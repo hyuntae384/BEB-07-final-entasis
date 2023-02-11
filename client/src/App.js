@@ -51,11 +51,12 @@ const [stName, setStName] = useState('ENTAToken');
 })
 const [companyPD, setCompanyPD] =useState([]) 
 const [coorpName,setCoorpName] = useState('')
+const [userModalIsOpen, setUserModalIsOpen] = useState(false)
 
 
 const {chainId, account, active, activate, deactivate} = useWeb3React();
 
-const origin = "52.78.173.200/";
+const origin = "http://52.78.173.200/";
 const getUserURL = origin + "user/"; 
 const mypage = getUserURL + "mypage/?wallet="
 const faucet = getUserURL + "faucet/?wallet="
@@ -161,6 +162,8 @@ console.log(myPage.data)
   return (
     <BrowserRouter>
         <Header
+          userModalIsOpen={userModalIsOpen}
+          setUserModalIsOpen={setUserModalIsOpen}
           setMyPage={setMyPage}
           setIsFaucet={setIsFaucet}
           faucetBtn={faucetBtn}
@@ -201,6 +204,7 @@ console.log(myPage.data)
           setRatio={setRatio}
         />
         <Navigator
+            setUserModalIsOpen={setUserModalIsOpen}
             ST_Name={OPTIONS}
             circuitBreakerTimer={circuitBreakerTimer}
             coorpName={coorpName}
