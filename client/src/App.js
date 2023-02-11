@@ -197,6 +197,8 @@ const FaucetWallet = async(wallet) => {
 
 
         <Route path='/' element={<MainPage
+          account={account}
+          currentPageNum={currentPageNum}
           setIsChartTotal={setIsChartTotal}
           tokenName={tokenName}
           chartArr={chartArr}
