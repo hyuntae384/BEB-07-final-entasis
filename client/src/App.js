@@ -55,7 +55,7 @@ const [coorpName,setCoorpName] = useState('')
 
 const {chainId, account, active, activate, deactivate} = useWeb3React();
 
-const origin = "http://15.165.204.25:5050/";
+const origin = "52.78.173.200/";
 const getUserURL = origin + "user/"; 
 const mypage = getUserURL + "mypage/?wallet="
 const faucet = getUserURL + "faucet/?wallet="
@@ -116,7 +116,7 @@ const handleConnect = () => {
   if(active) {
       deactivate();
       localStorage.setItem('isWalletConnected', false)
-      return ;
+      return setMyPage({});
   }
   activate(injected, (error) => {
       if('/No ethereum provider was found on window.ethereum/'.test(error)) {
@@ -161,6 +161,7 @@ console.log(myPage.data)
   return (
     <BrowserRouter>
         <Header
+          setMyPage={setMyPage}
           setIsFaucet={setIsFaucet}
           faucetBtn={faucetBtn}
           userEth={userEth}

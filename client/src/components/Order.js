@@ -117,7 +117,7 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
                     <h5>Sell</h5>
                     <h5>Max open {stName === 'ENTAToken'? sellMaxST_1:
                         stName === 'BEBToken'?sellMaxST_2:
-                        stName === 'LEOToken'?sellMaxST_3:0} ST</h5>
+                        stName === 'LEOToken'?sellMaxST_3:0} {stName.slice(0,stName.length-5)}</h5>
                 </button>
             </div>
         </form>

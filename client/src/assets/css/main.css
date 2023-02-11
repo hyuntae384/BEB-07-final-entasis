@@ -784,11 +784,11 @@ div.history_date{
     left: 10px;
 }
 .welcome_tutorial_chart{
-    width: 500px;
-    height: 330px;
+    width: 920px;
+    height: 600px;
 
-    top: 22%;
-    right: 52%;
+    top: 10%;
+    right: 40%;
 }
 .welcome_tutorial_limit_order_book{
     width: 260px;
@@ -801,10 +801,14 @@ div.history_date{
 }
 
 .welcome_tutorial_order{
-    width: 250px;
-    height: 140px;
-    top: 55%;
-    right: 0.5%;
+    width: 320px;
+    height: 850px;
+    top: 5%;
+    right: 0;
+}
+.welcome_tutorial_order img{
+    width: 300px;
+    height: auto;
 }
 .welcome_tutorial_order h6{
     margin: 4% 2%;
@@ -927,7 +931,7 @@ div.history_date{
     color:var(--Primary-color);
     overflow: hidden;
     transition: 0.2s;
-    opacity: 0.75;
+    opacity: 0.85;
 
 }
 .welcome_tutorial h4,

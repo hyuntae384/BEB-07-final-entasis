@@ -9,7 +9,7 @@ import axios from 'axios';
 import Welcome from '../pages/TransactionsPage';
 
 // import {Vote} from '../apis/company'
-const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,setStName,companyPD,OPTIONS,active,handleConnect,isEnroll,account,setEditName,editName,setEditNameValue,Change,isFaucet,faucetBtn,dividendTimeLimit,setVoted,voted,ratio,setRatio,userEntaToken,userBebToken,userLeoToken,setIsFaucet
+const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,setStName,companyPD,OPTIONS,active,handleConnect,isEnroll,account,setEditName,editName,setEditNameValue,Change,isFaucet,faucetBtn,dividendTimeLimit,setVoted,voted,ratio,setRatio,userEntaToken,userBebToken,userLeoToken,setIsFaucet,setMyPage
 })=> {
     const [userModalIsOpen, setUserModalIsOpen] = useState(false)
 

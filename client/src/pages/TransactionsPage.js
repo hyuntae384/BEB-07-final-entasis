@@ -25,8 +25,10 @@ const TransactionPage =({txs,
 
 })=>{
     document.body.style.overflow = 'unset';
-    window.scrollTo(0,0)
-
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    })
     // for(let i = window.innerHeight ; i>1 ;i--){
     // }
     // console.log(window.innerHeight)

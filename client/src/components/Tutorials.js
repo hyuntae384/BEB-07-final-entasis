@@ -54,7 +54,10 @@ const Tutorials =({tutorialCnt, account,faucetBtn})=>{
     }    
     // account={account===typeof 'string'?account:0}
     // tutorialCnt={isEnroll.cnt===typeof 'number'?isEnroll.cnt:0}
-
+    window.scrollTo({
+        top:0,
+        behavior:'smooth'
+    })
     if(start){
         return (
             <Modal
@@ -110,7 +113,7 @@ const Tutorials =({tutorialCnt, account,faucetBtn})=>{
         <h4>Chart</h4>
         </div>
         <div className='chart_body'>
-            <img className='chart_img' src={require('../assets/images/chart_tutorials.webp')}/>
+            <img className='chart_img' src={require('../assets/images/chart.gif')}/>
         </div>
         <div className='chart_foot'>
         <h5>Key Takeaways</h5>
@@ -162,11 +165,15 @@ const Tutorials =({tutorialCnt, account,faucetBtn})=>{
         <h4>Market Order</h4>
         <i className='fas fa-arrow-up'></i>
         </div>
+        <br/>   
+        <img src={require('../assets/images/order.gif')}/>
+
         <div>
         <h6>
             A market order is an order to buy or sell a stock at the market's current best available price. A market order typically ensures an execution, but it does not guarantee a specified price. 
         </h6>
         </div>
+
         <h5 className='count' >4/10</h5>
         <h5 className='skip' onClick={skipHandler}>Skip</h5>
         <div className='next' onClick={()=>{setOrder();}}>Next</div>
