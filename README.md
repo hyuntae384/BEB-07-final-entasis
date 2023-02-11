@@ -10,7 +10,7 @@
 |---|-----|---|---|
 |윤수빈|Frontend|https://github.com/Russ481-k|작성|
 |백준석|Frontend|https://github.com/bajnsk|작성|
-|김현태|Backend|https://github.com/hyuntae384|작성|
+|김현태|Backend|https://github.com/hyuntae384|https://www.notion.so/_-7eb68268711f40619020318efcaeca0c|
 |박도형|Backend|https://github.com/pdhyeong|https://shapespark.tistory.com/|
 
 
