@@ -38,7 +38,7 @@ const MainPage =({setTxs,isWelcome,setIsWelcome,setIsChartTotal,tokenName,accoun
 
     const [termArrLength,setTermArrLength] = useState(2000);
     const [chartTermArr, setChartTermArr] = useState([])
-    const apiAddress = "52.78.173.200/user/personaldividend/?wallet="
+    const apiAddress = "http://52.78.173.200/user/personaldividend/?wallet="
 
     const [userDividend, setUserDividend] = useState({
         ENTAToken:'0',
@@ -56,7 +56,7 @@ const MainPage =({setTxs,isWelcome,setIsWelcome,setIsChartTotal,tokenName,accoun
 
 useEffect(()=>{
     let limitChartArr=[];
-    const origin = '52.78.173.200/chart/'
+    const origin = 'http://52.78.173.200/chart/'
         const setChartTotal=(async(offset,limit,tokenName) => 
         {try {
             setIsLoading(true)
@@ -205,7 +205,7 @@ useEffect(()=>{
         if(name !== tokenName&&totalChartData===true){
             const setChartRTD=(async () => 
                 {try {
-                    currentPrice_ref.current = await axios.get('52.78.173.200/rtd/'+tokenName)
+                    currentPrice_ref.current = await axios.get('http://52.78.173.200/rtd/'+tokenName)
                     setCurrentPrice(currentPrice_ref.current.data)
                 } catch (e) {
                     console.log(e) // caught
@@ -251,7 +251,7 @@ useEffect(()=>{
         copy = e;
     }
     // URL
-    const origin = "52.78.173.200/";
+    const origin = "http://52.78.173.200/";
     const chart = origin + "chart/data"
 
     const getUserURL = origin + "user/"; 
