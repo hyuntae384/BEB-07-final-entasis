@@ -90,6 +90,9 @@ useEffect(() => {
   clearInterval(loop);
   }, 1000);
 
+  MyPage(account)
+  if(myPage.data!==undefined&&myPage.data.faucet===true) return setIsFaucet(true)
+  else if(myPage.data===undefined) return setIsFaucet(false)
 
 }, [new Date().getSeconds(), currentPageNum]);
 
@@ -113,7 +116,7 @@ const handleConnect = () => {
   if(active) {
       deactivate();
       localStorage.setItem('isWalletConnected', false)
-      return;
+      return ;
   }
   activate(injected, (error) => {
       if('/No ethereum provider was found on window.ethereum/'.test(error)) {
@@ -140,7 +143,7 @@ const MyPage = async(wallet) => {
   setMyPage(resultAccount)
 }
 const faucetBtn=()=>{
-  console.log(FaucetWallet(account))
+  FaucetWallet(account)
 }
 const FaucetWallet = async(wallet) => {
   if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
@@ -153,9 +156,13 @@ const FaucetWallet = async(wallet) => {
   return resultFaucetWallet
 }
 
+console.log(myPage.data)
+
   return (
     <BrowserRouter>
         <Header
+          setIsFaucet={setIsFaucet}
+          faucetBtn={faucetBtn}
           userEth={userEth}
           setUserEth={setUserEth}
           userEntaToken={userEntaToken}
@@ -189,7 +196,6 @@ const FaucetWallet = async(wallet) => {
           setEditName={setEditName}
           Change={Change}
           setEditNameValue={setEditNameValue}
-          faucetBtn={faucetBtn}
           setVoted={setVoted}
           setRatio={setRatio}
         />
@@ -209,6 +215,7 @@ const FaucetWallet = async(wallet) => {
 
 
         <Route path='/' element={<MainPage
+          myPage={myPage}
           userEth={userEth}
           setUserEth={setUserEth}
           userEntaToken={userEntaToken}
