@@ -135,6 +135,7 @@ const Navigator =({isCircuitBreaker,stName,setStName,companyPD,totalCurrentPrice
             <Link to='/' onClick={()=>setTutorialsClicked(!tutorialsClicked)}><h4 >Tutorial</h4></Link>
                 {tutorialsClicked?<Tutorials account={account} tutorialCnt={0}/>:<></>}
                 <Link to='/transaction'><h4>Transactions</h4></Link>
+                <h4><i className="fas fa-globe"></i></h4>
             </div>
 
         </div>
