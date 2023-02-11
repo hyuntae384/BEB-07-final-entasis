@@ -5,7 +5,6 @@ import { injected } from "../connectors";
 import History from "./History"
 const HistoryWrapper =({setTxs,currentPageNum,setCurrentPageNum,pages,positions,account,handleConnect
 })=>{
-
     return(
         <div className="history_wrapperA" >
 

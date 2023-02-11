@@ -9,7 +9,7 @@ import axios from 'axios';
 import Welcome from '../pages/TransactionsPage';
 
 // import {Vote} from '../apis/company'
-const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,setStName,companyPD,OPTIONS,active,handleConnect,isEnroll,account,setEditName,editName,setEditNameValue,Change,isFaucet,faucetBtn,dividendTimeLimit,setVoted,voted,ratio,setRatio
+const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,setStName,companyPD,OPTIONS,active,handleConnect,isEnroll,account,setEditName,editName,setEditNameValue,Change,isFaucet,faucetBtn,dividendTimeLimit,setVoted,voted,ratio,setRatio,userEntaToken,userBebToken,userLeoToken
 })=> {
     const [userModalIsOpen, setUserModalIsOpen] = useState(false)
 
@@ -87,7 +87,15 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,set
         document.body.style.overflow = 'unset';
         setUserModalIsOpen(false)
         }
-
+        const ST_1 = {
+            name:'ENTA',price:(totalCurrentPrices.enta * userEntaToken).toFixed(4) ,amount: userEntaToken
+        };
+        const ST_2 = {
+            name:'BEB',price:(totalCurrentPrices.beb * userBebToken).toFixed(4) ,amount: userBebToken
+        };
+        const ST_3 = {
+            name:'LEO',price:(totalCurrentPrices.leo * userLeoToken).toFixed(4) ,amount: userLeoToken
+        };
     return(
         <div className="header">
         
@@ -156,12 +164,16 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,set
                                 <h3>{isEnroll.name}</h3>
                             </div>
                             }
-                        <div className='assets'>
-                            <h2>Assets</h2>
-                            <div className='assets_wraper'>
-                                <h4>{isFaucet.amount}</h4>
-                            </div>
-                        </div>
+                            <div className='assets'>
+            <div className="total_assets">
+                <h4>Assets</h4><h6>{(ST_1.amount*ST_1.price+ST_2.amount*ST_2.price+ST_3.amount*ST_3.price).toFixed(4)}ETH</h6>
+            </div>      
+            <div className='assets_wraper'>
+                <h6>{ST_1.name+" ("+ST_1.amount+")"+" "+ST_1.price+"ETH"}</h6>
+                <h6>{ST_2.name+" ("+ST_2.amount+")"+" "+ST_2.price+"ETH"}</h6>
+                <h6>{ST_3.name+" ("+ST_3.amount+")"+" "+ST_3.price+"ETH"}</h6>
+            </div>
+        </div>
                         <div className='deposit'>
                             <h2>Deposit</h2>
 
