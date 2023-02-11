@@ -34,6 +34,9 @@ const {sendEtherToUser, sendWeiToUser, getEtherBalance, sendDividendToUser} = re
 const { web3Http } = require('../chainUtils');
 //STV
 
+
+// =========================가격 변동====================================
+
 let stv=0;
 const setStv =()=>{stv = Math.random()*(0.01-(-0.01001))-0.01};
 let circuitBreaker = false;
