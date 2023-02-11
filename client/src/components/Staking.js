@@ -1,6 +1,8 @@
 import { useState , useEffect} from "react"
+import { useTranslation } from "react-i18next";
 
 const Staking =({setStaking,stName,tokenContract,setTokenName,userAccount,web3,curPrice,userEntaToken,userBebToken,userLeoToken})=>{
+    const {t} = useTranslation();
     const [restTime, setRestTime] = useState("")
     const [amount, setAmount]  = useState("0")
     const [isStake,setIsStake] = useState(0)
@@ -86,21 +88,21 @@ const Staking =({setStaking,stName,tokenContract,setTokenName,userAccount,web3,c
     return(
         <div>
             <div>{stName}</div>
-            <h5>Available Token : {token}</h5>
+            <h5>{t("Available Token")} : {token}</h5>
             <input type="text" onChange={e => amountChange(e)} placeholder={"Amount"}></input>
             <div>
-                <button onClick={stake}>Staking</button>
+                <button onClick={stake}>{t("Staking")}</button>
             </div><br/>
             <div>
-                <h5>Available Withdraw Time</h5>
+                <h5>{t("Available Withdraw Time")}</h5>
                 <h6>{restTime}</h6>
-                <button onClick={reward}>Reward</button>
+                <button onClick={reward}>{t("Reward")}</button>
+            </div>
+            <div>
+                <h5>{t("Token Reward")} : {tokenReward}</h5>
             </div>
             <div>
                 <button onClick={changeOrder}>Order</button>
-            </div>
-            <div>
-                <h5>Token Reward : {tokenReward}</h5>
             </div>
         </div>
     )

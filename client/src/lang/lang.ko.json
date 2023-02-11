@@ -60,5 +60,10 @@
     "Next" : "차기배당률",
     "Market Order" : "시장 주문",
     "Max Open" : "최대 주문값",
-    "Available Eth" : "주문 가능 ETH"
+    "Available Eth" : "주문 가능 ETH",
+    "Available Token" : "주문 가능 토큰 수",
+    "Staking" : "스테이킹",
+    "Available Withdraw Time" : "출금 가능 시각",
+    "Reward" : "보상받기",
+    "Token Reward" : "스테이킹 보상 개수"
 }

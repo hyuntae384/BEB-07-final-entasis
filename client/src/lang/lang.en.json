@@ -60,5 +60,10 @@
     "Next" : "Next",
     "Market Order" : "Market Order",
     "Max Open" : "Max Open",
-    "Available Eth" : "Available Eth"
+    "Available Eth" : "Available Eth",
+    "Available Token" : "Available Token",
+    "Staking" : "Staking",
+    "Available Withdraw Time" : "Available Withdraw Time",
+    "Reward" : "Reward",
+    "Token Reward" : "Token Reward"
 }
