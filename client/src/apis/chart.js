@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 // URL
-const origin = "52.78.173.200/";
+const origin = "http://52.78.173.200/";
 const chart = origin + "chart/data"
 const enroll = origin + "enroll/?address="
 const score = origin + "score/?address="
