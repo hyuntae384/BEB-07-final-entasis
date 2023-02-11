@@ -9,7 +9,7 @@ import axios from 'axios';
 import Welcome from '../pages/TransactionsPage';
 
 // import {Vote} from '../apis/company'
-const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,setStName,companyPD,OPTIONS,active,handleConnect,isEnroll,account,setEditName,editName,setEditNameValue,Change,isFaucet,faucetBtn,dividendTimeLimit,setVoted,voted,ratio,setRatio,userEntaToken,userBebToken,userLeoToken
+const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,setStName,companyPD,OPTIONS,active,handleConnect,isEnroll,account,setEditName,editName,setEditNameValue,Change,isFaucet,faucetBtn,dividendTimeLimit,setVoted,voted,ratio,setRatio,userEntaToken,userBebToken,userLeoToken,setIsFaucet
 })=> {
     const [userModalIsOpen, setUserModalIsOpen] = useState(false)
 
@@ -102,7 +102,7 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,set
             if(stName==='LEOToken') return totalCurrentPrices.leo
     
         }
-        // console.log(stName)
+        // console.log(isEnroll.cnt)
     return(
         <div className="header">
         
@@ -115,6 +115,7 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,set
             <div className='header_user'>
             <div className="btn" onClick={handleConnect}>{active ? <h2>disconnect</h2> : <h2>connect</h2>}</div>
             {active&&isEnroll.cnt===0?<Tutorials
+                    faucetBtn={faucetBtn}
                     account={account}
                     tutorialCnt={isEnroll.cnt}
                     >{()=>setWalletConnected()}</Tutorials>
@@ -135,7 +136,7 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,set
                     <h4>Account : {account===undefined?'Disconnected':account}</h4>
                     </Modal>}
                 {active?
-                <i className='fas fa-wallet' onClick={()=>userModalOpen()} ></i>:
+                <i className='fas fa-wallet' onClick={()=>(userModalOpen())} ></i>:
                 <div onClick={handleConnect} className='fa-wallet_disconnect'></div>}
             </div>
             <Modal
@@ -176,9 +177,9 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,set
                 <h4>Assets</h4><h6>{(ST_1.amount*ST_1.price+ST_2.amount*ST_2.price+ST_3.amount*ST_3.price).toFixed(4)}ETH</h6>
             </div>      
             <div className='assets_wraper'>
-                <h6>{ST_1.name+" ("+ST_1.amount+")"+" "+ST_1.price+"ETH"}</h6>
-                <h6>{ST_2.name+" ("+ST_2.amount+")"+" "+ST_2.price+"ETH"}</h6>
-                <h6>{ST_3.name+" ("+ST_3.amount+")"+" "+ST_3.price+"ETH"}</h6>
+                <h5>{ST_1.name+" ("+ST_1.amount+")"+" "+ST_1.price+"ETH"}</h5>
+                <h5>{ST_2.name+" ("+ST_2.amount+")"+" "+ST_2.price+"ETH"}</h5>
+                <h5>{ST_3.name+" ("+ST_3.amount+")"+" "+ST_3.price+"ETH"}</h5>
             </div>
         </div>
                         <div className='deposit'>
@@ -186,7 +187,7 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,set
 
                             <div className='deposit_wrapper'>
                                 <div className='deposit_faucet'>
-                                    <h4>{isFaucet?10:0}ETH</h4>
+                                    <h4>{isFaucet?50:0}ETH</h4>
                                     <div className='btn' onClick={()=>faucetBtn()}><h6>Faucet</h6></div>
                                 </div>
                                 <div className='account_address'>
@@ -199,7 +200,7 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,set
                         <div className='exercise_of_voting_rights'>
 
                             <div className='exercise_of_voting_rights_wrapper '>
-                            <h3 className='exercise_of_voting_rights_time_limit'>Exercise of Voting Rights {dividendTimeLimit}</h3>
+                            <h3 className='exercise_of_voting_rights_time_limit'>Exercise of Voting Rights</h3>
                             <Modal
                                 appElement={document.getElementById('root') || undefined}
                                 onRequestClose={()=>setVoted()}
@@ -222,11 +223,7 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,set
                                 set={OPTIONS} 
                                 value={setStName}
                                 ></SelectBox>
-                                <h4 className='head'>Dividend {Number(companyPD.dividend_ratio*(1+companyPD.voted_ratio)*decord()
-
-
-
-                                ).toFixed(4)}</h4>
+                                <h4 className='head'>Dividend {Number(companyPD.dividend_ratio*(1+Number(companyPD.voted_ratio))*decord()).toFixed(4)}</h4>
                                 <div className='exercise_of_voting_rights_wrapper body'>
                                     
                                     <div className='left'>
@@ -268,7 +265,7 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,set
                                     <div className='right'>
                                         <h5>Next</h5>
                                         <div className='ratio_value'>
-                                            <h5>{Number(companyPD.dividend_ratio*(1+companyPD.voted_ratio)).toFixed(4)}</h5>
+                                            <h5>{Number(companyPD.dividend_ratio*(1+Number(companyPD.voted_ratio))).toFixed(4)}</h5>
                                         </div>
                                         <div className='vote_btn'></div>
                                         <div className='vote_btn'></div>
