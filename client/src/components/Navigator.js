@@ -53,10 +53,8 @@ const Navigator =({isCircuitBreaker,stName,setStName,companyPD,totalCurrentPrice
     };
 
     const onChange = () => {
-        console.log(userLang)
         setUserLang((userLang === "ko") ? "en" : "ko")
         i18n.changeLanguage(userLang)
-        console.log(userLang)
     }
 
     const company = {
