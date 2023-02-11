@@ -163,8 +163,8 @@ const Footer =({setIsCircuitBreaker})=>{
                     </div>
                     </div>
                     <div className='footer_bottom_name'>
-                        <h4>GitHub</h4>
-                        <h4>Publish</h4>
+                        <h4><a className='github_link' href='https://github.com/codestates-beb/BEB-07-final-entasis'>GitHub https://github.com/codestates-beb/BEB-07-final-entasis</a></h4>
+                        <h4><a className='github_link' href='http://entasis.s3-website.ap-northeast-2.amazonaws.com/'>Publish http://entasis.s3-website.ap-northeast-2.amazonaws.com/</a></h4>
                     </div>
             </div>
     </div>
