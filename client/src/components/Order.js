@@ -67,22 +67,24 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
         let buyMaxST_3 = Math.floor(userEth/totalCurrentPrices.leo)
         let sellMaxST_3 = ST_3.amount
         let amountMax = (buyMax,sellMax)=>{return Math.max(buyMax,sellMax)}
-        if((token === 'enta')&&(amountMax(buyMaxST_1,sellMaxST_1)<curamount)){
+        if((stName === 'ENTAToken')&&(amountMax(buyMaxST_1,sellMaxST_1)<curamount)){
             setAmount(amountMax(buyMaxST_1,sellMaxST_1))
             e.target.value=amountMax(buyMaxST_1,sellMaxST_1)
         }
-        else if((token === 'beb')&&(amountMax(buyMaxST_2,sellMaxST_2)<curamount)){
+        else if((stName === 'BEBToken')&&(amountMax(buyMaxST_2,sellMaxST_2)<curamount)){
             setAmount(amountMax(buyMaxST_2,sellMaxST_2))
             e.target.value=amountMax(buyMaxST_2,sellMaxST_2)
             console.log(e.target.value)
         }
-        else if((token === 'leo')&&(amountMax(buyMaxST_3,sellMaxST_3)<curamount)){
+        else if((stName === 'LEOToken')&&(amountMax(buyMaxST_3,sellMaxST_3)<curamount)){
             setAmount(amountMax(buyMaxST_3,sellMaxST_3))
             e.target.value=amountMax(buyMaxST_3,sellMaxST_3)
         } else setAmount(curamount)
     }
-    console.log(tokenName)
-
+    if(stName === 'ENTAToken') setTokenName('enta')
+    if(stName === 'BEBToken') setTokenName('beb')
+    if(stName === 'LEOToken') setTokenName('leo')
+    // console.log(stName)
     return(
     <div className="order">
         <div className="order_mode">
