@@ -96,6 +96,13 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,set
         const ST_3 = {
             name:'LEO',price:(totalCurrentPrices.leo * userLeoToken).toFixed(4) ,amount: userLeoToken
         };
+        const decord=()=>{
+            if(stName==='ENTAToken') return totalCurrentPrices.enta
+            if(stName==='BEBToken') return totalCurrentPrices.beb
+            if(stName==='LEOToken') return totalCurrentPrices.leo
+    
+        }
+        // console.log(stName)
     return(
         <div className="header">
         
@@ -215,13 +222,17 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,set
                                 set={OPTIONS} 
                                 value={setStName}
                                 ></SelectBox>
-                                <h4 className='head'>Dividend</h4>
+                                <h4 className='head'>Dividend {Number(companyPD.dividend_ratio*(1+companyPD.voted_ratio)*decord()
+
+
+
+                                ).toFixed(4)}</h4>
                                 <div className='exercise_of_voting_rights_wrapper body'>
                                     
                                     <div className='left'>
                                         <h5>Current</h5>
                                         <div className='ratio_value'>
-                                            <h5>{companyPD.voted_ratio}</h5>
+                                            <h5>{Number(companyPD.voted_ratio*companyPD.dividend_ratio).toFixed(4)}</h5>
                                         </div>
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
                                         setRatio(+0.05)}}><h6>Vote</h6></div>
@@ -239,7 +250,7 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,set
                                     <div className='middle'>
                                         <h5>Result</h5>
                                         <div className='ratio_value'>
-                                            <h5>{companyPD.voted_ratio*companyPD.dividend_ratio}</h5>
+                                            <h5>{Number(companyPD.voted_ratio).toFixed(2)}</h5>
                                         </div>
                                         <div className='vote_value up'><h6>+0.05</h6></div>
                                         <div className='vote_value up'><h6>+0.04</h6></div>
@@ -257,7 +268,7 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,set
                                     <div className='right'>
                                         <h5>Next</h5>
                                         <div className='ratio_value'>
-                                            <h5>{companyPD.dividend_ratio}</h5>
+                                            <h5>{Number(companyPD.dividend_ratio*(1+companyPD.voted_ratio)).toFixed(4)}</h5>
                                         </div>
                                         <div className='vote_btn'></div>
                                         <div className='vote_btn'></div>
