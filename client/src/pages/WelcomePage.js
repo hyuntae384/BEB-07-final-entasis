@@ -7,11 +7,12 @@ const WelcomePage =({isLoading, tutorialCnt, account,isWelcome,setIsWelcome})=>{
     },[account,tutorialCnt])
 
 let welcomeOverflow =  document.body.style.overflow
-    if(isLoading){
+    if(!isWelcome&&isLoading){
     return (<div
             className="welcome logo"  >
             <img className="logo" src={require('../assets/images/ENTASIS_white.png')} alt="loading"/>
             <img src={require('../assets/images/Infinity.gif')} alt="loading"/>
+            {window.scrollTo(0,0)}
             </div>)
     } else if(!welcomeClose&&!isWelcome){return (
         <div className="welcome" onClick={()=>
