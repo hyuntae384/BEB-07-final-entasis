@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Test URL
-const origin = "http://52.78.173.200/";
+const origin = "http://52.78.173.200:5050/";
 const getCompanyURL = origin + "/company/"; 
 
 const vote = getCompanyURL + "vote/"
