@@ -17,16 +17,12 @@ import { injected } from '../connectors';
 
 // import {FaucetWallet} from '../apis/user'
 
-const MainPage =({setTxs,isWelcome,setIsWelcome,setIsChartTotal,tokenName,MyPage,account,currentPageNum,circuitBreakerTimer,chartOriginArr,setChartArr,chartArr,currentPrice,setCurrentPrice,isLoading,setIsLoading,setCompanyPD,stName,activate,setIsEnroll,ratio,isCircuitBreaker,setCircuitBreakerTimer,setIsCircuitBreaker,onMouseEnterHandler,isEnroll,setStName,setTokenName,faucetBtn,isFaucet,OPTIONS,handleConnect,setCurrentPageNum,setCoorpName})=>{
+const MainPage =({setTxs,isWelcome,setIsWelcome,setIsChartTotal,tokenName,account,currentPageNum,circuitBreakerTimer,chartOriginArr,setChartArr,chartArr,currentPrice,setCurrentPrice,isLoading,setIsLoading,setCompanyPD,stName,activate,setIsEnroll,ratio,isCircuitBreaker,setCircuitBreakerTimer,setIsCircuitBreaker,onMouseEnterHandler,isEnroll,setStName,setTokenName,faucetBtn,isFaucet,OPTIONS,handleConnect,setCurrentPageNum,setCoorpName})=>{
 
     // chart===================================================================
     const [totalChartData, setTotalChartData] = useState(false)
     const currentPrice_ref = useRef({});
     // chart===================================================================
-
-    // history===================================================================
-    // history===================================================================
-
 
     const [userPosition,setUserPosition] = useState();
     const [copy, setCopy] = useState('');
@@ -38,11 +34,11 @@ const MainPage =({setTxs,isWelcome,setIsWelcome,setIsChartTotal,tokenName,MyPage
     const [termValue, setTermValue] = useState(15);
     const [offset,setOffset]=useState(1500);
     const [limit, setLimit]=useState(10000);
+    const [myPage, setMyPage] =useState({})
 
     const [termArrLength,setTermArrLength] = useState(2000);
     const [chartTermArr, setChartTermArr] = useState([])
     const apiAddress = "http://15.165.204.25:5050/user/personaldividend/?wallet="
-
 
     const [userDividend, setUserDividend] = useState({
         ENTAToken:'0',
@@ -61,12 +57,11 @@ const MainPage =({setTxs,isWelcome,setIsWelcome,setIsChartTotal,tokenName,MyPage
 
 useEffect(()=>{
     let limitChartArr=[];
-
     const origin = 'http://15.165.204.25:5050/chart/'
         const setChartTotal=(async(offset,limit,tokenName) => 
         {try {
             setIsLoading(true)
-            const resultTotal = await axios.get(origin + tokenName + `?offset=${offset}&limit=${limit}`)
+            const resultTotal = await axios.get(origin + tokenName + `?offset=${0}&limit=${10000}`)
             setTimeout(()=>{
                 (resultTotal.data.priceinfo.map(e=>limitChartArr.push(Object.values(e))))
                 setIsChartTotal(limitChartArr)
@@ -96,22 +91,7 @@ useEffect(()=>{
     }
 
     useEffect(()=>{
-        priceChange()
-        setToken(tokenName)
-        contractChange(token)
-        changeRestricted()
-        getUserEth(userAccount);
-        getUserEntaToken(userAccount);
-        getUserBebToken(userAccount);
-        getUserLeoToken(userAccount);
-        Position(account,offset,10)
-        if(account!==undefined){
-            EnrollWallet(account)
-            MyPage(account)
-            }
-            getDividend(userAccount)
-        setOffset(pageSet * (currentPageNum - 1))
-        setLimit(pageSet * (currentPageNum - 1)+pageSet-1)
+
     },[currentPageNum,new Date().getSeconds()])
     let setByTime = []
     let setByTimeNewArr = []
@@ -170,9 +150,10 @@ useEffect(()=>{
             setDefaultLimit(termArrLength)
 
     },[chartArr,dataLength,defaultLimit,termValue])
+
+
     useEffect(()=>{
         setChartTermArr(chartArr)
-
     },[chartArr])
 
 
@@ -184,12 +165,6 @@ useEffect(()=>{
     const [userEntaToken, setUserEntaToken] = useState("")
     const [userBebToken, setUserBebToken] = useState("")
     const [userLeoToken, setUserLeoToken] = useState("")
-
-
-        
-
-    
-
 
     async function getUserEth(account){
         if(account === undefined) setUserEth('');
@@ -259,10 +234,24 @@ useEffect(()=>{
         name = tokenName;
 
 
-
-
-
+        priceChange()
+        setToken(tokenName)
+        contractChange(token)
+        changeRestricted()
+        getUserEth(userAccount);
+        getUserEntaToken(userAccount);
+        getUserBebToken(userAccount);
+        getUserLeoToken(userAccount);
+        Position(account,offsetHis,10)
+        if(account!==undefined){
+            EnrollWallet(account)
+            MyPage(account)
+            }
+            getDividend(userAccount)
+        setOffset(pageSet * (currentPageNum - 1))
+        setLimit(pageSet * (currentPageNum - 1)+pageSet-1)
     },[new Date().getSeconds()])
+
 
     
     const copyHandler = (e) => {
@@ -278,6 +267,15 @@ useEffect(()=>{
     const enroll = getUserURL + "enroll/?wallet="
     const position = getUserURL + "position/?wallet="
     const voteURL = getCompanyURL + "vote"
+    const mypage = getUserURL + "mypage/?wallet="
+        
+    const MyPage = async(wallet) => {
+        if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
+        const resultAccount = await axios.get(mypage + wallet)
+        .then(res=>res)
+        .then(err=>err)
+        setMyPage(resultAccount)
+    }
 
     // API Request
 
@@ -289,7 +287,6 @@ useEffect(()=>{
         const resultPosition = await axios.get(position + wallet + `&offset=${offset}&limit=${limit}`)
         .then(res=>res.data)
         .then(err=>err)
-        // console.log(resultPosition)
         setUserPosition(resultPosition)
     }
 
@@ -345,11 +342,6 @@ useEffect(()=>{
             connectWalletOnPageLoad() 
         }, [injected])
 
-
-
-
-
-
     const EnrollWallet = async(wallet) => {
         if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
         const resultEnrollWallet =  await axios.post(enroll + wallet)
@@ -357,11 +349,6 @@ useEffect(()=>{
         .then(err=>err)
         setIsEnroll(resultEnrollWallet)
     }
-
-
-
-
-
 
     useEffect(()=>{
         const Vote = async(st_name,ratio,wallet) => {
@@ -423,9 +410,9 @@ const SelectCoorp = (e) =>{
     const serverAddress = "0xcF2d1489aa02781EED54C7E531d91668Bd3f3703"
     const userAccount = useWeb3React().account;
     const StABI = TokenABI.abi
-    const EntaTokenContract = new web3.eth.Contract(StABI, "0x7E8D575B3f4a8f419977CEDc14B2b7A229E09D07");
-    const LeoTokenContract = new web3.eth.Contract(StABI, "0xd0A913d056748C1f33687eE90d3d996599bbeb07");
-    const BebTokenContract = new web3.eth.Contract(StABI, "0xF642aEB3d76fc01149bb10dcD88120528aefDB16");
+    const EntaTokenContract = new web3.eth.Contract(StABI, "0x0675FB9AE378C64f0F213A667C8510F99c4e663D");
+    const LeoTokenContract = new web3.eth.Contract(StABI, "0x8cB36311D10680270a4976EC0f9D84bf8D9444E1");
+    const BebTokenContract = new web3.eth.Contract(StABI, "0xa3d2841e639fF266E7B36c4bFcF7Bf360e0f211a");
     const [tokenContract, setTokenConteact] = useState(EntaTokenContract);
     const [isRestricted, setIsRestricted] = useState(false);
 
@@ -449,9 +436,6 @@ const SelectCoorp = (e) =>{
 //=========useEffect==============================
 
 
- 
-    
-    
 return(
     <div className="main_page" onMouseEnter={onMouseEnterHandler}>
         <WelcomePage
@@ -463,6 +447,7 @@ return(
         />
         <div className="main_head">
             <ChartWrapper
+                ST_Name={OPTIONS}
                 stName={stName}
                 setStName={setStName}
                 chartTermArr={chartTermArr}
@@ -483,7 +468,6 @@ return(
                 ST_CurrentPrice={currentPrice.close} 
             />
             <Order
-                
                 stName={stName}
                 setStName={setStName}
                 account={account}
@@ -515,7 +499,7 @@ return(
             <Historys
                 handleConnect={handleConnect}
                 account={account}
-                positions={positions}
+                positions={userPosition}
                 setCurrentPageNum={setCurrentPageNum}
                 pages={pages}
                 currentPageNum={currentPageNum}
