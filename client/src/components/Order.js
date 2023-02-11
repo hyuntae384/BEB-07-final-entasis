@@ -6,11 +6,13 @@ import {BuyToken, SellToken} from '../apis/token';
 import Web3 from "web3";
 import TokenABI from "../ABIs/ERC1400.json"
 import SelectBox from "./Select";
+import i18n from "../lang/i18n";
+import { useTranslation } from "react-i18next";
 
 const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,tokenName,totalCurrentPrices,refresh,setRefresh,ST_Name,setTokenName,amount,price,web3,userAccount,serverAddress,token,tokenContract,setAmount,curPrice,isFaucet,faucetBtn,account,stName,setStName,myPage
 
 })=>{
-
+    const { t } = useTranslation();
 
 
     // 구매
@@ -106,7 +108,7 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
             <input type="text" className="order_amount" onChange={e => amountChange(e)} placeholder='Amount'></input>
             <div className="make_order">
                 <button type="button" className="order_buy" onClick={SendETH}>
-                    <h5>Buy</h5>
+                    <h5>{t("Buy")}</h5>
                     <h5>Max Open {stName === 'ENTAToken'? buyMaxST_1:
                         stName === 'BEBToken'?buyMaxST_2:
                         stName === 'LEOToken'?buyMaxST_3:0} ETH</h5>
@@ -114,7 +116,7 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
 
 
                 <button type="button" className="order_sell" onClick={SendToken}>
-                    <h5>Sell</h5>
+                    <h5>{t("Sell")}</h5>
                     <h5>Max open {stName === 'ENTAToken'? sellMaxST_1:
                         stName === 'BEBToken'?sellMaxST_2:
                         stName === 'LEOToken'?sellMaxST_3:0} {stName.slice(0,stName.length-5)}</h5>
