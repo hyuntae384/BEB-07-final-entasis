@@ -4,6 +4,7 @@ import Modal from "react-modal"
 import { Link } from "react-router-dom";
 import { Tutorial } from "../apis/user";
 import '../assets/css/main.css';
+import i18n from "../lang/i18n";
 import SelectBox from './Select';
 import Tutorials from "./Tutorials";
 
@@ -11,6 +12,7 @@ const Navigator =({isCircuitBreaker,stName,setStName,companyPD,totalCurrentPrice
 })=>{
     const [pdModalIsOpen, setPdModalIsOpen] = useState(false);
     const [tutorialsClicked,setTutorialsClicked] = useState(false)
+    const [userLang, setUserLang] = useState("en")
     let time = new Date()
     let date = (59-time.getMinutes())%5+":"+(59-time.getSeconds());
 
@@ -47,6 +49,14 @@ const Navigator =({isCircuitBreaker,stName,setStName,companyPD,totalCurrentPrice
             
         },
     };
+
+    const onChange = () => {
+        console.log(userLang)
+        setUserLang((userLang === "ko") ? "en" : "ko")
+        i18n.changeLanguage(userLang)
+        console.log(userLang)
+    }
+
     const company = {
         name:'BEBE',
         total_asset:'4000000000',
@@ -135,7 +145,7 @@ const Navigator =({isCircuitBreaker,stName,setStName,companyPD,totalCurrentPrice
             <Link to='/' onClick={()=>setTutorialsClicked(!tutorialsClicked)}><h4 >Tutorial</h4></Link>
                 {tutorialsClicked?<Tutorials account={account} tutorialCnt={0}/>:<></>}
                 <Link to='/transaction'><h4>Transactions</h4></Link>
-                <h4><i className="fas fa-globe"></i></h4>
+                <h4><i className="fas fa-globe" onClick={onChange}></i></h4>
             </div>
 
         </div>
