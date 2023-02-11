@@ -65,13 +65,13 @@ useEffect(()=>{
     const origin = 'http://15.165.204.25:5050/chart/'
         const setChartTotal=(async(offset,limit,tokenName) => 
         {try {
-            // setIsLoading(true)
+            setIsLoading(true)
             const resultTotal = await axios.get(origin + tokenName + `?offset=${offset}&limit=${limit}`)
             setTimeout(()=>{
                 (resultTotal.data.priceinfo.map(e=>limitChartArr.push(Object.values(e))))
                 setIsChartTotal(limitChartArr)
                 setTotalChartData(true)         
-                // setIsLoading(false)
+                setIsLoading(false)
                 // setOffset(limit/100)
                 // total=resultTotal.data.totalLength-1;
             },1000)
