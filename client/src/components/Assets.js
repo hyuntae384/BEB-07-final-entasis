@@ -1,55 +1,9 @@
 import Asset from "./Asset"
 import {useState, useEffect} from 'react'
 import axios from 'axios';
+import { useTranslation } from "react-i18next";
 const Assets =({ST_CurrentPrice,powerOfMarket,userEth,userEntaToken,userBebToken,userLeoToken,totalCurrentPrices, userPosition, userAccount,userDividend})=>{
-    // `/user/asset/?address=${address}`
-    /* console.log(userPosition.userPosition) */
-    /* const [userPosi, setUserPosi] = useState('')
-    const [userEntaDivide, setUserEntaDivide] = useState('0')
-    const [userEntaDivideAmount, setUserEntaDivideAmount] = useState([])
-    
-    function setPosition() {
-        if (userPosition === undefined) return setUserPosi('')
-        setUserPosi(userPosition.userPosition)
-    }
-
-    async function setUserDivide() {
-        if (userPosi === '') return setUserEntaDivide('0')
-        const filterList = await userPosi.filter(param => param.order == 'dividend' && param.token_name == 'ENTAToken')
-            .map(param => param.price)
-        setUserEntaDivide(filterList)
-        const filterPrice = await filterList.filter(param => param)
-        const sumList =
-        console.log(filterList)
-    }
-
-    async function setUserDivAmount() {
-        if(userEntaDivide === '0') return setUserEntaDivideAmount([])
-        let toArray = await userEntaDivide.map(function(obj){
-            return obj.price.value;
-        })
-        setUserEntaDivideAmount(toArray)
-        console.log(userEntaDivide)
-    }
-
-    useEffect(() => {
-        setPosition()
-        setUserDivide()
-        setUserDivAmount()
-    },[ST_CurrentPrice])
-    console.log(userPosition)
-    console.log(userPosi)
-    setUserPosi(setPosition())
-    console.log(userPosi)
-
-    const filterList = userPosition.userPosition */
-
-    // 배당수익률 = 토큰 배당수익금 / 토큰 현재가격 * 수량
-    // 총 배당 수익률 = 총 배당 수익금 / 총자산
-    // 유저가 받은 총 배당금
-    // 총 수익률
-
-
+    const { t } = useTranslation();
     
     const totalValue = {
         enta : totalCurrentPrices.enta * userEntaToken,
@@ -100,9 +54,9 @@ const Assets =({ST_CurrentPrice,powerOfMarket,userEth,userEntaToken,userBebToken
     return(
     <div className="main_assets" >
         <div className="main_assets_top">
-            <h4>Account Detail</h4>
-            <h6>Total Income Ratio : {((userTotalValue - 50) / 50 * 100).toFixed(2)}%</h6>
-            <h6>Total DI Ratio : {totalUserDividendIncomeRatio.toFixed(6)}%</h6>
+            <h4>{t("Account Detail")}</h4>
+            <h6>{t("Total Income Ratio")} : {((userTotalValue - 50) / 50 * 100).toFixed(2)}%</h6>
+            <h6>{t("Total DI Ratio")} : {totalUserDividendIncomeRatio.toFixed(6)}%</h6>
             <div className="rate_on_investment">
             </div>
 
@@ -122,12 +76,12 @@ const Assets =({ST_CurrentPrice,powerOfMarket,userEth,userEntaToken,userBebToken
 
 
         <div className="main_assets_menu">
-            <h5>Total Price</h5>
-            <h5>Amount</h5>
-            <h5>Dividend Income</h5>
-            <h5>DI Ratio</h5>
+            <h5>{t("Total Price")}</h5>
+            <h5>{t("Amount")}</h5>
+            <h5>{t("Dividend Income")}</h5>
+            <h5>{t("DI Ratio")}</h5>
             <div className="market_data">
-                <h5>Market Data</h5>
+                <h5>{t("Market Data")}</h5>
             </div>
         </div>
             <div className="main_bottom_right">
@@ -144,7 +98,7 @@ const Assets =({ST_CurrentPrice,powerOfMarket,userEth,userEntaToken,userBebToken
                 </div>
                 <div className="market_data_container">
                     <div className="market_data_container_header">
-                        <h2>Buy</h2><h2>Sell</h2>
+                        <h2>{t("Buy")}</h2><h2>{t("Sell")}</h2>
                         
                     </div>
                     <h4 color="#00A4D8">{(-marketData/ST_CurrentPrice*100).toFixed(2)}%</h4>

@@ -7,10 +7,12 @@ import Tutorials from './Tutorials';
 import SelectBox from './Select';
 import axios from 'axios';
 import Welcome from '../pages/TransactionsPage';
+import { useTranslation } from 'react-i18next';
 
 // import {Vote} from '../apis/company'
 const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,setStName,companyPD,OPTIONS,active,handleConnect,isEnroll,account,setEditName,editName,setEditNameValue,Change,isFaucet,faucetBtn,dividendTimeLimit,setVoted,voted,ratio,setRatio,userEntaToken,userBebToken,userLeoToken,setIsFaucet,setMyPage,userModalIsOpen, setUserModalIsOpen
 })=> {
+    const {t} = useTranslation();
 
     const modalStyle = {
         overlay: {
@@ -112,7 +114,7 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,set
                 <img className='entasis_main_logo' src={require('../assets/images/ENTASIS.png')}></img>
             </Link>
             <div className='header_user'>
-            <div className="btn" onClick={handleConnect}>{active ? <h2>disconnect</h2> : <h2>connect</h2>}</div>
+            <div className="btn" onClick={handleConnect}>{active ? <h2>{t("disconnect")}</h2> : <h2>{t("connect")}</h2>}</div>
             {active&&isEnroll.cnt===0?<Tutorials
                     faucetBtn={faucetBtn}
                     account={account}
@@ -125,14 +127,14 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,set
                     style={modalStyle_2}
                     >             
                     <div className='welcome_connection'>
-                    <h3>Welcome</h3>
+                    <h3>{t("Welcome")}</h3>
                     <img src={require('../assets/images/ENTASIS_white.png')} alt='entasis'></img>
                     </div>
                     <img className="congratulations" src={require('../assets/images/welcome_connection.gif')} alt='entasis'></img>
-                    <h2>Connection Information</h2>
-                    <h4>Name : {isEnroll.name}</h4>
-                    <h4>Tutorials : {isEnroll.cnt<=1?"Complete":"Not Complete Yet"}</h4>
-                    <h4>Account : {account===undefined?'Disconnected':account}</h4>
+                    <h2>{t("Connection Information")}</h2>
+                    <h4>{t("Username")} : {isEnroll.name}</h4>
+                    <h4>{t("Tutorials")} : {isEnroll.cnt<=1?"Complete":"Not Complete Yet"}</h4>
+                    <h4>{t("Account")} : {account===undefined?'Disconnected':account}</h4>
                     </Modal>}
                 {active?
                 <i className='fas fa-wallet' onClick={()=>(userModalOpen())} ></i>:
@@ -148,12 +150,12 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,set
                         <img src={require('../assets/images/close.png')}></img>
                     </div>
                     <div className='account_top'>
-                        <h1>MyAccount</h1>
+                        <h1>{t("MyAccount")}</h1>
                     </div>
                     <div className='myaccount_wrapper'>
                         <div className='myaccount_wrapper_name_top'>
-                            <h2>Name</h2>
-                            <div className='btn' onClick={()=>setEditName(!editName)}><h6>Edit</h6></div>
+                            <h2>{t("Username")}</h2>
+                            <div className='btn' onClick={()=>setEditName(!editName)}><h6>{t("Edit")}</h6></div>
                         </div>
                             {editName?
                             <div className='edit_name'>
@@ -173,7 +175,7 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,set
                             }
                             <div className='assets'>
             <div className="total_assets">
-                <h4>Assets</h4><h6>{(ST_1.amount*ST_1.price+ST_2.amount*ST_2.price+ST_3.amount*ST_3.price).toFixed(4)}ETH</h6>
+                <h4>{t("Assets")}</h4><h6>{(ST_1.amount*ST_1.price+ST_2.amount*ST_2.price+ST_3.amount*ST_3.price).toFixed(4)}ETH</h6>
             </div>      
             <div className='assets_wraper'>
                 <h5>{ST_1.name+" ("+ST_1.amount+")"+" "+ST_1.price+"ETH"}</h5>
@@ -182,16 +184,16 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,set
             </div>
         </div>
                         <div className='deposit'>
-                            <h2>Deposit</h2>
+                            <h2>{t("Deposit")}</h2>
 
                             <div className='deposit_wrapper'>
                                 <div className='deposit_faucet'>
                                     <h4>{isFaucet?50:0}ETH</h4>
-                                    <div className='btn' onClick={()=>faucetBtn()}><h6>Faucet</h6></div>
+                                    <div className='btn' onClick={()=>faucetBtn()}><h6>{t("Faucet")}</h6></div>
                                 </div>
                                 <div className='account_address'>
                                     <div className='account'>{account}</div>
-                                    <div className='btn' onClick={()=>faucetBtn()}><h6>Copy</h6></div>
+                                    <div className='btn' onClick={()=>faucetBtn()}><h6>{t("Copy")}</h6></div>
                                 </div>
                             </div>
                         </div>
@@ -199,7 +201,7 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,set
                         <div className='exercise_of_voting_rights'>
 
                             <div className='exercise_of_voting_rights_wrapper '>
-                            <h3 className='exercise_of_voting_rights_time_limit'>Exercise of Voting Rights</h3>
+                            <h3 className='exercise_of_voting_rights_time_limit'>{t("Exercise of Voting Rights")}</h3>
                             <Modal
                                 appElement={document.getElementById('root') || undefined}
                                 onRequestClose={()=>setVoted()}
@@ -207,44 +209,44 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,set
                                 style={modalStyle_2}
                             >   <div className='welcome_connection'>
                                 <img src={require('../assets/images/ENTASIS.png')} alt='entasis'></img><br/>
-                                <h4>You voted for {ratio}</h4>
-                                <h6>Corporation Name {stName}</h6>
-                                <h6>Ownership Ratio {}</h6>
-                                <h6>Security Token {stName}</h6>
+                                <h4>{t("You voted for")} {ratio}</h4>
+                                <h6>{t("Corporation Name")} {stName}</h6>
+                                <h6>{t("Ownership Ratio")} {}</h6>
+                                <h6>{t("Security Token")} {stName}</h6>
                                 <div className='voted'>
                                 <img className="congratulations" src={require('../assets/images/voted.gif')} alt='entasis'></img>
                                 </div>
-                                <h3>Your Voting Right has been Exercised!</h3>
+                                <h3>{t("Your Voting Right has been Exercised!")}</h3>
                                 </div>
                             </Modal>
-                                <h5>Select Security Token</h5>
+                                <h5>{t("Select Security Token")}</h5>
                                 <SelectBox
                                 set={OPTIONS} 
                                 value={setStName}
                                 ></SelectBox>
-                                <h4 className='head'>Dividend {Number(companyPD.dividend_ratio*(1+Number(companyPD.voted_ratio))*decord()).toFixed(4)}</h4>
+                                <h4 className='head'>{t("Dividend")} {Number(companyPD.dividend_ratio*(1+Number(companyPD.voted_ratio))*decord()).toFixed(4)}</h4>
                                 <div className='exercise_of_voting_rights_wrapper body'>
                                     
                                     <div className='left'>
-                                        <h5>Current</h5>
+                                        <h5>{t("Current")}</h5>
                                         <div className='ratio_value'>
                                             <h5>{Number(companyPD.voted_ratio*companyPD.dividend_ratio).toFixed(4)}</h5>
                                         </div>
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
-                                        setRatio(+0.05)}}><h6>Vote</h6></div>
+                                        setRatio(+0.05)}}><h6>{t("Vote")}</h6></div>
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
-                                        setRatio(+0.04)}}><h6>Vote</h6></div>
+                                        setRatio(+0.04)}}><h6>{t("Vote")}</h6></div>
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
-                                        setRatio(+0.03)}}><h6>Vote</h6></div>
+                                        setRatio(+0.03)}}><h6>{t("Vote")}</h6></div>
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
-                                        setRatio(+0.02)}}><h6>Vote</h6></div>
+                                        setRatio(+0.02)}}><h6>{t("Vote")}</h6></div>
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
-                                        setRatio(+0.01)}}><h6>Vote</h6></div>
+                                        setRatio(+0.01)}}><h6>{t("Vote")}</h6></div>
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
-                                        setRatio(0.00)}}><h6>Vote</h6></div>
+                                        setRatio(0.00)}}><h6>{t("Vote")}</h6></div>
                                     </div>
                                     <div className='middle'>
-                                        <h5>Result</h5>
+                                        <h5>{t("Result")}</h5>
                                         <div className='ratio_value'>
                                             <h5>{Number(companyPD.voted_ratio).toFixed(2)}</h5>
                                         </div>
@@ -262,7 +264,7 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,set
 
                                     </div>
                                     <div className='right'>
-                                        <h5>Next</h5>
+                                        <h5>{t("Next")}</h5>
                                         <div className='ratio_value'>
                                             <h5>{Number(companyPD.dividend_ratio*(1+Number(companyPD.voted_ratio))).toFixed(4)}</h5>
                                         </div>
@@ -272,17 +274,17 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,set
                                         <div className='vote_btn'></div>
                                         <div className='vote_btn'></div>
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
-                                        setRatio(0)}}><h6>Vote</h6></div>
+                                        setRatio(0)}}><h6>{t("Vote")}</h6></div>
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
-                                        setRatio(-0.01)}}><h6>Vote</h6></div>
+                                        setRatio(-0.01)}}><h6>{t("Vote")}</h6></div>
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
-                                        setRatio(-0.02)}}><h6>Vote</h6></div>
+                                        setRatio(-0.02)}}><h6>{t("Vote")}</h6></div>
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
-                                        setRatio(-0.03)}}><h6>Vote</h6></div>
+                                        setRatio(-0.03)}}><h6>{t("Vote")}</h6></div>
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
-                                        setRatio(-0.04)}}><h6>Vote</h6></div>
+                                        setRatio(-0.04)}}><h6>{t("Vote")}</h6></div>
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
-                                        setRatio(-0.05)}}><h6>Vote</h6></div>
+                                        setRatio(-0.05)}}><h6>{t("Vote")}</h6></div>
                                     </div>
                                 </div>
                             </div>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import { Link } from 'react-router-dom';
+import { useTranslation } from "react-i18next";
 
 const History =({
     id,
@@ -13,6 +14,7 @@ const History =({
     tx_in,
     tx_out,
     setTxs})=>{
+        const { t } = useTranslation();
 
         const [modalIsOpen, setModalIsOpen] = useState(false);
     
@@ -66,20 +68,20 @@ const modalClose =()=>{
             style={modalStyle}
             >   
             <div className="trading_record">
-                <h1 className='trading_record_header'>Trading Record</h1>
+                <h1 className='trading_record_header'>{t("Trading Record")}</h1>
                 <div className='close'>
                     <img src={require('../assets/images/close.png')} onClick={modalClose}></img>
                     </div>
                     <div className='trading_record_data'>
                         <div className='trading_record_data_left'>
-                            <div className='trading_record_data_set'><h2>Order</h2></div>
-                            <div className='trading_record_data_set'><h2>Price</h2></div>
-                            <div className='trading_record_data_set'><h2>Amount</h2></div>
-                            <div className='trading_record_data_set'><h2>Fee</h2></div>
-                            <div className='trading_record_data_set'><h2>Date</h2></div>
-                            <div className='trading_record_data_set'><h2>From</h2></div>
-                            <div className='trading_record_data_set'><h2>Tx In</h2></div>
-                            <div className='trading_record_data_set'><h2>Tx Out</h2></div>
+                            <div className='trading_record_data_set'><h2>{t("Order")}</h2></div>
+                            <div className='trading_record_data_set'><h2>{t("Price")}</h2></div>
+                            <div className='trading_record_data_set'><h2>{t("Amount")}</h2></div>
+                            <div className='trading_record_data_set'><h2>{t("Fee")}</h2></div>
+                            <div className='trading_record_data_set'><h2>{t("Date")}</h2></div>
+                            <div className='trading_record_data_set'><h2>{t("From")}</h2></div>
+                            <div className='trading_record_data_set'><h2>{t("Tx In")}</h2></div>
+                            <div className='trading_record_data_set'><h2>{t("Tx Out")}</h2></div>
                             
                         </div>
                         <div className='trading_record_data_right'>
