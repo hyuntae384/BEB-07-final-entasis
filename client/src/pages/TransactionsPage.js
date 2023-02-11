@@ -25,10 +25,13 @@ const TransactionPage =({txs,
 
 })=>{
     document.body.style.overflow = 'unset';
-    for(let i = window.innerHeight ; i>1 ;i--){
-        window.scrollTo(i,i)
-    }
-    console.log(window.innerHeight)
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    })
+    // for(let i = window.innerHeight ; i>1 ;i--){
+    // }
+    // console.log(window.innerHeight)
     const modalStyle = {
         overlay: {
             position: "fixed",

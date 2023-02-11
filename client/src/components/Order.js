@@ -7,7 +7,7 @@ import Web3 from "web3";
 import TokenABI from "../ABIs/ERC1400.json"
 import SelectBox from "./Select";
 
-const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,tokenName,totalCurrentPrices,refresh,setRefresh,ST_Name,setTokenName,amount,price,web3,userAccount,serverAddress,token,tokenContract,setAmount,curPrice,isFaucet,faucetBtn,account,stName,setStName,
+const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,tokenName,totalCurrentPrices,refresh,setRefresh,ST_Name,setTokenName,amount,price,web3,userAccount,serverAddress,token,tokenContract,setAmount,curPrice,isFaucet,faucetBtn,account,stName,setStName,myPage
 
 })=>{
 
@@ -56,17 +56,16 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
     const ST_3 = {
         name:'LEO',price:(totalCurrentPrices.leo * userLeoToken).toFixed(4) ,amount: userLeoToken
     };
-
+    let buyMaxST_1 = Math.floor(Number(userEth)/Number(totalCurrentPrices.enta))
+    let sellMaxST_1 = ST_1.amount
+    let buyMaxST_2 = Math.floor(userEth/totalCurrentPrices.beb)
+    let sellMaxST_2 = ST_2.amount
+    let buyMaxST_3 = Math.floor(userEth/totalCurrentPrices.leo)
+    let sellMaxST_3 = ST_3.amount
+    let amountMax = (buyMax,sellMax)=>{return Math.max(buyMax,sellMax)}
     function amountChange(e){
         let curamount = e.target.value;
         
-        let buyMaxST_1 = Math.floor(Number(userEth)/Number(totalCurrentPrices.enta))
-        let sellMaxST_1 = ST_1.amount
-        let buyMaxST_2 = Math.floor(userEth/totalCurrentPrices.beb)
-        let sellMaxST_2 = ST_2.amount
-        let buyMaxST_3 = Math.floor(userEth/totalCurrentPrices.leo)
-        let sellMaxST_3 = ST_3.amount
-        let amountMax = (buyMax,sellMax)=>{return Math.max(buyMax,sellMax)}
         if((stName === 'ENTAToken')&&(amountMax(buyMaxST_1,sellMaxST_1)<curamount)){
             setAmount(amountMax(buyMaxST_1,sellMaxST_1))
             e.target.value=amountMax(buyMaxST_1,sellMaxST_1)
@@ -84,7 +83,9 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
     if(stName === 'ENTAToken') setTokenName('enta')
     if(stName === 'BEBToken') setTokenName('beb')
     if(stName === 'LEOToken') setTokenName('leo')
-    // console.log(stName)
+    console.log(buyMaxST_1)
+
+
     return(
     <div className="order">
         <div className="order_mode">
@@ -100,19 +101,23 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
         </div>
         <form>
             <h6 className="order_available">Available Eth : {userEth}</h6>
-            <div>
             <input type="text" className="order_price" /* onChange={e => priceChange(e)} */ placeholder={curPrice} readOnly></input>
             {/* <h6 className="order_price_eth">ETH</h6> */}
-            </div>
             <input type="text" className="order_amount" onChange={e => amountChange(e)} placeholder='Amount'></input>
             <div className="make_order">
                 <button type="button" className="order_buy" onClick={SendETH}>
                     <h5>Buy</h5>
-                    <h5>Max Open {} ETH</h5>
+                    <h5>Max Open {stName === 'ENTAToken'? buyMaxST_1:
+                        stName === 'BEBToken'?buyMaxST_2:
+                        stName === 'LEOToken'?buyMaxST_3:0} ETH</h5>
                 </button>
+
+
                 <button type="button" className="order_sell" onClick={SendToken}>
                     <h5>Sell</h5>
-                    <h5>Max Open {} ST</h5>
+                    <h5>Max open {stName === 'ENTAToken'? sellMaxST_1:
+                        stName === 'BEBToken'?sellMaxST_2:
+                        stName === 'LEOToken'?sellMaxST_3:0} {stName.slice(0,stName.length-5)}</h5>
                 </button>
             </div>
         </form>
@@ -130,12 +135,12 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
             <h4>Deposit</h4>
             <div className='deposit_wrapper'>
                 <div className='deposit_faucet'>
-                    <h6>{isFaucet?100:0}ETH</h6>
-                    <div className='btn' onClick={()=>faucetBtn()}><h6>Faucet</h6></div>
+                    <h5>{isFaucet?50:0}ETH</h5>
+                    <div className='btn' onClick={()=>faucetBtn()}><h5>Faucet</h5></div>
                 </div>
                 <div className='account_address'>
-                    <div className='account'><h6>{account}</h6></div>
-                    <div className='btn' onClick={()=>faucetBtn()}><h6>Copy</h6></div>
+                    <div className='account'><h5>{account}</h5></div>
+                    <div className='btn' onClick={()=>faucetBtn()}><h5>Copy</h5></div>
                 </div>
             </div>
         </div>

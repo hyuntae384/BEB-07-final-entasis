@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import {Tutorial} from '../apis/user'
-const Tutorials =({tutorialCnt, account})=>{
+const Tutorials =({tutorialCnt, account,faucetBtn})=>{
     const [start, setStart] = useState(true)
     const [wallet, setWallet] = useState(true)
     const [chart, setChart] = useState(true)
@@ -14,7 +14,6 @@ const Tutorials =({tutorialCnt, account})=>{
     const [faucet, setFaucet] = useState(true)
     const [transaction, setTransaction] = useState(true)
     const [tutorialFinished, setTutorialFinished] = useState(true)
-
     const modalStyle = {
         overlay: {
             position: "fixed",
@@ -36,9 +35,11 @@ const Tutorials =({tutorialCnt, account})=>{
         },
     };
     useEffect(()=>{
+        Tutorial(account,tutorialCnt)
     },[account,tutorialCnt])
-
+// console.log(account,tutorialCnt)
     const skipHandler = () => {
+        setStart(false)
         setWallet(false)
         setChart(false)
         setLimitOrderBook(false)
@@ -53,12 +54,15 @@ const Tutorials =({tutorialCnt, account})=>{
     }    
     // account={account===typeof 'string'?account:0}
     // tutorialCnt={isEnroll.cnt===typeof 'number'?isEnroll.cnt:0}
-
+    window.scrollTo({
+        top:0,
+        behavior:'smooth'
+    })
     if(start){
         return (
             <Modal
             appElement={document.getElementById('root') || undefined}
-            onRequestClose={()=>{setStart()}}
+            //onRequestClose={()=>{setStart()}}
             isOpen={start}
             style={modalStyle}
             className="welcome_tutorial" onFocus={document.body.style.overflow='hidden'}>
@@ -69,7 +73,8 @@ const Tutorials =({tutorialCnt, account})=>{
                 <h5>For Trading</h5> 
                 <h5>Follow this Tutorial</h5>
             <h5 className='count'>1/10</h5>
-            <div className='skip' onClick={()=>{setStart();}}>Next</div>
+            <div className='skip' onClick={skipHandler}>Skip</div>
+            <div className='next' onClick={()=>setStart()}>Next</div>
             </Modal>
         )}
     
@@ -78,7 +83,7 @@ const Tutorials =({tutorialCnt, account})=>{
     return (
         <Modal
         appElement={document.getElementById('root') || undefined}
-        onRequestClose={()=>{setWallet()}}
+        //onRequestClose={()=>{setWallet()}}
         isOpen={wallet}
         style={modalStyle}
         className="welcome_tutorial_wallet" onFocus={document.body.style.overflow='hidden'}>
@@ -90,15 +95,16 @@ const Tutorials =({tutorialCnt, account})=>{
             <h5>Connect Your</h5> 
             <h5>MataMask Wallet</h5>
         </div>
-        <h5 className='count'>1/10</h5>
-        <div className='skip' onClick={()=>{setWallet();}}>Next</div>
+        <h5 className='count' >1/10</h5>
+        <h5 className='skip' onClick={skipHandler}>Skip</h5>
+        <div className='next' onClick={()=>setWallet()}>Next</div>
         </Modal>
     )}
     if(chart){
         return (
         <Modal
         appElement={document.getElementById('root') || undefined}
-        onRequestClose={()=>{setChart()}}
+        //onRequestClose={()=>{setChart()}}
         isOpen={chart}
         style={modalStyle}
         className="welcome_tutorial_chart" onClick={()=>setChart()} onFocus={document.body.style.overflow='hidden'}>
@@ -107,7 +113,7 @@ const Tutorials =({tutorialCnt, account})=>{
         <h4>Chart</h4>
         </div>
         <div className='chart_body'>
-            <img className='chart_img' src={require('../assets/images/chart_tutorials.webp')}/>
+            <img className='chart_img' src={require('../assets/images/chart.gif')}/>
         </div>
         <div className='chart_foot'>
         <h5>Key Takeaways</h5>
@@ -116,9 +122,9 @@ const Tutorials =({tutorialCnt, account})=>{
             Time frames for the charts may be based on time, ticks (number of transactions), volume, or price.
         </h6>
         </div>
-        <h5 className='count'>2/10</h5>
-        
-        <div className='skip' onClick={()=>{setChart();}}>Next</div>
+        <h5 className='count' >2/10</h5>
+        <h5 className='skip' onClick={skipHandler}>Skip</h5>
+        <div className='next' onClick={()=>setChart()}>Next</div>
         </Modal>
     )}
     
@@ -126,7 +132,7 @@ const Tutorials =({tutorialCnt, account})=>{
         return(
         <Modal
         appElement={document.getElementById('root') || undefined}
-        onRequestClose={()=>{setLimitOrderBook()}}
+        //onRequestClose={()=>{setLimitOrderBook()}}
         isOpen={limitOrderBook}
         style={modalStyle}
         className="welcome_tutorial_limit_order_book" onClick={() => setLimitOrderBook()} onFocus={document.body.style.overflow='hidden'}>
@@ -142,15 +148,16 @@ const Tutorials =({tutorialCnt, account})=>{
             <h6>When a limit order for a security is entered, it is kept on record by the security specialist.</h6>
 
         </div>
-        <h5 className='count'>3/10</h5>
-        <div className='skip' onClick={()=>{setLimitOrderBook();}}>Next</div>
+        <h5 className='count' >3/10</h5>
+        <h5 className='skip' onClick={skipHandler}>Skip</h5>
+        <div className='next' onClick={()=>{setLimitOrderBook();}}>Next</div>
         </Modal>
     )}
     if(order){
         return(
         <Modal
         appElement={document.getElementById('root') || undefined}
-        onRequestClose={()=>{setOrder()}}
+        //onRequestClose={()=>{setOrder()}}
         isOpen={order}
         style={modalStyle}
         className="welcome_tutorial_order" onClick={() => setOrder()} onFocus={document.body.style.overflow='hidden'}>
@@ -158,20 +165,25 @@ const Tutorials =({tutorialCnt, account})=>{
         <h4>Market Order</h4>
         <i className='fas fa-arrow-up'></i>
         </div>
+        <br/>   
+        <img src={require('../assets/images/order.gif')}/>
+
         <div>
         <h6>
             A market order is an order to buy or sell a stock at the market's current best available price. A market order typically ensures an execution, but it does not guarantee a specified price. 
         </h6>
         </div>
-        <h5 className='count'>4/10</h5>
-        <div className='skip' onClick={()=>{setOrder();}}>Next</div>
+
+        <h5 className='count' >4/10</h5>
+        <h5 className='skip' onClick={skipHandler}>Skip</h5>
+        <div className='next' onClick={()=>{setOrder();}}>Next</div>
         </Modal>
     )}
     if(publicDisclosure){
         return(
         <Modal
         appElement={document.getElementById('root') || undefined}
-        onRequestClose={()=>{setPublicDisclosure()}}
+        //onRequestClose={()=>{setPublicDisclosure()}}
         isOpen={publicDisclosure}
         style={modalStyle}
         className="welcome_tutorial_public_disclosure" onClick={() => setPublicDisclosure()} onFocus={document.body.style.overflow='hidden'}>
@@ -182,15 +194,16 @@ const Tutorials =({tutorialCnt, account})=>{
         <div>
             <h6>A public disclosure is any non-confidential communication which an inventor or invention owner makes to one or more members of the public, revealing the existence of the invention and enabling an appropriately experienced individual to reproduce the invention.</h6>
         </div>
-        <h5 className='count'>5/10</h5>
-        <div className='skip' onClick={()=>{setPublicDisclosure();}}>Next</div>
+        <h5 className='count' >5/10</h5>
+        <h5 className='skip' onClick={skipHandler}>Skip</h5>
+        <div className='next' onClick={()=>{setPublicDisclosure();}}>Next</div>
         </Modal>
     )}
     if(assets){
         return(
         <Modal
         appElement={document.getElementById('root') || undefined}
-        onRequestClose={()=>{setAssets()}}
+        //onRequestClose={()=>{setAssets()}}
         isOpen={assets}
         style={modalStyle}
         className="welcome_tutorial_assets" onClick={() => setAssets()} onFocus={document.body.style.overflow='hidden'}>
@@ -201,15 +214,16 @@ const Tutorials =({tutorialCnt, account})=>{
         <div>
             <h6>Manage Your Assets and Exercise your Voting Rights here.</h6>
         </div>
-        <h5 className='count'>6/10</h5>
-        <div className='skip' onClick={()=>{setAssets();}}>Next</div>
+        <h5 className='count' >6/10</h5>
+        <h5 className='skip' onClick={skipHandler}>Skip</h5>
+        <div className='next' onClick={()=>{setAssets();}}>Next</div>
         </Modal>
     )}
     if(history){
         return(
         <Modal
         appElement={document.getElementById('root') || undefined}
-        onRequestClose={()=>{setHistory()}}
+        //onRequestClose={()=>{setHistory()}}
         isOpen={history}
         style={modalStyle}
         className="welcome_tutorial_history" onClick={() => setHistory()} onFocus={document.body.style.overflow='hidden'}>
@@ -222,15 +236,16 @@ const Tutorials =({tutorialCnt, account})=>{
             <h6>And Dividend Income here.</h6>
             <h6>Orders, Transaction Hash, Date</h6>
         </div>
-        <h5 className='count'>7/10</h5>
-        <div className='skip' onClick={()=>{setWallet()}}>Next</div>
+        <h5 className='count' >7/10</h5>
+        <h5 className='skip' onClick={skipHandler}>Skip</h5>
+        <div className='next' onClick={()=>{setHistory()}}>Next</div>
         </Modal>
     )}
     if(isAccount){
         return(
         <Modal
         appElement={document.getElementById('root') || undefined}
-        onRequestClose={()=>{setIsAccount()}}
+        //onRequestClose={()=>{setIsAccount()}}
         isOpen={isAccount}
         style={modalStyle}
         className="welcome_tutorial_account" onClick={() => setIsAccount()} onFocus={document.body.style.overflow='hidden'}>
@@ -244,8 +259,9 @@ const Tutorials =({tutorialCnt, account})=>{
             <h6>And Market Data</h6>
         </div>
 
-        <h5 className='count'>8/10</h5>
-        <div className='skip' onClick={()=>{setWallet();}}>Next</div>
+        <h5 className='count' >8/10</h5>
+        <h5 className='skip' onClick={skipHandler}>Skip</h5>
+        <div className='next' onClick={()=>{setIsAccount();}}>Next</div>
         </Modal>
     )}
 
@@ -253,7 +269,7 @@ const Tutorials =({tutorialCnt, account})=>{
         return(
         <Modal
         appElement={document.getElementById('root') || undefined}
-        onRequestClose={()=>{setFaucet()}}
+        //onRequestClose={()=>{setFaucet()}}
         isOpen={faucet}
         style={modalStyle}
         className="welcome_tutorial_faucet" onClick={() => setFaucet()} onFocus={document.body.style.overflow='hidden'}>
@@ -262,18 +278,19 @@ const Tutorials =({tutorialCnt, account})=>{
         <i className='fas fa-arrow-right'></i>
         </div>
         <div>
-            <h6>This Button gives you 10.00 ETH</h6>
-            <h6></h6>
+            <h6>This Button gives you 50.00 ETH</h6>
+            <h6 onClick={faucetBtn(account)}>Faucet</h6>
         </div>
-        <h5 className='count'>9/10</h5>
-        <div className='skip' onClick={()=>{setWallet();}}>Next</div>
+        <h5 className='count' >9/10</h5>
+        <h5 className='skip' onClick={skipHandler}>Skip</h5>
+        <div className='next' onClick={()=>setFaucet()}>Next</div>
         </Modal>
     )}
     if(transaction){
         return(
         <Modal
         appElement={document.getElementById('root') || undefined}
-        onRequestClose={()=>{setTransaction()}}
+        //onRequestClose={()=>{setTransaction()}}
         isOpen={transaction}
         style={modalStyle}
         className="welcome_tutorial_transaction" onClick={() => setTransaction()} onFocus={document.body.style.overflow='hidden'}>
@@ -287,8 +304,9 @@ const Tutorials =({tutorialCnt, account})=>{
             <h6>And Market Data</h6>
         </div>
 
-        <h5 className='count'>10/10</h5>
-        <div className='skip' onClick={()=>{setWallet();}}>Next</div>
+        <h5 className='count' >10/10</h5>
+        <h5 className='skip' onClick={skipHandler}>Skip</h5>
+        <div className='next' onClick={()=>{setTransaction();}}>Next</div>
         </Modal>
     )}
 
@@ -296,7 +314,7 @@ const Tutorials =({tutorialCnt, account})=>{
         return(
         <Modal
         appElement={document.getElementById('root') || undefined}
-        onRequestClose={()=>{setTutorialFinished();Tutorial(account,1)}}
+        //onRequestClose={()=>{setTutorialFinished();Tutorial(account,1)}}
         isOpen={tutorialFinished}
         style={modalStyle}
         className="welcome_tutorial_tutorial_finished" onClick={() => {setTutorialFinished();Tutorial(account,1)}} >

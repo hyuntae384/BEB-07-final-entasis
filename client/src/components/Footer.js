@@ -29,10 +29,13 @@ const Footer =({setIsCircuitBreaker})=>{
     useEffect(()=>{
     },[pathName])
 
-    const restrict = "http://15.165.204.25:5050/rtd/restrict";  
+    const restrict = "52.78.173.200/rtd/restrict";  
 
     const Restrict = async(wallet) => {
-        window.scrollTo(0,0)
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        })
         setIsCircuitBreaker(true)
         setCircuitModal(true)
         if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
@@ -117,8 +120,8 @@ const Footer =({setIsCircuitBreaker})=>{
                 <div className='footer_body_right'>
                     <div className='circuit_breaker'>
 
-        <div className='circuit_breaker_top'>
-                    <div className='circuit_breaker_btn' onClick={Restrict} >
+        <div className='circuit_breaker_top' onClick={Restrict}>
+                    <div className='circuit_breaker_btn' >
                         <img src={require('../assets/images/danger.png')}alt='danger'></img>
                     </div>
                     <h1>Circuit Breaker</h1>
@@ -163,8 +166,8 @@ const Footer =({setIsCircuitBreaker})=>{
                     </div>
                     </div>
                     <div className='footer_bottom_name'>
-                        <h4>GitHub</h4>
-                        <h4>Publish</h4>
+                        <h4><a className='github_link' href='https://github.com/codestates-beb/BEB-07-final-entasis'>GitHub https://github.com/codestates-beb/BEB-07-final-entasis</a></h4>
+                        <h4><a className='github_link' href='http://entasis.s3-website.ap-northeast-2.amazonaws.com/'>Publish http://entasis.s3-website.ap-northeast-2.amazonaws.com/</a></h4>
                     </div>
             </div>
     </div>

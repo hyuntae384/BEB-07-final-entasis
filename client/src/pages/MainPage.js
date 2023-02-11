@@ -17,7 +17,7 @@ import { injected } from '../connectors';
 
 // import {FaucetWallet} from '../apis/user'
 
-const MainPage =({setTxs,isWelcome,setIsWelcome,setIsChartTotal,tokenName,account,currentPageNum,circuitBreakerTimer,chartOriginArr,setChartArr,chartArr,currentPrice,setCurrentPrice,isLoading,setIsLoading,setCompanyPD,stName,activate,setIsEnroll,ratio,isCircuitBreaker,setCircuitBreakerTimer,setIsCircuitBreaker,onMouseEnterHandler,isEnroll,setStName,setTokenName,faucetBtn,isFaucet,OPTIONS,handleConnect,setCurrentPageNum,setCoorpName,userEth,userEntaToken,userBebToken,userLeoToken,setUserEntaToken,setUserBebToken,setUserLeoToken,setUserEth})=>{
+const MainPage =({setTxs,isWelcome,setIsWelcome,setIsChartTotal,tokenName,account,currentPageNum,circuitBreakerTimer,chartOriginArr,setChartArr,chartArr,currentPrice,setCurrentPrice,isLoading,setIsLoading,setCompanyPD,stName,activate,setIsEnroll,ratio,isCircuitBreaker,setCircuitBreakerTimer,setIsCircuitBreaker,onMouseEnterHandler,isEnroll,setStName,setTokenName,faucetBtn,isFaucet,OPTIONS,handleConnect,setCurrentPageNum,setCoorpName,userEth,userEntaToken,userBebToken,userLeoToken,setUserEntaToken,setUserBebToken,setUserLeoToken,setUserEth,myPage})=>{
 
 
     // chart===================================================================
@@ -35,18 +35,16 @@ const MainPage =({setTxs,isWelcome,setIsWelcome,setIsChartTotal,tokenName,accoun
     const [termValue, setTermValue] = useState(15);
     const [offset,setOffset]=useState(1500);
     const [limit, setLimit]=useState(10000);
-    const [myPage, setMyPage] =useState({})
 
     const [termArrLength,setTermArrLength] = useState(2000);
     const [chartTermArr, setChartTermArr] = useState([])
-    const apiAddress = "http://15.165.204.25:5050/user/personaldividend/?wallet="
+    const apiAddress = "52.78.173.200/user/personaldividend/?wallet="
 
     const [userDividend, setUserDividend] = useState({
         ENTAToken:'0',
         BEBToken:'0',
         LEOToken:'0'
     })
-
     const term = [
         { value: "1", name: "1 minutes" },
         { value: "15", name: "15 minutes" },
@@ -58,7 +56,7 @@ const MainPage =({setTxs,isWelcome,setIsWelcome,setIsChartTotal,tokenName,accoun
 
 useEffect(()=>{
     let limitChartArr=[];
-    const origin = 'http://15.165.204.25:5050/chart/'
+    const origin = '52.78.173.200/chart/'
         const setChartTotal=(async(offset,limit,tokenName) => 
         {try {
             setIsLoading(true)
@@ -207,7 +205,7 @@ useEffect(()=>{
         if(name !== tokenName&&totalChartData===true){
             const setChartRTD=(async () => 
                 {try {
-                    currentPrice_ref.current = await axios.get('http://15.165.204.25:5050/rtd/'+tokenName)
+                    currentPrice_ref.current = await axios.get('52.78.173.200/rtd/'+tokenName)
                     setCurrentPrice(currentPrice_ref.current.data)
                 } catch (e) {
                     console.log(e) // caught
@@ -241,7 +239,6 @@ useEffect(()=>{
         Position(account,offsetHis,10)
         if(account!==undefined){
             EnrollWallet(account)
-            MyPage(account)
             }
             getDividend(userAccount)
         setOffset(pageSet * (currentPageNum - 1))
@@ -254,7 +251,7 @@ useEffect(()=>{
         copy = e;
     }
     // URL
-    const origin = "http://15.165.204.25:5050/";
+    const origin = "52.78.173.200/";
     const chart = origin + "chart/data"
 
     const getUserURL = origin + "user/"; 
@@ -265,13 +262,7 @@ useEffect(()=>{
     const voteURL = getCompanyURL + "vote"
     const mypage = getUserURL + "mypage/?wallet="
         
-    const MyPage = async(wallet) => {
-        if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
-        const resultAccount = await axios.get(mypage + wallet)
-        .then(res=>res)
-        .then(err=>err)
-        setMyPage(resultAccount)
-    }
+
 
     // API Request
 
@@ -434,13 +425,13 @@ const SelectCoorp = (e) =>{
 
 return(
     <div className="main_page" onMouseEnter={onMouseEnterHandler}>
-        <WelcomePage
+        {/* <WelcomePage
             isWelcome={isWelcome}
             setIsWelcome={setIsWelcome}
             account={account}
             tutorialCnt={isEnroll.cnt}
             isLoading={isLoading}
-        />
+        /> */}
         <div className="main_head">
             <ChartWrapper
                 ST_Name={OPTIONS}
@@ -464,6 +455,7 @@ return(
                 ST_CurrentPrice={currentPrice.close} 
             />
             <Order
+                myPage={myPage}
                 stName={stName}
                 setStName={setStName}
                 account={account}
