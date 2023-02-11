@@ -1,12 +1,15 @@
-const SelectBox = ({set, value}) => {
+const SelectBox = ({set,termValue, value}) => {
     const handleChange = (e) => {
 		// event handler
+		
 		value(e.target.value)
 	};
 	return (
 		<select 
         className='chart_select'
-        onChange={handleChange}>
+        onChange={handleChange}
+		value={termValue}
+		>
 			{typeof set==='object'?set.map((option) => (
 				<option
 					key={option.value}

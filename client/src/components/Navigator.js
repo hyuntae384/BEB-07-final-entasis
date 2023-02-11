@@ -7,7 +7,7 @@ import '../assets/css/main.css';
 import SelectBox from './Select';
 import Tutorials from "./Tutorials";
 
-const Navigator =({isCircuitBreaker,setIsCircuitBreaker,stName,setStName,companyPD,OPTIONS,totalCurrentPrices,coorpName,circuitBreakerTimer
+const Navigator =({isCircuitBreaker,stName,setStName,companyPD,totalCurrentPrices,coorpName,circuitBreakerTimer,ST_Name
 })=>{
     const [pdModalIsOpen, setPdModalIsOpen] = useState(false);
     const [tutorialsClicked,setTutorialsClicked] = useState(false)
@@ -91,8 +91,9 @@ const Navigator =({isCircuitBreaker,setIsCircuitBreaker,stName,setStName,company
                     <img src={require('../assets/images/close.png')}></img>
                 </div>
                 <SelectBox
-                    set={OPTIONS} 
-                    value={setStName}
+                        set={ST_Name}
+                        termValue={stName}
+                        value={setStName}
                 ></SelectBox>
                 <div className="myaccount_section">
                     <h3>Name</h3>

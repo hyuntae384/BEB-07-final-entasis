@@ -7,7 +7,8 @@ import Web3 from "web3";
 import TokenABI from "../ABIs/ERC1400.json"
 import SelectBox from "./Select";
 
-const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,tokenName,totalCurrentPrices,refresh,setRefresh,ST_Name,setTokenName,amount,price,web3,userAccount,serverAddress,token,tokenContract,setAmount,curPrice,isFaucet,faucetBtn,account
+const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,tokenName,totalCurrentPrices,refresh,setRefresh,ST_Name,setTokenName,amount,price,web3,userAccount,serverAddress,token,tokenContract,setAmount,curPrice,isFaucet,faucetBtn,account,stName,setStName,
+
 })=>{
 
 
@@ -90,7 +91,8 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
             <div className="order_select">
                 <SelectBox
                     set={ST_Name}
-                    value={setTokenName}
+                    termValue={stName}
+                    value={setStName}
                 ></SelectBox>
             </div>
         </div>

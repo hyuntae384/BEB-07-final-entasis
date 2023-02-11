@@ -4,8 +4,10 @@ import SelectBox from "../Select";
 import Candle from "./data/Candle"
 import Volume from "./data/Volume"
 
-const Chart =({currentPrice, chartTermArr,defaultLimit,dataLength,term,setTermValue,isLoading,tokenName,
-    setTokenName,ST_Name})=>{
+const Chart =({currentPrice, chartTermArr,defaultLimit,dataLength,term,setTermValue,isLoading,tokenName,termValue,
+    setTokenName,ST_Name,stName,
+    setStName
+})=>{
 
     let date = dataToArray(chartTermArr,1)
     let open = dataToArray(chartTermArr,2)
@@ -63,10 +65,12 @@ const Chart =({currentPrice, chartTermArr,defaultLimit,dataLength,term,setTermVa
                 <div className="chart_select_box">
                     <SelectBox
                         set={ST_Name}
-                        value={setTokenName}
+                        termValue={stName}
+                        value={setStName}
                     ></SelectBox>
                     <SelectBox 
                         set = {term}
+                        termValue={termValue}
                         value={setTermValue}
                     ></SelectBox>
                 </div>

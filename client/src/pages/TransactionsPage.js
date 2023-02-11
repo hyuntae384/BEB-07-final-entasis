@@ -87,25 +87,6 @@ const TransactionPage =({txs,
     },[transactionOut])
 return(
     <div className='transaction'>
-            <div className="header">
-        
-        <Link to='/'>
-            <img src={require('../assets/images/logo.png')}></img>
-        </Link>
-        <Link to='/'>
-            <img className='entasis_main_logo' src={require('../assets/images/ENTASIS.png')}></img>
-        </Link>
-    </div>
-    <div className="navigator">
-    <div className="public_disclosure">
-        <div className="public_disclosure_wrapper">
-        </div>
-        </div>
-            <div className="navigation_right">
-                <Link to='/transaction'><h4>Transactions</h4></Link>
-            </div>
-
-        </div>
 
         <div className='transactions'>
 

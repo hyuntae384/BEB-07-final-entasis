@@ -1,9 +1,6 @@
 import {Link} from 'react-router-dom';
-import {useEffect, useState} from 'react'
+import {useState} from 'react'
 import Modal from "react-modal"
-import { useWeb3React } from '@web3-react/core';
-import {web3} from 'web3'
-import { injected } from '../connectors';
 import '../assets/css/main.css';
 import { ChName, Score, Position} from '../apis/user'
 import Tutorials from './Tutorials';
@@ -12,7 +9,7 @@ import axios from 'axios';
 import Welcome from '../pages/TransactionsPage';
 
 // import {Vote} from '../apis/company'
-const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,setStName,companyPD,OPTIONS,active,handleConnect,isEnroll,account,setEditName,editName,setEditNameValue,Change,mypage,isFaucet,faucetBtn,dividendTimeLimit,setVoted,voted,ratio,setRatio
+const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,setStName,companyPD,OPTIONS,active,handleConnect,isEnroll,account,setEditName,editName,setEditNameValue,Change,isFaucet,faucetBtn,dividendTimeLimit,setVoted,voted,ratio,setRatio
 })=> {
     const [userModalIsOpen, setUserModalIsOpen] = useState(false)
 

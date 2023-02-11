@@ -14,58 +14,33 @@ import Web3 from "web3";
 import TokenABI from "../ABIs/ERC1400.json"
 import dataToArray from '../functions/data_to_array'
 import { injected } from '../connectors';
-import { ChName, Score, Position} from '../apis/user'
 
 // import {FaucetWallet} from '../apis/user'
 
-const MainPage =({setTxs,isWelcome,setIsWelcome})=>{
+const MainPage =({setTxs,isWelcome,setIsWelcome,setIsChartTotal,tokenName,MyPage,account,currentPageNum,circuitBreakerTimer,chartOriginArr,setChartArr,chartArr,currentPrice,setCurrentPrice,isLoading,setIsLoading,setCompanyPD,stName,activate,setIsEnroll,ratio,isCircuitBreaker,setCircuitBreakerTimer,setIsCircuitBreaker,onMouseEnterHandler,isEnroll,setStName,setTokenName,faucetBtn,isFaucet,OPTIONS,handleConnect,setCurrentPageNum,setCoorpName})=>{
 
     // chart===================================================================
     const [totalChartData, setTotalChartData] = useState(false)
-    const [currentPrice, setCurrentPrice] = useState({
-        close : "0",
-        createdAt : "0",
-        high : "0",
-        low : "0",
-        open : "0",
-        totalCurrentPrices : {enta: '0', beb: '0', leo: '0'},
-        totalVolFrom : "0",
-        totalVolTo : "0"
-    })
     const currentPrice_ref = useRef({});
     // chart===================================================================
 
     // history===================================================================
-    const [currentPageNum, setCurrentPageNum]=useState(1)
     // history===================================================================
 
 
-    const [isLoading, setIsLoading] = useState(false);
-    const [isEnroll,setIsEnroll] =useState({});
     const [userPosition,setUserPosition] = useState();
     const [copy, setCopy] = useState('');
     const [number, setNumber] = useState(0);
-    const [walletConnected, setWalletConnected] = useState(false)
-    const [isCircuitBreaker,setIsCircuitBreaker] = useState(false)
-    const [tokenName, setTokenName] = useState('enta')
     const [refresh, setRefresh] = useState(false)
-    const [stName, setStName] = useState('ENTAToken');
-    const [companyPD, setCompanyPD] =useState([]) 
 
-    const {chainId, account, active, activate, deactivate} = useWeb3React();
-    const [defaultLimit, setDefaultLimit] = useState(0);
+    const [defaultLimit, setDefaultLimit] = useState(100);
     const [dataLength, setDataLength] = useState(0);
-    const [chartToggle,setChartToggle] = useState(false)
-    const [termValue, setTermValue] = useState(1);
+    const [termValue, setTermValue] = useState(15);
     const [offset,setOffset]=useState(1500);
     const [limit, setLimit]=useState(10000);
-    const [total,setTotal] = useState(0);
 
     const [termArrLength,setTermArrLength] = useState(2000);
-    const [chartArr, setChartArr]  = useState([]);
     const [chartTermArr, setChartTermArr] = useState([])
-    const [chartOriginArr,setChartOriginArr] = useState([]);
-    const [isChartTotal, setIsChartTotal] = useState([]);
     const apiAddress = "http://15.165.204.25:5050/user/personaldividend/?wallet="
 
 
@@ -109,40 +84,18 @@ useEffect(()=>{
 
 },[tokenName])
 
-    useEffect(()=>{
-        setChartOriginArr(isChartTotal)
-        
-    },[isChartTotal,tokenName])
+
 // console.log(`${new Date().getSeconds()}`)
-    useEffect(() => {
-        const loop = setInterval(() => {
-            if(`${new Date().getSeconds()}`===`59`){
-                let index = chartArr[chartArr.length-1]!==undefined?chartArr[chartArr.length-1][0]+1:undefined
-                let createdAtB = currentPrice.createdAt;
-                let openB= typeof chartArr[chartArr.length-1]==='object'&&!isNaN(chartArr[chartArr.length-1][3]) ?chartArr[chartArr.length-1][3]:currentPrice.open;
-                let closeB= currentPrice.close;
-                let highB= currentPrice.high;
-                let lowB= currentPrice.low;
-                let totalVolToB= currentPrice.totalVolTo;
-                let totalVolFromB= currentPrice.totalVolFrom;
-                setChartOriginArr([...chartOriginArr,[
-                    index,
-                    createdAtB,
-                    openB,
-                    closeB,
-                    highB,
-                    lowB,
-                    totalVolToB,
-                    totalVolFromB,
-                ]]);
-                highB= currentPrice.close;
-                lowB= currentPrice.close;
+    // console.log(currentPageNum)
+    const getDividend = async(wallet) => {
+        if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
+        const resultAmount = await axios.get(apiAddress + wallet)
+        .then(res=>res)
+        .then(err=>err)
+        setUserDividend(resultAmount.data)
+    }
 
-            }  
-
-        clearInterval(loop);
-        }, 1000);
-
+    useEffect(()=>{
         priceChange()
         setToken(tokenName)
         contractChange(token)
@@ -156,19 +109,7 @@ useEffect(()=>{
             EnrollWallet(account)
             MyPage(account)
             }
-
             getDividend(userAccount)
-    }, [new Date().getSeconds(), currentPageNum]);
-    console.log(currentPageNum)
-    const getDividend = async(wallet) => {
-        if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
-        const resultAmount = await axios.get(apiAddress + wallet)
-        .then(res=>res)
-        .then(err=>err)
-        setUserDividend(resultAmount.data)
-    }
-
-    useEffect(()=>{
         setOffset(pageSet * (currentPageNum - 1))
         setLimit(pageSet * (currentPageNum - 1)+pageSet-1)
     },[currentPageNum,new Date().getSeconds()])
@@ -244,16 +185,7 @@ useEffect(()=>{
     const [userBebToken, setUserBebToken] = useState("")
     const [userLeoToken, setUserLeoToken] = useState("")
 
-    const ST_Name = [
-        { value: "enta", name: "ENTA" },
-        { value: "beb", name: "BEB" },
-        { value: "leo", name: "LEO" },
-        ];
-    const OPTIONS = [
-        { value: "ENTAToken", name: "ENTA" },
-        { value: "BEBToken", name: "BEB" },
-        { value: "LEOToken", name: "LEO" },
-    ];
+
         
 
     
@@ -345,8 +277,6 @@ useEffect(()=>{
 
     const enroll = getUserURL + "enroll/?wallet="
     const position = getUserURL + "position/?wallet="
-    const faucet = getUserURL + "faucet/?wallet="
-    const mypage = getUserURL + "mypage/?wallet="
     const voteURL = getCompanyURL + "vote"
 
     // API Request
@@ -376,33 +306,12 @@ useEffect(()=>{
     },[stName])
 
 
-        const onMouseEnterHandler = () => {
-            document.body.style.overflow = 'unset';
-        }
         // console.log(offset,limit)
     // history===================================================================
 
 
     // header===================================================================
 
-    const handleConnect = () => {
-        if(active) {
-            deactivate();
-            localStorage.setItem('isWalletConnected', false)
-            return;
-        }
-        activate(injected, (error) => {
-            if('/No ethereum provider was found on window.ethereum/'.test(error)) {
-                window.open('https://metamask.io/download.html');
-            }
-        });
-        try {
-            localStorage.setItem('isWalletConnected', true) 
-        } catch (ex) {
-            console.log(ex)
-        }
-        setWalletConnected(true)
-    }
 
 
         let positions = userPosition!==undefined&& userPosition!==null?userPosition:[]
@@ -414,14 +323,8 @@ useEffect(()=>{
 
     // history===================================================================
 
-    const [isFaucet, setIsFaucet] = useState(false)
     const [name, setName] = useState("aa");
     const [vote,setVote] =useState()
-    const [ratio, setRatio] = useState(0);
-    const [editName, setEditName] = useState(false)
-    const [editNameValue,setEditNameValue] = useState('')
-    const [voted,setVoted] = useState(false)
-    const [myPage, setMyPage] =useState({})
 
     const countNumber=(e)=>{
         return e.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,",")
@@ -446,13 +349,7 @@ useEffect(()=>{
 
 
 
-    const MyPage = async(wallet) => {
-        if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
-        const resultAccount = await axios.get(mypage + wallet)
-        .then(res=>res)
-        .then(err=>err)
-        setMyPage(resultAccount)
-    }
+
     const EnrollWallet = async(wallet) => {
         if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
         const resultEnrollWallet =  await axios.post(enroll + wallet)
@@ -463,25 +360,8 @@ useEffect(()=>{
 
 
 
-    const FaucetWallet = async(wallet) => {
-        if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
-        const faucetJSON = {'wallet':wallet}
-        const resultFaucetWallet = await axios.put(faucet + wallet,faucetJSON)
-        .then(res=>res.data.status)
-        .catch((error)=>{
-            if(error.response.data.message==='user has already used the faucet'){setIsFaucet(true)}
-        })
-        return resultFaucetWallet
-    }
 
-    const Change =()=>{
-        ChName(account,editNameValue)
-        MyPage(account)
-        setEditName(false)
-    }
-    const faucetBtn=()=>{
-        console.log(FaucetWallet(account))
-    }
+
 
     useEffect(()=>{
         const Vote = async(st_name,ratio,wallet) => {
@@ -499,13 +379,10 @@ useEffect(()=>{
         }
         Vote(stName,ratio,account)
     },[ratio])
-    const dividendTimeLimit = (59-new Date().getMinutes())%5+":"+(59-new Date().getSeconds())
     // header===================================================================
 
     // public disclosure===================================================================
-    const [coorpName,setCoorpName] = useState('')
     // const [isDate, setIsDate] = useState(0);
-    let [circuitBreakerTimer,setCircuitBreakerTimer] = useState(60)
     
     let i = 60 ;
 
@@ -572,35 +449,7 @@ const SelectCoorp = (e) =>{
 //=========useEffect==============================
 
 
-    useEffect(() => {
-
-        /* console.log(userEth)
-        console.log(currentPrice) */
-    })
-
-    // useEffect(()=>{
-
-    // },[currentPrice,account,offset])
-
-    // useEffect(()=>{
-    // })
-
-
-    // //======account=====================================
-    // useEffect(()=>{
-
-    //     },[account,editNameValue,editName]);
-
-    // //======account=====================================
-
-
-    // //======asset detail=====================================
-
-
-
-        // useEffect(() => {
-
-        // },[userAccount])
+ 
     
     
 return(
@@ -612,54 +461,18 @@ return(
             tutorialCnt={isEnroll.cnt}
             isLoading={isLoading}
         />
-        <Header 
-            ratio={ratio}
-            voted={voted}
-            dividendTimeLimit={dividendTimeLimit}
-            isFaucet={isFaucet}
-            mypage={mypage}
-            editName={editName}
-            account={account}
-            isEnroll={isEnroll}
-            active={active}
-            walletConnected = {walletConnected}
-            isLoading = {isLoading}
-            totalCurrentPrices={currentPrice.totalCurrentPrices}
-            stName={stName}
-            companyPD={companyPD}
-            OPTIONS={OPTIONS}
-            setStName={setStName}
-            onMouseEnter={onMouseEnterHandler}
-            setWalletConnected = {setWalletConnected}
-            handleConnect={handleConnect}
-            setEditName={setEditName}
-            Change={Change}
-            setEditNameValue={setEditNameValue}
-            faucetBtn={faucetBtn}
-            setVoted={setVoted}
-            setRatio={setRatio}
-        />
-        <Navigator
-            circuitBreakerTimer={circuitBreakerTimer}
-            coorpName={coorpName}
-            totalCurrentPrices={currentPrice.totalCurrentPrices}
-            stName={stName}
-            setStName={setStName}
-            companyPD={companyPD}
-            isCircuitBreaker={isCircuitBreaker}
-            setIsCircuitBreaker={setIsCircuitBreaker}
-            OPTIONS={OPTIONS}
-        />
         <div className="main_head">
             <ChartWrapper
+                stName={stName}
+                setStName={setStName}
                 chartTermArr={chartTermArr}
                 setTermValue={setTermValue}
                 term={term}
+                termValue={termValue}
                 isLoading={isLoading}
                 defaultLimit={defaultLimit}
                 setDataLength={setDataLength}
                 dataLength={dataLength}
-                ST_Name={ST_Name}
                 tokenName={tokenName}
                 setTokenName={setTokenName}
                 currentPrice={currentPrice}
@@ -670,6 +483,9 @@ return(
                 ST_CurrentPrice={currentPrice.close} 
             />
             <Order
+                
+                stName={stName}
+                setStName={setStName}
                 account={account}
                 faucetBtn={faucetBtn}
                 isFaucet={isFaucet}
@@ -682,7 +498,7 @@ return(
                 web3={web3}
                 price={price}
                 amount={amount}
-                ST_Name={ST_Name}
+                ST_Name={OPTIONS}
                 setTokenName={setTokenName}
                 refresh={refresh}
                 setRefresh={setRefresh}
