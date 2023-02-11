@@ -17,7 +17,8 @@ import { injected } from '../connectors';
 
 // import {FaucetWallet} from '../apis/user'
 
-const MainPage =({setTxs,isWelcome,setIsWelcome,setIsChartTotal,tokenName,account,currentPageNum,circuitBreakerTimer,chartOriginArr,setChartArr,chartArr,currentPrice,setCurrentPrice,isLoading,setIsLoading,setCompanyPD,stName,activate,setIsEnroll,ratio,isCircuitBreaker,setCircuitBreakerTimer,setIsCircuitBreaker,onMouseEnterHandler,isEnroll,setStName,setTokenName,faucetBtn,isFaucet,OPTIONS,handleConnect,setCurrentPageNum,setCoorpName})=>{
+const MainPage =({setTxs,isWelcome,setIsWelcome,setIsChartTotal,tokenName,account,currentPageNum,circuitBreakerTimer,chartOriginArr,setChartArr,chartArr,currentPrice,setCurrentPrice,isLoading,setIsLoading,setCompanyPD,stName,activate,setIsEnroll,ratio,isCircuitBreaker,setCircuitBreakerTimer,setIsCircuitBreaker,onMouseEnterHandler,isEnroll,setStName,setTokenName,faucetBtn,isFaucet,OPTIONS,handleConnect,setCurrentPageNum,setCoorpName,userEth,userEntaToken,userBebToken,userLeoToken,setUserEntaToken,setUserBebToken,setUserLeoToken,setUserEth})=>{
+
 
     // chart===================================================================
     const [totalChartData, setTotalChartData] = useState(false)
@@ -161,10 +162,6 @@ useEffect(()=>{
     // Props Test
     /* const contractAccount = '0x04794606b3065df94ef3398aA2911e56abE169B6';
     const serverAccount = '0x48c02B8aFddD9563cEF6703df4DCE1DB78A6b2Eb'; */
-    const [userEth, setUserEth] = useState("")
-    const [userEntaToken, setUserEntaToken] = useState("")
-    const [userBebToken, setUserBebToken] = useState("")
-    const [userLeoToken, setUserLeoToken] = useState("")
 
     async function getUserEth(account){
         if(account === undefined) setUserEth('');
@@ -204,7 +201,6 @@ useEffect(()=>{
 
 
     // chart===================================================================
-
     let powerOfMarket = (currentPrice.open - currentPrice.close)
     useEffect(()=>{
         let name = ' '
