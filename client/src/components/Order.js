@@ -8,11 +8,10 @@ import TokenABI from "../ABIs/ERC1400.json"
 import SelectBox from "./Select";
 import { useTranslation } from "react-i18next";
 
-const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,tokenName,totalCurrentPrices,refresh,setRefresh,ST_Name,setTokenName,amount,price,web3,userAccount,serverAddress,token,tokenContract,setAmount,curPrice,isFaucet,faucetBtn,account,stName,setStName,myPage
+const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,tokenName,totalCurrentPrices,refresh,setRefresh,ST_Name,setTokenName,amount,price,web3,userAccount,serverAddress,token,tokenContract,setAmount,curPrice,isFaucet,faucetBtn,account,stName,setStName,myPage,setStaking
 
 })=>{
     const { t } = useTranslation();
-
 
     // 구매
     async function SendETH(){
@@ -45,6 +44,10 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
             SellToken(token, String(price), String(amount), userAccount, receipt.transactionHash)
         })
         setRefresh(!refresh)
+    }
+
+    function changeStaking() {
+        setStaking(true)
     }
 
 
@@ -84,7 +87,7 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
     if(stName === 'ENTAToken') setTokenName('enta')
     if(stName === 'BEBToken') setTokenName('beb')
     if(stName === 'LEOToken') setTokenName('leo')
-    console.log(buyMaxST_1)
+    // console.log(buyMaxST_1)
 
 
     return(
@@ -142,6 +145,9 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
                 <div className='account_address'>
                     <div className='account'><h5>{account}</h5></div>
                     <div className='btn' onClick={()=>faucetBtn()}><h5>{t("Copy")}</h5></div>
+                </div>
+                <div>
+                    <button onClick={changeStaking}>Stake</button>
                 </div>
             </div>
         </div>
