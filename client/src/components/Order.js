@@ -81,7 +81,7 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
             e.target.value=amountMax(buyMaxST_3,sellMaxST_3)
         } else setAmount(curamount)
     }
-
+    console.log(tokenName)
 
     return(
     <div className="order">
