@@ -784,11 +784,11 @@ div.history_date{
     left: 10px;
 }
 .welcome_tutorial_chart{
-    width: 920px;
-    height: 600px;
+    width: 1200px;
+    height: 800px;
 
-    top: 10%;
-    right: 40%;
+    top: 5%;
+    right: 33%;
 }
 .welcome_tutorial_limit_order_book{
     width: 260px;
@@ -816,8 +816,8 @@ div.history_date{
 .welcome_tutorial_public_disclosure{
     width: 260px;
     height: 160px;
-    top: 7%;
-    right: 82%;
+    top: 2%;
+    right: 65%;
 }
 .welcome_tutorial_public_disclosure h6{
     margin: 4% 2%;
@@ -826,8 +826,8 @@ div.history_date{
     width: 200px;
     height: 120px;
 
-    top: 7%;
-    right: 1%;
+    top: 2%;
+    right: 21%;
 }
 .welcome_tutorial_history{
     width: 200px;
@@ -891,11 +891,11 @@ div.history_date{
     right: 50%;
 }
 .chart_body{
-    margin: 2% auto;
+    margin: 1% auto ;
     justify-content: center;
-    align-items: center;
-    width: 92%;
-    height: 60%;
+    align-items:initial;
+    width: 99%;
+    height: 82%;
     position: relative;
 
 }

@@ -8,7 +8,8 @@ import i18n from "../lang/i18n";
 import SelectBox from './Select';
 import Tutorials from "./Tutorials";
 
-const Navigator =({isCircuitBreaker,stName,setStName,companyPD,totalCurrentPrices,coorpName,circuitBreakerTimer,ST_Name
+const Navigator =({isCircuitBreaker,stName,setStName,companyPD,totalCurrentPrices,coorpName,circuitBreakerTimer,ST_Name,userModalIsOpen,setUserModalIsOpen,
+
 })=>{
     const [pdModalIsOpen, setPdModalIsOpen] = useState(false);
     const [tutorialsClicked,setTutorialsClicked] = useState(false)
@@ -19,7 +20,6 @@ const Navigator =({isCircuitBreaker,stName,setStName,companyPD,totalCurrentPrice
     // const countNumber=(e)=>{
     //     return e.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,",")
     // }
-    
     const modalStyle = {
         
         overlay: {
@@ -143,7 +143,12 @@ const Navigator =({isCircuitBreaker,stName,setStName,companyPD,totalCurrentPrice
 
             <div className="navigation_right">
             <Link to='/' onClick={()=>setTutorialsClicked(!tutorialsClicked)}><h4 >Tutorial</h4></Link>
-                {tutorialsClicked?<Tutorials account={account} tutorialCnt={0}/>:<></>}
+                {tutorialsClicked?<Tutorials
+                account={account} 
+                tutorialCnt={0}
+                setPdModalIsOpen={setPdModalIsOpen}
+                setUserModalIsOpen={setUserModalIsOpen}
+                />:<></>}
                 <Link to='/transaction'><h4>Transactions</h4></Link>
                 <h4><i className="fas fa-globe" onClick={onChange}></i></h4>
             </div>
