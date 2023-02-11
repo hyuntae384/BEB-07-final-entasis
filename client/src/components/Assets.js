@@ -109,8 +109,6 @@ const Assets =({ST_CurrentPrice,powerOfMarket,userEth,userEntaToken,userBebToken
             <div className='chains'>
                 <i className='fab fa-bitcoin'/>
                 <i className='fab fa-ethereum'/>
-            </div>
-            <div className='social'>
                 <i className='fab fa-facebook-f'/>
                 <i className='fab fa-instagram'/>
                 <i className='fab fa-reddit-alien'/>
@@ -173,18 +171,18 @@ const Assets =({ST_CurrentPrice,powerOfMarket,userEth,userEntaToken,userBebToken
                         <rect
                             className="RTD_move"
                             x={5}
-                            y={(150+marketData*100)>0?(80+marketData*100):0}
+                            y={(150+marketData*80)>0?(150+marketData*80):0}
                             width = {80}
-                            height = {(80-marketData*100)>0?150-marketData*100:0}
+                            height = {(80-marketData*80)>0?80-marketData*80:0}
                             fill='#00A4D8'
                             >
                             </rect>
                             <rect
                             className="RTD_move"
                             x={95}
-                            y={(150-marketData*100)>0?80-marketData*100:0}
+                            y={(150-marketData*80)>0?150-marketData*80:0}
                             width = {80}
-                            height = {(80+marketData*100)>0?150+marketData*100:0}
+                            height = {(80+marketData*80)>0?80+marketData*80:0}
                             fill='#b8284a'>
                             </rect>
                         </g>
