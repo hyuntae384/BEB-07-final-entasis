@@ -12,9 +12,12 @@ const Footer =({setIsCircuitBreaker})=>{
     useEffect(()=>{
         if(circuitModal){
         const setTime = setInterval(()=>{
-            if(i>0){
+            if(i>10){
                 i--
                 setCircuitBreakerTimer(i)
+            }else if(i<10&&i>0){
+                i--
+                setCircuitBreakerTimer('0'+`${i}`)
             }else{
                 clearInterval(setTime)
                 setIsCircuitBreaker(false)
@@ -29,20 +32,23 @@ const Footer =({setIsCircuitBreaker})=>{
     useEffect(()=>{
     },[pathName])
 
-    const restrict = "52.78.173.200/rtd/restrict";  
+    const restrict = "52.78.173.200:5050/rtd/restrict";  
 
-    const Restrict = async(wallet) => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        })
+    const Restrict = async() => {
         setIsCircuitBreaker(true)
         setCircuitModal(true)
-        if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
         const resultRestrict =  await axios.post(restrict)
         .then(res=>res.data)
         .then(err=>console.log(err))
         console.log(resultRestrict)
+
+    }
+    const restrictBtn=()=>{
+        Restrict()
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        })
     }
     const modalStyle_2 = {
         overlay: {
@@ -120,7 +126,7 @@ const Footer =({setIsCircuitBreaker})=>{
                 <div className='footer_body_right'>
                     <div className='circuit_breaker'>
 
-        <div className='circuit_breaker_top' onClick={Restrict}>
+                <div className='circuit_breaker_top' onClick={()=>restrictBtn()}>
                     <div className='circuit_breaker_btn' >
                         <img src={require('../assets/images/danger.png')}alt='danger'></img>
                     </div>
