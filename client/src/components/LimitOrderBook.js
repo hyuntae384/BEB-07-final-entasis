@@ -1,6 +1,6 @@
-
+import { useTranslation } from "react-i18next";
 const LimitOrderBook =({ST_CurrentPrice, powerOfMarket})=>{
-
+    const {t} = useTranslation();
     
     //MM
     //CP 위 아래로 5칸의 호가 구성
@@ -52,10 +52,10 @@ const LimitOrderBook =({ST_CurrentPrice, powerOfMarket})=>{
     return(
     <div className="limit_order_book">
         <div className="limit_order_book_menu">
-            <h4>Order</h4>
-            <h4>Price</h4>
-            <h4>Amount</h4>
-            <h4>Total</h4>
+            <h4>{t("Order")}</h4>
+            <h4>{t("Price")}</h4>
+            <h4>{t("Amount")}</h4>
+            <h4>{t("Total")}</h4>
         </div>
         {orderList.map((e)=>{
             return(
@@ -78,7 +78,7 @@ const LimitOrderBook =({ST_CurrentPrice, powerOfMarket})=>{
             )
             })}
             <div className="market_order">
-                    <h3>Market Price</h3>
+                    <h3>{t("Market Price")}</h3>
                     <h3>{!isNaN(ST_CurrentPrice)?(ST_CurrentPrice>1000?ST_CurrentPrice.toFixed(0):(ST_CurrentPrice>100?ST_CurrentPrice.toFixed(1):(ST_CurrentPrice>10?ST_CurrentPrice.toFixed(2):(ST_CurrentPrice>1?ST_CurrentPrice.toFixed(3):ST_CurrentPrice)))):<></>}</h3>
                     <h3>ETH</h3>
             </div>

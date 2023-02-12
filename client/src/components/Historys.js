@@ -3,13 +3,15 @@ import { useEffect, useState } from "react";
 import Modal from "react-modal";
 import { injected } from "../connectors";
 import History from "./History"
+import { useTranslation } from "react-i18next";
 const HistoryWrapper =({setTxs,currentPageNum,setCurrentPageNum,pages,positions,account,handleConnect
 })=>{
+    const {t} = useTranslation();
     return(
         <div className="history_wrapperA" >
 
             <div className="history_wrapperA_top">
-                <h4>History</h4>
+                <h4>{t("History")}</h4>
                 <div className="pagination">
                     <div 
                     onClick={()=>currentPageNum>1?setCurrentPageNum(currentPageNum-1):<></>}
@@ -74,12 +76,12 @@ const HistoryWrapper =({setTxs,currentPageNum,setCurrentPageNum,pages,positions,
             </div>
             
             <div className="history_wrapperA_menu">
-                <h5>Order</h5>
-                <h5>Price</h5>
-                <h5>Amount</h5>
-                <h5>Fee</h5>
-                <h5>Date</h5>
-                <h5>From</h5>
+                <h5>{t("Order")}</h5>
+                <h5>{t("Price")}</h5>
+                <h5>{t("Amount")}</h5>
+                <h5>{t("Fee")}</h5>
+                <h5>{t("Date")}</h5>
+                <h5>{t("From")}</h5>
     
             </div>
             <div className="main_history_wrapperA_container">
@@ -97,8 +99,8 @@ const HistoryWrapper =({setTxs,currentPageNum,setCurrentPageNum,pages,positions,
                         tx_out={e.txout}
                     />)
                 }):<></>):<div className="disconnection_status">
-                <h6>Start Trading</h6>
-                <h6 className='disconnection_status_login' onClick={handleConnect}>Log In or Sign Up </h6>
+                <h6>{t("Start Trading")}</h6>
+                <h6 className='disconnection_status_login' onClick={handleConnect}>{t("Log In or Sign Up")} </h6>
                 </div>}
                 {}
             </div>

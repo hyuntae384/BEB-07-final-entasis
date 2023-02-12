@@ -6,12 +6,12 @@ import {BuyToken, SellToken} from '../apis/token';
 import Web3 from "web3";
 import TokenABI from "../ABIs/ERC1400.json"
 import SelectBox from "./Select";
+import { useTranslation } from "react-i18next";
 
-const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,tokenName,totalCurrentPrices,refresh,setRefresh,ST_Name,setTokenName,amount,price,web3,userAccount,serverAddress,token,tokenContract,setAmount,curPrice,isFaucet,faucetBtn,account,stName,setStName,myPage
+const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,tokenName,totalCurrentPrices,refresh,setRefresh,ST_Name,setTokenName,amount,price,web3,userAccount,serverAddress,token,tokenContract,setAmount,curPrice,isFaucet,faucetBtn,account,stName,setStName,myPage,setStaking
 
 })=>{
-
-
+    const { t } = useTranslation();
 
     // 구매
     async function SendETH(){
@@ -44,6 +44,10 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
             SellToken(token, String(price), String(amount), userAccount, receipt.transactionHash)
         })
         setRefresh(!refresh)
+    }
+
+    function changeStaking() {
+        setStaking(true)
     }
 
 
@@ -83,13 +87,17 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
     if(stName === 'ENTAToken') setTokenName('enta')
     if(stName === 'BEBToken') setTokenName('beb')
     if(stName === 'LEOToken') setTokenName('leo')
+<<<<<<< HEAD
+=======
+    // console.log(buyMaxST_1)
+>>>>>>> bdba58eaa9e759ddf93f91f12ec858949dd60138
 
 
     return(
     <div className="order">
         <div className="order_mode">
             {/* <h3>Limit</h3> */}
-            <h3>Market Order</h3>
+            <h3>{t("Market Order")}</h3>
             <div className="order_select">
                 <SelectBox
                     set={ST_Name}
@@ -99,22 +107,22 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
             </div>
         </div>
         <form>
-            <h6 className="order_available">Available Eth : {userEth}</h6>
+            <h6 className="order_available">{t("Available Eth")} : {userEth}</h6>
             <input type="text" className="order_price" /* onChange={e => priceChange(e)} */ placeholder={curPrice} readOnly></input>
             {/* <h6 className="order_price_eth">ETH</h6> */}
-            <input type="text" className="order_amount" onChange={e => amountChange(e)} placeholder='Amount'></input>
+            <input type="text" className="order_amount" onChange={e => amountChange(e)} placeholder={t("Amount")}></input>
             <div className="make_order">
                 <button type="button" className="order_buy" onClick={SendETH}>
-                    <h5>Buy</h5>
-                    <h5>Max Open {stName === 'ENTAToken'? buyMaxST_1:
+                    <h5>{t("Buy")}</h5>
+                    <h5>{t("Max Open")} {stName === 'ENTAToken'? buyMaxST_1:
                         stName === 'BEBToken'?buyMaxST_2:
                         stName === 'LEOToken'?buyMaxST_3:0} ETH</h5>
                 </button>
 
 
                 <button type="button" className="order_sell" onClick={SendToken}>
-                    <h5>Sell</h5>
-                    <h5>Max open {stName === 'ENTAToken'? sellMaxST_1:
+                    <h5>{t("Sell")}</h5>
+                    <h5>{t("Max Open")} {stName === 'ENTAToken'? sellMaxST_1:
                         stName === 'BEBToken'?sellMaxST_2:
                         stName === 'LEOToken'?sellMaxST_3:0} {stName.slice(0,stName.length-5)}</h5>
                 </button>
@@ -122,7 +130,7 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
         </form>
         <div className='assets'>
             <div className="total_assets">
-                <h4>Assets</h4><h6>{(ST_1.amount*ST_1.price+ST_2.amount*ST_2.price+ST_3.amount*ST_3.price).toFixed(4)}ETH</h6>
+                <h4>{t("Assets")}</h4><h6>{(Number(ST_1.price)+Number(ST_2.price)+Number(ST_3.price)).toFixed(4)}ETH</h6>
             </div>      
             <div className='assets_wraper'>
                 <h6>{ST_1.name+" ("+ST_1.amount+")"+" "+ST_1.price+"ETH"}</h6>
@@ -131,15 +139,18 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
             </div>
         </div>
         <div className='deposit'>
-            <h4>Deposit</h4>
+            <h4>{t("Deposit")}</h4>
             <div className='deposit_wrapper'>
                 <div className='deposit_faucet'>
                     <h5>{isFaucet?50:0}ETH</h5>
-                    <div className='btn' onClick={()=>faucetBtn()}><h5>Faucet</h5></div>
+                    <div className='btn' onClick={()=>faucetBtn()}><h5>{t("Faucet")}</h5></div>
                 </div>
                 <div className='account_address'>
                     <div className='account'><h5>{account}</h5></div>
-                    <div className='btn' onClick={()=>faucetBtn()}><h5>Copy</h5></div>
+                    <div className='btn' onClick={()=>faucetBtn()}><h5>{t("Copy")}</h5></div>
+                </div>
+                <div>
+                    <button onClick={changeStaking}>Stake</button>
                 </div>
             </div>
         </div>
