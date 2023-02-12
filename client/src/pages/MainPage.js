@@ -430,13 +430,13 @@ const SelectCoorp = (e) =>{
 
 return(
     <div className="main_page" onMouseEnter={onMouseEnterHandler}>
-        {/* <WelcomePage
+        <WelcomePage
             isWelcome={isWelcome}
             setIsWelcome={setIsWelcome}
             account={account}
             tutorialCnt={isEnroll.cnt}
             isLoading={isLoading}
-        /> */}
+        />
         <div className="main_head">
             <ChartWrapper
                 ST_Name={OPTIONS}

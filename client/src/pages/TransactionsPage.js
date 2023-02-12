@@ -9,7 +9,7 @@ import Historys from '../components/Historys'
 import Footer from '../components/Footer';
 import { Link } from 'react-router-dom';
 
-const TransactionPage =({txs,
+const TransactionPage =({txs,date
 
     // isEnroll,
     // walletConnected ,
@@ -25,10 +25,8 @@ const TransactionPage =({txs,
 
 })=>{
     document.body.style.overflow = 'unset';
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-    })
+
+
     // for(let i = window.innerHeight ; i>1 ;i--){
     // }
     // console.log(window.innerHeight)
@@ -84,10 +82,22 @@ const TransactionPage =({txs,
 
     useEffect(() =>{
         getTxIn(transactionIn);
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        })
     },[transactionIn])
     useEffect(() =>{
         getTxOut(transactionOut);
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        })
+    
     },[transactionOut])
+
+
+
 return(
     <div className='transaction'>
 
@@ -101,7 +111,7 @@ return(
                     <h1>Transaction In</h1>
                     <div className='input_transaction_wrapper'>
                         <input type="text" className="input_transaction" onChange={e => TxInAddress(e)} placeholder={transactionIn!==undefined ?transactionIn:'Search Transaction Hash'}></input>
-                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <i className="fa-solid fa-magnifying-glass"></i>
                     </div>
                 </div>
                 <div className='info'>

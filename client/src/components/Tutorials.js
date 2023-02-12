@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import {Tutorial} from '../apis/user'
-const Tutorials =({tutorialCnt, account,faucetBtn,setUserModalIsOpen,setPdModalIsOpen})=>{
+const Tutorials =({account,tutorialCnt,faucetBtn,setUserModalIsOpen,setPdModalIsOpen})=>{
     const [start, setStart] = useState(true)
     const [wallet, setWallet] = useState(true)
     const [chart, setChart] = useState(true)
@@ -13,6 +13,7 @@ const Tutorials =({tutorialCnt, account,faucetBtn,setUserModalIsOpen,setPdModalI
     const [isAccount, setIsAccount] = useState(true)
     const [faucet, setFaucet] = useState(true)
     const [transaction, setTransaction] = useState(true)
+    const [circuitBreaker, setCircuitBreaker] = useState(true)
     const [tutorialFinished, setTutorialFinished] = useState(true)
     const modalStyle = {
         overlay: {
@@ -50,28 +51,38 @@ const Tutorials =({tutorialCnt, account,faucetBtn,setUserModalIsOpen,setPdModalI
         setIsAccount(false)
         setFaucet(false)
         setTransaction(false)
+        setCircuitBreaker(false)
         setTutorialFinished(false)
     }    
     // account={account===typeof 'string'?account:0}
     // tutorialCnt={isEnroll.cnt===typeof 'number'?isEnroll.cnt:0}
 
+    const [tutorialScroll,setTutorialScroll]=useState(0)
+            window.onwheel = function (e) {
+                if(document.body.style.overflow === 'hidden'){
+                e.deltaY> 0
+                ? setTutorialScroll(tutorialScroll < 0 ? tutorialScroll + 0 : tutorialScroll - 0.05)
+                : setTutorialScroll(tutorialScroll > 13 ? tutorialScroll + 0  : tutorialScroll + 0.05)
+            }
+            };
 
-    window.scrollTo({
-        top:0,
-        behavior:'smooth'
-    })
-    if(start){
+    console.log(tutorialScroll)
+    if(Math.ceil(tutorialScroll)===0){
         return (
             <Modal
             appElement={document.getElementById('root') || undefined}
             //onRequestClose={()=>{setStart()}}
             isOpen={start}
             style={modalStyle}
-            className="welcome_tutorial" onFocus={document.body.style.overflow='hidden'}>
+            className="welcome_tutorial" onFocus={document.body.style.overflow='hidden'}
+            >
             <div className='welcome_tutorial_top' >
             <h2>Welcome to Entasis</h2> <br/>
             </div>
-            <img onClick={() => {setStart();}} className="congratulations"  src={require('../assets/images/welcome_1.gif')} alt="welcome"/>
+            <img onClick={() => {setStart();window.scrollTo({
+                top:0,
+                behavior:'smooth'
+            })}} className="congratulations"  src={require('../assets/images/welcome_1.gif')} alt="welcome"/>
                 <h5>For Trading</h5> 
                 <h5>Follow this Tutorial</h5>
             <h5 className='count'>1/10</h5>
@@ -80,7 +91,7 @@ const Tutorials =({tutorialCnt, account,faucetBtn,setUserModalIsOpen,setPdModalI
             </Modal>
         )}
     
-    if(wallet){
+    if(Math.ceil(tutorialScroll)===1){
 
     return (
         <Modal
@@ -104,7 +115,7 @@ const Tutorials =({tutorialCnt, account,faucetBtn,setUserModalIsOpen,setPdModalI
     )}
 
 
-    if(chart){
+    if(Math.ceil(tutorialScroll)===2){
         return (
         <Modal
         appElement={document.getElementById('root') || undefined}
@@ -132,7 +143,7 @@ const Tutorials =({tutorialCnt, account,faucetBtn,setUserModalIsOpen,setPdModalI
         </Modal>
     )}
     
-    if(limitOrderBook){
+    if(Math.ceil(tutorialScroll)===3){
         return(
         <Modal
         appElement={document.getElementById('root') || undefined}
@@ -157,7 +168,7 @@ const Tutorials =({tutorialCnt, account,faucetBtn,setUserModalIsOpen,setPdModalI
         <div className='next' onClick={()=>{setLimitOrderBook();}}>Next</div>
         </Modal>
     )}
-    if(order){
+    if(Math.ceil(tutorialScroll)===4){
         return(
         <Modal
         appElement={document.getElementById('root') || undefined}
@@ -183,7 +194,7 @@ const Tutorials =({tutorialCnt, account,faucetBtn,setUserModalIsOpen,setPdModalI
         <div className='next' onClick={()=>{setOrder();}}>Next</div>
         </Modal>
     )}
-    if(publicDisclosure){
+    if(Math.ceil(tutorialScroll)===5){
         return(
         <Modal
         appElement={document.getElementById('root') || undefined}
@@ -192,7 +203,7 @@ const Tutorials =({tutorialCnt, account,faucetBtn,setUserModalIsOpen,setPdModalI
         style={modalStyle}
         className="welcome_tutorial_public_disclosure" onClick={() => setPublicDisclosure()} onFocus={document.body.style.overflow='hidden'}>
         <div className='welcome_tutorial_top'>
-        {setPdModalIsOpen(true)}
+        {Math.ceil(tutorialScroll)!==5?setPdModalIsOpen(false):setPdModalIsOpen(true)}
 
         <h4>Public Disclosure</h4>
         <i className='fas fa-arrow-left'></i>
@@ -205,7 +216,7 @@ const Tutorials =({tutorialCnt, account,faucetBtn,setUserModalIsOpen,setPdModalI
         <div className='next' onClick={()=>{setPublicDisclosure();setPdModalIsOpen(false);}}>Next</div>
         </Modal>
     )}
-    if(assets){
+    if(Math.ceil(tutorialScroll)===6){
         return(
         <Modal
         appElement={document.getElementById('root') || undefined}
@@ -213,7 +224,8 @@ const Tutorials =({tutorialCnt, account,faucetBtn,setUserModalIsOpen,setPdModalI
         isOpen={assets}
         style={modalStyle}
         className="welcome_tutorial_assets" onClick={() => setAssets()} onFocus={document.body.style.overflow='hidden'}>
-        {setUserModalIsOpen(true)}
+        {Math.ceil(tutorialScroll)!==6?setUserModalIsOpen(false):setUserModalIsOpen(true)}
+
         <div className='welcome_tutorial_top'>
         <h4>MyAccount</h4>
         <i className='fas fa-arrow-right'></i>
@@ -226,7 +238,30 @@ const Tutorials =({tutorialCnt, account,faucetBtn,setUserModalIsOpen,setPdModalI
         <div className='next' onClick={()=>{setAssets();setUserModalIsOpen(false);}}>Next</div>
         </Modal>
     )}
-    if(history){
+
+
+    if(Math.ceil(tutorialScroll)===7){
+        return(
+        <Modal
+        appElement={document.getElementById('root') || undefined}
+        //onRequestClose={()=>{setFaucet()}}
+        isOpen={faucet}
+        style={modalStyle}
+        className="welcome_tutorial_faucet" onClick={() => setFaucet()} onFocus={document.body.style.overflow='hidden'}>
+        <div className='welcome_tutorial_top'>
+        <h4>Faucet</h4>
+        <i className='fas fa-arrow-right'></i>
+        </div>
+        <div>
+            <h6>This Button gives you 50.00 ETH</h6>
+            <h6 onClick={()=>faucetBtn(account)}>Faucet</h6>
+        </div>
+        <h5 className='count' >9/10</h5>
+        <h5 className='skip' onClick={skipHandler}>Skip</h5>
+        <div className='next' onClick={()=>setFaucet()}>Next</div>
+        </Modal>
+    )}
+    if(Math.ceil(tutorialScroll)===8){
         return(
         <Modal
         appElement={document.getElementById('root') || undefined}
@@ -248,7 +283,7 @@ const Tutorials =({tutorialCnt, account,faucetBtn,setUserModalIsOpen,setPdModalI
         <div className='next' onClick={()=>{setHistory()}}>Next</div>
         </Modal>
     )}
-    if(isAccount){
+    if(Math.ceil(tutorialScroll)===9){
         return(
         <Modal
         appElement={document.getElementById('root') || undefined}
@@ -272,28 +307,8 @@ const Tutorials =({tutorialCnt, account,faucetBtn,setUserModalIsOpen,setPdModalI
         </Modal>
     )}
 
-    if(faucet){
-        return(
-        <Modal
-        appElement={document.getElementById('root') || undefined}
-        //onRequestClose={()=>{setFaucet()}}
-        isOpen={faucet}
-        style={modalStyle}
-        className="welcome_tutorial_faucet" onClick={() => setFaucet()} onFocus={document.body.style.overflow='hidden'}>
-        <div className='welcome_tutorial_top'>
-        <h4>Faucet</h4>
-        <i className='fas fa-arrow-right'></i>
-        </div>
-        <div>
-            <h6>This Button gives you 50.00 ETH</h6>
-            <h6 onClick={()=>faucetBtn(account)}>Faucet</h6>
-        </div>
-        <h5 className='count' >9/10</h5>
-        <h5 className='skip' onClick={skipHandler}>Skip</h5>
-        <div className='next' onClick={()=>setFaucet()}>Next</div>
-        </Modal>
-    )}
-    if(transaction){
+
+    if(Math.ceil(tutorialScroll)===10){
         return(
         <Modal
         appElement={document.getElementById('root') || undefined}
@@ -317,7 +332,36 @@ const Tutorials =({tutorialCnt, account,faucetBtn,setUserModalIsOpen,setPdModalI
         </Modal>
     )}
 
-    if(tutorialFinished){
+    if(Math.ceil(tutorialScroll)===11){
+        return(
+        <Modal
+        appElement={document.getElementById('root') || undefined}
+        //onRequestClose={()=>{setCircuitBreaker()}}
+        isOpen={circuitBreaker}
+        style={modalStyle}
+        className="welcome_tutorial_circuit_breaker" onClick={() => setCircuitBreaker()} onFocus={document.body.style.overflow='hidden'}>
+        <div className='welcome_tutorial_top'>
+        <h4>Circuit Breaker</h4>
+        <i className='fas fa-arrow-right'></i>
+        </div>
+        <div>
+            <h6>A trading curb (also known as a circuit breaker[1] in Wall Street parlance) is a financial regulatory instrument that is in place to prevent stock market crashes from occurring, and is implemented by the relevant stock exchange organization. Since their inception, circuit breakers have been modified to prevent both speculative gains and dramatic losses within a small time frame. When triggered, circuit breakers either stop trading for a small amount of time or close trading early in order to allow accurate information to flow among market makers and for institutional traders to assess their positions and make rational decisions.</h6>
+        </div>
+
+        <h5 className='count' >10/10</h5>
+        <h5 className='skip' onClick={skipHandler}>Skip</h5>
+        <div className='next' onClick={()=>{setCircuitBreaker();}}>Next</div>
+        {window.scrollTo({
+            top:820,
+            behavior: 'smooth'
+        })}
+        </Modal>
+    )}
+
+
+
+
+    if(Math.ceil(tutorialScroll)===12){
         return(
         <Modal
         appElement={document.getElementById('root') || undefined}
@@ -333,4 +377,5 @@ const Tutorials =({tutorialCnt, account,faucetBtn,setUserModalIsOpen,setPdModalI
         
     )}
 }
+
 export default Tutorials

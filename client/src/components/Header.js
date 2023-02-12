@@ -10,7 +10,8 @@ import Welcome from '../pages/TransactionsPage';
 import { useTranslation } from 'react-i18next';
 
 // import {Vote} from '../apis/company'
-const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,setStName,companyPD,OPTIONS,active,handleConnect,isEnroll,account,setEditName,editName,setEditNameValue,Change,isFaucet,faucetBtn,dividendTimeLimit,setVoted,voted,ratio,setRatio,userEntaToken,userBebToken,userLeoToken,setIsFaucet,setMyPage,userModalIsOpen, setUserModalIsOpen
+const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,setStName,companyPD,OPTIONS,active,handleConnect,isEnroll,account,setEditName,editName,setEditNameValue,Change,isFaucet,faucetBtn,dividendTimeLimit,setVoted,voted,ratio,setRatio,userEntaToken,userBebToken,userLeoToken,setIsFaucet,setMyPage,userModalIsOpen, setUserModalIsOpen,setPdModalIsOpen
+
 })=> {
     const {t} = useTranslation();
 
@@ -71,14 +72,6 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,set
     };
     
 
-    let data ={
-        name:'', 
-        assets:{
-        total:'', 
-        st:[{st_name:'',st_price:'',st_amount:''},
-        {st_name:'',st_price:'',st_amount:''},
-        {st_name:'',st_price:'',st_amount:''},]},
-        deposit:{is_fauceted : true || false,}}
 
     const userModalOpen =()=>{
         document.body.style.overflow = 'hidden';
@@ -116,6 +109,8 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,set
             <div className='header_user'>
             <div className="btn" onClick={handleConnect}>{active ? <h2>{t("disconnect")}</h2> : <h2>{t("connect")}</h2>}</div>
             {active&&isEnroll.cnt===0?<Tutorials
+                    setPdModalIsOpen={setPdModalIsOpen}
+                    setUserModalIsOpen={setUserModalIsOpen}
                     faucetBtn={faucetBtn}
                     account={account}
                     tutorialCnt={isEnroll.cnt}

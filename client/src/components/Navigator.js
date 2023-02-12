@@ -9,15 +9,16 @@ import SelectBox from './Select';
 import Tutorials from "./Tutorials";
 import { useTranslation } from "react-i18next";
 
-const Navigator =({isCircuitBreaker,stName,setStName,companyPD,totalCurrentPrices,coorpName,circuitBreakerTimer,ST_Name,userModalIsOpen,setUserModalIsOpen,
+const Navigator =({isCircuitBreaker,stName,setStName,companyPD,totalCurrentPrices,coorpName,circuitBreakerTimer,ST_Name,userModalIsOpen,setUserModalIsOpen,date,currentPrice,pdModalIsOpen,setPdModalIsOpen
 
 })=>{
-    const {t} = useTranslation();
-    const [pdModalIsOpen, setPdModalIsOpen] = useState(false);
     const [tutorialsClicked,setTutorialsClicked] = useState(false)
+    const [currentPrices, setCurrentPrices] = useState({})
+    useEffect(()=>{
+        setCurrentPrices(currentPrice.totalCurrentPrices)
+    },[date])
+    const {t} = useTranslation();
     const [userLang, setUserLang] = useState("en")
-    let time = new Date()
-    let date = (59-time.getMinutes())%5+":"+(59-time.getSeconds());
 
     // const countNumber=(e)=>{
     //     return e.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,",")
@@ -65,7 +66,6 @@ const Navigator =({isCircuitBreaker,stName,setStName,companyPD,totalCurrentPrice
         divided:'10',
         next_ratio:'10',
     };;
-
 
     const PdModalOpen =()=>{
         document.body.style.overflow = 'hidden';
@@ -132,6 +132,9 @@ const Navigator =({isCircuitBreaker,stName,setStName,companyPD,totalCurrentPrice
             </div>
             </Modal>
             </div>
+            {/* <h5>{currentPrices.enta}</h5>
+            <h5>{currentPrices.beb}</h5>
+            <h5>{currentPrices.leo}</h5> */}
             {!isCircuitBreaker?
                 <div className="until_the_next_dividend_release">
                 <h4>{t("Until the Next Dividend Release")} {date}</h4>
