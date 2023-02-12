@@ -18,7 +18,7 @@ import { injected } from '../connectors';
 
 // import {FaucetWallet} from '../apis/user'
 
-const MainPage =({setTxs,isWelcome,setIsWelcome,setIsChartTotal,tokenName,account,currentPageNum,circuitBreakerTimer,chartOriginArr,setChartArr,chartArr,currentPrice,setCurrentPrice,isLoading,setIsLoading,setCompanyPD,stName,activate,setIsEnroll,ratio,isCircuitBreaker,setCircuitBreakerTimer,setIsCircuitBreaker,onMouseEnterHandler,isEnroll,setStName,setTokenName,faucetBtn,isFaucet,OPTIONS,handleConnect,setCurrentPageNum,setCoorpName,userEth,userEntaToken,userBebToken,userLeoToken,setUserEntaToken,setUserBebToken,setUserLeoToken,setUserEth,myPage})=>{
+const MainPage =({setTxs,isWelcome,setIsWelcome,setIsChartTotal,tokenName,account,currentPageNum,circuitBreakerTimer,chartOriginArr,setChartArr,chartArr,currentPrice,setCurrentPrice,isLoading,setIsLoading,setCompanyPD,stName,activate,setIsEnroll,ratio,isCircuitBreaker,setCircuitBreakerTimer,setIsCircuitBreaker,onMouseEnterHandler,isEnroll,setStName,setTokenName,faucetBtn,isFaucet,OPTIONS,handleConnect,setCurrentPageNum,setCoorpName,userEth,userEntaToken,userBebToken,userLeoToken,setUserEntaToken,setUserBebToken,setUserLeoToken,setUserEth,myPage,entaStakeToken,bebStakeToken,leoStakeToken,setEntaStakeToken,setBebStakeToken,setLeoStakeToken,entaStakeReward,bebStakeReward,leoStakeReward,setEntaStakeReward,setBebStakeReward,setLeoStakeReward})=>{
 
 
     // chart===================================================================
@@ -202,6 +202,64 @@ useEffect(()=>{
         }
     }
 
+    // Stake Amount Check ======================================================
+
+    async function getEntaStakeToken(account){
+        if(account === undefined) setEntaStakeToken('0')
+        else {
+            let userStakeToken = await EntaTokenContract.methods.stakeOf(account).call();
+            let TransUserStakeToken = web3.utils.fromWei(userStakeToken)
+            setEntaStakeToken(TransUserStakeToken);
+        }
+    }
+
+    async function getBebStakeToken(account){
+        if(account === undefined) setBebStakeToken('0')
+        else {
+            let userStakeToken = await BebTokenContract.methods.stakeOf(account).call();
+            let TransUserStakeToken = web3.utils.fromWei(userStakeToken)
+            setBebStakeToken(TransUserStakeToken);
+        }
+    }
+
+    async function getLeoStakeToken(account){
+        if(account === undefined) setLeoStakeToken('0')
+        else {
+            let userStakeToken = await LeoTokenContract.methods.stakeOf(account).call();
+            let TransUserStakeToken = web3.utils.fromWei(userStakeToken)
+            setLeoStakeToken(TransUserStakeToken);
+        }
+    }
+
+
+    // Stake Reward Check ======================================================
+
+    async function getEntaStakeReward(account){
+        if(account === undefined) setEntaStakeReward('0')
+        else {
+            let rewardToken = await EntaTokenContract.methods.rewardOf(account).call();
+            let TransRewardToken = web3.utils.fromWei(rewardToken)
+            setEntaStakeReward(TransRewardToken);
+        }
+    }
+
+    async function getBebStakeReward(account){
+        if(account === undefined) setBebStakeReward('0')
+        else {
+            let rewardToken = await BebTokenContract.methods.rewardOf(account).call();
+            let TransRewardToken = web3.utils.fromWei(rewardToken)
+            setBebStakeReward(TransRewardToken);
+        }
+    }
+
+    async function getLeoStakeReward(account){
+        if(account === undefined) setLeoStakeReward('0')
+        else {
+            let rewardToken = await LeoTokenContract.methods.rewardOf(account).call();
+            let TransRewardToken = web3.utils.fromWei(rewardToken)
+            setLeoStakeReward(TransRewardToken);
+        }
+    }
 
     // chart===================================================================
     let powerOfMarket = (currentPrice.open - currentPrice.close)
@@ -244,6 +302,12 @@ useEffect(()=>{
         getUserEntaToken(userAccount);
         getUserBebToken(userAccount);
         getUserLeoToken(userAccount);
+        getEntaStakeToken(userAccount)
+        getBebStakeToken(userAccount)
+        getLeoStakeToken(userAccount)
+        getEntaStakeReward(userAccount)
+        getBebStakeReward(userAccount)
+        getLeoStakeReward(userAccount)
         Position(account,offsetHis,10)
         if(account!==undefined){
             EnrollWallet(account)
@@ -476,6 +540,12 @@ return(
             userEntaToken={userEntaToken}
             userBebToken={userBebToken}
             userLeoToken={userLeoToken}
+            entaStakeToken={entaStakeToken}
+            bebStakeToken={bebStakeToken}
+            leoStakeToken={leoStakeToken}
+            entaStakeReward={entaStakeReward}
+            bebStakeReward={bebStakeReward}
+            leoStakeReward={leoStakeReward}
             />
             : 
             <Order
