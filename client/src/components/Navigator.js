@@ -146,14 +146,15 @@ const Navigator =({isCircuitBreaker,stName,setStName,companyPD,totalCurrentPrice
                 }  
 
             <div className="navigation_right">
-            <Link to='/' onClick={()=>{setTutorialsClicked(true);setCntHandler(!cntHandler)}}><h4 >{t("Tutorial")}</h4></Link>
-                {tutorialsClicked?<Tutorials
+            {tutorialsClicked&&account!==undefined?<Tutorials
                 setCntHandler={setCntHandler}
                 account={account} 
-                tutorialCnt={cntHandler}
+                cntHandler={cntHandler}
+                // tutorialCnt={tutorialCnt}
                 setPdModalIsOpen={setPdModalIsOpen}
                 setUserModalIsOpen={setUserModalIsOpen}
                 />:<></>}
+            <Link to='/' onClick={()=>{setTutorialsClicked(true);setCntHandler(!cntHandler)}}><h4 >{t("Tutorial")}</h4></Link>
                 <Link to='/transaction'><h4>{t("Transactions")}</h4></Link>
                 <h4><i className="fas fa-globe" onClick={onChange}></i></h4>
             </div>
