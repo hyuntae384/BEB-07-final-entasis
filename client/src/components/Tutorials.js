@@ -12,6 +12,7 @@ const Tutorials =({account,faucetBtn,setUserModalIsOpen,setPdModalIsOpen,setCntH
     const [publicDisclosure, setPublicDisclosure] = useState(true)
     const [isAccount, setIsAccount] = useState(true)
     const [faucet, setFaucet] = useState(true)
+    const [vote, setVote] = useState(true)
     const [transaction, setTransaction] = useState(true)
     const [circuitBreaker, setCircuitBreaker] = useState(true)
     const [tutorialFinished, setTutorialFinished] = useState(true)
@@ -48,7 +49,6 @@ const Tutorials =({account,faucetBtn,setUserModalIsOpen,setPdModalIsOpen,setCntH
         }
 
     },[account,tutorialCnt,cntHandler])
-    console.log(document.body.style.overflow,tutorialScroll,tutorialCnt,cntHandler)
 
     const skipHandler = () => {
         setStart(false)
@@ -64,11 +64,11 @@ const Tutorials =({account,faucetBtn,setUserModalIsOpen,setPdModalIsOpen,setCntH
         setTransaction(false)
         setCircuitBreaker(false)
         setTutorialFinished(false)
+        setVote(false)
         setTutorialScroll(0)
         document.body.style.overflow='unset'
-        setCntHandler(false)
+        setCntHandler(!cntHandler)
         Tutorial(account,1)
-        setCntHandler(false)
     }    
     // account={account===typeof 'string'?account:0}
     // tutorialCnt={isEnroll.cnt===typeof 'number'?isEnroll.cnt:0}
@@ -82,7 +82,7 @@ if(tutorialScroll>0){
         window.onwheel = function (e) {
             e.deltaY> 0
             ? setTutorialScroll(tutorialScroll < 1 ? tutorialScroll + 0 : tutorialScroll - 0.05)
-            : setTutorialScroll(tutorialScroll > 13 ? tutorialScroll + 0  : tutorialScroll + 0.05)
+            : setTutorialScroll(tutorialScroll > 14 ? tutorialScroll + 0  : tutorialScroll + 0.05)
         }
         return (
             <Modal
@@ -95,10 +95,12 @@ if(tutorialScroll>0){
             <div className='welcome_tutorial_top' >
             <h2>Welcome to Entasis</h2> <br/>
             </div>
+
             <img onClick={() => {setStart();window.scrollTo({
                 top:0,
                 behavior:'smooth'
-            })}} className="congratulations"  src={require('../assets/images/welcome_1.gif')} alt="welcome"/>
+            })}} className="congratulations"  src={require('../assets/images/scroll.gif')} alt="welcome"/>
+            
                 <h5>For Trading</h5> 
                 <h5>Follow this Tutorial</h5>
             <h5 className='count'>1/10</h5>
@@ -111,7 +113,7 @@ if(tutorialScroll>0){
         window.onwheel = function (e) {
             e.deltaY> 0
             ? setTutorialScroll(tutorialScroll < 0 ? tutorialScroll + 0 : tutorialScroll - 0.05)
-            : setTutorialScroll(tutorialScroll > 13 ? tutorialScroll + 0  : tutorialScroll + 0.05)
+            : setTutorialScroll(tutorialScroll > 14 ? tutorialScroll + 0  : tutorialScroll + 0.05)
         }
 
     return (
@@ -149,7 +151,7 @@ if(tutorialScroll>0){
             {window.onwheel = function (e) {
             e.deltaY> 0
             ? setTutorialScroll(tutorialScroll < 0 ? tutorialScroll + 0 : tutorialScroll - 0.05)
-            : setTutorialScroll(tutorialScroll > 13 ? tutorialScroll + 0  : tutorialScroll + 0.05)
+            : setTutorialScroll(tutorialScroll > 14 ? tutorialScroll + 0  : tutorialScroll + 0.05)
             }}
         <div className='welcome_tutorial_top'>
         <i className='fas fa-arrow-up'></i>
@@ -184,7 +186,7 @@ if(tutorialScroll>0){
             {window.onwheel = function (e) {
             e.deltaY> 0
             ? setTutorialScroll(tutorialScroll < 0 ? tutorialScroll + 0 : tutorialScroll - 0.05)
-            : setTutorialScroll(tutorialScroll > 13 ? tutorialScroll + 0  : tutorialScroll + 0.05)
+            : setTutorialScroll(tutorialScroll > 14 ? tutorialScroll + 0  : tutorialScroll + 0.05)
             }}
 
         <div className='welcome_tutorial_top'>
@@ -218,7 +220,7 @@ if(tutorialScroll>0){
             {window.onwheel = function (e) {
             e.deltaY> 0
             ? setTutorialScroll(tutorialScroll < 0 ? tutorialScroll + 0 : tutorialScroll - 0.05)
-            : setTutorialScroll(tutorialScroll > 13 ? tutorialScroll + 0  : tutorialScroll + 0.05)
+            : setTutorialScroll(tutorialScroll > 14 ? tutorialScroll + 0  : tutorialScroll + 0.05)
             }}
 
         <div className='welcome_tutorial_top'>
@@ -253,7 +255,7 @@ if(tutorialScroll>0){
             {window.onwheel = function (e) {
             e.deltaY> 0
             ? setTutorialScroll(tutorialScroll < 0 ? tutorialScroll + 0 : tutorialScroll - 0.05)
-            : setTutorialScroll(tutorialScroll > 13 ? tutorialScroll + 0  : tutorialScroll + 0.05)
+            : setTutorialScroll(tutorialScroll > 14 ? tutorialScroll + 0  : tutorialScroll + 0.05)
             }}
 
         <div className='welcome_tutorial_top'>
@@ -284,7 +286,7 @@ if(tutorialScroll>0){
             {window.onwheel = function (e) {
             e.deltaY> 0
             ? setTutorialScroll(tutorialScroll < 0 ? tutorialScroll + 0 : tutorialScroll - 0.1)
-            : setTutorialScroll(tutorialScroll > 13 ? tutorialScroll + 0  : tutorialScroll + 0.1)
+            : setTutorialScroll(tutorialScroll > 14 ? tutorialScroll + 0  : tutorialScroll + 0.1)
             }}
 
 
@@ -315,7 +317,7 @@ if(tutorialScroll>0){
             {window.onwheel = function (e) {
             e.deltaY> 0
             ? setTutorialScroll(tutorialScroll < 0 ? tutorialScroll + 0 : tutorialScroll - 0.05)
-            : setTutorialScroll(tutorialScroll > 13 ? tutorialScroll + 0  : tutorialScroll + 0.05)
+            : setTutorialScroll(tutorialScroll > 14 ? tutorialScroll + 0  : tutorialScroll + 0.05)
             }}
 
         <div className='welcome_tutorial_top'>
@@ -343,7 +345,43 @@ if(tutorialScroll>0){
         </Modal>
         )}else{setUserModalIsOpen(false)}
 
-    if(Math.ceil(tutorialScroll)===9){
+
+
+        if(Math.ceil(tutorialScroll)===9){
+            setUserModalIsOpen(true)
+            return(
+            <Modal
+            appElement={document.getElementById('root') || undefined}
+            //onRequestClose={()=>{setFaucet()}}
+            isOpen={vote}
+            style={modalStyle}
+            className="welcome_tutorial_vote" onClick={() => setFaucet()} >
+                {window.onwheel = function (e) {
+                e.deltaY> 0
+                ? setTutorialScroll(tutorialScroll < 0 ? tutorialScroll + 0 : tutorialScroll - 0.05)
+                : setTutorialScroll(tutorialScroll > 14 ? tutorialScroll + 0  : tutorialScroll + 0.05)
+                }}
+    
+            <div className='welcome_tutorial_top'>
+            <h4>Vote</h4>
+            <i className='fas fa-arrow-right'></i>
+            </div>
+            <div>
+                <h6>Exercise of Your Voting Rights</h6>
+                <img className='ethers' src={require('../assets/images/vote.gif')} alt='ethers'/>
+                <br/>
+                <h4>You can exercise</h4> 
+                <h4>your voting rights according to your stake.</h4>
+            </div>
+            <h5 className='count' >9/10</h5>
+            <h5 className='skip' onClick={()=>{document.body.style.overflow='unset';skipHandler();setUserModalIsOpen(false)}}>Skip</h5>
+    
+            <div className='next' onClick={()=>{document.body.style.overflow='unset';setTutorialScroll(tutorialScroll+1);setUserModalIsOpen(false);setFaucet();}}>Next</div>
+            </Modal>
+            )}else{setUserModalIsOpen(false)}
+    
+
+    if(Math.ceil(tutorialScroll)===10){
 
         return(
         <Modal
@@ -355,7 +393,7 @@ if(tutorialScroll>0){
             {window.onwheel = function (e) {
             e.deltaY> 0
             ? setTutorialScroll(tutorialScroll < 0 ? tutorialScroll + 0 : tutorialScroll - 0.05)
-            : setTutorialScroll(tutorialScroll > 13 ? tutorialScroll + 0  : tutorialScroll + 0.05)
+            : setTutorialScroll(tutorialScroll > 14 ? tutorialScroll + 0  : tutorialScroll + 0.05)
             }}
 
         <div className='welcome_tutorial_top'>
@@ -374,7 +412,7 @@ if(tutorialScroll>0){
         </Modal>
         )}
 
-    if(Math.ceil(tutorialScroll)===10){
+    if(Math.ceil(tutorialScroll)===11){
 
         return(
         <Modal
@@ -386,7 +424,7 @@ if(tutorialScroll>0){
             {window.onwheel = function (e) {
             e.deltaY> 0
             ? setTutorialScroll(tutorialScroll < 0 ? tutorialScroll + 0 : tutorialScroll - 0.05)
-            : setTutorialScroll(tutorialScroll > 13 ? tutorialScroll + 0  : tutorialScroll + 0.05)
+            : setTutorialScroll(tutorialScroll > 14 ? tutorialScroll + 0  : tutorialScroll + 0.05)
             }}
 
         <div className='welcome_tutorial_top'>
@@ -407,7 +445,7 @@ if(tutorialScroll>0){
         )}
 
 
-    if(Math.ceil(tutorialScroll)===11){
+    if(Math.ceil(tutorialScroll)===12){
 
         return(
         <Modal
@@ -419,7 +457,7 @@ if(tutorialScroll>0){
             {window.onwheel = function (e) {
             e.deltaY> 0
             ? setTutorialScroll(tutorialScroll < 0 ? tutorialScroll + 0 : tutorialScroll - 0.05)
-            : setTutorialScroll(tutorialScroll > 13 ? tutorialScroll + 0  : tutorialScroll + 0.05)
+            : setTutorialScroll(tutorialScroll > 14 ? tutorialScroll + 0  : tutorialScroll + 0.05)
             }}
 
         <div className='welcome_tutorial_top'>
@@ -439,7 +477,7 @@ if(tutorialScroll>0){
         </Modal>
         )}
 
-    if(Math.ceil(tutorialScroll)===12){
+    if(Math.ceil(tutorialScroll)===13){
         window.scrollTo({
             top:820,
             behavior: 'smooth'
@@ -454,7 +492,7 @@ if(tutorialScroll>0){
             {window.onwheel = function (e) {
             e.deltaY> 0
             ? setTutorialScroll(tutorialScroll < 0 ? tutorialScroll + 0 : tutorialScroll - 0.05)
-            : setTutorialScroll(tutorialScroll > 13 ? tutorialScroll + 0  : tutorialScroll + 0.05)
+            : setTutorialScroll(tutorialScroll > 14 ? tutorialScroll + 0  : tutorialScroll + 0.05)
             }}
 
         <div className='welcome_tutorial_top'>
@@ -475,7 +513,7 @@ if(tutorialScroll>0){
 
 
 
-    if(Math.ceil(tutorialScroll)===13){
+    if(Math.ceil(tutorialScroll)===14){
 
         return(
         <Modal
@@ -489,12 +527,12 @@ if(tutorialScroll>0){
             document.body.style.overflow='unset'
             e.deltaY> 0
             ? setTutorialScroll(tutorialScroll < 0 ? tutorialScroll + 0 : tutorialScroll - 0)
-            : setTutorialScroll(tutorialScroll > 13 ? tutorialScroll + 0  : tutorialScroll + 0)
+            : setTutorialScroll(tutorialScroll > 14 ? tutorialScroll + 0  : tutorialScroll + 0)
             }}
         <h2>Tutorial Finished!</h2>
-        <img  onClick={() => {Tutorial(account,1);setCntHandler(false);document.body.style.overflow='unset';setTutorialScroll(0);setTutorialFinished();}} className="congratulations" src={require('../assets/images/congratulations.jpeg')} alt="img"></img>
-        <h5 onClick={() => {Tutorial(account,1);setCntHandler(false);document.body.style.overflow='unset';setTutorialScroll(0);setTutorialFinished();}} >Now Get Your Security Token</h5>
-        <h4 onClick={() => {Tutorial(account,1);setCntHandler(false);;setTutorialScroll(0);setTutorialFinished();}} >Trading Start!</h4>
+        <img  onClick={() => {Tutorial(account,1);setCntHandler(false);setTutorialScroll(0);setTutorialFinished();}} className="congratulations" src={require('../assets/images/congratulations.jpeg')} alt="img"></img>
+        <h5 onClick={() => {Tutorial(account,1);setCntHandler(false);setTutorialScroll(0);setTutorialFinished();}} >Now Get Your Security Token</h5>
+        <h4 onClick={() => {Tutorial(account,1);setCntHandler(false);setTutorialScroll(0);setTutorialFinished();}} >Trading Start!</h4>
         </Modal>
         
         )}
