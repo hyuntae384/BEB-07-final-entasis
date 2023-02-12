@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,setStName,companyPD,OPTIONS,active,handleConnect,isEnroll,account,setEditName,editName,setEditNameValue,Change,isFaucet,faucetBtn,dividendTimeLimit,setVoted,voted,ratio,setRatio,userEntaToken,userBebToken,userLeoToken,setIsFaucet,setMyPage,userModalIsOpen, setUserModalIsOpen,setPdModalIsOpen
 
 })=> {
+    const [isFaucetModalOpen,setIsFaucetModalOpen]=useState(false);
     const {t} = useTranslation();
 
     const modalStyle = {
@@ -169,23 +170,36 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,set
                             </div>
                             }
                             <div className='assets'>
-            <div className="total_assets">
-                <h4>{t("Assets")}</h4><h6>{(ST_1.amount*ST_1.price+ST_2.amount*ST_2.price+ST_3.amount*ST_3.price).toFixed(4)}ETH</h6>
-            </div>      
-            <div className='assets_wraper'>
-                <h5>{ST_1.name+" ("+ST_1.amount+")"+" "+ST_1.price+"ETH"}</h5>
-                <h5>{ST_2.name+" ("+ST_2.amount+")"+" "+ST_2.price+"ETH"}</h5>
-                <h5>{ST_3.name+" ("+ST_3.amount+")"+" "+ST_3.price+"ETH"}</h5>
-            </div>
-        </div>
+                            <div className="total_assets">
+                                <h4>{t("Assets")}</h4><h6>{(ST_1.amount*ST_1.price+ST_2.amount*ST_2.price+ST_3.amount*ST_3.price).toFixed(4)}ETH</h6>
+                            </div>      
+                            <div className='assets_wraper'>
+                                <h5>{ST_1.name+" ("+ST_1.amount+")"+" "+ST_1.price+"ETH"}</h5>
+                                <h5>{ST_2.name+" ("+ST_2.amount+")"+" "+ST_2.price+"ETH"}</h5>
+                                <h5>{ST_3.name+" ("+ST_3.amount+")"+" "+ST_3.price+"ETH"}</h5>
+                            </div>
+                        </div>
                         <div className='deposit'>
                             <h2>{t("Deposit")}</h2>
 
                             <div className='deposit_wrapper'>
                                 <div className='deposit_faucet'>
                                     <h4>{isFaucet?50:0}ETH</h4>
-                                    <div className='btn' onClick={()=>faucetBtn()}><h6>{t("Faucet")}</h6></div>
+                                    <div className='btn' onClick={()=>{faucetBtn();setIsFaucetModalOpen(true)}}><h6>{t("Faucet")}</h6></div>
                                 </div>
+                                {/* <Modal
+                                    appElement={document.getElementById('root') || undefined}
+                                    onRequestClose={()=>setIsFaucetModalOpen()}
+
+                                    isOpen={isFaucetModalOpen}
+                                    style={modalStyle_2}
+                                    className="welcome_tutorial_faucet_complete" onClick={() => setIsFaucetModalOpen(false)} onFocus={document.body.style.overflow='hidden'}
+                                    ><div className='welcome_connection'>
+                                    <img src={require('../assets/images/ENTASIS.png')} alt='entasis'></img><br/>
+                                    <img className="congratulations" src={require('../assets/images/voted.gif')} alt='entasis'></img>
+                                    </div>
+                                </Modal> */}
+
                                 <div className='account_address'>
                                     <div className='account'>{account}</div>
                                     <div className='btn' onClick={()=>faucetBtn()}><h6>{t("Copy")}</h6></div>
