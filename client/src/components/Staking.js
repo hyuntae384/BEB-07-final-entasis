@@ -9,6 +9,7 @@ const Staking =({setStaking,stName,tokenContract,setTokenName,userAccount,web3,c
     const [isStake,setIsStake] = useState(0)
     const [token, setToken] = useState("enta")
     const [countTime, setCountTime] = useState("Any Token Staked")
+    const [dateTime, setDateTime] = useState("")
 
     // tokenContract.methods.showFinishAt(userAccount).call().then(console.log)
     // tokenContract.methods.stakeOf(userAccount).call().then(console.log)
@@ -24,7 +25,6 @@ const Staking =({setStaking,stName,tokenContract,setTokenName,userAccount,web3,c
 
     function amountChange(e) {
         setAmount(e.target.value)
-        console.log(amount)
     }
 
     function changeMonth(month) {
@@ -47,25 +47,31 @@ const Staking =({setStaking,stName,tokenContract,setTokenName,userAccount,web3,c
     if(stName === 'LEOToken') setTokenName('leo')
 
     async function finishUnixTime(){
-        if(isStake == 0) return setRestTime("Any Token Staked")
+        if(isStake == 0) return (
+            setCountTime("Any Token Staked"),
+            setDateTime(''))
         const time = await tokenContract.methods.showFinishAt(userAccount).call()
         const date = new Date(time*1000)
-        const realTime = Date.now()
-        const leftTime = time*1000 - realTime
-        const returnTime = String(leftTime).slice(3)
-        // console.log(returnTime)
-        /* const split = (date.toString()).split(" ")
-        const resultDate = `${split[3]} ${changeMonth(split[1])} ${split[2]} ${split[4]}` */
-        setRestTime(leftTime)
+        const realTime = String(Date.now()).slice(0,10)
+        const leftTime = time*1000 - realTime*1000
+        if(Number(leftTime) <= 0) return (
+            setCountTime("Able"),
+            setRestTime(0)
+            )
+        const returnTime = leftTime/1000
+        const split = (date.toString()).split(" ")
+        const resultDate = `${split[3]} ${changeMonth(split[1])} ${split[2]} ${split[4]}`
+        setDateTime(resultDate)
+        setRestTime(returnTime)
     }
 
     function getLeftTime(seconds) {
-        const hour = parseInt(seconds/3600000);
-        const min = parseInt((seconds%3600000)/60000);
-        const sec = String(seconds%60000);
-        const time = `${hour} : ${min} : ${sec}`
+        if(seconds === 0) return setCountTime("Able")
+        const hour = parseInt(seconds/3600);
+        const min = parseInt((seconds%3600)/60);
+        const sec = seconds%60;
+        const time = `${hour}시 : ${min}분 : ${sec}초`
         setCountTime(time)
-        // console.log(countTime)
         }
 
     useEffect(() => {
@@ -114,7 +120,27 @@ const Staking =({setStaking,stName,tokenContract,setTokenName,userAccount,web3,c
         if(stName === 'LEOToken') setToken(userLeoToken)
     }
 
-    
+    function CheckAble() {
+        if(countTime ==="Any Token Staked"){
+            return (
+                <h5>Start Staking</h5>)
+        }
+        if(countTime ==="Able"){
+            return (
+                <div className="make_reward">
+                    <button type="button" className="staking_reward" onClick={reward}>
+                        <h5>Reward</h5>
+                    </button>
+                </div>)
+        }
+        else return (
+            <div className="make_reward">
+                <button type="button" className="cant_reward">
+                    <h5>Reward</h5>
+                </button>
+            </div>)
+
+    }
 
     // 출금까지 남은 시간 표시
     // 출금 가능 시간에 따라서 버튼 활성 시각화
@@ -139,8 +165,8 @@ const Staking =({setStaking,stName,tokenContract,setTokenName,userAccount,web3,c
                 <h6 className="order_available">{t("Available Token")} : {token} {stName}</h6>
                 <input type="text" className="order_price" placeholder={curPrice} readOnly></input>
                 <input type="text" className="order_amount" onChange={e => amountChange(e)} placeholder={t("Amount")}></input>
-                <div className="make_order">
-                    <button type="button" className="order_buy" onClick={stake}>
+                <div className="make_staking">
+                    <button type="button" className="staking_stake" onClick={stake}>
                         <h5>Staking</h5>
                     </button>
                 </div>
@@ -166,14 +192,13 @@ const Staking =({setStaking,stName,tokenContract,setTokenName,userAccount,web3,c
                 </div>
             </div>
             <div className='deposit'>
-                <h4>Time to Reward</h4>
+                <h4>Available Reward Time</h4>
                 <div className='deposit_wrapper'>
+                    <h5>{dateTime}</h5>
                     <div className='deposit_faucet'>
-                        <h5>{restTime}</h5>
+                        <h5>{countTime}</h5>
                     </div>
-                    <button type="button" className="order_sell" onClick={reward}>
-                        <h5>Reward</h5>
-                    </button>
+                    <CheckAble/>
                 </div>
             </div>
         </div>
