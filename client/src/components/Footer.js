@@ -33,7 +33,7 @@ const Footer =({setIsCircuitBreaker})=>{
     useEffect(()=>{
     },[pathName])
 
-    const restrict = "52.78.173.200:5050/rtd/restrict";  
+    const restrict = "http://52.78.173.200:5050/rtd/restrict";  
 
     const Restrict = async() => {
         setIsCircuitBreaker(true)

@@ -38,7 +38,11 @@ const Tutorials =({account,tutorialCnt,faucetBtn,setUserModalIsOpen,setPdModalIs
         },
     };
     useEffect(()=>{
-        Tutorial(account,tutorialCnt)
+        if(tutorialCnt===0){
+            Tutorial(account,tutorialCnt)
+            setTutorialScroll(0)
+        }
+
     },[account,tutorialCnt])
     const skipHandler = () => {
         setStart(false)
@@ -62,7 +66,7 @@ const Tutorials =({account,tutorialCnt,faucetBtn,setUserModalIsOpen,setPdModalIs
 
     
     console.log(document.body.style.overflow,tutorialCnt)
-if(tutorialScroll>0){
+if(tutorialScroll>0&&tutorialCnt===0){
     document.body.style.overflow='hidden'
 
     if(Math.ceil(tutorialScroll)===1){
