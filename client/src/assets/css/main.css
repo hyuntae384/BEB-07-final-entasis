@@ -741,6 +741,8 @@ div.history_date{
     margin: 20% 0 ;
     transition: 0.5s;
 }
+
+
 .welcome .logo{
     position:absolute;
 }
@@ -754,7 +756,6 @@ div.history_date{
     transform:translateX(50%) translateY(-50%);
     text-align: center;
     opacity: 0.8;
-
 }
 .welcome_tutorial_wallet{
     width: 200px;
@@ -854,6 +855,16 @@ div.history_date{
     align-items: center;
     text-align: center;
 }
+.welcome_tutorial_vote{
+    width: 400px;
+    height: 400px;
+
+    top: 41%;
+    right: 21%;
+    align-items: center;
+    text-align: center;
+}
+
 .welcome_tutorial_faucet_complete{
 
 }
@@ -876,8 +887,8 @@ img.ethers{
 .welcome_tutorial_transaction{
     width: 200px;
     height: 120px;
-    top: 12%;
-    right: 4.5%;
+    top: 10%;
+    right: 1%;
 
 }
 .welcome_tutorial_circuit_breaker{
@@ -906,13 +917,20 @@ img.ethers{
 .welcome_connection:active{
     opacity: 0.4;
 }
+.welcome_tutorial .congratulations{
+    border-radius: 5px;
+    margin: 1% 0;
+    width: 200%;
+    height: auto;
+    transform:translateX(-25%);
+
+}
 
 .congratulations{
     border-radius: 5px;
     margin: 1% 0;
     width: 100%;
     height: auto;
-    
 }
 .voted{
     border-radius: 5px;
@@ -954,6 +972,7 @@ img.ethers{
 .welcome_tutorial_history,
 .welcome_tutorial_account,
 .welcome_tutorial_faucet,
+.welcome_tutorial_vote,
 .welcome_tutorial_transaction,
 .welcome_tutorial_circuit_breaker,
 .welcome_tutorial_tutorial_finished{
@@ -977,6 +996,7 @@ img.ethers{
 .welcome_tutorial_history h4,
 .welcome_tutorial_account h4,
 .welcome_tutorial_faucet h4,
+.welcome_tutorial_vote h4,
 .welcome_tutorial_transaction h4,
 .welcome_tutorial_circuit_breaker h4,
 .welcome_tutorial_tutorial_finished h4{
@@ -993,6 +1013,7 @@ body:active .welcome_tutorial_assets,
 body:active .welcome_tutorial_history,
 body:active .welcome_tutorial_account,
 body:active .welcome_tutorial_faucet,
+body:active .welcome_tutorial_vote,
 body:active .welcome_tutorial_transaction,
 body:active .welcome_tutorial_circuit_breaker,
 body:active .welcome_tutorial_tutorial_finished{
