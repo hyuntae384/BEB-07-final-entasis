@@ -97,6 +97,12 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,set
             if(stName==='LEOToken') return totalCurrentPrices.leo
     
         }
+        const decordVote=()=>{
+            if(stName==='ENTAToken') return ST_1.amount/100000000*100
+            if(stName==='BEBToken') return ST_2.amount/50000000*100
+            if(stName==='LEOToken') return ST_3.amount/30000000*100
+        }
+
         // console.log(isEnroll.cnt)
     return(
         <div className="header">
@@ -217,10 +223,13 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,set
                                 isOpen={voted}
                                 style={modalStyle_2}
                             >   <div className='welcome_connection'>
+                                <div className='close'>
+                                <img src={require('../assets/images/close.png')} onClick={()=>setVoted()}alt='close'></img>
+                                </div>
                                 <img src={require('../assets/images/ENTASIS.png')} alt='entasis'></img><br/>
                                 <h4>{t("You voted for")} {ratio}</h4>
                                 <h6>{t("Corporation Name")} {stName}</h6>
-                                <h6>{t("Ownership Ratio")} {}</h6>
+                                <h6>{t("Ownership Ratio")} {decordVote().toFixed(6)+'%'}</h6>
                                 <h6>{t("Security Token")} {stName}</h6>
                                 <div className='voted'>
                                 <img className="congratulations" src={require('../assets/images/voted.gif')} alt='entasis'></img>
