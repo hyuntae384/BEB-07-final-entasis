@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import {Tutorial} from '../apis/user'
-const Tutorials =({account,tutorialCnt,faucetBtn,setUserModalIsOpen,setPdModalIsOpen})=>{
+const Tutorials =({account,tutorialCnt,faucetBtn,setUserModalIsOpen,setPdModalIsOpen,setCntHandler})=>{
     const [start, setStart] = useState(true)
     const [wallet, setWallet] = useState(true)
     const [chart, setChart] = useState(true)
@@ -38,11 +38,11 @@ const Tutorials =({account,tutorialCnt,faucetBtn,setUserModalIsOpen,setPdModalIs
         },
     };
     useEffect(()=>{
-        if(tutorialCnt===0){
-            Tutorial(account,tutorialCnt)
-            setTutorialScroll(0)
+        if(tutorialCnt===1){
+            Tutorial(account,0)
+            setTutorialScroll(1)
         }
-
+        console.log(tutorialCnt)
     },[account,tutorialCnt])
     const skipHandler = () => {
         setStart(false)
@@ -65,7 +65,7 @@ const Tutorials =({account,tutorialCnt,faucetBtn,setUserModalIsOpen,setPdModalIs
     // tutorialCnt={isEnroll.cnt===typeof 'number'?isEnroll.cnt:0}
 
     
-    console.log(document.body.style.overflow,tutorialCnt)
+    // console.log(document.body.style.overflow,tutorialCnt)
 if(tutorialScroll>0&&tutorialCnt===0){
     document.body.style.overflow='hidden'
 
@@ -482,6 +482,7 @@ if(tutorialScroll>0&&tutorialCnt===0){
         <img  onClick={() => {setTutorialFinished();Tutorial(account,1)}} className="congratulations" src={require('../assets/images/congratulations.jpeg')} alt="img"></img>
         <h5 onClick={() => {setTutorialFinished();Tutorial(account,1)}} >Now Get Your Security Token</h5>
         <h4 onClick={() => {setTutorialFinished();Tutorial(account,1)}} >Trading Start!</h4>
+        {setCntHandler(0)}
         </Modal>
         
         )}

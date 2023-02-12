@@ -14,6 +14,7 @@ const Navigator =({isCircuitBreaker,stName,setStName,companyPD,totalCurrentPrice
 })=>{
     const [tutorialsClicked,setTutorialsClicked] = useState(false)
     const [currentPrices, setCurrentPrices] = useState({})
+    const [cntHandler,setCntHandler] = useState(false)
     useEffect(()=>{
         setCurrentPrices(currentPrice.totalCurrentPrices)
     },[date])
@@ -145,10 +146,11 @@ const Navigator =({isCircuitBreaker,stName,setStName,companyPD,totalCurrentPrice
                 }  
 
             <div className="navigation_right">
-            <Link to='/' onClick={()=>setTutorialsClicked(true)}><h4 >{t("Tutorial")}</h4></Link>
+            <Link to='/' onClick={()=>{setTutorialsClicked(true);setCntHandler(!cntHandler)}}><h4 >{t("Tutorial")}</h4></Link>
                 {tutorialsClicked?<Tutorials
+                setCntHandler={setCntHandler}
                 account={account} 
-                tutorialCnt={0}
+                tutorialCnt={cntHandler}
                 setPdModalIsOpen={setPdModalIsOpen}
                 setUserModalIsOpen={setUserModalIsOpen}
                 />:<></>}

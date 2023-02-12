@@ -212,6 +212,7 @@ useEffect(()=>{
                 {try {
                     currentPrice_ref.current = await axios.get('http://52.78.173.200:5050/rtd/'+tokenName)
                     setCurrentPrice(currentPrice_ref.current.data)
+                    console.log(currentPrice_ref.current.data)
                 } catch (e) {
                     console.log(e) // caught
                 }
