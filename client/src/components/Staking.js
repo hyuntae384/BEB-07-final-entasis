@@ -1,7 +1,7 @@
 import { useState , useEffect} from "react"
 import { useTranslation } from "react-i18next";
 
-const Staking =({setStaking,stName,tokenContract,setTokenName,userAccount,web3,curPrice,userEntaToken,userBebToken,userLeoToken})=>{
+const Staking =({setStaking,stName,tokenContract,setTokenName,userAccount,web3,curPrice,userEntaToken,userBebToken,userLeoToken,bebStakeToken,entaStakeToken,leoStakeToken,entaStakeReward,bebStakeReward,leoStakeReward})=>{
     const {t} = useTranslation();
     const [restTime, setRestTime] = useState("")
     const [amount, setAmount]  = useState("0")
@@ -26,6 +26,21 @@ const Staking =({setStaking,stName,tokenContract,setTokenName,userAccount,web3,c
         console.log(amount)
     }
 
+    function changeMonth(month) {
+        if(month == "Jan") return "01"
+        if(month == "Feb") return "02"
+        if(month == "Mar") return "03"
+        if(month == "Apr") return "04"
+        if(month == "May") return "05"
+        if(month == "Jun") return "06"
+        if(month == "Jul") return "07"
+        if(month == "Aug") return "08"
+        if(month == "Sep") return "09"
+        if(month == "Oct") return "10"
+        if(month == "Nov") return "11"
+        if(month == "Dec") return "12"
+    }
+
     if(stName === 'ENTAToken') setTokenName('enta')
     if(stName === 'BEBToken') setTokenName('beb')
     if(stName === 'LEOToken') setTokenName('leo')
@@ -35,7 +50,9 @@ const Staking =({setStaking,stName,tokenContract,setTokenName,userAccount,web3,c
         const time = await tokenContract.methods.showFinishAt(userAccount).call()
         if(time == 0) return setRestTime("Any Token Staked")
         const date = new Date(time*1000)
-        setRestTime(date.toString())
+        const split = (date.toString()).split(" ")
+        const resultDate = `${split[3]} ${changeMonth(split[1])} ${split[2]} ${split[4]}`
+        setRestTime(resultDate)
     }
 
     useEffect(() => {
@@ -84,28 +101,74 @@ const Staking =({setStaking,stName,tokenContract,setTokenName,userAccount,web3,c
         setTokenReward(web3.utils.fromWei(reward, 'ether'))
     }
 
+    // 출금까지 남은 시간 표시
+    // 출금 가능 시간에 따라서 버튼 활성 시각화
+    
 
     return(
-        <div>
-            <div>{stName}</div>
-            <h5>{t("Available Token")} : {token}</h5>
-            <input type="text" onChange={e => amountChange(e)} placeholder={"Amount"}></input>
-            <div>
-                <button onClick={stake}>{t("Staking")}</button>
-            </div><br/>
-            <div>
-                <h5>{t("Available Withdraw Time")}</h5>
-                <h6>{restTime}</h6>
-                <button onClick={reward}>{t("Reward")}</button>
+        <div className="order">
+            <div className="order_mode">
+            {/* <h3>Limit</h3> */}
+            <h3>{t("Market Order")}</h3>
+            <h3 onClick={changeOrder}>Order</h3>
+
+            {/* <div className="order_select">
+                <SelectBox
+                    set={ST_Name}
+                    termValue={stName}
+                    value={setStName}
+                ></SelectBox>
+            </div> */}
             </div>
-            <div>
-                <h5>{t("Token Reward")} : {tokenReward}</h5>
+            <form>
+                <h6 className="order_available">{t("Available Token")} : {token} {stName}</h6>
+                <input type="text" className="order_price" /* onChange={e => priceChange(e)} */ placeholder={curPrice} readOnly></input>
+                {/* <h6 className="order_price_eth">ETH</h6> */}
+                <input type="text" className="order_amount" onChange={e => amountChange(e)} placeholder={t("Amount")}></input>
+                <div className="make_order">
+                    <button type="button" className="order_buy" onClick={stake}>
+                        <h5>Staking</h5>
+                    </button>
+                    <button type="button" className="order_sell" onClick={reward}>
+                        <h5>Reward</h5>
+                    </button>
+                </div>
+            </form>
+            <div className='assets'>
+                <div className="total_assets">
+                    <h4>Stake Amount List</h4>
+                </div>      
+                <div className='assets_wraper'>
+                    <h6>ENTAToken : {entaStakeToken}</h6>
+                    <h6>BEBToken : {bebStakeToken}</h6>
+                    <h6>LEOToken : {leoStakeToken}</h6>
+                </div>
             </div>
-            <div>
-                <button onClick={changeOrder}>Order</button>
+            <div className='assets'>
+                <div className="total_assets">
+                    <h4>Staking Reward List</h4>
+                </div>      
+                <div className='assets_wraper'>
+                    <h6>{entaStakeReward} ENTA</h6>
+                    <h6>{bebStakeReward} BEB</h6>
+                    <h6>{leoStakeReward} LEO</h6>
+                </div>
+            </div>
+            <div className='deposit'>
+                <h4>{t("Available Withdraw Time")}</h4>
+                <div className='deposit_wrapper'>
+                    <div className='deposit_faucet'>
+                        <h5>{restTime}</h5>
+                    </div>
+                </div>
             </div>
         </div>
     )
 }
+
+
+
+
+
 
 export default Staking
