@@ -145,7 +145,7 @@ const Navigator =({isCircuitBreaker,stName,setStName,companyPD,totalCurrentPrice
                 }  
 
             <div className="navigation_right">
-            <Link to='/' onClick={()=>setTutorialsClicked(!tutorialsClicked)}><h4 >{t("Tutorial")}</h4></Link>
+            <Link to='/' onClick={()=>setTutorialsClicked(true)}><h4 >{t("Tutorial")}</h4></Link>
                 {tutorialsClicked?<Tutorials
                 account={account} 
                 tutorialCnt={0}
