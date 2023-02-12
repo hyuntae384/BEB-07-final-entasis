@@ -83,7 +83,6 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
     if(stName === 'ENTAToken') setTokenName('enta')
     if(stName === 'BEBToken') setTokenName('beb')
     if(stName === 'LEOToken') setTokenName('leo')
-    console.log(buyMaxST_1)
 
 
     return(
