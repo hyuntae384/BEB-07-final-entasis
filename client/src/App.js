@@ -31,6 +31,7 @@ function App() {
   const [userEntaToken, setUserEntaToken] = useState("")
   const [userBebToken, setUserBebToken] = useState("")
   const [userLeoToken, setUserLeoToken] = useState("")
+  const [pdModalIsOpen, setPdModalIsOpen] = useState(false);
 
   const [currentPrice, setCurrentPrice] = useState({
     close : "0",
@@ -56,15 +57,16 @@ const [userModalIsOpen, setUserModalIsOpen] = useState(false)
 
 const {chainId, account, active, activate, deactivate} = useWeb3React();
 
-const origin = "http://52.78.173.200/";
+const origin = "http://52.78.173.200:5050/";
 const getUserURL = origin + "user/"; 
 const mypage = getUserURL + "mypage/?wallet="
 const faucet = getUserURL + "faucet/?wallet="
-
+let time = new Date()
+let date = `0${time.getMinutes()%5}`+":"+(time.getSeconds()<50?59-time.getSeconds():`0${59-time.getSeconds()}`);
 
 useEffect(() => {
   const loop = setInterval(() => {
-      if(`${new Date().getSeconds()}`===`59`){
+      if(`${time.getSeconds()}`===`59`){
           let index = chartArr[chartArr.length-1]!==undefined?chartArr[chartArr.length-1][0]+1:undefined
           let createdAtB = currentPrice.createdAt;
           let openB= typeof chartArr[chartArr.length-1]==='object'&&!isNaN(chartArr[chartArr.length-1][3]) ?chartArr[chartArr.length-1][3]:currentPrice.open;
@@ -95,7 +97,7 @@ useEffect(() => {
   if(myPage.data!==undefined&&myPage.data.faucet===true) return setIsFaucet(true)
   else if(myPage.data===undefined) return setIsFaucet(false)
 
-}, [new Date().getSeconds(), currentPageNum]);
+}, [time.getSeconds(), currentPageNum]);
 
     useEffect(()=>{
         setChartOriginArr(isChartTotal)
@@ -109,7 +111,6 @@ const OPTIONS = [
   { value: "LEOToken", name: "LEO" },
   ];
 
-const dividendTimeLimit = (59-new Date().getMinutes())%5+":"+(59-new Date().getSeconds())
 const onMouseEnterHandler = () => {
   document.body.style.overflow = 'unset';
 }
@@ -157,11 +158,10 @@ const FaucetWallet = async(wallet) => {
   return resultFaucetWallet
 }
 
-console.log(myPage.data)
-
   return (
     <BrowserRouter>
         <Header
+          setPdModalIsOpen={setPdModalIsOpen}
           userModalIsOpen={userModalIsOpen}
           setUserModalIsOpen={setUserModalIsOpen}
           setMyPage={setMyPage}
@@ -182,7 +182,7 @@ console.log(myPage.data)
           setIsChartTotal={setIsChartTotal}
           ratio={ratio}
           voted={voted}
-          dividendTimeLimit={dividendTimeLimit}
+          dividendTimeLimit={date}
           isFaucet={isFaucet}
           editName={editName}
           isEnroll={isEnroll}
@@ -204,6 +204,10 @@ console.log(myPage.data)
           setRatio={setRatio}
         />
         <Navigator
+            pdModalIsOpen={pdModalIsOpen}
+            setPdModalIsOpen={setPdModalIsOpen}
+            currentPrice={currentPrice}
+            date={date}
             setUserModalIsOpen={setUserModalIsOpen}
             ST_Name={OPTIONS}
             circuitBreakerTimer={circuitBreakerTimer}
@@ -275,17 +279,19 @@ console.log(myPage.data)
           // userPosition={userPosition}
         />}/>
         <Route path='/transaction' element={<TransactionPage
-                txs={txs}
-                // ST_CurrentPrice={currentPrice.close} 
-                // powerOfMarket={powerOfMarket}
-                // userEth={userEth}
-                // // userBebToken={userBebToken}
-                // // userLeoToken={userLeoToken}
-                // setOffset={setOffset}
-                // setLimit={setLimit}
-                // walletConnected = {walletConnected}
-                // setWalletConnected = {setWalletConnected}
-                // userPosition={userPosition}
+          
+          txs={txs}
+          date={date}
+          // ST_CurrentPrice={currentPrice.close} 
+          // powerOfMarket={powerOfMarket}
+          // userEth={userEth}
+          // // userBebToken={userBebToken}
+          // // userLeoToken={userLeoToken}
+          // setOffset={setOffset}
+          // setLimit={setLimit}
+          // walletConnected = {walletConnected}
+          // setWalletConnected = {setWalletConnected}
+          // userPosition={userPosition}
         />}/>
       </Routes>
     </BrowserRouter>
