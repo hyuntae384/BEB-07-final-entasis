@@ -91,11 +91,11 @@ contract ERC1400 is ERC1400Interface, OwnerHelper {
         _;
     }
 
-    constructor(string memory getName, string memory getSymbol, address initialController) {
+    constructor(string memory getName, string memory getSymbol, address initialController, uint256 setTotalSupply) {
         _name = getName;
         _symbol = getSymbol;
         _decimals = 18; // 이부분 기능 이해 필요
-        _totalSupply = 100000000 * E18; // 공급량 설정에 관련된 내용 필요
+        _totalSupply = setTotalSupply * E18; // 공급량 설정에 관련된 내용 필요
         _balances[msg.sender] = _totalSupply; // constructor에서 정할 수 있게 해야하나??
 
         _setController(initialController); // 거래소 주소를 controller 기본값으로 설정
