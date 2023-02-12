@@ -856,6 +856,14 @@ div.history_date{
     right: 4.5%;
 
 }
+.welcome_tutorial_circuit_breaker{
+    width: 400px;
+    height: 160px;
+    top: 72%;
+    right: 20%;
+}
+
+
 .welcome_tutorial_tutorial_finished{
     padding: 2%;
     width: 300px;
@@ -923,6 +931,7 @@ div.history_date{
 .welcome_tutorial_account,
 .welcome_tutorial_faucet,
 .welcome_tutorial_transaction,
+.welcome_tutorial_circuit_breaker,
 .welcome_tutorial_tutorial_finished{
     position: absolute;
     border: 1px solid var(--white-color);
@@ -945,6 +954,7 @@ div.history_date{
 .welcome_tutorial_account h4,
 .welcome_tutorial_faucet h4,
 .welcome_tutorial_transaction h4,
+.welcome_tutorial_circuit_breaker h4,
 .welcome_tutorial_tutorial_finished h4{
     color: var(--white-color);
 
@@ -960,6 +970,7 @@ body:active .welcome_tutorial_history,
 body:active .welcome_tutorial_account,
 body:active .welcome_tutorial_faucet,
 body:active .welcome_tutorial_transaction,
+body:active .welcome_tutorial_circuit_breaker,
 body:active .welcome_tutorial_tutorial_finished{
     opacity: 0;
 }
