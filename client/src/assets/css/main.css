@@ -199,8 +199,8 @@ div.btn:hover{
 
 .close{
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 5px;
+    right: 5px;
     transition: 0.2s;
     transform: scale(0.7);
 }
