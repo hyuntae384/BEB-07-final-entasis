@@ -151,7 +151,7 @@ const Staking =({setStaking,stName,tokenContract,setTokenName,userAccount,web3,c
             <div className="order_mode">
             {/* <h3>Limit</h3> */}
             <h3>{t("Market Order")}</h3>
-            <h3 onClick={changeOrder}>Order</h3>
+            <h4 className="Click_Order" onClick={changeOrder}>{t("Order")}</h4>
 
             {/* <div className="order_select">
                 <SelectBox
@@ -167,13 +167,13 @@ const Staking =({setStaking,stName,tokenContract,setTokenName,userAccount,web3,c
                 <input type="text" className="order_amount" onChange={e => amountChange(e)} placeholder={t("Amount")}></input>
                 <div className="make_staking">
                     <button type="button" className="staking_stake" onClick={stake}>
-                        <h5>Staking</h5>
+                        <h5>{t("Staking")}</h5>
                     </button>
                 </div>
             </form>
             <div className='assets'>
                 <div className="total_assets">
-                    <h4>Stake Amount List</h4>
+                    <h4>{t("Stake Amount List")}</h4>
                 </div>      
                 <div className='assets_wraper'>
                     <h6>ENTAToken : {entaStakeToken}</h6>
@@ -183,7 +183,7 @@ const Staking =({setStaking,stName,tokenContract,setTokenName,userAccount,web3,c
             </div>
             <div className='assets'>
                 <div className="total_assets">
-                    <h4>Staking Reward List</h4>
+                    <h4>{t("Staking Reward List")}</h4>
                 </div>      
                 <div className='assets_wraper'>
                     <h6>{entaStakeReward} ENTA</h6>
@@ -192,7 +192,7 @@ const Staking =({setStaking,stName,tokenContract,setTokenName,userAccount,web3,c
                 </div>
             </div>
             <div className='deposit'>
-                <h4>Available Reward Time</h4>
+                <h4>{t("Available Reward Time")}</h4>
                 <div className='deposit_wrapper'>
                     <h5>{dateTime}</h5>
                     <div className='deposit_faucet'>
