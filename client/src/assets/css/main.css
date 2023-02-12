@@ -1115,6 +1115,50 @@ input{
     overflow: hidden;
     padding: 0;
 }
+.make_staking{
+    width: 50%;
+    height: 30px;
+    padding: 2% 0 0 0 ;
+    border-radius: 5px;
+    overflow: hidden;
+    padding: 0;
+}
+.staking_stake{
+    width: 100%;
+    height: 100%;
+    border: 0;
+    transition: 0.2s;
+    color: var(--white-color);
+    background-color: rgb(157, 209, 68);
+}
+.staking_reward{
+    width: 100%;
+    height: 100%;
+    border: 0;
+    transition: 0.2s;
+    color: var(--white-color);
+    background-color: var(--Secondary-color);
+}
+.make_reward{
+    width: 40%;
+    height: 30px;
+    padding: 2% 0 0 0 ;
+    border-radius: 5px;
+    overflow: hidden;
+    padding: 0;
+}
+.cant_reward{
+    width: 100%;
+    height: 100%;
+    border: 0;
+    transition: 0.2s;
+    color: var(--white-color);
+    background-color: var(--onSecondary-color);
+    filter: brightness(0.7);
+}
+.staking_stake:hover,.staking_reward:hover{
+    filter: brightness(0.7);
+}
 .order_buy,.order_sell{
     width: 50%;
     height: 100%;
@@ -1126,7 +1170,6 @@ input{
 }
 .order_buy h5, .order_sell h5{
     border-bottom: 1px solid var();
-
 }
 .order_buy{
     color: var(--white-color);
