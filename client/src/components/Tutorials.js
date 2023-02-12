@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import {Tutorial} from '../apis/user'
-const Tutorials =({account,tutorialCnt,faucetBtn,setUserModalIsOpen,setPdModalIsOpen,setCntHandler})=>{
+const Tutorials =({account,faucetBtn,setUserModalIsOpen,setPdModalIsOpen,setCntHandler,cntHandler,tutorialCnt})=>{
     const [start, setStart] = useState(true)
     const [wallet, setWallet] = useState(true)
     const [chart, setChart] = useState(true)
@@ -37,13 +37,19 @@ const Tutorials =({account,tutorialCnt,faucetBtn,setUserModalIsOpen,setPdModalIs
             
         },
     };
+
+
     useEffect(()=>{
-        if(tutorialCnt===1){
-            Tutorial(account,0)
+        if(tutorialCnt===0){
             setTutorialScroll(1)
         }
-        console.log(tutorialCnt)
-    },[account,tutorialCnt])
+        if(cntHandler){
+            setTutorialScroll(1)
+        }
+
+    },[account,tutorialCnt,cntHandler])
+    console.log(document.body.style.overflow,tutorialScroll,tutorialCnt,cntHandler)
+
     const skipHandler = () => {
         setStart(false)
         setWallet(false)
@@ -60,19 +66,22 @@ const Tutorials =({account,tutorialCnt,faucetBtn,setUserModalIsOpen,setPdModalIs
         setTutorialFinished(false)
         setTutorialScroll(0)
         document.body.style.overflow='unset'
+        setCntHandler(false)
+        Tutorial(account,1)
+        setCntHandler(false)
     }    
     // account={account===typeof 'string'?account:0}
     // tutorialCnt={isEnroll.cnt===typeof 'number'?isEnroll.cnt:0}
 
     
     // console.log(document.body.style.overflow,tutorialCnt)
-if(tutorialScroll>0&&tutorialCnt===0){
+if(tutorialScroll>0){
     document.body.style.overflow='hidden'
 
     if(Math.ceil(tutorialScroll)===1){
         window.onwheel = function (e) {
-            document.body.style.overflow==='hidden'&&e.deltaY> 0
-            ? setTutorialScroll(tutorialScroll < 0 ? tutorialScroll + 0 : tutorialScroll - 0.05)
+            e.deltaY> 0
+            ? setTutorialScroll(tutorialScroll < 1 ? tutorialScroll + 0 : tutorialScroll - 0.05)
             : setTutorialScroll(tutorialScroll > 13 ? tutorialScroll + 0  : tutorialScroll + 0.05)
         }
         return (
@@ -93,14 +102,14 @@ if(tutorialScroll>0&&tutorialCnt===0){
                 <h5>For Trading</h5> 
                 <h5>Follow this Tutorial</h5>
             <h5 className='count'>1/10</h5>
-            <div className='skip' onClick={()=>{document.body.style.overflow='unset';skipHandler();}}>Skip</div>
+            <div className='skip' onClick={()=>{skipHandler();}}>Skip</div>
             <div className='next' onClick={()=>{document.body.style.overflow='unset';setTutorialScroll(tutorialScroll+1);setStart()}}>Next</div>
             </Modal>
         )}
     
     if(Math.ceil(tutorialScroll)===2){
         window.onwheel = function (e) {
-            document.body.style.overflow==='hidden'&&e.deltaY> 0
+            e.deltaY> 0
             ? setTutorialScroll(tutorialScroll < 0 ? tutorialScroll + 0 : tutorialScroll - 0.05)
             : setTutorialScroll(tutorialScroll > 13 ? tutorialScroll + 0  : tutorialScroll + 0.05)
         }
@@ -111,7 +120,7 @@ if(tutorialScroll>0&&tutorialCnt===0){
         //onRequestClose={()=>{setWallet()}}
         isOpen={wallet}
         style={modalStyle}
-        className="welcome_tutorial_wallet" onFocus={document.body.style.overflow='hidden'}>
+        className="welcome_tutorial_wallet" >
         <div className='welcome_tutorial_top' >
         <h4>Register your wallet</h4> <br/>
         <i className='fas fa-arrow-up'></i>
@@ -121,7 +130,7 @@ if(tutorialScroll>0&&tutorialCnt===0){
             <h5>MataMask Wallet</h5>
         </div>
         <h5 className='count' >1/10</h5>
-                <h5 e='skip' onClick={()=>{document.body.style.overflow='unset';skipHandler()}}>Skip</h5>
+                <h5 e='skip' onClick={()=>{skipHandler()}}>Skip</h5>
 
         <div className='next' onClick={()=>{document.body.style.overflow='unset';setTutorialScroll(tutorialScroll+1);setWallet()}}>Next</div>
         </Modal>
@@ -136,9 +145,9 @@ if(tutorialScroll>0&&tutorialCnt===0){
         //onRequestClose={()=>{setChart()}}
         isOpen={chart}
         style={modalStyle}
-        className="welcome_tutorial_chart" onClick={()=>setChart()} onFocus={document.body.style.overflow='hidden'}>
+        className="welcome_tutorial_chart" onClick={()=>setChart()} >
             {window.onwheel = function (e) {
-            document.body.style.overflow==='hidden'&&e.deltaY> 0
+            e.deltaY> 0
             ? setTutorialScroll(tutorialScroll < 0 ? tutorialScroll + 0 : tutorialScroll - 0.05)
             : setTutorialScroll(tutorialScroll > 13 ? tutorialScroll + 0  : tutorialScroll + 0.05)
             }}
@@ -157,7 +166,7 @@ if(tutorialScroll>0&&tutorialCnt===0){
         </h6>
         </div>
         <h5 className='count' >2/10</h5>
-        <h5 className='skip' onClick={()=>{document.body.style.overflow='unset';skipHandler()}}>Skip</h5>
+        <h5 className='skip' onClick={()=>{skipHandler()}}>Skip</h5>
 
         <div className='next' onClick={()=>{document.body.style.overflow='unset';setTutorialScroll(tutorialScroll+1);setChart()}}>Next</div>
         </Modal>
@@ -171,9 +180,9 @@ if(tutorialScroll>0&&tutorialCnt===0){
         //onRequestClose={()=>{setLimitOrderBook()}}
         isOpen={limitOrderBook}
         style={modalStyle}
-        className="welcome_tutorial_limit_order_book" onClick={() => setLimitOrderBook()} onFocus={document.body.style.overflow='hidden'}>
+        className="welcome_tutorial_limit_order_book" onClick={() => setLimitOrderBook()} >
             {window.onwheel = function (e) {
-            document.body.style.overflow==='hidden'&&e.deltaY> 0
+            e.deltaY> 0
             ? setTutorialScroll(tutorialScroll < 0 ? tutorialScroll + 0 : tutorialScroll - 0.05)
             : setTutorialScroll(tutorialScroll > 13 ? tutorialScroll + 0  : tutorialScroll + 0.05)
             }}
@@ -205,9 +214,9 @@ if(tutorialScroll>0&&tutorialCnt===0){
         //onRequestClose={()=>{setOrder()}}
         isOpen={order}
         style={modalStyle}
-        className="welcome_tutorial_order" onClick={() => setOrder()} onFocus={document.body.style.overflow='hidden'}>
+        className="welcome_tutorial_order" onClick={() => setOrder()} >
             {window.onwheel = function (e) {
-            document.body.style.overflow==='hidden'&&e.deltaY> 0
+            e.deltaY> 0
             ? setTutorialScroll(tutorialScroll < 0 ? tutorialScroll + 0 : tutorialScroll - 0.05)
             : setTutorialScroll(tutorialScroll > 13 ? tutorialScroll + 0  : tutorialScroll + 0.05)
             }}
@@ -240,9 +249,9 @@ if(tutorialScroll>0&&tutorialCnt===0){
         //onRequestClose={()=>{setPublicDisclosure()}}
         isOpen={publicDisclosure}
         style={modalStyle}
-        className="welcome_tutorial_public_disclosure" onClick={() => setPublicDisclosure()} onFocus={document.body.style.overflow='hidden'}>
+        className="welcome_tutorial_public_disclosure" onClick={() => setPublicDisclosure()} >
             {window.onwheel = function (e) {
-            document.body.style.overflow==='hidden'&&e.deltaY> 0
+            e.deltaY> 0
             ? setTutorialScroll(tutorialScroll < 0 ? tutorialScroll + 0 : tutorialScroll - 0.05)
             : setTutorialScroll(tutorialScroll > 13 ? tutorialScroll + 0  : tutorialScroll + 0.05)
             }}
@@ -258,7 +267,7 @@ if(tutorialScroll>0&&tutorialCnt===0){
         <h5 className='count' >5/10</h5>
         <h5 className='skip' onClick={()=>{document.body.style.overflow='unset';skipHandler()}}>Skip</h5>
 
-        <div className='next' onClick={()=>{document.body.style.overflow='unset';setTutorialScroll(tutorialScroll+1);setPublicDisclosure();setPdModalIsOpen(false);}}>Next</div>
+        <div className='next' onClick={()=>{document.body.style.overflow='unset';setTutorialScroll(tutorialScroll+1);setPdModalIsOpen(false);setPublicDisclosure();}}>Next</div>
         </Modal>
         )}else{setPdModalIsOpen(false)}
 
@@ -271,9 +280,9 @@ if(tutorialScroll>0&&tutorialCnt===0){
         //onRequestClose={()=>{setAssets()}}
         isOpen={assets}
         style={modalStyle}
-        className="welcome_tutorial_assets" onClick={() => setAssets()} onFocus={document.body.style.overflow='hidden'}>
+        className="welcome_tutorial_assets" onClick={() => setAssets()} >
             {window.onwheel = function (e) {
-            document.body.style.overflow==='hidden'&&e.deltaY> 0
+            e.deltaY> 0
             ? setTutorialScroll(tutorialScroll < 0 ? tutorialScroll + 0 : tutorialScroll - 0.1)
             : setTutorialScroll(tutorialScroll > 13 ? tutorialScroll + 0  : tutorialScroll + 0.1)
             }}
@@ -289,7 +298,7 @@ if(tutorialScroll>0&&tutorialCnt===0){
         <h5 className='count' >6/10</h5>
         <h5 className='skip' onClick={()=>{document.body.style.overflow='unset';skipHandler();setUserModalIsOpen(false)}}>Skip</h5>
 
-        <div className='next' onClick={()=>{document.body.style.overflow='unset';setTutorialScroll(tutorialScroll+1);setAssets();setUserModalIsOpen(false);}}>Next</div>
+        <div className='next' onClick={()=>{document.body.style.overflow='unset';setTutorialScroll(tutorialScroll+1);setUserModalIsOpen(false);setAssets();}}>Next</div>
         </Modal>
         )}else{setUserModalIsOpen(false)}
 
@@ -302,9 +311,9 @@ if(tutorialScroll>0&&tutorialCnt===0){
         //onRequestClose={()=>{setFaucet()}}
         isOpen={faucet}
         style={modalStyle}
-        className="welcome_tutorial_faucet" onClick={() => setFaucet()} onFocus={document.body.style.overflow='hidden'}>
+        className="welcome_tutorial_faucet" onClick={() => setFaucet()} >
             {window.onwheel = function (e) {
-            document.body.style.overflow==='hidden'&&e.deltaY> 0
+            e.deltaY> 0
             ? setTutorialScroll(tutorialScroll < 0 ? tutorialScroll + 0 : tutorialScroll - 0.05)
             : setTutorialScroll(tutorialScroll > 13 ? tutorialScroll + 0  : tutorialScroll + 0.05)
             }}
@@ -330,7 +339,7 @@ if(tutorialScroll>0&&tutorialCnt===0){
         <h5 className='count' >9/10</h5>
         <h5 className='skip' onClick={()=>{document.body.style.overflow='unset';skipHandler();setUserModalIsOpen(false)}}>Skip</h5>
 
-        <div className='next' onClick={()=>{document.body.style.overflow='unset';setTutorialScroll(tutorialScroll+1);setFaucet();setUserModalIsOpen(false);}}>Next</div>
+        <div className='next' onClick={()=>{document.body.style.overflow='unset';setTutorialScroll(tutorialScroll+1);setUserModalIsOpen(false);setFaucet();}}>Next</div>
         </Modal>
         )}else{setUserModalIsOpen(false)}
 
@@ -342,9 +351,9 @@ if(tutorialScroll>0&&tutorialCnt===0){
         //onRequestClose={()=>{setHistory()}}
         isOpen={history}
         style={modalStyle}
-        className="welcome_tutorial_history" onClick={() => setHistory()} onFocus={document.body.style.overflow='hidden'}>
+        className="welcome_tutorial_history" onClick={() => setHistory()} >
             {window.onwheel = function (e) {
-            document.body.style.overflow==='hidden'&&e.deltaY> 0
+            e.deltaY> 0
             ? setTutorialScroll(tutorialScroll < 0 ? tutorialScroll + 0 : tutorialScroll - 0.05)
             : setTutorialScroll(tutorialScroll > 13 ? tutorialScroll + 0  : tutorialScroll + 0.05)
             }}
@@ -373,9 +382,9 @@ if(tutorialScroll>0&&tutorialCnt===0){
         //onRequestClose={()=>{setIsAccount()}}
         isOpen={isAccount}
         style={modalStyle}
-        className="welcome_tutorial_account" onClick={() => setIsAccount()} onFocus={document.body.style.overflow='hidden'}>
+        className="welcome_tutorial_account" onClick={() => setIsAccount()} >
             {window.onwheel = function (e) {
-            document.body.style.overflow==='hidden'&&e.deltaY> 0
+            e.deltaY> 0
             ? setTutorialScroll(tutorialScroll < 0 ? tutorialScroll + 0 : tutorialScroll - 0.05)
             : setTutorialScroll(tutorialScroll > 13 ? tutorialScroll + 0  : tutorialScroll + 0.05)
             }}
@@ -406,9 +415,9 @@ if(tutorialScroll>0&&tutorialCnt===0){
         //onRequestClose={()=>{setTransaction()}}
         isOpen={transaction}
         style={modalStyle}
-        className="welcome_tutorial_transaction" onClick={() => setTransaction()} onFocus={document.body.style.overflow='hidden'}>
+        className="welcome_tutorial_transaction" onClick={() => setTransaction()} >
             {window.onwheel = function (e) {
-            document.body.style.overflow==='hidden'&&e.deltaY> 0
+            e.deltaY> 0
             ? setTutorialScroll(tutorialScroll < 0 ? tutorialScroll + 0 : tutorialScroll - 0.05)
             : setTutorialScroll(tutorialScroll > 13 ? tutorialScroll + 0  : tutorialScroll + 0.05)
             }}
@@ -431,16 +440,19 @@ if(tutorialScroll>0&&tutorialCnt===0){
         )}
 
     if(Math.ceil(tutorialScroll)===12){
-
+        window.scrollTo({
+            top:820,
+            behavior: 'smooth'
+        })
         return(
         <Modal
         appElement={document.getElementById('root') || undefined}
         //onRequestClose={()=>{setCircuitBreaker()}}
         isOpen={circuitBreaker}
         style={modalStyle}
-        className="welcome_tutorial_circuit_breaker" onClick={() => setCircuitBreaker()} onFocus={document.body.style.overflow='hidden'}>
+        className="welcome_tutorial_circuit_breaker" onClick={() => setCircuitBreaker()}>
             {window.onwheel = function (e) {
-            document.body.style.overflow==='hidden'&&e.deltaY> 0
+            e.deltaY> 0
             ? setTutorialScroll(tutorialScroll < 0 ? tutorialScroll + 0 : tutorialScroll - 0.05)
             : setTutorialScroll(tutorialScroll > 13 ? tutorialScroll + 0  : tutorialScroll + 0.05)
             }}
@@ -457,13 +469,9 @@ if(tutorialScroll>0&&tutorialCnt===0){
         <h5 className='skip' onClick={()=>{document.body.style.overflow='unset';skipHandler()}}>Skip</h5>
 
         <div className='next' onClick={()=>{document.body.style.overflow='unset';setTutorialScroll(tutorialScroll+1);setCircuitBreaker();}}>Next</div>
-        {window.scrollTo({
-            top:820,
-            behavior: 'smooth'
-        })}
+
         </Modal>
         )}
-
 
 
 
@@ -475,18 +483,22 @@ if(tutorialScroll>0&&tutorialCnt===0){
         //onRequestClose={()=>{setTutorialFinished();Tutorial(account,1)}}
         isOpen={tutorialFinished}
         style={modalStyle}
-        className="welcome_tutorial_tutorial_finished" onClick={() => {setTutorialFinished();Tutorial(account,1)}} >
-
-
+        className="welcome_tutorial_tutorial_finished" onClick={() => {Tutorial(account,1);setCntHandler(false);document.body.style.overflow='unset';setTutorialScroll(0);setTutorialFinished();}} >
+        <img  onClick={() => {Tutorial(account,1);setCntHandler(false);document.body.style.overflow='unset';setTutorialScroll(0);setTutorialFinished();}} className="close" src={require('../assets/images/close.png')} alt="img"></img>
+        {window.onwheel = function (e) {
+            document.body.style.overflow='unset'
+            e.deltaY> 0
+            ? setTutorialScroll(tutorialScroll < 0 ? tutorialScroll + 0 : tutorialScroll - 0)
+            : setTutorialScroll(tutorialScroll > 13 ? tutorialScroll + 0  : tutorialScroll + 0)
+            }}
         <h2>Tutorial Finished!</h2>
-        <img  onClick={() => {setTutorialFinished();Tutorial(account,1)}} className="congratulations" src={require('../assets/images/congratulations.jpeg')} alt="img"></img>
-        <h5 onClick={() => {setTutorialFinished();Tutorial(account,1)}} >Now Get Your Security Token</h5>
-        <h4 onClick={() => {setTutorialFinished();Tutorial(account,1)}} >Trading Start!</h4>
-        {setCntHandler(0)}
+        <img  onClick={() => {Tutorial(account,1);setCntHandler(false);document.body.style.overflow='unset';setTutorialScroll(0);setTutorialFinished();}} className="congratulations" src={require('../assets/images/congratulations.jpeg')} alt="img"></img>
+        <h5 onClick={() => {Tutorial(account,1);setCntHandler(false);document.body.style.overflow='unset';setTutorialScroll(0);setTutorialFinished();}} >Now Get Your Security Token</h5>
+        <h4 onClick={() => {Tutorial(account,1);setCntHandler(false);;setTutorialScroll(0);setTutorialFinished();}} >Trading Start!</h4>
         </Modal>
         
         )}
-    }
+    }else{return;}
 }
 
 export default Tutorials
