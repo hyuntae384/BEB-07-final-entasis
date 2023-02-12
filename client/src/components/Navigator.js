@@ -9,7 +9,7 @@ import SelectBox from './Select';
 import Tutorials from "./Tutorials";
 import { useTranslation } from "react-i18next";
 
-const Navigator =({isCircuitBreaker,stName,setStName,companyPD,totalCurrentPrices,coorpName,circuitBreakerTimer,ST_Name,userModalIsOpen,setUserModalIsOpen,date,currentPrice,pdModalIsOpen,setPdModalIsOpen
+const Navigator =({isCircuitBreaker,stName,setStName,companyPD,totalCurrentPrices,coorpName,circuitBreakerTimer,ST_Name,userModalIsOpen,setUserModalIsOpen,date,currentPrice,pdModalIsOpen,setPdModalIsOpen,
 
 })=>{
     const [tutorialsClicked,setTutorialsClicked] = useState(false)
