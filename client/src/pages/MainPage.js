@@ -248,7 +248,7 @@ useEffect(()=>{
             getDividend(userAccount)
         setOffset(pageSet * (currentPageNum - 1))
         setLimit(pageSet * (currentPageNum - 1)+pageSet-1)
-        document.body.style.overflow='unset';
+        
     },[new Date().getSeconds()])
 
 

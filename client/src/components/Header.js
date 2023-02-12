@@ -171,7 +171,7 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,set
                             }
                             <div className='assets'>
                             <div className="total_assets">
-                                <h4>{t("Assets")}</h4><h6>{(ST_1.amount*ST_1.price+ST_2.amount*ST_2.price+ST_3.amount*ST_3.price).toFixed(4)}ETH</h6>
+                                <h2>{t("Assets")}</h2> <p/><h3> {(ST_1.amount*ST_1.price+ST_2.amount*ST_2.price+ST_3.amount*ST_3.price).toFixed(4)}ETH</h3>
                             </div>      
                             <div className='assets_wraper'>
                                 <h5>{ST_1.name+" ("+ST_1.amount+")"+" "+ST_1.price+"ETH"}</h5>
