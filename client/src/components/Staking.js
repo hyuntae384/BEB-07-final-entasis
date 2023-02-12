@@ -1,13 +1,14 @@
 import { useState , useEffect} from "react"
 import { useTranslation } from "react-i18next";
+import {Stake, Reward} from '../apis/token';
 
-const Staking =({setStaking,stName,tokenContract,setTokenName,userAccount,web3,curPrice,userEntaToken,userBebToken,userLeoToken,bebStakeToken,entaStakeToken,leoStakeToken,entaStakeReward,bebStakeReward,leoStakeReward})=>{
+const Staking =({setStaking,stName,tokenContract,setTokenName,userAccount,web3,curPrice,userEntaToken,userBebToken,userLeoToken,bebStakeToken,entaStakeToken,leoStakeToken,entaStakeReward,bebStakeReward,leoStakeReward,tokenName})=>{
     const {t} = useTranslation();
     const [restTime, setRestTime] = useState("")
     const [amount, setAmount]  = useState("0")
     const [isStake,setIsStake] = useState(0)
     const [token, setToken] = useState("enta")
-    const [tokenReward, setTokenReward] = useState("0")
+    const [countTime, setCountTime] = useState("Any Token Staked")
 
     // tokenContract.methods.showFinishAt(userAccount).call().then(console.log)
     // tokenContract.methods.stakeOf(userAccount).call().then(console.log)
@@ -27,18 +28,18 @@ const Staking =({setStaking,stName,tokenContract,setTokenName,userAccount,web3,c
     }
 
     function changeMonth(month) {
-        if(month == "Jan") return "01"
-        if(month == "Feb") return "02"
-        if(month == "Mar") return "03"
-        if(month == "Apr") return "04"
-        if(month == "May") return "05"
-        if(month == "Jun") return "06"
-        if(month == "Jul") return "07"
-        if(month == "Aug") return "08"
-        if(month == "Sep") return "09"
-        if(month == "Oct") return "10"
-        if(month == "Nov") return "11"
-        if(month == "Dec") return "12"
+        if(month =="Jan") return "01"
+        if(month =="Feb") return "02"
+        if(month =="Mar") return "03"
+        if(month =="Apr") return "04"
+        if(month =="May") return "05"
+        if(month =="Jun") return "06"
+        if(month =="Jul") return "07"
+        if(month =="Aug") return "08"
+        if(month =="Sep") return "09"
+        if(month =="Oct") return "10"
+        if(month =="Nov") return "11"
+        if(month =="Dec") return "12"
     }
 
     if(stName === 'ENTAToken') setTokenName('enta')
@@ -48,18 +49,33 @@ const Staking =({setStaking,stName,tokenContract,setTokenName,userAccount,web3,c
     async function finishUnixTime(){
         if(isStake == 0) return setRestTime("Any Token Staked")
         const time = await tokenContract.methods.showFinishAt(userAccount).call()
-        if(time == 0) return setRestTime("Any Token Staked")
         const date = new Date(time*1000)
-        const split = (date.toString()).split(" ")
-        const resultDate = `${split[3]} ${changeMonth(split[1])} ${split[2]} ${split[4]}`
-        setRestTime(resultDate)
+        const realTime = Date.now()
+        const leftTime = time*1000 - realTime
+        const returnTime = String(leftTime).slice(3)
+        // console.log(returnTime)
+        /* const split = (date.toString()).split(" ")
+        const resultDate = `${split[3]} ${changeMonth(split[1])} ${split[2]} ${split[4]}` */
+        setRestTime(leftTime)
     }
 
+    function getLeftTime(seconds) {
+        const hour = parseInt(seconds/3600000);
+        const min = parseInt((seconds%3600000)/60000);
+        const sec = String(seconds%60000);
+        const time = `${hour} : ${min} : ${sec}`
+        setCountTime(time)
+        // console.log(countTime)
+        }
+
     useEffect(() => {
+        getLeftTime(restTime)
         finishUnixTime()
+    },[new Date().getSeconds()])
+
+    useEffect(() => {
         checkStake()
         getTokenBalance()
-        getRewardOf()
     },[curPrice])
 
     async function stake(){
@@ -73,6 +89,7 @@ const Staking =({setStaking,stName,tokenContract,setTokenName,userAccount,web3,c
         }
         await web3.eth.sendTransaction(tx).then(function(receipt){
             console.log(receipt)
+            Stake(tokenName, String(curPrice), String(amount), userAccount, receipt.transactionHash)
         })
     }
 
@@ -87,6 +104,7 @@ const Staking =({setStaking,stName,tokenContract,setTokenName,userAccount,web3,c
         }
         await web3.eth.sendTransaction(tx).then(function(receipt){
             console.log(receipt)
+            Reward(tokenName, String(curPrice), String(amount), userAccount, receipt.transactionHash)
         })
     }
 
@@ -96,10 +114,7 @@ const Staking =({setStaking,stName,tokenContract,setTokenName,userAccount,web3,c
         if(stName === 'LEOToken') setToken(userLeoToken)
     }
 
-    async function getRewardOf(){
-        const reward = await tokenContract.methods.rewardOf(userAccount).call()
-        setTokenReward(web3.utils.fromWei(reward, 'ether'))
-    }
+    
 
     // 출금까지 남은 시간 표시
     // 출금 가능 시간에 따라서 버튼 활성 시각화
@@ -122,15 +137,11 @@ const Staking =({setStaking,stName,tokenContract,setTokenName,userAccount,web3,c
             </div>
             <form>
                 <h6 className="order_available">{t("Available Token")} : {token} {stName}</h6>
-                <input type="text" className="order_price" /* onChange={e => priceChange(e)} */ placeholder={curPrice} readOnly></input>
-                {/* <h6 className="order_price_eth">ETH</h6> */}
+                <input type="text" className="order_price" placeholder={curPrice} readOnly></input>
                 <input type="text" className="order_amount" onChange={e => amountChange(e)} placeholder={t("Amount")}></input>
                 <div className="make_order">
                     <button type="button" className="order_buy" onClick={stake}>
                         <h5>Staking</h5>
-                    </button>
-                    <button type="button" className="order_sell" onClick={reward}>
-                        <h5>Reward</h5>
                     </button>
                 </div>
             </form>
@@ -155,11 +166,14 @@ const Staking =({setStaking,stName,tokenContract,setTokenName,userAccount,web3,c
                 </div>
             </div>
             <div className='deposit'>
-                <h4>{t("Available Withdraw Time")}</h4>
+                <h4>Time to Reward</h4>
                 <div className='deposit_wrapper'>
                     <div className='deposit_faucet'>
                         <h5>{restTime}</h5>
                     </div>
+                    <button type="button" className="order_sell" onClick={reward}>
+                        <h5>Reward</h5>
+                    </button>
                 </div>
             </div>
         </div>
