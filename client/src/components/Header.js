@@ -73,7 +73,7 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,set
     };
     
 
-
+// console.log(totalCurrentPrices.enta)
     const userModalOpen =()=>{
         document.body.style.overflow = 'hidden';
         setUserModalIsOpen(true)

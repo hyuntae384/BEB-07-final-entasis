@@ -349,6 +349,7 @@ router.get('/enta', async (req, res, next) => {
 // BEB
 router.get('/beb', async (req, res, next) => {
   try {
+    
     if(!chartDataBEB) return res.status(400).json({message: "No such data"});
     return res.status(200).json({chartDataBEB, restrictToggle});
   } catch (err) {

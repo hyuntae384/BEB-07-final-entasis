@@ -139,6 +139,9 @@ const Footer =({setIsCircuitBreaker})=>{
                     isOpen={circuitModal}
                     style={modalStyle_2}>
                     <div className='warning_circuit_breaker'>
+                    <div className='close'>
+                    <img src={require('../assets/images/close.png')} onClick={()=>setCircuitModal(!circuitModal)} alt='close'></img>
+                    </div>
                         <h1>Circuit Breaker</h1>
                         <h3>All Security Token Trading is Restricted</h3>
                         <img src={require('../assets/images/warning.gif')}/>
