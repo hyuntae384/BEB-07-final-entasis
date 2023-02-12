@@ -546,6 +546,7 @@ return(
             entaStakeReward={entaStakeReward}
             bebStakeReward={bebStakeReward}
             leoStakeReward={leoStakeReward}
+            tokenName={tokenName}
             />
             : 
             <Order
