@@ -82,7 +82,7 @@ const Footer =({setIsCircuitBreaker,isCircuitBreaker})=>{
     useEffect(()=>{
         if(isCircuitBreaker){
             setCircuitModal(true)
-        }
+        }else setCircuitModal(false)
     },[isCircuitBreaker])
         
 
