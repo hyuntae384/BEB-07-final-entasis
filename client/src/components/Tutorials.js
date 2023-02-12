@@ -481,8 +481,6 @@ if(tutorialScroll>0){
         </Modal>
         
         )}
-    }else{
-        document.body.style.overflow='unset'
     }
 }
 
