@@ -32,7 +32,12 @@ function App() {
   const [userBebToken, setUserBebToken] = useState("")
   const [userLeoToken, setUserLeoToken] = useState("")
   const [pdModalIsOpen, setPdModalIsOpen] = useState(false);
-
+  const [entaStakeToken, setEntaStakeToken] = useState("0")
+const [bebStakeToken, setBebStakeToken] = useState("0")
+const [leoStakeToken, setLeoStakeToken] = useState("0")
+const [entaStakeReward, setEntaStakeReward] = useState("0")
+const [bebStakeReward, setBebStakeReward] = useState("0")
+const [leoStakeReward, setLeoStakeReward] = useState("0")
   const [currentPrice, setCurrentPrice] = useState({
     close : "0",
     createdAt : "0",
@@ -267,6 +272,18 @@ const FaucetWallet = async(wallet) => {
           handleConnect={handleConnect}
           setCurrentPageNum={setCurrentPageNum}
           setCoorpName={setCoorpName}
+          entaStakeToken={entaStakeToken}
+          bebStakeToken={bebStakeToken}
+          leoStakeToken={leoStakeToken}
+          setEntaStakeToken={setEntaStakeToken}
+          setBebStakeToken={setBebStakeToken}
+          setLeoStakeToken={setLeoStakeToken}
+          entaStakeReward={entaStakeReward}
+          bebStakeReward={bebStakeReward}
+          leoStakeReward={leoStakeReward}
+          setEntaStakeReward={setEntaStakeReward}
+          setBebStakeReward={setBebStakeReward}
+          setLeoStakeReward={setLeoStakeReward}
           // ST_CurrentPrice={currentPrice.close} 
           // powerOfMarket={powerOfMarket}
           // userEth={userEth}
