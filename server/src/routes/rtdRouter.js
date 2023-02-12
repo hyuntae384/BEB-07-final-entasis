@@ -39,6 +39,7 @@ let stv=0;
 const setStv =()=>{stv = Math.random()*(0.01-(-0.01001))-0.01};
 let circuitBreaker = false;
 let toggle = true;
+let restrictToggle = false;
 
 //ENTA
 let incomeRatioENTA=0;
@@ -92,8 +93,9 @@ setInterval(async() => {
           const beb_result = await allowBEBToken();
           const leo_result = await allowLEOToken();
           if(enta_result && beb_result && leo_result) {
-              circuitBreaker = false;
-              console.log("토큰 제한 해제 완료");
+            circuitBreaker = false;
+            restrictToggle = false;
+            console.log("토큰 제한 해제 완료");
           }
           else console.log("토큰 제한 해제 실패")
           }  
@@ -149,8 +151,8 @@ setInterval(async() => {
       totalVolFrom:totalVolFromBEB.toFixed(4),
       totalCurrentPrices:{
         enta : chartHisENTA[0][chartHisENTA[0].length-1].toFixed(4),
-      beb : chartHisBEB[0][chartHisBEB[0].length-1].toFixed(4),
-      leo : chartHisLEO[0][chartHisLEO[0].length-1].toFixed(4),
+        beb : chartHisBEB[0][chartHisBEB[0].length-1].toFixed(4),
+        leo : chartHisLEO[0][chartHisLEO[0].length-1].toFixed(4),
       }
     }
     console.log(chartDataBEB);
@@ -337,7 +339,7 @@ setInterval(async () => {
 router.get('/enta', async (req, res, next) => {
   try {
     if(!chartDataENTA) return res.status(400).json({message: "No such data"});
-    return res.status(200).json(chartDataENTA);
+    return res.status(200).json({chartDataENTA, restrictToggle});
   } catch (err) {
     console.error(err);
     return next(err);
@@ -348,7 +350,7 @@ router.get('/enta', async (req, res, next) => {
 router.get('/beb', async (req, res, next) => {
   try {
     if(!chartDataBEB) return res.status(400).json({message: "No such data"});
-    return res.status(200).json(chartDataBEB);
+    return res.status(200).json({chartDataBEB, restrictToggle});
   } catch (err) {
     console.error(err);
     return next(err);
@@ -359,7 +361,7 @@ router.get('/beb', async (req, res, next) => {
 router.get('/leo', async (req, res, next) => {
   try {
     if(!chartDataLEO) return res.status(400).json({message: "No such data"});
-    return res.status(200).json(chartDataLEO);
+    return res.status(200).json({chartDataLEO, restrictToggle});
   } catch (err) {
     console.error(err);
     return next(err);
@@ -382,6 +384,7 @@ router.post('/restrict', async (req, res, next) => {
     const leo_result = await restrictLEOToken();
     if(enta_result && beb_result && leo_result) {
       console.log("토큰 거래 제한 성공");
+      restrictToggle = true;
       return res.status(200).send({status: "successfully restricted the token"});
     }
     return res.status(400).send({status: "failed with the contract"});
