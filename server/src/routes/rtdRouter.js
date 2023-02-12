@@ -339,7 +339,7 @@ setInterval(async () => {
 router.get('/enta', async (req, res, next) => {
   try {
     if(!chartDataENTA) return res.status(400).json({message: "No such data"});
-    return res.status(200).json(chartDataENTA);
+    return res.status(200).json({chartDataENTA, restrictToggle});
   } catch (err) {
     console.error(err);
     return next(err);
@@ -351,7 +351,7 @@ router.get('/beb', async (req, res, next) => {
   try {
     
     if(!chartDataBEB) return res.status(400).json({message: "No such data"});
-    return res.status(200).json(chartDataBEB);
+    return res.status(200).json({chartDataBEB, restrictToggle});
   } catch (err) {
     console.error(err);
     return next(err);
@@ -362,7 +362,7 @@ router.get('/beb', async (req, res, next) => {
 router.get('/leo', async (req, res, next) => {
   try {
     if(!chartDataLEO) return res.status(400).json({message: "No such data"});
-    return res.status(200).json(chartDataLEO);
+    return res.status(200).json({chartDataLEO, restrictToggle});
   } catch (err) {
     console.error(err);
     return next(err);
