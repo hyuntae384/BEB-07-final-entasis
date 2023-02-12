@@ -67,4 +67,46 @@ module.exports = {
             return next(err);
         }
     },
+
+    staking: async (req, res, next) => {
+        const {wallet, price, amount, txin} = req.body;
+        try{
+            if(!wallet || !price || !amount || !txin) {
+                return res.status(400).send({message: "Not enough request body data"})
+            }
+            await position_his.create({
+                user_wallet: wallet,
+                order: "staking",
+                price,
+                amount,
+                token_name: "ENTAToken",
+                txin
+            })
+            return res.status(200).json({status: "success"})
+        } catch (err) {
+            console.err(err);
+            return next(err);
+        }
+    },
+
+    reward: async (req, res, next) => {
+        const {wallet, price, amount, txout} = req.body;
+        try{
+            if(!wallet || !price || !amount || !txout) {
+                return res.status(400).send({message: "Not enough request body data"})
+            }
+            await position_his.create({
+                user_wallet: wallet,
+                order: "reward",
+                price,
+                amount,
+                token_name: "ENTAToken",
+                txout
+            })
+            return res.status(200).json({status: "success"})
+        } catch (err) {
+            console.err(err);
+            return next(err);
+        }
+    }
 }
