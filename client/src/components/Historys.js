@@ -21,6 +21,7 @@ const HistoryWrapper =({setTxs,currentPageNum,setCurrentPageNum,pages,positions,
                     
                     {Array(pages).fill().map((_,i)=>{
                         return <div 
+                        key={i}
                     onClick={()=>setCurrentPageNum(i+1)}
                     className="pagination_numbers btn">
                     <div className="pagination_numbers_btn">{i+1}</div>
