@@ -95,6 +95,8 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
         <div className="order_mode">
             {/* <h3>Limit</h3> */}
             <h3>{t("Market Order")}</h3>
+            <h3 onClick={changeStaking}>Stake</h3>
+
             <div className="order_select">
                 <SelectBox
                     set={ST_Name}
@@ -150,7 +152,6 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
             </div>
             <h4>Stake</h4>
                 <div className='deposit_wrapper'>
-                    <button onClick={changeStaking}>Stake</button>
                 </div>
         </div>
     </div>

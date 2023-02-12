@@ -214,8 +214,7 @@ useEffect(()=>{
                     if(tokenName==='enta')setCurrentPrice(currentPrice_ref.current.data.chartDataENTA)
                     if(tokenName==='beb')setCurrentPrice(currentPrice_ref.current.data.chartDataBEB)
                     if(tokenName==='leo')setCurrentPrice(currentPrice_ref.current.data.chartDataLEO)
-                    
-                    console.log(currentPrice_ref.current.data)
+                    setIsCircuitBreaker(currentPrice_ref.current.data.restrictToggle)
                 } catch (e) {
                     console.log(e) // caught
                 }
@@ -378,7 +377,7 @@ useEffect(()=>{
                 setCircuitBreakerTimer(i)
             }else{
                 clearInterval(setTime)
-                setIsCircuitBreaker(false)
+                // setIsCircuitBreaker(false)
             }
         },1000)}
     },[isCircuitBreaker,i])
@@ -535,6 +534,7 @@ return(
             />
         </div>
         <Footer
+            isCircuitBreaker={isCircuitBreaker}
             setIsCircuitBreaker={setIsCircuitBreaker}
         />
     </div>

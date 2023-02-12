@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import ReactModal from 'react-modal';
 import { Link, useLocation } from 'react-router-dom';
 
-const Footer =({setIsCircuitBreaker})=>{
+const Footer =({setIsCircuitBreaker,isCircuitBreaker})=>{
     const [isRestricted,setIsRestricted] = useState({});
     const [circuitModal,setCircuitModal]=useState(false)
     let [circuitBreakerTimer,setCircuitBreakerTimer] = useState(60)
@@ -79,6 +79,11 @@ const Footer =({setIsCircuitBreaker})=>{
             opacity:0.9
         },
     };
+    useEffect(()=>{
+        if(isCircuitBreaker){
+            setCircuitModal(true)
+        }
+    },[isCircuitBreaker])
         
 
     return(

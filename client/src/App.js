@@ -204,6 +204,7 @@ const FaucetWallet = async(wallet) => {
           setRatio={setRatio}
         />
         <Navigator
+            isCircuitBreaker={isCircuitBreaker}
             pdModalIsOpen={pdModalIsOpen}
             setPdModalIsOpen={setPdModalIsOpen}
             currentPrice={currentPrice}
@@ -216,7 +217,6 @@ const FaucetWallet = async(wallet) => {
             stName={stName}
             setStName={setStName}
             companyPD={companyPD}
-            isCircuitBreaker={isCircuitBreaker}
             setIsCircuitBreaker={setIsCircuitBreaker}
             OPTIONS={OPTIONS}
         />
