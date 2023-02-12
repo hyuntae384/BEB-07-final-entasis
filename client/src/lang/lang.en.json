@@ -65,5 +65,8 @@
     "Staking" : "Staking",
     "Available Withdraw Time" : "Available Withdraw Time",
     "Reward" : "Reward",
-    "Token Reward" : "Token Reward"
+    "Token Reward" : "Token Reward",
+    "Staking Reward List" : "Staking Reward List",
+    "Available Reward Time" : "Available Reward Time",
+    "Stake Amount List" : "Stake Amount List"
 }

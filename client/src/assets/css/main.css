@@ -1077,7 +1077,18 @@ select, input{
 input{
     padding: 4%;
 }
-
+.Click_Stake{
+    color: var(--gray-light-color);
+}
+.Click_Stake:hover{
+    filter: brightness(2);
+}
+.Click_Order{
+    color: var(--gray-light-color);
+}
+.Click_Order:hover{
+    filter: brightness(2);
+}
 .order_mode{
     padding-top: 0;
     display: flex;

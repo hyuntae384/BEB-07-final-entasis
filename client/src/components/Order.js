@@ -8,7 +8,7 @@ import TokenABI from "../ABIs/ERC1400.json"
 import SelectBox from "./Select";
 import { useTranslation } from "react-i18next";
 
-const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,tokenName,totalCurrentPrices,refresh,setRefresh,ST_Name,setTokenName,amount,price,web3,userAccount,serverAddress,token,tokenContract,setAmount,curPrice,isFaucet,faucetBtn,account,stName,setStName,myPage,setStaking
+const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,tokenName,totalCurrentPrices,refresh,setRefresh,ST_Name,setTokenName,amount,price,web3,userAccount,serverAddress,token,tokenContract,setAmount,curPrice,isFaucet,faucetBtn,account,stName,setStName,myPage,setStaking,bebStakeToken,entaStakeToken,leoStakeToken
 
 })=>{
     const { t } = useTranslation();
@@ -95,7 +95,7 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
         <div className="order_mode">
             {/* <h3>Limit</h3> */}
             <h3>{t("Market Order")}</h3>
-            <h3 onClick={changeStaking}>Stake</h3>
+            <h4 className="Click_Stake" onClick={changeStaking}>{t("Staking")}</h4>
 
             <div className="order_select">
                 <SelectBox
@@ -150,8 +150,11 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
                 </div>
 
             </div>
-            <h4>Stake</h4>
+            <h4>{t("Staking")}</h4>
                 <div className='deposit_wrapper'>
+                    <h6>ENTAToken : {entaStakeToken}</h6>
+                    <h6>BEBToken : {bebStakeToken}</h6>
+                    <h6>LEOToken : {leoStakeToken}</h6>
                 </div>
         </div>
     </div>

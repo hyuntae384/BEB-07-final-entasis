@@ -65,5 +65,8 @@
     "Staking" : "스테이킹",
     "Available Withdraw Time" : "출금 가능 시각",
     "Reward" : "보상받기",
-    "Token Reward" : "스테이킹 보상 개수"
+    "Token Reward" : "스테이킹 보상 개수",
+    "Staking Reward List" : "스테이킹 보상 목록",
+    "Available Reward Time" : "보상 수령 가능 시간",
+    "Stake Amount List" : "스테이킹 수량 목록"
 }

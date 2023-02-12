@@ -577,6 +577,9 @@ return(
                 tokenName={tokenName}
                 totalCurrentPrices={currentPrice.totalCurrentPrices}
                 setStaking={setStaking}
+                entaStakeToken={entaStakeToken}
+                bebStakeToken={bebStakeToken}
+                leoStakeToken={leoStakeToken}
             />
             )}
             
