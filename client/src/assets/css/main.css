@@ -529,6 +529,9 @@ a.circuit_breaker_link:hover{
     text-align: center;
     margin-top: 130px;
 }
+.main_assets_top .chains{
+    opacity: 0;
+}
 .history_wrapperA_top, .main_assets_top{
     display: flex;
     align-items: baseline;
@@ -843,11 +846,32 @@ div.history_date{
     right: 18%;
 }
 .welcome_tutorial_faucet{
-    width: 200px;
-    height: 120px;
+    width: 500px;
+    height: 400px;
 
-    top: 6%;
-    right: 0%;
+    top: 28%;
+    right: 21%;
+    align-items: center;
+    text-align: center;
+}
+.welcome_tutorial_faucet_complete{
+
+}
+img.ethers{
+    width: 100%;
+    /* position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%,50%); */
+}
+.faucet_btn{
+    cursor: pointer;
+    transition: 0.5;
+    color: var(--gray-light-color);
+}
+.faucet_btn:hover{
+    color: var(--Primary-color);
+    filter: brightness(1.2);
 }
 .welcome_tutorial_transaction{
     width: 200px;

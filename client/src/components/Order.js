@@ -146,10 +146,12 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
                     <div className='account'><h5>{account}</h5></div>
                     <div className='btn' onClick={()=>faucetBtn()}><h5>{t("Copy")}</h5></div>
                 </div>
-                <div>
+
+            </div>
+            <h4>Stake</h4>
+                <div className='deposit_wrapper'>
                     <button onClick={changeStaking}>Stake</button>
                 </div>
-            </div>
         </div>
     </div>
     )

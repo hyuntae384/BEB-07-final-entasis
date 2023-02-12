@@ -40,7 +40,6 @@ const Tutorials =({account,tutorialCnt,faucetBtn,setUserModalIsOpen,setPdModalIs
     useEffect(()=>{
         Tutorial(account,tutorialCnt)
     },[account,tutorialCnt])
-// console.log(account,tutorialCnt)
     const skipHandler = () => {
         setStart(false)
         setWallet(false)
@@ -56,15 +55,17 @@ const Tutorials =({account,tutorialCnt,faucetBtn,setUserModalIsOpen,setPdModalIs
         setCircuitBreaker(false)
         setTutorialFinished(false)
         setTutorialScroll(0)
+        document.body.style.overflow='unset'
     }    
     // account={account===typeof 'string'?account:0}
     // tutorialCnt={isEnroll.cnt===typeof 'number'?isEnroll.cnt:0}
 
     
+    console.log(document.body.style.overflow,tutorialCnt)
+if(tutorialScroll>0){
+    document.body.style.overflow='hidden'
 
-
-    console.log(document.body.style.overflow,tutorialScroll)
-    if(Math.ceil(tutorialScroll)===0){
+    if(Math.ceil(tutorialScroll)===1){
         window.onwheel = function (e) {
             document.body.style.overflow==='hidden'&&e.deltaY> 0
             ? setTutorialScroll(tutorialScroll < 0 ? tutorialScroll + 0 : tutorialScroll - 0.05)
@@ -76,8 +77,8 @@ const Tutorials =({account,tutorialCnt,faucetBtn,setUserModalIsOpen,setPdModalIs
             //onRequestClose={()=>{setStart()}}
             isOpen={start}
             style={modalStyle}
-            className="welcome_tutorial" onFocus={document.body.style.overflow='hidden'}
-            >{}
+            className="welcome_tutorial"
+            >
             <div className='welcome_tutorial_top' >
             <h2>Welcome to Entasis</h2> <br/>
             </div>
@@ -93,7 +94,7 @@ const Tutorials =({account,tutorialCnt,faucetBtn,setUserModalIsOpen,setPdModalIs
             </Modal>
         )}
     
-    if(Math.ceil(tutorialScroll)===1){
+    if(Math.ceil(tutorialScroll)===2){
         window.onwheel = function (e) {
             document.body.style.overflow==='hidden'&&e.deltaY> 0
             ? setTutorialScroll(tutorialScroll < 0 ? tutorialScroll + 0 : tutorialScroll - 0.05)
@@ -123,7 +124,7 @@ const Tutorials =({account,tutorialCnt,faucetBtn,setUserModalIsOpen,setPdModalIs
         )}
 
 
-    if(Math.ceil(tutorialScroll)===2){
+    if(Math.ceil(tutorialScroll)===3){
 
         return (
         <Modal
@@ -158,7 +159,7 @@ const Tutorials =({account,tutorialCnt,faucetBtn,setUserModalIsOpen,setPdModalIs
         </Modal>
         )}
     
-    if(Math.ceil(tutorialScroll)===3){
+    if(Math.ceil(tutorialScroll)===4){
 
         return(
         <Modal
@@ -192,7 +193,7 @@ const Tutorials =({account,tutorialCnt,faucetBtn,setUserModalIsOpen,setPdModalIs
         </Modal>
         )}
 
-    if(Math.ceil(tutorialScroll)===4){
+    if(Math.ceil(tutorialScroll)===5){
 
         return(
         <Modal
@@ -227,7 +228,7 @@ const Tutorials =({account,tutorialCnt,faucetBtn,setUserModalIsOpen,setPdModalIs
         </Modal>
         )}
 
-    if(Math.ceil(tutorialScroll)===5){
+    if(Math.ceil(tutorialScroll)===6){
         setPdModalIsOpen(true)
         return(
         <Modal
@@ -258,7 +259,7 @@ const Tutorials =({account,tutorialCnt,faucetBtn,setUserModalIsOpen,setPdModalIs
         )}else{setPdModalIsOpen(false)}
 
 
-    if(Math.ceil(tutorialScroll)===6){
+    if(Math.ceil(tutorialScroll)===7){
         setUserModalIsOpen(true)
         return(
         <Modal
@@ -269,8 +270,8 @@ const Tutorials =({account,tutorialCnt,faucetBtn,setUserModalIsOpen,setPdModalIs
         className="welcome_tutorial_assets" onClick={() => setAssets()} onFocus={document.body.style.overflow='hidden'}>
             {window.onwheel = function (e) {
             document.body.style.overflow==='hidden'&&e.deltaY> 0
-            ? setTutorialScroll(tutorialScroll < 0 ? tutorialScroll + 0 : tutorialScroll - 0.05)
-            : setTutorialScroll(tutorialScroll > 13 ? tutorialScroll + 0  : tutorialScroll + 0.05)
+            ? setTutorialScroll(tutorialScroll < 0 ? tutorialScroll + 0 : tutorialScroll - 0.1)
+            : setTutorialScroll(tutorialScroll > 13 ? tutorialScroll + 0  : tutorialScroll + 0.1)
             }}
 
 
@@ -282,15 +283,15 @@ const Tutorials =({account,tutorialCnt,faucetBtn,setUserModalIsOpen,setPdModalIs
             <h6>Manage Your Assets and Exercise your Voting Rights here.</h6>
         </div>
         <h5 className='count' >6/10</h5>
-        <h5 className='skip' onClick={()=>{document.body.style.overflow='unset';skipHandler()}}>Skip</h5>
+        <h5 className='skip' onClick={()=>{document.body.style.overflow='unset';skipHandler();setUserModalIsOpen(false)}}>Skip</h5>
 
         <div className='next' onClick={()=>{document.body.style.overflow='unset';setTutorialScroll(tutorialScroll+1);setAssets();setUserModalIsOpen(false);}}>Next</div>
         </Modal>
         )}else{setUserModalIsOpen(false)}
 
 
-    if(Math.ceil(tutorialScroll)===7){
-
+    if(Math.ceil(tutorialScroll)===8){
+        setUserModalIsOpen(true)
         return(
         <Modal
         appElement={document.getElementById('root') || undefined}
@@ -310,16 +311,26 @@ const Tutorials =({account,tutorialCnt,faucetBtn,setUserModalIsOpen,setPdModalIs
         </div>
         <div>
             <h6>This Button gives you 50.00 ETH</h6>
-            <h6 onClick={()=>faucetBtn(account)}>Faucet</h6>
+            <img className='ethers' src={require('../assets/images/ethers.webp')} alt='ethers'/>
+            <br/>
+            <h4>Click Here!</h4>
+            <h2 className='faucet_btn' onClick={()=>{faucetBtn(account);
+            return(
+                <div>
+
+
+
+                </div>
+            )}}>Faucet</h2>
         </div>
         <h5 className='count' >9/10</h5>
-        <h5 className='skip' onClick={()=>{document.body.style.overflow='unset';skipHandler()}}>Skip</h5>
+        <h5 className='skip' onClick={()=>{document.body.style.overflow='unset';skipHandler();setUserModalIsOpen(false)}}>Skip</h5>
 
-        <div className='next' onClick={()=>{document.body.style.overflow='unset';setTutorialScroll(tutorialScroll+1);setFaucet()}}>Next</div>
+        <div className='next' onClick={()=>{document.body.style.overflow='unset';setTutorialScroll(tutorialScroll+1);setFaucet();setUserModalIsOpen(false);}}>Next</div>
         </Modal>
-        )}
+        )}else{setUserModalIsOpen(false)}
 
-    if(Math.ceil(tutorialScroll)===8){
+    if(Math.ceil(tutorialScroll)===9){
 
         return(
         <Modal
@@ -350,7 +361,7 @@ const Tutorials =({account,tutorialCnt,faucetBtn,setUserModalIsOpen,setPdModalIs
         </Modal>
         )}
 
-    if(Math.ceil(tutorialScroll)===9){
+    if(Math.ceil(tutorialScroll)===10){
 
         return(
         <Modal
@@ -383,7 +394,7 @@ const Tutorials =({account,tutorialCnt,faucetBtn,setUserModalIsOpen,setPdModalIs
         )}
 
 
-    if(Math.ceil(tutorialScroll)===10){
+    if(Math.ceil(tutorialScroll)===11){
 
         return(
         <Modal
@@ -415,7 +426,7 @@ const Tutorials =({account,tutorialCnt,faucetBtn,setUserModalIsOpen,setPdModalIs
         </Modal>
         )}
 
-    if(Math.ceil(tutorialScroll)===11){
+    if(Math.ceil(tutorialScroll)===12){
 
         return(
         <Modal
@@ -452,7 +463,7 @@ const Tutorials =({account,tutorialCnt,faucetBtn,setUserModalIsOpen,setPdModalIs
 
 
 
-    if(Math.ceil(tutorialScroll)===12){
+    if(Math.ceil(tutorialScroll)===13){
 
         return(
         <Modal
@@ -470,6 +481,7 @@ const Tutorials =({account,tutorialCnt,faucetBtn,setUserModalIsOpen,setPdModalIs
         </Modal>
         
         )}
+    }
 }
 
 export default Tutorials

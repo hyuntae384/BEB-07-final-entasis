@@ -248,6 +248,7 @@ useEffect(()=>{
             getDividend(userAccount)
         setOffset(pageSet * (currentPageNum - 1))
         setLimit(pageSet * (currentPageNum - 1)+pageSet-1)
+        
     },[new Date().getSeconds()])
 
 
