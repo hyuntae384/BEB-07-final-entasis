@@ -147,6 +147,8 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
                     <div className='btn' onClick={()=>faucetBtn()}><h5>{t("Copy")}</h5></div>
                 </div>
                 <div>
+                <h4>{t("Stake")}</h4>
+
                     <button onClick={changeStaking}>Stake</button>
                 </div>
             </div>
