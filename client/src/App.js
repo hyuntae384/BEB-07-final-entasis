@@ -204,6 +204,7 @@ const FaucetWallet = async(wallet) => {
           setRatio={setRatio}
         />
         <Navigator
+            tutorialCnt={myPage.data!==undefined?myPage.data.cnt:1}
             isCircuitBreaker={isCircuitBreaker}
             pdModalIsOpen={pdModalIsOpen}
             setPdModalIsOpen={setPdModalIsOpen}
