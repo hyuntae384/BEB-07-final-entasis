@@ -19,7 +19,7 @@ const Navigator =({isCircuitBreaker,stName,setStName,companyPD,totalCurrentPrice
         setCurrentPrices(currentPrice.totalCurrentPrices)
     },[date])
     const {t} = useTranslation();
-    const [userLang, setUserLang] = useState("en")
+    const [userLang, setUserLang] = useState("ko")
 
     // const countNumber=(e)=>{
     //     return e.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,",")
