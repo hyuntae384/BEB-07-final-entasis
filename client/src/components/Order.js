@@ -8,7 +8,7 @@ import TokenABI from "../ABIs/ERC1400.json"
 import SelectBox from "./Select";
 import { useTranslation } from "react-i18next";
 
-const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,tokenName,totalCurrentPrices,refresh,setRefresh,ST_Name,setTokenName,amount,price,web3,userAccount,serverAddress,token,tokenContract,setAmount,curPrice,isFaucet,faucetBtn,account,stName,setStName,myPage,setStaking,bebStakeToken,entaStakeToken,leoStakeToken
+const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,tokenName,totalCurrentPrices,refresh,setRefresh,ST_Name,setTokenName,amount,price,web3,userAccount,serverAddress,token,tokenContract,setAmount,curPrice,isFaucet,faucetBtn,account,stName,setStName,myPage,setStaking,bebStakeToken,entaStakeToken,leoStakeToken,staking
 
 })=>{
     const { t } = useTranslation();
@@ -46,9 +46,7 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
         setRefresh(!refresh)
     }
 
-    function changeStaking() {
-        setStaking(true)
-    }
+
 
 
     const ST_1 = {
@@ -92,10 +90,26 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
 
     return(
     <div className="order">
+        {staking?
         <div className="order_mode">
             {/* <h3>Limit</h3> */}
-            <h3>{t("Market Order")}</h3>
-            <h4 className="Click_Stake" onClick={changeStaking}>{t("Staking")}</h4>
+
+            <h4 className="Click_Order" onClick={()=>setStaking(false)}>{t("Market Order")}</h4>
+            <h4 className="Click_Stake" onClick={()=>setStaking(true)}>{t("Staking")}</h4>
+
+            <div className="order_select">
+                <SelectBox
+                    set={ST_Name}
+                    termValue={stName}
+                    value={setStName}
+                ></SelectBox>
+            </div>
+        </div>:
+        <div className="order_mode">
+            {/* <h3>Limit</h3> */}
+
+            <h4 className="Click_Stake" onClick={()=>setStaking(false)}>{t("Market Order")}</h4>
+            <h4 className="Click_Order" onClick={()=>setStaking(true)}>{t("Staking")}</h4>
 
             <div className="order_select">
                 <SelectBox
@@ -105,6 +119,7 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
                 ></SelectBox>
             </div>
         </div>
+        }
         <form>
             <h6 className="order_available">{t("Available Eth")} : {userEth}</h6>
             <input type="text" className="order_price" /* onChange={e => priceChange(e)} */ placeholder={curPrice} readOnly></input>
