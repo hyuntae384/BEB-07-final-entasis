@@ -166,6 +166,7 @@ const FaucetWallet = async(wallet) => {
   return (
     <BrowserRouter>
         <Header
+          myPage={myPage}
           setPdModalIsOpen={setPdModalIsOpen}
           userModalIsOpen={userModalIsOpen}
           setUserModalIsOpen={setUserModalIsOpen}
@@ -209,6 +210,7 @@ const FaucetWallet = async(wallet) => {
           setRatio={setRatio}
         />
         <Navigator
+            myPage={myPage}
             tutorialCnt={myPage.data!==undefined?myPage.data.cnt:1}
             isCircuitBreaker={isCircuitBreaker}
             pdModalIsOpen={pdModalIsOpen}

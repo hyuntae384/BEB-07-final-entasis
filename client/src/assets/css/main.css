@@ -866,6 +866,13 @@ div.history_date{
 }
 
 .welcome_tutorial_faucet_complete{
+    padding: 1%;
+    position: absolute;
+    width: 20%;
+    height: 52%;
+    top: 50%;
+    right: 50%;
+    transform: translate(35%,20%);
 
 }
 img.ethers{
