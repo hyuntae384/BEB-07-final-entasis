@@ -140,12 +140,12 @@ const Footer =({setIsCircuitBreaker,isCircuitBreaker})=>{
                 </div>
                 <ReactModal
                     appElement={document.getElementById('root') || undefined}
-                    onRequestClose={()=>setCircuitModal(!circuitModal)}
+                    onRequestClose={()=>setCircuitModal(false)}
                     isOpen={circuitModal}
                     style={modalStyle_2}>
                     <div className='warning_circuit_breaker'>
                     <div className='close'>
-                    <img src={require('../assets/images/close.png')} onClick={()=>setCircuitModal(!circuitModal)} alt='close'></img>
+                    <img src={require('../assets/images/close.png')} onClick={()=>setCircuitModal(false)} alt='close'></img>
                     </div>
                         <h1>Circuit Breaker</h1>
                         <h3>All Security Token Trading is Restricted</h3>
