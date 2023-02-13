@@ -66,6 +66,37 @@
 - 거래제한 및 해제 기능
 - 스테이킹 기능
 
+***
+
+## 자세한 프로젝트 전반에 대한 내용들은 아래 위키 링크를 통해 확인하실 수 있습니다
+
+# Index
+- 🏠 [Home](https://github.com/codestates-beb/beb-07-final-entasis/wiki)
+
+## Introduce
+- 💾 [Product](https://github.com/codestates-beb/beb-07-final-entasis/wiki/Product)
+- 🧩 [Function](https://github.com/codestates-beb/beb-07-final-entasis/wiki/Function)
+- ❓ [Requirement](https://github.com/codestates-beb/beb-07-final-entasis/wiki/Requirement)
+
+## Role & Rule
+- 👥 [Role](https://github.com/codestates-beb/beb-07-final-entasis/wiki/Role)
+- 👩‍⚖️ [Rule](https://github.com/codestates-beb/beb-07-final-entasis/wiki/Rule)
+
+## Design
+- 🎨[Design Plan](https://github.com/codestates-beb/beb-07-final-entasis/wiki/Design-Plan)
+- 📈[Flow Chart](https://github.com/codestates-beb/beb-07-final-entasis/wiki/Flow-Chart)
+
+## Tech
+- 🗄 [DB Schema](https://github.com/codestates-beb/beb-07-final-entasis/wiki/DB-Schema)
+- 📋 [API DOC](https://github.com/codestates-beb/beb-07-final-entasis/wiki/API-DOC)
+- 🖲 [SC Plan](https://github.com/codestates-beb/beb-07-final-entasis/wiki/SC-Plan)
+- 🧷 [Architecture](https://github.com/codestates-beb/beb-07-final-entasis/wiki/Architecture)
+- ⭐️ [Tech Stack](https://github.com/codestates-beb/beb-07-final-entasis/wiki/Tech-Stack)
+
+## Demo
+- 📱 [Go Demo](https://github.com/codestates-beb/beb-07-final-entasis/wiki/Go-Demo)
+
+
 
 # 사용기술 스택
 ## plan & editor
