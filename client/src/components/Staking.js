@@ -1,14 +1,17 @@
 import { useState , useEffect} from "react"
 import { useTranslation } from "react-i18next";
 import {Stake, Reward} from '../apis/token';
+import SelectBox from "./Select";
 
-const Staking =({setStaking,stName,tokenContract,setTokenName,userAccount,web3,curPrice,userEntaToken,userBebToken,userLeoToken,bebStakeToken,entaStakeToken,leoStakeToken,entaStakeReward,bebStakeReward,leoStakeReward,tokenName})=>{
+const Staking =({setStaking,stName,tokenContract,setTokenName,userAccount,web3,curPrice,userEntaToken,userBebToken,userLeoToken,bebStakeToken,entaStakeToken,leoStakeToken,entaStakeReward,bebStakeReward,leoStakeReward,tokenName,ST_Name,setStName,staking})=>{
+
+
     const {t} = useTranslation();
     const [restTime, setRestTime] = useState("")
     const [amount, setAmount]  = useState("0")
     const [isStake,setIsStake] = useState(0)
     const [token, setToken] = useState("enta")
-    const [countTime, setCountTime] = useState("Any Token Staked")
+    const [countTime, setCountTime] = useState("-")
     const [dateTime, setDateTime] = useState("")
 
     // tokenContract.methods.showFinishAt(userAccount).call().then(console.log)
@@ -48,7 +51,7 @@ const Staking =({setStaking,stName,tokenContract,setTokenName,userAccount,web3,c
 
     async function finishUnixTime(){
         if(isStake == 0) return (
-            setCountTime("Any Token Staked"),
+            setCountTime(" "),
             setDateTime(''))
         const time = await tokenContract.methods.showFinishAt(userAccount).call()
         const date = new Date(time*1000)
@@ -70,7 +73,7 @@ const Staking =({setStaking,stName,tokenContract,setTokenName,userAccount,web3,c
         const hour = parseInt(seconds/3600);
         const min = parseInt((seconds%3600)/60);
         const sec = seconds%60;
-        const time = `${hour}시 : ${min}분 : ${sec}초`
+        const time = `${hour}:${min}:${sec}`
         setCountTime(time)
         }
 
@@ -121,9 +124,9 @@ const Staking =({setStaking,stName,tokenContract,setTokenName,userAccount,web3,c
     }
 
     function CheckAble() {
-        if(countTime ==="Any Token Staked"){
+        if(countTime ===" "){
             return (
-                <h5>Start Staking</h5>)
+                <h5> </h5>)
         }
         if(countTime ==="Able"){
             return (
@@ -148,19 +151,36 @@ const Staking =({setStaking,stName,tokenContract,setTokenName,userAccount,web3,c
 
     return(
         <div className="order">
-            <div className="order_mode">
+        {staking?
+        <div className="order_mode">
             {/* <h3>Limit</h3> */}
-            <h3>{t("Market Order")}</h3>
-            <h4 className="Click_Order" onClick={changeOrder}>{t("Order")}</h4>
 
-            {/* <div className="order_select">
+            <h4 className="Click_Order" onClick={()=>setStaking(false)}>{t("Market Order")}</h4>
+            <h4 className="Click_Stake" onClick={()=>setStaking(true)}>{t("Staking")}</h4>
+
+            <div className="order_select">
                 <SelectBox
                     set={ST_Name}
                     termValue={stName}
                     value={setStName}
                 ></SelectBox>
-            </div> */}
             </div>
+        </div>:
+        <div className="order_mode">
+            {/* <h3>Limit</h3> */}
+
+            <h4 className="Click_Stake" onClick={()=>setStaking(false)}>{t("Market Order")}</h4>
+            <h4 className="Click_Order" onClick={()=>setStaking(true)}>{t("Staking")}</h4>
+
+            <div className="order_select">
+                <SelectBox
+                    set={ST_Name}
+                    termValue={stName}
+                    value={setStName}
+                ></SelectBox>
+            </div>
+        </div>
+        }
             <form>
                 <h6 className="order_available">{t("Available Token")} : {token} {stName}</h6>
                 <input type="text" className="order_price" placeholder={curPrice} readOnly></input>
@@ -192,14 +212,18 @@ const Staking =({setStaking,stName,tokenContract,setTokenName,userAccount,web3,c
                 </div>
             </div>
             <div className='deposit'>
+            <div className='deposit_wrapper'>
+            <div className='deposit_faucet'>
+
                 <h4>{t("Available Reward Time")}</h4>
-                <div className='deposit_wrapper'>
-                    <h5>{dateTime}</h5>
-                    <div className='deposit_faucet'>
-                        <h5>{countTime}</h5>
+                <h5 className="count_down">{countTime}</h5>
+
+
                     </div>
-                    <CheckAble/>
+                    <h5>{dateTime}</h5>
                 </div>
+                <CheckAble/>
+
             </div>
         </div>
     )
