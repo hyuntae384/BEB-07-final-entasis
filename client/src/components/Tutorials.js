@@ -51,6 +51,8 @@ const Tutorials =({account,faucetBtn,setUserModalIsOpen,setPdModalIsOpen,setCntH
     },[account,tutorialCnt,cntHandler])
 
     const skipHandler = () => {
+        setTutorialScroll(0)
+        document.body.style.overflow='unset'
         setStart(false)
         setWallet(false)
         setChart(false)
@@ -65,10 +67,9 @@ const Tutorials =({account,faucetBtn,setUserModalIsOpen,setPdModalIsOpen,setCntH
         setCircuitBreaker(false)
         setTutorialFinished(false)
         setVote(false)
-        setTutorialScroll(0)
-        document.body.style.overflow='unset'
-        setCntHandler(!cntHandler)
+        setCntHandler(false)
         Tutorial(account,1)
+
     }    
     // account={account===typeof 'string'?account:0}
     // tutorialCnt={isEnroll.cnt===typeof 'number'?isEnroll.cnt:0}
