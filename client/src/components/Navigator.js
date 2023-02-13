@@ -9,7 +9,7 @@ import SelectBox from './Select';
 import Tutorials from "./Tutorials";
 import { useTranslation } from "react-i18next";
 
-const Navigator =({isCircuitBreaker,stName,setStName,companyPD,totalCurrentPrices,coorpName,circuitBreakerTimer,ST_Name,userModalIsOpen,setUserModalIsOpen,date,currentPrice,pdModalIsOpen,setPdModalIsOpen,
+const Navigator =({isCircuitBreaker,stName,setStName,companyPD,totalCurrentPrices,coorpName,circuitBreakerTimer,ST_Name,userModalIsOpen,setUserModalIsOpen,date,currentPrice,pdModalIsOpen,setPdModalIsOpen,mypage,myPage
 
 })=>{
     const [tutorialsClicked,setTutorialsClicked] = useState(false)
@@ -147,6 +147,7 @@ const Navigator =({isCircuitBreaker,stName,setStName,companyPD,totalCurrentPrice
 
             <div className="navigation_right">
             {tutorialsClicked&&account!==undefined?<Tutorials
+                myPage={myPage}
                 setCntHandler={setCntHandler}
                 account={account} 
                 cntHandler={cntHandler}
@@ -154,7 +155,7 @@ const Navigator =({isCircuitBreaker,stName,setStName,companyPD,totalCurrentPrice
                 setPdModalIsOpen={setPdModalIsOpen}
                 setUserModalIsOpen={setUserModalIsOpen}
                 />:<></>}
-            <Link to='/' onClick={()=>{setTutorialsClicked(true);setCntHandler(!cntHandler)}}><h4 >{t("Tutorial")}</h4></Link>
+            <Link to='/' onClick={()=>{setTutorialsClicked(true);setCntHandler(true)}}><h4 >{t("Tutorial")}</h4></Link>
                 <Link to='/transaction'><h4>{t("Transactions")}</h4></Link>
                 <h4><i className="fas fa-globe" onClick={onChange}></i></h4>
             </div>
