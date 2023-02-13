@@ -116,6 +116,7 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,set
             <div className='header_user'>
             <div className="btn" onClick={handleConnect}>{active ? <h2>{t("disconnect")}</h2> : <h2>{t("connect")}</h2>}</div>
             {active&&isEnroll.cnt===0?<Tutorials
+                    myPage={myPage}
                     setPdModalIsOpen={setPdModalIsOpen}
                     setUserModalIsOpen={setUserModalIsOpen}
                     faucetBtn={faucetBtn}
