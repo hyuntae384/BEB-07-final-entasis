@@ -63,6 +63,7 @@ const MainPage =({setTxs,isWelcome,setIsWelcome,setIsChartTotal,tokenName,accoun
 useEffect(()=>{
     let limitChartArr=[];
     const origin = 'http://52.78.173.200:5050/chart/'
+    console.log(tokenName)
         const setChartTotal=(async(offset,limit,tokenName) => 
         {try {
             setIsLoading(true)
@@ -261,7 +262,6 @@ useEffect(()=>{
             setLeoStakeReward(TransRewardToken);
         }
     }
-
     // chart===================================================================
     let powerOfMarket = (currentPrice.open - currentPrice.close)
     useEffect(()=>{
@@ -270,10 +270,11 @@ useEffect(()=>{
             const setChartRTD=(async () => 
                 {try {
                     currentPrice_ref.current = await axios.get('http://52.78.173.200:5050/rtd/'+tokenName)
-                    if(tokenName==='enta')setCurrentPrice(currentPrice_ref.current.data.chartDataENTA)
-                    if(tokenName==='beb')setCurrentPrice(currentPrice_ref.current.data.chartDataBEB)
-                    if(tokenName==='leo')setCurrentPrice(currentPrice_ref.current.data.chartDataLEO)
+                    if(tokenName==='enta'&&currentPrice_ref!==undefined)setCurrentPrice(currentPrice_ref.current.data.chartDataENTA)
+                    if(tokenName==='beb'&&currentPrice_ref!==undefined)setCurrentPrice(currentPrice_ref.current.data.chartDataBEB)
+                    if(tokenName==='leo'&&currentPrice_ref!==undefined)setCurrentPrice(currentPrice_ref.current.data.chartDataLEO)
                     setIsCircuitBreaker(currentPrice_ref.current.data.restrictToggle)
+                    // console.log(currentPrice_ref.current)
                 } catch (e) {
                     console.log(e) // caught
                 }
