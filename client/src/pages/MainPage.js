@@ -18,7 +18,8 @@ import { injected } from '../connectors';
 
 // import {FaucetWallet} from '../apis/user'
 
-const MainPage =({setTxs,isWelcome,setIsWelcome,setIsChartTotal,tokenName,account,currentPageNum,circuitBreakerTimer,chartOriginArr,setChartArr,chartArr,currentPrice,setCurrentPrice,isLoading,setIsLoading,setCompanyPD,stName,activate,setIsEnroll,ratio,isCircuitBreaker,setCircuitBreakerTimer,setIsCircuitBreaker,onMouseEnterHandler,isEnroll,setStName,setTokenName,faucetBtn,isFaucet,OPTIONS,handleConnect,setCurrentPageNum,setCoorpName,userEth,userEntaToken,userBebToken,userLeoToken,setUserEntaToken,setUserBebToken,setUserLeoToken,setUserEth,myPage,entaStakeToken,bebStakeToken,leoStakeToken,setEntaStakeToken,setBebStakeToken,setLeoStakeToken,entaStakeReward,bebStakeReward,leoStakeReward,setEntaStakeReward,setBebStakeReward,setLeoStakeReward})=>{
+const MainPage =({setTxs,isWelcome,setIsWelcome,setIsChartTotal,tokenName,account,currentPageNum,circuitBreakerTimer,chartOriginArr,setChartArr,chartArr,currentPrice,setCurrentPrice,isLoading,setIsLoading,setCompanyPD,stName,activate,setIsEnroll,ratio,isCircuitBreaker,setCircuitBreakerTimer,setIsCircuitBreaker,onMouseEnterHandler,isEnroll,setStName,setTokenName,faucetBtn,isFaucet,OPTIONS,handleConnect,setCurrentPageNum,setCoorpName,userEth,userEntaToken,userBebToken,userLeoToken,setUserEntaToken,setUserBebToken,setUserLeoToken,setUserEth,myPage,entaStakeToken,bebStakeToken,leoStakeToken,setEntaStakeToken,setBebStakeToken,setLeoStakeToken,entaStakeReward,bebStakeReward,leoStakeReward,setEntaStakeReward,setBebStakeReward,setLeoStakeReward,ST_Name})=>{
+
 
 
     // chart===================================================================
@@ -527,10 +528,14 @@ return(
                 powerOfMarket={-powerOfMarket}
                 ST_CurrentPrice={currentPrice.close} 
             />
+
             {(staking ?
             <Staking
-            setStaking={setStaking}
+            staking={staking}
+            ST_Name={ST_Name}
             stName={stName}
+            setStName={setStName}
+            setStaking={setStaking}
             tokenContract={tokenContract}
             setTokenContract={setTokenContract}
             setTokenName={setTokenName}
@@ -550,6 +555,7 @@ return(
             />
             : 
             <Order
+                staking={staking}
                 myPage={myPage}
                 stName={stName}
                 setStName={setStName}
