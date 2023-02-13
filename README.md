@@ -1,10 +1,6 @@
 # Project_Entasis
 
-
-
-[https://youtu.be/PSVpth7uqb4?t=650](https://youtu.be/PSVpth7uqb4?t=650)
-
-# 👨‍👨‍👧‍👧 참여자
+## 👨‍👨‍👧‍👧 참여자
 
 |Name|Role|Github|Blog|
 |---|-----|---|---|
@@ -38,6 +34,8 @@
 
 ![Untitled (2)](https://user-images.githubusercontent.com/113375908/218378219-0cb8a073-2795-4c90-8fae-330d7aed3740.png)
 
+기존 ICO와 차이점으로는 아래 이미지와 같이 배당금 투표와 그에 따른 배당금 지급 기능, 스테이킹 등의 기능들이 있습니다. 
+
 ![Untitled (3)](https://user-images.githubusercontent.com/113375908/218378258-62d6a2e4-8183-4d70-ad3b-c743a6bbd818.png)
 
 # [ About Service ]
@@ -48,7 +46,7 @@
 
 - **토큰 가격 형성 및 변동성**
     
-    : 실제 거래소에서 Market Maker, Market Taker 와 토큰 매매를 통해 가격이 형성이 되지만, 이 프로젝트를 진행하는데 있어서 튜토리얼이라는 점과 당장 이용자가 없다는 점으로 인해 실제 거래소에서 가격 형성이 되는 방식으로 구현하는 것은 제한된다고 판단하였습니다.
+    실제 거래소에서 Market Maker, Market Taker 와 토큰 매매를 통해 가격이 형성이 되지만, 이 프로젝트를 진행하는데 있어서 튜토리얼이라는 점과 당장 이용자가 없다는 점으로 인해 실제 거래소에서 가격 형성이 되는 방식으로 구현하는 것은 제한된다고 판단하였습니다.
     
     그에 따라 난수를 통해 가격을 형성하고 주기적으로 가격이 변동할 수 있도록 구현하였습니다.
     
