@@ -18,6 +18,7 @@ const Tutorials =({account,faucetBtn,setUserModalIsOpen,setPdModalIsOpen,setCntH
     const [tutorialFinished, setTutorialFinished] = useState(true)
     const [tutorialScroll,setTutorialScroll]=useState(0)
     const [isFaucetModalOpen,setIsFaucetModalOpen]=useState(false);
+    {console.log(myPage)}
 
     const modalStyle = {
         overlay: {
