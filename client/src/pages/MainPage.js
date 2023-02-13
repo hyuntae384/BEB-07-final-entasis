@@ -18,7 +18,8 @@ import { injected } from '../connectors';
 
 // import {FaucetWallet} from '../apis/user'
 
-const MainPage =({setTxs,isWelcome,setIsWelcome,setIsChartTotal,tokenName,account,currentPageNum,circuitBreakerTimer,chartOriginArr,setChartArr,chartArr,currentPrice,setCurrentPrice,isLoading,setIsLoading,setCompanyPD,stName,activate,setIsEnroll,ratio,isCircuitBreaker,setCircuitBreakerTimer,setIsCircuitBreaker,onMouseEnterHandler,isEnroll,setStName,setTokenName,faucetBtn,isFaucet,OPTIONS,handleConnect,setCurrentPageNum,setCoorpName,userEth,userEntaToken,userBebToken,userLeoToken,setUserEntaToken,setUserBebToken,setUserLeoToken,setUserEth,myPage,entaStakeToken,bebStakeToken,leoStakeToken,setEntaStakeToken,setBebStakeToken,setLeoStakeToken,entaStakeReward,bebStakeReward,leoStakeReward,setEntaStakeReward,setBebStakeReward,setLeoStakeReward})=>{
+const MainPage =({setTxs,isWelcome,setIsWelcome,setIsChartTotal,tokenName,account,currentPageNum,circuitBreakerTimer,chartOriginArr,setChartArr,chartArr,currentPrice,setCurrentPrice,isLoading,setIsLoading,setCompanyPD,stName,activate,setIsEnroll,ratio,isCircuitBreaker,setCircuitBreakerTimer,setIsCircuitBreaker,onMouseEnterHandler,isEnroll,setStName,setTokenName,faucetBtn,isFaucet,OPTIONS,handleConnect,setCurrentPageNum,setCoorpName,userEth,userEntaToken,userBebToken,userLeoToken,setUserEntaToken,setUserBebToken,setUserLeoToken,setUserEth,myPage,entaStakeToken,bebStakeToken,leoStakeToken,setEntaStakeToken,setBebStakeToken,setLeoStakeToken,entaStakeReward,bebStakeReward,leoStakeReward,setEntaStakeReward,setBebStakeReward,setLeoStakeReward,ST_Name})=>{
+
 
 
     // chart===================================================================
@@ -62,6 +63,7 @@ const MainPage =({setTxs,isWelcome,setIsWelcome,setIsChartTotal,tokenName,accoun
 useEffect(()=>{
     let limitChartArr=[];
     const origin = 'http://52.78.173.200:5050/chart/'
+    console.log(tokenName)
         const setChartTotal=(async(offset,limit,tokenName) => 
         {try {
             setIsLoading(true)
@@ -260,7 +262,6 @@ useEffect(()=>{
             setLeoStakeReward(TransRewardToken);
         }
     }
-
     // chart===================================================================
     let powerOfMarket = (currentPrice.open - currentPrice.close)
     useEffect(()=>{
@@ -269,10 +270,11 @@ useEffect(()=>{
             const setChartRTD=(async () => 
                 {try {
                     currentPrice_ref.current = await axios.get('http://52.78.173.200:5050/rtd/'+tokenName)
-                    if(tokenName==='enta')setCurrentPrice(currentPrice_ref.current.data.chartDataENTA)
-                    if(tokenName==='beb')setCurrentPrice(currentPrice_ref.current.data.chartDataBEB)
-                    if(tokenName==='leo')setCurrentPrice(currentPrice_ref.current.data.chartDataLEO)
+                    if(tokenName==='enta'&&currentPrice_ref!==undefined)setCurrentPrice(currentPrice_ref.current.data.chartDataENTA)
+                    if(tokenName==='beb'&&currentPrice_ref!==undefined)setCurrentPrice(currentPrice_ref.current.data.chartDataBEB)
+                    if(tokenName==='leo'&&currentPrice_ref!==undefined)setCurrentPrice(currentPrice_ref.current.data.chartDataLEO)
                     setIsCircuitBreaker(currentPrice_ref.current.data.restrictToggle)
+                    // console.log(currentPrice_ref.current)
                 } catch (e) {
                     console.log(e) // caught
                 }
@@ -527,10 +529,14 @@ return(
                 powerOfMarket={-powerOfMarket}
                 ST_CurrentPrice={currentPrice.close} 
             />
+
             {(staking ?
             <Staking
-            setStaking={setStaking}
+            staking={staking}
+            ST_Name={ST_Name}
             stName={stName}
+            setStName={setStName}
+            setStaking={setStaking}
             tokenContract={tokenContract}
             setTokenContract={setTokenContract}
             setTokenName={setTokenName}
@@ -550,6 +556,7 @@ return(
             />
             : 
             <Order
+                staking={staking}
                 myPage={myPage}
                 stName={stName}
                 setStName={setStName}

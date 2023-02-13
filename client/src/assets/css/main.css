@@ -1084,7 +1084,7 @@ input{
     filter: brightness(2);
 }
 .Click_Order{
-    color: var(--gray-light-color);
+    color: var(--gray-dark-color);
 }
 .Click_Order:hover{
     filter: brightness(2);
@@ -1098,7 +1098,7 @@ input{
     align-items: baseline;
 }
 .order_select{
-    width: 40%;
+    width: 30%;
     align-items: center;    
 }
 .order{
@@ -1127,10 +1127,10 @@ input{
     padding: 0;
 }
 .make_staking{
-    width: 50%;
-    height: 30px;
+    width: 99.3%;
+    height: 50px;
     padding: 2% 0 0 0 ;
-    border-radius: 5px;
+    border-radius: 10px;
     overflow: hidden;
     padding: 0;
 }
@@ -1140,7 +1140,7 @@ input{
     border: 0;
     transition: 0.2s;
     color: var(--white-color);
-    background-color: rgb(157, 209, 68);
+    background-color: rgb(27, 172, 112);
 }
 .staking_reward{
     width: 100%;
@@ -1151,10 +1151,10 @@ input{
     background-color: var(--Secondary-color);
 }
 .make_reward{
-    width: 40%;
-    height: 30px;
+    width: 99.3%;
+    height: 50px;
     padding: 2% 0 0 0 ;
-    border-radius: 5px;
+    border-radius: 10px;
     overflow: hidden;
     padding: 0;
 }
@@ -1169,6 +1169,12 @@ input{
 }
 .staking_stake:hover,.staking_reward:hover{
     filter: brightness(0.7);
+}
+
+.count_down{
+    padding: 2px 5px;
+    background-color: var(--gray-dark-color);
+    color:rgb(27, 172, 112);
 }
 .order_buy,.order_sell{
     width: 50%;

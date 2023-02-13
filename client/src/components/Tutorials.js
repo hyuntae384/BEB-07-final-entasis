@@ -51,6 +51,8 @@ const Tutorials =({account,faucetBtn,setUserModalIsOpen,setPdModalIsOpen,setCntH
     },[account,tutorialCnt,cntHandler])
 
     const skipHandler = () => {
+        setTutorialScroll(0)
+        document.body.style.overflow='unset'
         setStart(false)
         setWallet(false)
         setChart(false)
@@ -65,10 +67,9 @@ const Tutorials =({account,faucetBtn,setUserModalIsOpen,setPdModalIsOpen,setCntH
         setCircuitBreaker(false)
         setTutorialFinished(false)
         setVote(false)
-        setTutorialScroll(0)
-        document.body.style.overflow='unset'
-        setCntHandler(!cntHandler)
+        setCntHandler(false)
         Tutorial(account,1)
+
     }    
     // account={account===typeof 'string'?account:0}
     // tutorialCnt={isEnroll.cnt===typeof 'number'?isEnroll.cnt:0}
@@ -254,7 +255,7 @@ if(tutorialScroll>0){
         className="welcome_tutorial_public_disclosure" onClick={() => setPublicDisclosure()} >
             {window.onwheel = function (e) {
             e.deltaY> 0
-            ? setTutorialScroll(tutorialScroll < 0 ? tutorialScroll + 0 : tutorialScroll - 0.05)
+            ? setTutorialScroll(tutorialScroll < 0 ? tutorialScroll + 0 : tutorialScroll - 0)
             : setTutorialScroll(tutorialScroll > 14 ? tutorialScroll + 0  : tutorialScroll + 0.05)
             }}
 
@@ -285,8 +286,8 @@ if(tutorialScroll>0){
         className="welcome_tutorial_assets" onClick={() => setAssets()} >
             {window.onwheel = function (e) {
             e.deltaY> 0
-            ? setTutorialScroll(tutorialScroll < 0 ? tutorialScroll + 0 : tutorialScroll - 0.1)
-            : setTutorialScroll(tutorialScroll > 14 ? tutorialScroll + 0  : tutorialScroll + 0.1)
+            ? setTutorialScroll(tutorialScroll < 0 ? tutorialScroll + 0 : tutorialScroll - 0)
+            : setTutorialScroll(tutorialScroll > 14 ? tutorialScroll + 0  : tutorialScroll + 0.05)
             }}
 
 
@@ -316,7 +317,7 @@ if(tutorialScroll>0){
         className="welcome_tutorial_faucet" onClick={() => setFaucet()} >
             {window.onwheel = function (e) {
             e.deltaY> 0
-            ? setTutorialScroll(tutorialScroll < 0 ? tutorialScroll + 0 : tutorialScroll - 0.05)
+            ? setTutorialScroll(tutorialScroll < 0 ? tutorialScroll + 0 : tutorialScroll - 0)
             : setTutorialScroll(tutorialScroll > 14 ? tutorialScroll + 0  : tutorialScroll + 0.05)
             }}
 
@@ -358,7 +359,7 @@ if(tutorialScroll>0){
             className="welcome_tutorial_vote" onClick={() => setFaucet()} >
                 {window.onwheel = function (e) {
                 e.deltaY> 0
-                ? setTutorialScroll(tutorialScroll < 0 ? tutorialScroll + 0 : tutorialScroll - 0.05)
+                ? setTutorialScroll(tutorialScroll < 0 ? tutorialScroll + 0 : tutorialScroll - 0)
                 : setTutorialScroll(tutorialScroll > 14 ? tutorialScroll + 0  : tutorialScroll + 0.05)
                 }}
     
@@ -514,7 +515,10 @@ if(tutorialScroll>0){
 
 
     if(Math.ceil(tutorialScroll)===14){
-
+        window.scrollTo({
+            top:0,
+            behavior: 'smooth'
+        })
         return(
         <Modal
         appElement={document.getElementById('root') || undefined}
@@ -522,7 +526,7 @@ if(tutorialScroll>0){
         isOpen={tutorialFinished}
         style={modalStyle}
         className="welcome_tutorial_tutorial_finished" onClick={() => {Tutorial(account,1);setCntHandler(false);document.body.style.overflow='unset';setTutorialScroll(0);setTutorialFinished();}} >
-        <img  onClick={() => {Tutorial(account,1);setCntHandler(false);document.body.style.overflow='unset';setTutorialScroll(0);setTutorialFinished();}} className="close" src={require('../assets/images/close.png')} alt="img"></img>
+        <img  onClick={() => {Tutorial(account,1);setCntHandler(false);setTutorialScroll(0);setTutorialFinished();}} className="close" src={require('../assets/images/close.png')} alt="img"></img>
         {window.onwheel = function (e) {
             document.body.style.overflow='unset'
             e.deltaY> 0

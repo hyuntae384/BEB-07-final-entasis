@@ -230,6 +230,9 @@ const FaucetWallet = async(wallet) => {
 
 
         <Route path='/' element={<MainPage
+          setStName={setStName}
+          stName={stName}
+          ST_Name={OPTIONS}
           myPage={myPage}
           userEth={userEth}
           setUserEth={setUserEth}
@@ -256,7 +259,6 @@ const FaucetWallet = async(wallet) => {
           isLoading={isLoading}
           setIsLoading={setIsLoading}
           setCompanyPD={setCompanyPD}
-          stName={stName}
           activate={activate}
           setIsEnroll={setIsEnroll}
           ratio={ratio}
@@ -264,7 +266,6 @@ const FaucetWallet = async(wallet) => {
           setIsCircuitBreaker={setIsCircuitBreaker}
           onMouseEnterHandler={onMouseEnterHandler}
           isEnroll={isEnroll}
-          setStName={setStName}
           setTokenName={setTokenName}
           faucetBtn={faucetBtn}
           isFaucet={isFaucet}
