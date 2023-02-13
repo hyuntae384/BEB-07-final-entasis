@@ -18,7 +18,8 @@ import { injected } from '../connectors';
 
 // import {FaucetWallet} from '../apis/user'
 
-const MainPage =({setTxs,isWelcome,setIsWelcome,setIsChartTotal,tokenName,account,currentPageNum,circuitBreakerTimer,chartOriginArr,setChartArr,chartArr,currentPrice,setCurrentPrice,isLoading,setIsLoading,setCompanyPD,stName,activate,setIsEnroll,ratio,isCircuitBreaker,setCircuitBreakerTimer,setIsCircuitBreaker,onMouseEnterHandler,isEnroll,setStName,setTokenName,faucetBtn,isFaucet,OPTIONS,handleConnect,setCurrentPageNum,setCoorpName,userEth,userEntaToken,userBebToken,userLeoToken,setUserEntaToken,setUserBebToken,setUserLeoToken,setUserEth,myPage,entaStakeToken,bebStakeToken,leoStakeToken,setEntaStakeToken,setBebStakeToken,setLeoStakeToken,entaStakeReward,bebStakeReward,leoStakeReward,setEntaStakeReward,setBebStakeReward,setLeoStakeReward,ST_Name})=>{
+const MainPage =({setTxs,isWelcome,setIsWelcome,setIsChartTotal,tokenName,account,currentPageNum,circuitBreakerTimer,chartOriginArr,setChartArr,chartArr,currentPrice,setCurrentPrice,isLoading,setIsLoading,setCompanyPD,stName,activate,setIsEnroll,ratio,isCircuitBreaker,setCircuitBreakerTimer,setIsCircuitBreaker,onMouseEnterHandler,isEnroll,setStName,setTokenName,faucetBtn,isFaucet,OPTIONS,handleConnect,setCurrentPageNum,setCoorpName,userEth,userEntaToken,userBebToken,userLeoToken,setUserEntaToken,setUserBebToken,setUserLeoToken,setUserEth,myPage,entaStakeToken,bebStakeToken,leoStakeToken,setEntaStakeToken,setBebStakeToken,setLeoStakeToken,entaStakeReward,bebStakeReward,leoStakeReward,setEntaStakeReward,setBebStakeReward,setLeoStakeReward,ST_Name,restrictCnt, setRestrictCnt
+})=>{
 
 
 
@@ -274,7 +275,8 @@ useEffect(()=>{
                     if(tokenName==='beb'&&currentPrice_ref!==undefined)setCurrentPrice(currentPrice_ref.current.data.chartDataBEB)
                     if(tokenName==='leo'&&currentPrice_ref!==undefined)setCurrentPrice(currentPrice_ref.current.data.chartDataLEO)
                     setIsCircuitBreaker(currentPrice_ref.current.data.restrictToggle)
-                    // console.log(currentPrice_ref.current)
+                    if(typeof currentPrice_ref.current.data.cnt==='object')setRestrictCnt(currentPrice_ref.current.data.cnt)
+                    
                 } catch (e) {
                     console.log(e) // caught
                 }
