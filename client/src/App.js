@@ -96,7 +96,6 @@ useEffect(() => {
 
   clearInterval(loop);
   }, 1000);
-  console.log(5-new Date().getMinutes()%5)
 
   MyPage(account)
   if(myPage.data!==undefined&&myPage.data.faucet===true) return setIsFaucet(true)
@@ -108,8 +107,7 @@ useEffect(() => {
         setChartOriginArr(isChartTotal)
     },[isChartTotal,tokenName])
 
-
-
+// 
 const OPTIONS = [
   { value: "ENTAToken", name: "ENTA" },
   { value: "BEBToken", name: "BEB" },
