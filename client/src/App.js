@@ -67,8 +67,7 @@ const getUserURL = origin + "user/";
 const mypage = getUserURL + "mypage/?wallet="
 const faucet = getUserURL + "faucet/?wallet="
 let time = new Date()
-let date = `0${time.getMinutes()%5}`+":"+(time.getSeconds()<50?59-time.getSeconds():`0${59-time.getSeconds()}`);
-
+let date = `0${5-time.getMinutes()%5}`+":"+(time.getSeconds()<50?59-time.getSeconds():`0${59-time.getSeconds()}`);
 useEffect(() => {
   const loop = setInterval(() => {
       if(`${time.getSeconds()}`===`59`){
@@ -97,6 +96,7 @@ useEffect(() => {
 
   clearInterval(loop);
   }, 1000);
+  console.log(5-new Date().getMinutes()%5)
 
   MyPage(account)
   if(myPage.data!==undefined&&myPage.data.faucet===true) return setIsFaucet(true)
