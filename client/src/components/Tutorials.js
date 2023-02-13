@@ -372,9 +372,8 @@ if(tutorialScroll>0){
             <h6>This Button gives you 50.00 ETH</h6>
             <img className='ethers' src={require('../assets/images/ethers.webp')} alt='ethers'/>
             <br/>
-            <h4>Click Here!</h4><div onClick={()=>setIsFaucetModalOpen(true)}>
-            <h2 className='faucet_btn' onClick={()=>{faucetBtn(account)}}>Faucet</h2>
-            </div>
+            <h4>Click Here!</h4>
+            <h2 className='faucet_btn' onClick={()=>{faucetBtn(account);setIsFaucetModalOpen(true)}}>Faucet</h2>
         </div>
         <h5 className='count' >9/10</h5>
         <h5 className='skip' onClick={()=>{document.body.style.overflow='unset';skipHandler();setUserModalIsOpen(false)}}>Skip</h5>
@@ -387,18 +386,14 @@ if(tutorialScroll>0){
             isOpen={isFaucetModalOpen}
             style={modalStyle_2}
             className="welcome_tutorial_faucet_complete" onClick={() => setIsFaucetModalOpen(false)} onFocus={document.body.style.overflow='hidden'}
-            >{myPage.data.faucet?<div className='welcome_connection'>
-            <img src={require('../assets/images/ENTASIS.png')} alt='entasis'></img>
-            <img className='close' onClick={()=>setIsFaucetModalOpen(false)} src={require('../assets/images/close.png')} alt='close'></img>
-            <img className="congratulations" src={require('../assets/images/no.gif')} alt='entasis'></img>
-            <h4>You Already Got 50.00 ETH</h4>
-            </div>:
+            >{
             <div className='welcome_connection'>
             <img src={require('../assets/images/ENTASIS.png')} alt='entasis'></img><br/>
             <img className='close' onClick={()=>setIsFaucetModalOpen(false)} src={require('../assets/images/close.png')} alt='close'></img><br/>
             <img className="congratulations" src={require('../assets/images/voted.gif')} alt='entasis'></img>
             <h4>Check Your 50.00ETH in Deposit</h4>
-            </div>}
+            </div>
+            }
         </Modal>:<></>}
 
         <div className='next' onClick={()=>{document.body.style.overflow='unset';setTutorialScroll(tutorialScroll+1);setUserModalIsOpen(false);setFaucet();}}>Next</div>
@@ -406,6 +401,12 @@ if(tutorialScroll>0){
         )}else{setUserModalIsOpen(false)}
 
 
+            {/* <div className='welcome_connection'>
+            <img src={require('../assets/images/ENTASIS.png')} alt='entasis'></img>
+            <img className='close' onClick={()=>setIsFaucetModalOpen(false)} src={require('../assets/images/close.png')} alt='close'></img>
+            <img className="congratulations" src={require('../assets/images/no.gif')} alt='entasis'></img>
+            <h4>You Already Got 50.00 ETH</h4>
+            </div> */}
 
         if(Math.ceil(tutorialScroll)===9){
             setUserModalIsOpen(true)
