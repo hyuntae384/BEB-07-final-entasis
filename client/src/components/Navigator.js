@@ -9,7 +9,7 @@ import SelectBox from './Select';
 import Tutorials from "./Tutorials";
 import { useTranslation } from "react-i18next";
 
-const Navigator =({isCircuitBreaker,stName,setStName,companyPD,totalCurrentPrices,coorpName,circuitBreakerTimer,ST_Name,userModalIsOpen,setUserModalIsOpen,date,currentPrice,pdModalIsOpen,setPdModalIsOpen,mypage,myPage
+const Navigator =({isCircuitBreaker,stName,setStName,companyPD,totalCurrentPrices,coorpName,circuitBreakerTimer,ST_Name,userModalIsOpen,setUserModalIsOpen,date,currentPrice,pdModalIsOpen,setPdModalIsOpen,mypage,myPage,restrictCnt
 
 })=>{
     const [tutorialsClicked,setTutorialsClicked] = useState(false)
@@ -20,9 +20,8 @@ const Navigator =({isCircuitBreaker,stName,setStName,companyPD,totalCurrentPrice
     },[date])
     const {t} = useTranslation();
     const [userLang, setUserLang] = useState("ko")
-    // const countNumber=(e)=>{
-    //     return e.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,",")
-    // }
+
+    console.log(restrictCnt)
     const modalStyle = {
         
         overlay: {
