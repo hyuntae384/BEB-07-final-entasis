@@ -10,7 +10,7 @@ import Welcome from '../pages/TransactionsPage';
 import { useTranslation } from 'react-i18next';
 
 // import {Vote} from '../apis/company'
-const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,setStName,companyPD,OPTIONS,active,handleConnect,isEnroll,account,setEditName,editName,setEditNameValue,Change,isFaucet,faucetBtn,dividendTimeLimit,setVoted,voted,ratio,setRatio,userEntaToken,userBebToken,userLeoToken,setIsFaucet,setMyPage,userModalIsOpen, setUserModalIsOpen,setPdModalIsOpen
+const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,setStName,companyPD,OPTIONS,active,handleConnect,isEnroll,account,setEditName,editName,setEditNameValue,Change,isFaucet,faucetBtn,dividendTimeLimit,setVoted,voted,ratio,setRatio,userEntaToken,userBebToken,userLeoToken,setIsFaucet,setMyPage,userModalIsOpen, setUserModalIsOpen,setPdModalIsOpen,myPage
 
 })=> {
     const [isFaucetModalOpen,setIsFaucetModalOpen]=useState(false);
@@ -193,19 +193,28 @@ const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,set
                                     <h4>{isFaucet?50:0}ETH</h4>
                                     <div className='btn' onClick={()=>{faucetBtn();setIsFaucetModalOpen(true)}}><h6>{t("Faucet")}</h6></div>
                                 </div>
-                                {/* <Modal
+                                {myPage.data!==undefined?
+                                <Modal
                                     appElement={document.getElementById('root') || undefined}
                                     onRequestClose={()=>setIsFaucetModalOpen()}
 
                                     isOpen={isFaucetModalOpen}
                                     style={modalStyle_2}
                                     className="welcome_tutorial_faucet_complete" onClick={() => setIsFaucetModalOpen(false)} onFocus={document.body.style.overflow='hidden'}
-                                    ><div className='welcome_connection'>
+                                    >{myPage.data.faucet?<div className='welcome_connection'>
+                                    <img src={require('../assets/images/ENTASIS.png')} alt='entasis'></img>
+                                    <img className='close' onClick={()=>setIsFaucetModalOpen(false)} src={require('../assets/images/close.png')} alt='close'></img>
+                                    <img className="congratulations" src={require('../assets/images/no.gif')} alt='entasis'></img>
+                                    <h4>You Already Got 50.00 ETH</h4>
+                                    </div>:
+                                    <div className='welcome_connection'>
                                     <img src={require('../assets/images/ENTASIS.png')} alt='entasis'></img><br/>
+                                    <img className='close' onClick={()=>setIsFaucetModalOpen(false)} src={require('../assets/images/close.png')} alt='close'></img><br/>
                                     <img className="congratulations" src={require('../assets/images/voted.gif')} alt='entasis'></img>
-                                    </div>
-                                </Modal> */}
-
+                                    <h4>Check Your 50.00ETH in Deposit</h4>
+                                    </div>}
+                                </Modal>
+                            :<></>}
                                 <div className='account_address'>
                                     <div className='account'>{account}</div>
                                     <div className='btn' onClick={()=>faucetBtn()}><h6>{t("Copy")}</h6></div>
