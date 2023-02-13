@@ -27,7 +27,7 @@ const Footer =({setIsCircuitBreaker,isCircuitBreaker})=>{
     },[circuitModal,i])
 
 
-
+console.log(circuitModal)
     const{pathName} = useLocation()
 
     useEffect(()=>{
