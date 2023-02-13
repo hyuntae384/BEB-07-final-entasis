@@ -40,6 +40,7 @@ const setStv =()=>{stv = Math.random()*(0.01-(-0.01001))-0.01};
 let circuitBreaker = false;
 let toggle = true;
 let restrictToggle = false;
+let restricttime;
 
 //ENTA
 let incomeRatioENTA=0;
@@ -52,6 +53,7 @@ const setVotedRatioENTA =()=> {voted_ratio_ENTA = (Math.random()*(0.05-(-0.05))-
 let chart_his_ENTA =(e)=>{ chartHisENTA[0].push(e[0]);chartHisENTA[1].push(e[1])}
 let totalVolFromENTA = 0;
 let totalVolToENTA = 0;
+let countENTA = 0;
 
 //BEB
 let incomeRatioBEB=0;
@@ -64,6 +66,7 @@ const setVotedRatioBEB =()=> {voted_ratio_BEB = (Math.random()*(0.05-(-0.05))-0.
 let chart_his_BEB =(e)=>{ chartHisBEB[0].push(e[0]);chartHisBEB[1].push(e[1])}
 let totalVolFromBEB = 0;
 let totalVolToBEB = 0;
+let countBEB = 0;
 
 //LEO
 let incomeRatioLEO=0;
@@ -76,6 +79,7 @@ const setVotedRatioLEO =()=> {voted_ratio_LEO = (Math.random()*(0.05-(-0.05))-0.
 let chart_his_LEO =(e)=>{ chartHisLEO[0].push(e[0]);chartHisLEO[1].push(e[1])}
 let totalVolFromLEO = 0;
 let totalVolToLEO = 0;
+let countLEO = 0;
 
 
 // ======================================== 1초 : RTD ======================================= //
@@ -339,6 +343,16 @@ setInterval(async () => {
 router.get('/enta', async (req, res, next) => {
   try {
     if(!chartDataENTA) return res.status(400).json({message: "No such data"});
+    if(restrictToggle){
+      ++countENTA;
+      if(countENTA == 1){
+        restricttime = `${new Date()}`.slice(22,-38);
+        return res.status(200).json({chartDataBEB, restrictToggle,restricttime});
+      }
+      if(countENTA == 10){
+        countENTA = 0;
+      }
+    }
     return res.status(200).json({chartDataENTA, restrictToggle});
   } catch (err) {
     console.error(err);
@@ -351,7 +365,18 @@ router.get('/beb', async (req, res, next) => {
   try {
     
     if(!chartDataBEB) return res.status(400).json({message: "No such data"});
-    return res.status(200).json({chartDataBEB, restrictToggle});
+    if(restrictToggle){
+      ++countBEB;
+      if(countBEB == 1){
+        restricttime = `${new Date()}`.slice(22,-38);
+        return res.status(200).json({chartDataBEB, restrictToggle,restricttime});
+      }
+      if(countBEB == 10){
+        countBEB = 0;
+      }
+    }
+    return res.status(200).json({chartDataENTA, restrictToggle});
+    
   } catch (err) {
     console.error(err);
     return next(err);
@@ -361,8 +386,18 @@ router.get('/beb', async (req, res, next) => {
 //LEO
 router.get('/leo', async (req, res, next) => {
   try {
-    if(!chartDataLEO) return res.status(400).json({message: "No such data"});
-    return res.status(200).json({chartDataLEO, restrictToggle});
+    if(!chartDataBEB) return res.status(400).json({message: "No such data"});
+    if(restrictToggle){
+      ++countLEO;
+      if(countLEO == 1){
+        restricttime = `${new Date()}`.slice(22,-38);
+        return res.status(200).json({chartDataBEB, restrictToggle,restricttime});
+      }
+      if(countLEO == 10){
+        countLEO = 0;
+      }
+    }
+    return res.status(200).json({chartDataENTA, restrictToggle});
   } catch (err) {
     console.error(err);
     return next(err);
