@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import Modal from 'react-modal'
 import {Tutorial} from '../apis/user'
-const Tutorials =({account,faucetBtn,setUserModalIsOpen,setPdModalIsOpen,setCntHandler,cntHandler,tutorialCnt})=>{
+const Tutorials =({account,faucetBtn,setUserModalIsOpen,setPdModalIsOpen,setCntHandler,cntHandler,tutorialCnt,myPage})=>{
     const [start, setStart] = useState(true)
     const [wallet, setWallet] = useState(true)
     const [chart, setChart] = useState(true)
@@ -17,6 +17,7 @@ const Tutorials =({account,faucetBtn,setUserModalIsOpen,setPdModalIsOpen,setCntH
     const [circuitBreaker, setCircuitBreaker] = useState(true)
     const [tutorialFinished, setTutorialFinished] = useState(true)
     const [tutorialScroll,setTutorialScroll]=useState(0)
+    const [isFaucetModalOpen,setIsFaucetModalOpen]=useState(false);
 
     const modalStyle = {
         overlay: {
@@ -38,15 +39,56 @@ const Tutorials =({account,faucetBtn,setUserModalIsOpen,setPdModalIsOpen,setCntH
             
         },
     };
-
+    const modalStyle_2 = {
+        overlay: {
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            overflow: "hidden",
+            zIndex: 10,
+        },
+        content: {
+            display: "block",
+            justifyContent: "center",
+            background: "#222223",
+            overflow: "hidden",
+            top: "15%",
+            left: "33%",
+            right: "33%",
+            bottom: "15%",
+            border:"0",
+            borderRadius: "20px",
+            WebkitOverflowScrolling: "touch",
+            outline: "none",
+            zIndex: 10,
+            opacity:0.9
+        },
+    };
 
     useEffect(()=>{
-        if(tutorialCnt===0){
+
+        if(cntHandler||tutorialCnt===0){
             setTutorialScroll(1)
+            document.body.style.overflow='hidden'
+            setStart(true)
+            setWallet(true)
+            setChart(true)
+            setLimitOrderBook(true)
+            setOrder(true)
+            setHistory(true)
+            setAssets(true)
+            setPublicDisclosure(true)
+            setIsAccount(true)
+            setFaucet(true)
+            setTransaction(true)
+            setCircuitBreaker(true)
+            setTutorialFinished(true)
+            setVote(true)
         }
-        if(cntHandler){
-            setTutorialScroll(1)
-        }
+        console.log(cntHandler)
 
     },[account,tutorialCnt,cntHandler])
 
@@ -329,18 +371,34 @@ if(tutorialScroll>0){
             <h6>This Button gives you 50.00 ETH</h6>
             <img className='ethers' src={require('../assets/images/ethers.webp')} alt='ethers'/>
             <br/>
-            <h4>Click Here!</h4>
-            <h2 className='faucet_btn' onClick={()=>{faucetBtn(account);
-            return(
-                <div>
-
-
-
-                </div>
-            )}}>Faucet</h2>
+            <h4>Click Here!</h4><div onClick={()=>setIsFaucetModalOpen(true)}>
+            <h2 className='faucet_btn' onClick={()=>{faucetBtn(account)}}>Faucet</h2>
+            </div>
         </div>
         <h5 className='count' >9/10</h5>
         <h5 className='skip' onClick={()=>{document.body.style.overflow='unset';skipHandler();setUserModalIsOpen(false)}}>Skip</h5>
+        {console.log(myPage)}
+        {myPage!==undefined?
+        <Modal
+            appElement={document.getElementById('root') || undefined}
+            onRequestClose={()=>setIsFaucetModalOpen(false)}
+
+            isOpen={isFaucetModalOpen}
+            style={modalStyle_2}
+            className="welcome_tutorial_faucet_complete" onClick={() => setIsFaucetModalOpen(false)} onFocus={document.body.style.overflow='hidden'}
+            >{myPage.data.faucet?<div className='welcome_connection'>
+            <img src={require('../assets/images/ENTASIS.png')} alt='entasis'></img>
+            <img className='close' onClick={()=>setIsFaucetModalOpen(false)} src={require('../assets/images/close.png')} alt='close'></img>
+            <img className="congratulations" src={require('../assets/images/no.gif')} alt='entasis'></img>
+            <h4>You Already Got 50.00 ETH</h4>
+            </div>:
+            <div className='welcome_connection'>
+            <img src={require('../assets/images/ENTASIS.png')} alt='entasis'></img><br/>
+            <img className='close' onClick={()=>setIsFaucetModalOpen(false)} src={require('../assets/images/close.png')} alt='close'></img><br/>
+            <img className="congratulations" src={require('../assets/images/voted.gif')} alt='entasis'></img>
+            <h4>Check Your 50.00ETH in Deposit</h4>
+            </div>}
+        </Modal>:<></>}
 
         <div className='next' onClick={()=>{document.body.style.overflow='unset';setTutorialScroll(tutorialScroll+1);setUserModalIsOpen(false);setFaucet();}}>Next</div>
         </Modal>
