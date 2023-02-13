@@ -40,7 +40,9 @@ app.use(
       'http://localhost:3000', // cross-site인 모든 주소 기입
       'http://entasis.s3-website.ap-northeast-2.amazonaws.com',
       'http://15.165.204.25:5050',
-      'http://52.78.173.200:5050'
+      'http://52.78.173.200:5050',
+      'https://www.entasis.store',
+      'https://d33flbteqwttq8.cloudfront.net'
     ],
     credentials: true,
   }),
