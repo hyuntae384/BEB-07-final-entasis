@@ -20,7 +20,6 @@ const Navigator =({isCircuitBreaker,stName,setStName,companyPD,totalCurrentPrice
     },[date])
     const {t} = useTranslation();
     const [userLang, setUserLang] = useState("ko")
-
     // const countNumber=(e)=>{
     //     return e.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,",")
     // }
@@ -138,7 +137,7 @@ const Navigator =({isCircuitBreaker,stName,setStName,companyPD,totalCurrentPrice
             <h5>{currentPrices.leo}</h5> */}
             {!isCircuitBreaker?
                 <div className="until_the_next_dividend_release">
-                
+
                 <h4>{t("Until the Next Dividend Release")} {date}</h4>
                 </div>
                 : <div className="is_circuit_breaker">
