@@ -7,11 +7,42 @@ import Web3 from "web3";
 import TokenABI from "../ABIs/ERC1400.json"
 import SelectBox from "./Select";
 import { useTranslation } from "react-i18next";
+import ReactModal from "react-modal";
 
 const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,tokenName,totalCurrentPrices,refresh,setRefresh,ST_Name,setTokenName,amount,price,web3,userAccount,serverAddress,token,tokenContract,setAmount,curPrice,isFaucet,faucetBtn,account,stName,setStName,myPage,setStaking,bebStakeToken,entaStakeToken,leoStakeToken,staking
 
 })=>{
+    const [isFaucetModalOpen,setIsFaucetModalOpen]=useState(false);
+
     const { t } = useTranslation();
+    const modalStyle_2 = {
+        overlay: {
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            overflow: "hidden",
+            zIndex: 10,
+        },
+        content: {
+            display: "block",
+            justifyContent: "center",
+            background: "#222223",
+            overflow: "hidden",
+            top: "15%",
+            left: "33%",
+            right: "33%",
+            bottom: "15%",
+            border:"0",
+            borderRadius: "20px",
+            WebkitOverflowScrolling: "touch",
+            outline: "none",
+            zIndex: 10,
+            opacity:0.9
+        },
+    };
 
     // 구매
     async function SendETH(){
@@ -157,14 +188,37 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
             <div className='deposit_wrapper'>
                 <div className='deposit_faucet'>
                     <h5>{isFaucet?50:0}ETH</h5>
-                    <div className='btn' onClick={()=>faucetBtn()}><h5>{t("Faucet")}</h5></div>
+                    <div className='btn' onClick={()=>{faucetBtn(account);setIsFaucetModalOpen(true)}}><h5>{t("Faucet")}</h5></div>
                 </div>
                 <div className='account_address'>
                     <div className='account'><h5>{account}</h5></div>
-                    <div className='btn' onClick={()=>faucetBtn()}><h5>{t("Copy")}</h5></div>
-                </div>
+                    <div className='btn' onClick={()=>faucetBtn(account)}><h5>{t("Copy")}</h5>
+                    {myPage.data!==undefined?
+                    <ReactModal
+                                    appElement={document.getElementById('root') || undefined}
+                                    onRequestClose={()=>setIsFaucetModalOpen(false)}
 
+                                    isOpen={isFaucetModalOpen}
+                                    style={modalStyle_2}
+                                    className="welcome_tutorial_faucet_complete" onClick={() => setIsFaucetModalOpen(false)} onFocus={document.body.style.overflow='hidden'}
+                                    >{myPage.data.faucet?<div className='welcome_connection'>
+                                    <img src={require('../assets/images/ENTASIS.png')} alt='entasis'></img>
+                                    <img className='close' onClick={()=>setIsFaucetModalOpen(false)} src={require('../assets/images/close.png')} alt='close'></img>
+                                    <img className="congratulations" src={require('../assets/images/no.gif')} alt='entasis'></img>
+                                    <h4>You Already Got 50.00 ETH</h4>
+                                    </div>:
+                                    <div className='welcome_connection'>
+                                    <img src={require('../assets/images/ENTASIS.png')} alt='entasis'></img><br/>
+                                    <img className='close' onClick={()=>setIsFaucetModalOpen(false)} src={require('../assets/images/close.png')} alt='close'></img><br/>
+                                    <img className="congratulations" src={require('../assets/images/voted.gif')} alt='entasis'></img>
+                                    <h4>Check Your 50.00ETH in Deposit</h4>
+                                    </div>}
+                                </ReactModal>:<></>
+                    }
+                    </div>
+                </div>
             </div>
+
             <h4>{t("Staking")}</h4>
                 <div className='deposit_wrapper'>
                     <h6>ENTAToken : {entaStakeToken}</h6>
