@@ -41,8 +41,8 @@ app.use(
       'http://entasis.s3-website.ap-northeast-2.amazonaws.com',
       'http://15.165.204.25:5050',
       'http://52.78.173.200:5050',
-      'https://www.entasis.store',
-      'https://d33flbteqwttq8.cloudfront.net'
+      'https://www.entasis.store/',
+      'https://d33flbteqwttq8.cloudfront.net/'
     ],
     credentials: true,
   }),
