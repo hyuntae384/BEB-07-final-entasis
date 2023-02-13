@@ -38,6 +38,7 @@ const [leoStakeToken, setLeoStakeToken] = useState("0")
 const [entaStakeReward, setEntaStakeReward] = useState("0")
 const [bebStakeReward, setBebStakeReward] = useState("0")
 const [leoStakeReward, setLeoStakeReward] = useState("0")
+const [restrictCnt,setRestrictCnt] = useState()
   const [currentPrice, setCurrentPrice] = useState({
     close : "0",
     createdAt : "0",
@@ -48,29 +49,29 @@ const [leoStakeReward, setLeoStakeReward] = useState("0")
     totalVolFrom : "0",
     totalVolTo : "0"
 })
-const [stName, setStName] = useState('ENTAToken');
+  const [stName, setStName] = useState('ENTAToken');
 
   const [isWelcome,setIsWelcome]=useState(false)
   const [txs, setTxs] = useState({
     transaction_in:"",
     transaction_out:""
 })
-const [companyPD, setCompanyPD] =useState([]) 
-const [coorpName,setCoorpName] = useState('')
-const [userModalIsOpen, setUserModalIsOpen] = useState(false)
+  const [companyPD, setCompanyPD] =useState([]) 
+  const [coorpName,setCoorpName] = useState('')
+  const [userModalIsOpen, setUserModalIsOpen] = useState(false)
+  const {chainId, account, active, activate, deactivate} = useWeb3React();
 
 
-const {chainId, account, active, activate, deactivate} = useWeb3React();
+    const origin = "http://52.78.173.200:5050/";
+    const getUserURL = origin + "user/"; 
+    const mypage = getUserURL + "mypage/?wallet="
+    const faucet = getUserURL + "faucet/?wallet="
+    let time = new Date()
+    let date = `0${4-time.getMinutes()%5}`+":"+(time.getSeconds()<50?59-time.getSeconds():`0${59-time.getSeconds()}`);
 
-const origin = "http://52.78.173.200:5050/";
-const getUserURL = origin + "user/"; 
-const mypage = getUserURL + "mypage/?wallet="
-const faucet = getUserURL + "faucet/?wallet="
-let time = new Date()
-let date = `0${4-time.getMinutes()%5}`+":"+(time.getSeconds()<50?59-time.getSeconds():`0${59-time.getSeconds()}`);
-useEffect(() => {
-  const loop = setInterval(() => {
-      if(`${time.getSeconds()}`===`59`){
+    useEffect(() => {
+      const loop = setInterval(() => {
+          if(`${time.getSeconds()}`===`59`){
           let index = chartArr[chartArr.length-1]!==undefined?chartArr[chartArr.length-1][0]+1:undefined
           let createdAtB = currentPrice.createdAt;
           let openB= typeof chartArr[chartArr.length-1]==='object'&&!isNaN(chartArr[chartArr.length-1][3]) ?chartArr[chartArr.length-1][3]:currentPrice.open;
@@ -113,7 +114,6 @@ const OPTIONS = [
   { value: "BEBToken", name: "BEB" },
   { value: "LEOToken", name: "LEO" },
   ];
-
 const onMouseEnterHandler = () => {
   document.body.style.overflow = 'unset';
 }
@@ -207,7 +207,9 @@ const FaucetWallet = async(wallet) => {
           setVoted={setVoted}
           setRatio={setRatio}
         />
+        {console.log(restrictCnt)}
         <Navigator
+            restrictCnt={restrictCnt}
             myPage={myPage}
             tutorialCnt={myPage.data!==undefined?myPage.data.cnt:1}
             isCircuitBreaker={isCircuitBreaker}
@@ -230,6 +232,8 @@ const FaucetWallet = async(wallet) => {
 
 
         <Route path='/' element={<MainPage
+          restrictCnt={restrictCnt}
+          setRestrictCnt={setRestrictCnt}
           setStName={setStName}
           stName={stName}
           ST_Name={OPTIONS}
