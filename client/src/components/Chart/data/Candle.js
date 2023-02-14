@@ -20,9 +20,9 @@ const Candle =({
 
     const xForPrice = 75;
     const xAxisLength = SVG_CHART_WIDTH - xForPrice;
-    const yAxisLength = `${SVG_CHART_HEIGHT>25?SVG_CHART_HEIGHT-25:0}`
+    const yAxisLength = `${SVG_CHART_HEIGHT>20?SVG_CHART_HEIGHT-20:0}`
     const x0 = 0;
-    const y0 = '0';
+    const y0 = 0;
     const dataArray = [];
 
         
@@ -36,7 +36,7 @@ const Candle =({
         ]);
     }
 
-    if(`${new Date().getSeconds()}`===`0`){
+    if(`${new Date().getSeconds()}`===`59`){
         currentPrice.high = currentPrice.close
         currentPrice.low = currentPrice.close
     }
@@ -84,13 +84,11 @@ if(dataArray[0][0]!==undefined&&
     ){
     return(
     <div className=" candle">
-        <br/>
         <div>
             <svg 
             onMouseMove={handleMouseMove}
             width={SVG_CHART_WIDTH} 
-            height={SVG_CHART_HEIGHT}
-            >
+            height={SVG_CHART_HEIGHT}>
 
                 {/* <text
                 x={x0 + 15}
@@ -137,7 +135,7 @@ if(dataArray[0][0]!==undefined&&
                     <text
                     
                         x={x}
-                        y={SVG_CHART_HEIGHT-15}
+                        y={SVG_CHART_HEIGHT}
                         textAnchor="middle"
                         stroke='#252525'
                         fontSize={SVG_CHART_WIDTH < 800 ? 8 : 10}
@@ -150,7 +148,7 @@ if(dataArray[0][0]!==undefined&&
 
                 {/* 가로선 작성(css name => lineLight) */}
                 {Array.from({ length: numYTicks }).map((_, index) => {
-                const y = y0 + index * (yAxisLength / numYTicks);
+                const y = Number(y0 + index * (yAxisLength / numYTicks));
                 const yValue = (
                     dataYMax - index * (dataYRange / numYTicks)
                 );
@@ -188,11 +186,11 @@ if(dataArray[0][0]!==undefined&&
                     x1={0}
                     x2={SVG_CHART_WIDTH-65}
                     y1={pointer.x<SVG_CHART_WIDTH*0.93&&((pointer.y+windowPageYOffset)<550)?((pointer.y+windowPageYOffset)-135):-10}
+                    
                     y2={pointer.x<SVG_CHART_WIDTH*0.93&&((pointer.y+windowPageYOffset)<550)?((pointer.y+windowPageYOffset)-135):-10}
                     stroke='#00fbff'
                     opacity={0.3}
                     ></line>
-
                     <text
                 
                     x={SVG_CHART_WIDTH-60}
@@ -202,7 +200,7 @@ if(dataArray[0][0]!==undefined&&
                     opacity={0.5}
                     fontSize='11px'
                 > 
-                {(dataYMin + dataYMax*(1-(pointer.y/415-0.3253))).toFixed(2).toLocaleString()} ETH
+                {((Number(dataYMax)-Number(dataYMin))*(550-Number(pointer.y))/415+dataYMin).toFixed(2).toLocaleString()}ETH
                 </text>
                 {/* 캔들 구현 */}
                 {dataArray.map(
@@ -231,8 +229,8 @@ if(dataArray[0][0]!==undefined&&
                     
                         x1={x + (barPlothWidth - sidePadding) / 2}
                         x2={x + (barPlothWidth - sidePadding) / 2}
-                        y1={low!==undefined ? yAxisLength - scaleY(low) : 0}
-                        y2={high!==undefined ? yAxisLength - scaleY(high) : 0}
+                        y1={!isNaN(scaleY(low))? Number(yAxisLength) - scaleY(low) : 0}
+                        y2={!isNaN(scaleY(high)) ? Number(yAxisLength) - scaleY(high) : 0}
                         stroke={fill}
                         />
 
@@ -240,7 +238,7 @@ if(dataArray[0][0]!==undefined&&
                         id={`ID_`+`${dataArray.length-index-1}`}
                         {...{ fill }}
                         x={x}
-                        y={!isNaN(max) ?yAxisLength - scaleY(max):0}
+                        y={!isNaN(scaleY(max)) ?yAxisLength - scaleY(max):0}
                         width={(barPlothWidth - sidePadding)>0?barPlothWidth - sidePadding:0.001}
                         // 시가 종가 최대 최소값의 차
                         height={(scaleY(max) - scaleY(min))>1?scaleY(max) - scaleY(min):1}
@@ -253,13 +251,15 @@ if(dataArray[0][0]!==undefined&&
                         y2={(currentPrice.close!==undefined ? yAxisLength - scaleY(currentPrice.close) : 0)}
                         strokeWidth='0.1'
                         stroke={fill}
-                        ></line>
-                        <text x={SVG_CHART_WIDTH - 60} y={typeof scaleY(currentPrice.close)==='number'?yAxisLength - scaleY(currentPrice.close):0} fontSize="12" 
-                        fill= 
-                        {fill} 
-                        
                         >
-                        {typeof scaleY(currentPrice.close)==='number'?currentPrice.close:0}
+                        </line>
+                        <text
+                        x={SVG_CHART_WIDTH - 60}
+                        y={(!isNaN(scaleY(currentPrice.close))?yAxisLength - Number(scaleY(currentPrice.close)):0)}
+                        fontSize="12" 
+                        fill={fill} 
+                        >
+                        {currentPrice.close}
                         </text>
                     </g>
                     );

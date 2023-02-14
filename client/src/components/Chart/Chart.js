@@ -4,23 +4,19 @@ import SelectBox from "../Select";
 import Candle from "./data/Candle"
 import Volume from "./data/Volume"
 
-const Chart =({currentPrice, chartArr,defaultLimit,dataLength,term,setTerm,isLoading})=>{
-    const [name, setName] = useState("BEBE");
+const Chart =({currentPrice, chartTermArr,defaultLimit,dataLength,term,setTermValue,isLoading,tokenName,termValue,
+    setTokenName,ST_Name,stName,
+    setStName
+})=>{
 
-    let date = dataToArray(chartArr,1)
-    let open = dataToArray(chartArr,2)
-    let close = dataToArray(chartArr,3)
-    let high = dataToArray(chartArr,4)
-    let low = dataToArray(chartArr,5)
-    let volTo = dataToArray(chartArr,6)
-    let volFrom = dataToArray(chartArr,7)
+    let date = dataToArray(chartTermArr,1)
+    let open = dataToArray(chartTermArr,2)
+    let close = dataToArray(chartTermArr,3)
+    let high = dataToArray(chartTermArr,4)
+    let low = dataToArray(chartTermArr,5)
+    let volTo = dataToArray(chartTermArr,6)
+    let volFrom = dataToArray(chartTermArr,7)
 
-    // const onClickListener = () => {
-    //     setName("CECE");
-    // };
-    // const loadDataHandler = () => {
-    //     // setdefaultLimit(defaultLimit + 500);
-    // };
     
     const onMouseEnterHandler = () => {
         document.body.style.overflow = 'hidden';
@@ -64,20 +60,44 @@ const Chart =({currentPrice, chartArr,defaultLimit,dataLength,term,setTerm,isLoa
         onMouseEnter ={onMouseEnterHandler}
         onMouseLeave = {onMouseLeaveHandler}
         >
-        <div className="chart_select">
-        <SelectBox
-            set={term}
-            value={setTerm}
-        ></SelectBox>
-        <SelectBox 
-            set = {term}
-            value={setTerm}
-        ></SelectBox>
 
-        {/* <h6 className="chart_cp">{name} {ST_CurrentPrice.toLocaleString()}</h6> */}
-        </div>        <Candle
+            <div className="chart_select_box_wrapper">
+                <div className="chart_select_box">
+                    <SelectBox
+                        set={ST_Name}
+                        termValue={stName}
+                        value={setStName}
+                    ></SelectBox>
+                    <SelectBox 
+                        set = {term}
+                        termValue={termValue}
+                        value={setTermValue}
+                    ></SelectBox>
+                </div>
+
+        {currentPrice!==0?
+        <div className="chart_current">
+            <div className="chart_current_date">
+            {tokenName==='enta'?
+            <h4>ENTA {currentPrice.totalCurrentPrices.enta}</h4>:
+            <h5>ENTA {currentPrice.totalCurrentPrices.enta}</h5>}
+            </div>
+            <div className="chart_current_date">
+            {tokenName==='beb'?
+            <h4>BEB {currentPrice.totalCurrentPrices.beb}</h4>:
+            <h5>BEB {currentPrice.totalCurrentPrices.beb}</h5>}
+            </div>
+            <div className="chart_current_date">
+            {tokenName==='leo'?
+            <h4>LEO {currentPrice.totalCurrentPrices.leo}</h4>:
+            <h5>LEO {currentPrice.totalCurrentPrices.leo}</h5>}
+            </div>
+        </div>
+        :<></>}
+        </div>
+                <Candle
             term={term}
-            setTerm={setTerm}
+            setTermValue={setTermValue}
             currentPrice={currentPrice}
             date = {date}
             open = {open}
@@ -88,7 +108,7 @@ const Chart =({currentPrice, chartArr,defaultLimit,dataLength,term,setTerm,isLoa
             height={size.height}
             defaultLimit={defaultLimit}
             dataLength={dataLength}
-            name={name}
+            ST_Name={ST_Name}
             isLoading={isLoading}
         />
         <Volume
@@ -101,7 +121,7 @@ const Chart =({currentPrice, chartArr,defaultLimit,dataLength,term,setTerm,isLoa
             height={size.height}
             defaultLimit={defaultLimit}
             dataLength={dataLength}
-            name={name}
+            ST_Name={ST_Name}
             isLoading={isLoading}
 
         />

@@ -1,91 +1,21 @@
 import {Link} from 'react-router-dom';
-import {useEffect, useState} from 'react'
+import {useState} from 'react'
 import Modal from "react-modal"
-import { useWeb3React } from '@web3-react/core';
-import {web3} from 'web3'
-import { injected } from '../connectors';
 import '../assets/css/main.css';
 import { ChName, Score, Position} from '../apis/user'
 import Tutorials from './Tutorials';
 import SelectBox from './Select';
-import { Vote } from '../apis/company';
 import axios from 'axios';
 import Welcome from '../pages/TransactionsPage';
+import { useTranslation } from 'react-i18next';
 
 // import {Vote} from '../apis/company'
-const Header =({walletConnected,setWalletConnected})=> {
-    const [userModalIsOpen, setUserModalIsOpen] = useState(false)
-    const [isFaucet, setIsFaucet] = useState(false)
-    const [name, setName] = useState("aa");
-    const [stName, setStName] = useState('BEBE');
-    const [stAmount, setStAmount] = useState(0);
-    const [ratio, setRatio] = useState(0);
-    const [editName, setEditName] = useState(false)
-    const [editNameValue,setEditNameValue] = useState('')
-    const [voted,setVoted] = useState(false)
-    const [isEnroll, setIsEnroll] = useState({})
-    const [myPage, setMyPage] =useState({})
+const Header =({walletConnected,setWalletConnected,totalCurrentPrices,stName,setStName,companyPD,OPTIONS,active,handleConnect,isEnroll,account,setEditName,editName,setEditNameValue,Change,isFaucet,faucetBtn,dividendTimeLimit,setVoted,voted,ratio,setRatio,userEntaToken,userBebToken,userLeoToken,setIsFaucet,setMyPage,userModalIsOpen, setUserModalIsOpen,setPdModalIsOpen,myPage
 
-    const countNumber=(e)=>{
-        return e.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,",")
-    }
-    const {chainId, account, active, activate, deactivate} = useWeb3React();
-    const handleConnect = () => {
-        if(active) {
-            deactivate();
-            return;
-        }
-        activate(injected, (error) => {
-            if('/No ethereum provider was found on window.ethereum/'.test(error)) {
-                window.open('https://metamask.io/download.html');
-            }
-        });
-        setWalletConnected(true)
-    }
-    const origin = "http://localhost:5050/";
-    const getUserURL = origin + "user/"; 
-    const enroll = getUserURL + "enroll/?wallet="
-    const faucet = getUserURL + "faucet/?wallet="
-    const mypage = getUserURL + "mypage/?wallet="
-    
-    
-    const MyPage = async(wallet) => {
-        if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
-        const resultAccount = await axios.get(mypage + wallet)
-        .then(res=>res)
-        .then(err=>err)
-        setMyPage(resultAccount)
-    }
-    const EnrollWallet = async(wallet) => {
-        if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
-        const resultEnrollWallet =  await axios.post(enroll + wallet)
-        .then(res=>res.data)
-        .then(err=>err)
-        setIsEnroll(resultEnrollWallet)
-    }
-    useEffect(()=>{
-        MyPage(account)
-        EnrollWallet(account)
-    },[account])
+})=> {
+    const [isFaucetModalOpen,setIsFaucetModalOpen]=useState(false);
+    const {t} = useTranslation();
 
-    const FaucetWallet = async(wallet) => {
-        if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
-        const faucetJSON = {'wallet':wallet}
-        const resultFaucetWallet = await axios.put(faucet + wallet,faucetJSON)
-        .then(res=>res.data.status)
-        .catch((error)=>{
-            if(error.response.data.message==='user has already used the faucet'){setIsFaucet(true)}
-        })
-        return resultFaucetWallet
-    }
-//     var Contract = require('web3-eth-contract');
-// // set provider for all later instances to use
-//     Contract.setProvider('ws://localhost:8546');
-//     var contract = new Contract(jsonInterface, address);
-//     contract.methods.somFunc().send({from: ....})
-//     .on('receipt', function(){
-//         ...
-//     });
     const modalStyle = {
         overlay: {
             position: "fixed",
@@ -141,16 +71,9 @@ const Header =({walletConnected,setWalletConnected})=> {
             opacity:0.9
         },
     };
+    
 
-    let data ={
-        name:'', 
-        assets:{
-        total:'', 
-        st:[{st_name:'',st_price:'',st_amount:''},
-        {st_name:'',st_price:'',st_amount:''},
-        {st_name:'',st_price:'',st_amount:''},]},
-        deposit:{is_fauceted : true || false,}}
-
+// console.log(totalCurrentPrices.enta)
     const userModalOpen =()=>{
         document.body.style.overflow = 'hidden';
         setUserModalIsOpen(true)
@@ -159,46 +82,28 @@ const Header =({walletConnected,setWalletConnected})=> {
         document.body.style.overflow = 'unset';
         setUserModalIsOpen(false)
         }
-
-
-    // useEffect(()=>{
-    //     return Vote(stName,stAmount,ratio,account).status.value
-    // },[stName,stAmount,ratio,account])
-        const Change =()=>{
-            ChName(account,editNameValue)
-            MyPage(account)
-            setEditName(false)
+        const ST_1 = {
+            name:'ENTA',price:(totalCurrentPrices.enta * userEntaToken).toFixed(4) ,amount: userEntaToken
+        };
+        const ST_2 = {
+            name:'BEB',price:(totalCurrentPrices.beb * userBebToken).toFixed(4) ,amount: userBebToken
+        };
+        const ST_3 = {
+            name:'LEO',price:(totalCurrentPrices.leo * userLeoToken).toFixed(4) ,amount: userLeoToken
+        };
+        const decord=()=>{
+            if(stName==='ENTAToken') return totalCurrentPrices.enta
+            if(stName==='BEBToken') return totalCurrentPrices.beb
+            if(stName==='LEOToken') return totalCurrentPrices.leo
+    
+        }
+        const decordVote=()=>{
+            if(stName==='ENTAToken') return ST_1.amount/100000000*100
+            if(stName==='BEBToken') return ST_2.amount/50000000*100
+            if(stName==='LEOToken') return ST_3.amount/30000000*100
         }
 
-    const faucetBtn=()=>{
-        console.log(FaucetWallet(account))
-        // return(
-        // <Modal
-        //     appElement={document.getElementById('root') || undefined}
-        //     onRequestClose={()=>setVoted()}
-        //     isOpen={voted}
-        //     style={modalStyle_2}
-        // >   <div className='welcome_connection'>
-        //     <img src={require('../assets/images/ENTASIS.png')} alt='entasis'></img><br/>
-        //     <h3>You voted for {ratio}</h3>
-        //     <h5>Corporation Name {stName}</h5>
-        //     <h5>Ownership Ratio {user.amount/*/totalSupply */}</h5>
-        //     <h5>Security Token {stName}</h5>
-        //     <div className='voted'>
-        //     <img className="congratulations" src={require('../assets/images/voted.gif')} alt='entasis'></img>
-        //     </div>
-        //     <h2>Your Voting Right has been Exercised!</h2>
-        //     </div>
-        // </Modal>
-        // )
-    }
-    const OPTIONS = [
-        { value: "BEBE", name: "BEBE" },
-        { value: "DEDE", name: "DEDE" },
-        { value: "CECE", name: "CECE" },
-    ];
-
-    const dividendTimeLimit = (59-new Date().getMinutes())%5+":"+(59-new Date().getSeconds())
+        // console.log(isEnroll.cnt)
     return(
         <div className="header">
         
@@ -208,12 +113,13 @@ const Header =({walletConnected,setWalletConnected})=> {
             <Link to='/'>
                 <img className='entasis_main_logo' src={require('../assets/images/ENTASIS.png')}></img>
             </Link>
-
-
-
             <div className='header_user'>
-            <div className="btn" onClick={handleConnect}>{active ? <h2>disconnect</h2> : <h2>connect</h2>}</div>
+            <div className="btn" onClick={handleConnect}>{active ? <h2>{t("disconnect")}</h2> : <h2>{t("connect")}</h2>}</div>
             {active&&isEnroll.cnt===0?<Tutorials
+                    myPage={myPage}
+                    setPdModalIsOpen={setPdModalIsOpen}
+                    setUserModalIsOpen={setUserModalIsOpen}
+                    faucetBtn={faucetBtn}
                     account={account}
                     tutorialCnt={isEnroll.cnt}
                     >{()=>setWalletConnected()}</Tutorials>
@@ -224,17 +130,17 @@ const Header =({walletConnected,setWalletConnected})=> {
                     style={modalStyle_2}
                     >             
                     <div className='welcome_connection'>
-                    <h3>Welcome</h3>
+                    <h3>{t("Welcome")}</h3>
                     <img src={require('../assets/images/ENTASIS_white.png')} alt='entasis'></img>
                     </div>
                     <img className="congratulations" src={require('../assets/images/welcome_connection.gif')} alt='entasis'></img>
-                    <h2>Connection Information</h2>
-                    <h4>Name : {isEnroll.name}</h4>
-                    <h4>Tutorials : {isEnroll.cnt<=1?"Complete":"Not Complete Yet"}</h4>
-                    <h4>Account : {account===undefined?'Disconnected':account}</h4>
+                    <h2>{t("Connection Information")}</h2>
+                    <h4>{t("Username")} : {isEnroll.name}</h4>
+                    <h4>{t("Tutorials")} : {isEnroll.cnt<=1?"Complete":"Not Complete Yet"}</h4>
+                    <h4>{t("Account")} : {account===undefined?'Disconnected':account}</h4>
                     </Modal>}
                 {active?
-                <i className='fas fa-wallet' onClick={()=>userModalOpen()} ></i>:
+                <i className='fas fa-wallet' onClick={()=>(userModalOpen())} ></i>:
                 <div onClick={handleConnect} className='fa-wallet_disconnect'></div>}
             </div>
             <Modal
@@ -247,12 +153,12 @@ const Header =({walletConnected,setWalletConnected})=> {
                         <img src={require('../assets/images/close.png')}></img>
                     </div>
                     <div className='account_top'>
-                        <h1>MyAccount</h1>
+                        <h1>{t("MyAccount")}</h1>
                     </div>
                     <div className='myaccount_wrapper'>
                         <div className='myaccount_wrapper_name_top'>
-                            <h2>Name</h2>
-                            <div className='btn' onClick={()=>setEditName(!editName)}><h6>Edit</h6></div>
+                            <h2>{t("Username")}</h2>
+                            <div className='btn' onClick={()=>setEditName(!editName)}><h6>{t("Edit")}</h6></div>
                         </div>
                             {editName?
                             <div className='edit_name'>
@@ -270,23 +176,49 @@ const Header =({walletConnected,setWalletConnected})=> {
                                 <h3>{isEnroll.name}</h3>
                             </div>
                             }
-                        <div className='assets'>
-                            <h2>Assets</h2>
+                            <div className='assets'>
+                            <div className="total_assets">
+                                <h2>{t("Assets")}</h2> <p/><h3> {(ST_1.amount*ST_1.price+ST_2.amount*ST_2.price+ST_3.amount*ST_3.price).toFixed(4)}ETH</h3>
+                            </div>      
                             <div className='assets_wraper'>
-                                <h4>{mypage.amount}</h4>
+                                <h5>{ST_1.name+" ("+ST_1.amount+")"+" "+ST_1.price+"ETH"}</h5>
+                                <h5>{ST_2.name+" ("+ST_2.amount+")"+" "+ST_2.price+"ETH"}</h5>
+                                <h5>{ST_3.name+" ("+ST_3.amount+")"+" "+ST_3.price+"ETH"}</h5>
                             </div>
                         </div>
                         <div className='deposit'>
-                            <h2>Deposit</h2>
+                            <h2>{t("Deposit")}</h2>
 
                             <div className='deposit_wrapper'>
                                 <div className='deposit_faucet'>
-                                    <h4>{isFaucet?10:0}ETH</h4>
-                                    <div className='btn' onClick={()=>faucetBtn()}><h6>Faucet</h6></div>
+                                    <h4>{isFaucet?50:0}ETH</h4>
+                                    <div className='btn' onClick={()=>{faucetBtn();setIsFaucetModalOpen(true)}}><h6>{t("Faucet")}</h6></div>
                                 </div>
+                                {myPage.data!==undefined?
+                                <Modal
+                                    appElement={document.getElementById('root') || undefined}
+                                    onRequestClose={()=>setIsFaucetModalOpen()}
+
+                                    isOpen={isFaucetModalOpen}
+                                    style={modalStyle_2}
+                                    className="welcome_tutorial_faucet_complete" onClick={() => setIsFaucetModalOpen(false)} onFocus={document.body.style.overflow='hidden'}
+                                    >{myPage.data.faucet?<div className='welcome_connection'>
+                                    <img src={require('../assets/images/ENTASIS.png')} alt='entasis'></img>
+                                    <img className='close' onClick={()=>setIsFaucetModalOpen(false)} src={require('../assets/images/close.png')} alt='close'></img>
+                                    <img className="congratulations" src={require('../assets/images/no.gif')} alt='entasis'></img>
+                                    <h4>You Already Got 50.00 ETH</h4>
+                                    </div>:
+                                    <div className='welcome_connection'>
+                                    <img src={require('../assets/images/ENTASIS.png')} alt='entasis'></img><br/>
+                                    <img className='close' onClick={()=>setIsFaucetModalOpen(false)} src={require('../assets/images/close.png')} alt='close'></img><br/>
+                                    <img className="congratulations" src={require('../assets/images/voted.gif')} alt='entasis'></img>
+                                    <h4>Check Your 50.00ETH in Deposit</h4>
+                                    </div>}
+                                </Modal>
+                            :<></>}
                                 <div className='account_address'>
                                     <div className='account'>{account}</div>
-                                    <div className='btn' onClick={()=>faucetBtn()}><h6>Copy</h6></div>
+                                    <div className='btn' onClick={()=>faucetBtn()}><h6>{t("Copy")}</h6></div>
                                 </div>
                             </div>
                         </div>
@@ -294,52 +226,57 @@ const Header =({walletConnected,setWalletConnected})=> {
                         <div className='exercise_of_voting_rights'>
 
                             <div className='exercise_of_voting_rights_wrapper '>
-                            <h3 className='exercise_of_voting_rights_time_limit'>Exercise of Voting Rights {dividendTimeLimit}</h3>
+                            <h3 className='exercise_of_voting_rights_time_limit'>{t("Exercise of Voting Rights")}</h3>
                             <Modal
                                 appElement={document.getElementById('root') || undefined}
                                 onRequestClose={()=>setVoted()}
                                 isOpen={voted}
                                 style={modalStyle_2}
                             >   <div className='welcome_connection'>
+                                <div className='close'>
+                                <img src={require('../assets/images/close.png')} onClick={()=>setVoted()}alt='close'></img>
+                                </div>
                                 <img src={require('../assets/images/ENTASIS.png')} alt='entasis'></img><br/>
-                                <h4>You voted for {ratio}</h4>
-                                <h6>Corporation Name {stName}</h6>
-                                <h6>Ownership Ratio {}</h6>
-                                <h6>Security Token {stName}</h6>
+                                <h4>{t("You voted for")} {ratio}</h4>
+                                <h6>{t("Corporation Name")} {stName}</h6>
+                                <h6>{t("Ownership Ratio")} {decordVote().toFixed(6)+'%'}</h6>
+                                <h6>{t("Security Token")} {stName}</h6>
                                 <div className='voted'>
                                 <img className="congratulations" src={require('../assets/images/voted.gif')} alt='entasis'></img>
                                 </div>
-                                <h3>Your Voting Right has been Exercised!</h3>
+                                <h3>{t("Your Voting Right has been Exercised!")}</h3>
                                 </div>
                             </Modal>
-                                <h5>Select Security Token</h5>
-                                <SelectBox options={OPTIONS} 
-                                defaultValue=""></SelectBox>
-                                <h4 className='head'>Dividend</h4>
+                                <h5>{t("Select Security Token")}</h5>
+                                <SelectBox
+                                set={OPTIONS} 
+                                value={setStName}
+                                ></SelectBox>
+                                <h4 className='head'>{t("Dividend")} {Number(companyPD.dividend_ratio*(1+Number(companyPD.voted_ratio))*decord()).toFixed(4)}</h4>
                                 <div className='exercise_of_voting_rights_wrapper body'>
                                     
                                     <div className='left'>
-                                        <h5>Current</h5>
+                                        <h5>{t("Current")}</h5>
                                         <div className='ratio_value'>
-                                            <h5>{}5%</h5>
+                                            <h5>{Number(companyPD.voted_ratio*companyPD.dividend_ratio).toFixed(4)}</h5>
                                         </div>
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
-                                        setRatio(+0.05)}}><h6>Vote</h6></div>
+                                        setRatio(+0.05)}}><h6>{t("Vote")}</h6></div>
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
-                                        setRatio(+0.04)}}><h6>Vote</h6></div>
+                                        setRatio(+0.04)}}><h6>{t("Vote")}</h6></div>
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
-                                        setRatio(+0.03)}}><h6>Vote</h6></div>
+                                        setRatio(+0.03)}}><h6>{t("Vote")}</h6></div>
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
-                                        setRatio(+0.02)}}><h6>Vote</h6></div>
+                                        setRatio(+0.02)}}><h6>{t("Vote")}</h6></div>
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
-                                        setRatio(+0.01)}}><h6>Vote</h6></div>
+                                        setRatio(+0.01)}}><h6>{t("Vote")}</h6></div>
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
-                                        setRatio(0.00)}}><h6>Vote</h6></div>
+                                        setRatio(0.00)}}><h6>{t("Vote")}</h6></div>
                                     </div>
                                     <div className='middle'>
-                                        <h5>Result</h5>
+                                        <h5>{t("Result")}</h5>
                                         <div className='ratio_value'>
-                                            <h5>{}0.03</h5>
+                                            <h5>{Number(companyPD.voted_ratio).toFixed(2)}</h5>
                                         </div>
                                         <div className='vote_value up'><h6>+0.05</h6></div>
                                         <div className='vote_value up'><h6>+0.04</h6></div>
@@ -355,9 +292,9 @@ const Header =({walletConnected,setWalletConnected})=> {
 
                                     </div>
                                     <div className='right'>
-                                        <h5>Next</h5>
+                                        <h5>{t("Next")}</h5>
                                         <div className='ratio_value'>
-                                            <h5>{}5.49%</h5>
+                                            <h5>{Number(companyPD.dividend_ratio*(1+Number(companyPD.voted_ratio))).toFixed(4)}</h5>
                                         </div>
                                         <div className='vote_btn'></div>
                                         <div className='vote_btn'></div>
@@ -365,17 +302,17 @@ const Header =({walletConnected,setWalletConnected})=> {
                                         <div className='vote_btn'></div>
                                         <div className='vote_btn'></div>
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
-                                        setRatio(0)}}><h6>Vote</h6></div>
+                                        setRatio(0)}}><h6>{t("Vote")}</h6></div>
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
-                                        setRatio(-0.01)}}><h6>Vote</h6></div>
+                                        setRatio(-0.01)}}><h6>{t("Vote")}</h6></div>
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
-                                        setRatio(-0.02)}}><h6>Vote</h6></div>
+                                        setRatio(-0.02)}}><h6>{t("Vote")}</h6></div>
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
-                                        setRatio(-0.03)}}><h6>Vote</h6></div>
+                                        setRatio(-0.03)}}><h6>{t("Vote")}</h6></div>
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
-                                        setRatio(-0.04)}}><h6>Vote</h6></div>
+                                        setRatio(-0.04)}}><h6>{t("Vote")}</h6></div>
                                         <div className='vote_btn' onClick={()=>{setVoted(true)
-                                        setRatio(-0.05)}}><h6>Vote</h6></div>
+                                        setRatio(-0.05)}}><h6>{t("Vote")}</h6></div>
                                     </div>
                                 </div>
                             </div>

@@ -1,7 +1,7 @@
 require('dotenv').config();
 const { users, companys, dividend_his, position_his, price_his } = require('../models');
 const { depositFaucet, sendEtherToUser, getEtherBalance } = require('../chainUtils/etherUtils');
-const { getTokenBalance, getTokenName, signAndSendTx, sendTokenToUser } = require('../chainUtils/tokenUtils');
+const { getTokenBalance, getTokenName, signAndSendTx, sendTokenToUser } = require('../chainUtils/ENTAUtils');
 
 module.exports = {
   enroll: async (req, res, next) => {
@@ -11,7 +11,7 @@ module.exports = {
     });
     try {
       if(userInfo === null) {
-        const enrollNewWallet = await users.create({
+        await users.create({
           wallet,
         })
         const result = {
@@ -72,12 +72,19 @@ module.exports = {
 
   // 무한 스크롤 기능 구현시 offset, limit을 이용한 수정 필요
   position: async (req, res, next) => {
-    const { wallet } = req.query;
+    const { wallet,offset,limit } = req.query;
     try {
+      if(!wallet) return res.status(400).json({message:'not enough query'});
       const userPosition = await position_his.findAll({
         where: { user_wallet: wallet },
+        offset: Number(offset),
+        limit: Number(limit),
+        order: [['id', 'DESC']],
       })
-      return res.status(200).json(userPosition)
+      const total = await position_his.findAll({ where: { user_wallet: wallet } });
+      if(!total) return res.status(400).json({message:"No such data"});
+      return res.status(200).json({userPosition:userPosition,totalLength: total.length});
+      
     } catch (err) {
       console.error(err);
       return next(err);
@@ -91,34 +98,13 @@ module.exports = {
         where: { wallet }
       })
       if(!userInfo) return res.status(400).json({message: "No such user"});
-      const balance = await getTokenBalance(wallet); // 컨트랙트
+      // const balance = await getTokenBalance(wallet);
       const result = {
         name : userInfo.name,
         faucet: userInfo.faucet,
         cnt: userInfo.cnt,
-        amount: balance
       }
       return res.status(200).json(result)
-    } catch (err) {
-      console.error(err);
-      return next(err);
-    }
-  },
-
-  // 배열로 된 stoken에 대한 데이터 입력 방법 찾기
-  // 추후에 기업이 여러개 생길때 구현해야 하는 부분임
-  // stoken 컬럼에 대한 데이터 입력 테스트 => 수정 필요
-  sample: async (req, res, next) => {
-    const { wallet } = req.query;
-    const { stoken } = req.body; // 주소값만 넣으면 됨
-    try {
-      const currentStoken = await users.findOne({where: {wallet}});
-      console.log(currentStoken.stoken);
-      const changedStoken = [...currentStoken.stoken];
-      console.log(changedStoken);
-      const jsonStoken = JSON.stringify(changedStoken);
-      const result = await users.update({stoken: jsonStoken}, {where: wallet});
-      return res.status(200).json(result);
     } catch (err) {
       console.error(err);
       return next(err);
@@ -147,6 +133,25 @@ module.exports = {
     try {
       const balance = await getEtherBalance(wallet);
       return res.status(200).send({balance})
+    } catch (err) {
+      console.error(err);
+      return next(err);
+    }
+  },
+
+  personalDividend: async (req, res, next) => {
+    const { wallet } = req.query;
+    try {
+      const entaDividend = await position_his.sum('price', { where: { user_wallet: wallet, order: 'dividend', token_name: 'ENTAToken' } });
+      const bebDividend = await position_his.sum('price', { where: { user_wallet: wallet, order: 'dividend', token_name: 'BEBToken' } });
+      const leoDividend = await position_his.sum('price', { where: { user_wallet: wallet, order: 'dividend', token_name: 'LEOToken' } });
+      // if(!entaDividend || !bebDividend || !leoDividend) return res.status(400).send({message: "wrong with sum query"})
+      const result = {
+        ENTAToken: entaDividend,
+        BEBToken: bebDividend,
+        LEOToken: leoDividend
+      }
+      return res.status(200).json(result);
     } catch (err) {
       console.error(err);
       return next(err);

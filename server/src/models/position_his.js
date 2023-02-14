@@ -20,8 +20,9 @@ module.exports = (sequelize, DataTypes) => {
     price: DataTypes.STRING,
     amount: DataTypes.STRING,
     fee: DataTypes.STRING,
-    vote: DataTypes.STRING,
-    company_name: DataTypes.STRING
+    token_name: DataTypes.STRING,
+    txin: DataTypes.STRING,
+    txout: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'position_his',

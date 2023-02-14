@@ -4,22 +4,24 @@ import Modal from "react-modal"
 import { Link } from "react-router-dom";
 import { Tutorial } from "../apis/user";
 import '../assets/css/main.css';
+import i18n from "../lang/i18n";
 import SelectBox from './Select';
 import Tutorials from "./Tutorials";
+import { useTranslation } from "react-i18next";
 
-const Navigator =({/*company*/})=>{
-    const [pdModalIsOpen, setPdModalIsOpen] = useState(false);
+const Navigator =({isCircuitBreaker,stName,setStName,companyPD,totalCurrentPrices,coorpName,circuitBreakerTimer,ST_Name,userModalIsOpen,setUserModalIsOpen,date,currentPrice,pdModalIsOpen,setPdModalIsOpen,mypage,myPage,restrictCnt
+
+})=>{
     const [tutorialsClicked,setTutorialsClicked] = useState(false)
-    // const [isDate, setIsDate] = useState(0);
-    let date = (59-new Date().getMinutes())%5+":"+(59-new Date().getSeconds());
-    // useEffect(()=>{
-    //     setIsDate(date)
-    // },[pdModalIsOpen]);
+    const [currentPrices, setCurrentPrices] = useState({})
+    const [cntHandler,setCntHandler] = useState(false)
+    useEffect(()=>{
+        setCurrentPrices(currentPrice.totalCurrentPrices)
+    },[date])
+    const {t} = useTranslation();
+    const [userLang, setUserLang] = useState("ko")
 
-    const countNumber=(e)=>{
-        return e.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,",")
-    }
-    
+    // console.log(restrictCnt)
     const modalStyle = {
         
         overlay: {
@@ -35,7 +37,7 @@ const Navigator =({/*company*/})=>{
         content: {
             display: "block",
             justifyContent: "center",
-            background: "#2B2B2B",
+            background: "#222223",
             overflow: "hidden",
             top: "0",
             left: "0",
@@ -49,21 +51,12 @@ const Navigator =({/*company*/})=>{
             
         },
     };
-    const ST_1 = {
-        name:'BEBE',
-        price:'200',
-        amount:'20'
-    };
-    const ST_2 = {
-        name:'DEDE',
-        price:'100',
-        amount:'230'
-    };;
-    const ST_3 = {
-        name:'CECE',
-        price:'400',
-        amount:'10'
-    };;
+
+    const onChange = () => {
+        setUserLang((userLang === "ko") ? "en" : "ko")
+        i18n.changeLanguage(userLang)
+    }
+
     const company = {
         name:'BEBE',
         total_asset:'4000000000',
@@ -72,7 +65,6 @@ const Navigator =({/*company*/})=>{
         divided:'10',
         next_ratio:'10',
     };;
-
 
     const PdModalOpen =()=>{
         document.body.style.overflow = 'hidden';
@@ -94,7 +86,7 @@ const Navigator =({/*company*/})=>{
     <div className="navigator">
     <div className="public_disclosure">
         <div className="public_disclosure_wrapper">
-            <h4 onClick={()=>PdModalOpen()}>Public Disclosure</h4>
+            <h4 onClick={()=>PdModalOpen()}>{t("Public Disclosure")}</h4>
         </div>
         <Modal
         appElement={document.getElementById('root') || undefined}
@@ -103,37 +95,68 @@ const Navigator =({/*company*/})=>{
         style={modalStyle}
         >   
             <div className="myaccount">
-                <h1>Public Disclosure</h1>
+                <h1>{t("Public Disclosure")}</h1>
                 <div className='close' onClick={()=>PdModalClose()}>
                     <img src={require('../assets/images/close.png')}></img>
                 </div>
-                <div>
-                    <h2>Name</h2>
-                    <h3>{company.name}</h3>
+                <SelectBox
+                        set={ST_Name}
+                        termValue={stName}
+                        value={setStName}
+                ></SelectBox>
+                <div className="myaccount_section">
+                    <h3>{t("Name")}</h3>
+                    <h5>{companyPD.name}</h5>
                 </div>
-                <div>
-                    <h2>Total Assets</h2>
-                    <h3>{countNumber(company.total_asset)} ETH</h3>
-                </div>
-                <div>
-                    <h2>Income</h2>
-                    <h3>{countNumber(company.income)} ETH</h3>
-                </div>
+                <div className="myaccount_section">
+                    <h3>{t("Total Assets")}</h3>
+                    <h5>{Number(coorpName).toFixed(4)} ETH</h5>
 
-                <h2>Current Dividend</h2>
-                    <h3>{countNumber(company.divided)} ETH</h3>   
-                <h2>Current Dividend Ratio</h2>
-                    <h3>{company.divided_ratio} %</h3> 
-                <h2>Next Dividend Ratio</h2>
-                    <h3>{company.divided_ratio*100+'%'} * ( 1 + {company.next_ratio} ) = {company.divided_ratio * company.next_ratio} %</h3>   
+                </div>
+                <div className="myaccount_section">
+                    <h3>{t("Income")}</h3>
+                    <h5>{(Number(companyPD.income).toFixed(4))} ETH</h5>
+                </div>
+                <div className="myaccount_section">
+                    <h3>{t("Current Dividend")}</h3>
+                    <h5>{(Number(companyPD.dividend).toFixed(4))} ETH</h5> </div>
+                <div className="myaccount_section">
+                    <h3>{t("Current Dividend Ratio")}</h3>
+                    <h5>{companyPD.dividend_ratio} %</h5> 
+                </div>
+                <div className="myaccount_section">
+                    <h3>{t("Next Dividend Ratio")}</h3>
+                    <h5>{companyPD.dividend_ratio*100+'%'} * ( 1 + {Number(companyPD.voted_ratio)}) = {(companyPD.dividend_ratio*100 * (1+Number(companyPD.voted_ratio))).toFixed(2)} %</h5>
+                </div>
             </div>
             </Modal>
             </div>
-            <h4>Until the Next Dividend Release {date}</h4>
+            {/* <h5>{currentPrices.enta}</h5>
+            <h5>{currentPrices.beb}</h5>
+            <h5>{currentPrices.leo}</h5> */}
+            {!isCircuitBreaker?
+                <div className="until_the_next_dividend_release">
+
+                <h4>{t("Until the Next Dividend Release")} {date}</h4>
+                </div>
+                : <div className="is_circuit_breaker">
+                <h4>{t("Circuit Breaker")} {'00:'+circuitBreakerTimer}</h4>
+                </div>     
+                }  
+
             <div className="navigation_right">
-            <Link to='/' onClick={()=>setTutorialsClicked(!tutorialsClicked)}><h4 >Tutorial</h4></Link>
-                {tutorialsClicked?<Tutorials account={account} tutorialCnt={0}/>:<></>}
-                <Link to='/transaction'><h4>Transactions</h4></Link>
+            {tutorialsClicked&&account!==undefined?<Tutorials
+                myPage={myPage}
+                setCntHandler={setCntHandler}
+                account={account} 
+                cntHandler={cntHandler}
+                // tutorialCnt={tutorialCnt}
+                setPdModalIsOpen={setPdModalIsOpen}
+                setUserModalIsOpen={setUserModalIsOpen}
+                />:<></>}
+            <Link to='/' onClick={()=>{setTutorialsClicked(true);setCntHandler(true)}}><h4 >{t("Tutorial")}</h4></Link>
+                <Link to='/transaction'><h4>{t("Transactions")}</h4></Link>
+                <h4><i className="fas fa-globe" onClick={onChange}></i></h4>
             </div>
 
         </div>

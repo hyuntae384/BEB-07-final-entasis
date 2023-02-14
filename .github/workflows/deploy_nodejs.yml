@@ -1,0 +1,90 @@
+name: nodejs deploy
+
+on:
+  push: 
+    branches: 
+      - main
+      - dev
+      - TEST
+    paths: 
+      - server/**
+  workflow_dispatch: 
+
+env:
+  DOCKER_IMAGE: ghcr.io/codestates-beb/beb-07-final-entasis
+  NAME: entasis
+  VERSION: ${{ github.sha }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      working-directory: "./server"
+
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v3.3.0
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      
+      - name: Cache docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ env.VERSION }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
+      - name: Login to ghcr
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{secrets.ADUSER_NAME}}
+          password: ${{secrets.PS_TOKEN}}
+
+      - name: Docker image push
+        uses: docker/build-push-action@v4
+        with: 
+          context: ${{env.working-directory}}
+          push: true
+          platforms: linux/amd64
+          tags: ${{env.DOCKER_IMAGE}}:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+
+  deploy:
+    needs: build
+    name: Deploy
+    runs-on: [ self-hosted, label-development ]
+    steps:
+      - name: Login to ghcr
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{secrets.ADUSER_NAME}}
+          password: ${{secrets.PS_TOKEN}}
+
+      - name: Docker run
+        run: |
+
+          docker stop ${{env.NAME}} && docker rm ${{env.NAME}} && docker rmi ${{env.DOCKER_IMAGE}}
+          docker run -d --ip 172.20.0.2 -p 5050:5050 \
+          -e NODE_ENV=${{secrets.NODE_ENV}} \
+          -e COOKIE_SECRET=${{secrets.COOKIE_SECRET}} \
+          -e MYSQL_USERNAME=${{secrets.MYSQL_USERNAME}} \
+          -e MYSQL_PASSWORD=${{secrets.MYSQL_PASSWORD}} \
+          -e GANACHE_NETWORK=${{secrets.GANACHE_NETWORK}} \
+          -e ENTA_CA=${{secrets.ENTA_CA}} \
+          -e BEB_CA=${{secrets.BEB_CA}} \
+          -e LEO_CA=${{secrets.LEO_CA}} \
+          -e ADMIN_ADDRESS=${{secrets.ADMIN_ADDRESS}} \
+          -e ADMIN_PK=${{secrets.ADMIN_PK}} \
+          -e GAS=${{secrets.GAS}} \
+          -e GASPRICE=${{secrets.GASPRICE}} \
+          --name ${{env.NAME}} --restart always ${{ env.DOCKER_IMAGE }}:latest
+

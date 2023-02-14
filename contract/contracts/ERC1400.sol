@@ -91,11 +91,11 @@ contract ERC1400 is ERC1400Interface, OwnerHelper {
         _;
     }
 
-    constructor(string memory getName, string memory getSymbol, address initialController) {
+    constructor(string memory getName, string memory getSymbol, address initialController, uint256 setTotalSupply) {
         _name = getName;
         _symbol = getSymbol;
         _decimals = 18; // 이부분 기능 이해 필요
-        _totalSupply = 100000000 * E18; // 공급량 설정에 관련된 내용 필요
+        _totalSupply = setTotalSupply * E18; // 공급량 설정에 관련된 내용 필요
         _balances[msg.sender] = _totalSupply; // constructor에서 정할 수 있게 해야하나??
 
         _setController(initialController); // 거래소 주소를 controller 기본값으로 설정
@@ -318,5 +318,108 @@ contract ERC1400 is ERC1400Interface, OwnerHelper {
             _transfer(msg.sender, _tokenHolderList[i], dividend);
         }
         emit DividendPayment(totalDividend);
+    }
+
+
+
+    //===================================스테이킹 구현========================================//
+
+    mapping(address => uint256) internal stakes; //지갑주소 => 스테이킹개수
+    mapping(address => uint256) internal finishAt; //지갑주소 => 만료날짜
+    mapping(address => uint256) internal rewards; //지갑주소 => 보상토큰개수
+    address[] internal stakeholders; //스테이크홀더 주소 배열
+
+    // 지갑 주소가 스테이크홀더인지 확인하는 함수
+    function isStakeholder(address _address) public view returns(bool, uint256) {
+        for (uint256 s = 0; s < stakeholders.length; s++) {
+            if(_address == stakeholders[s]) return (true, s);
+        }
+        return (false, 0);
+    }
+
+    // stakeholders에 추가하는 함수
+    function addStakeholder(address _stakeholder) internal {
+        (bool _isStakeholder, ) = isStakeholder(_stakeholder);
+        if(!_isStakeholder) stakeholders.push(_stakeholder);
+    }
+
+    // stakeholders에서 제거하는 함수
+    function removeStakeholder(address _stakeholder) internal {
+        (bool _isStakeholder, uint256 s) = isStakeholder(_stakeholder);
+        if(_isStakeholder){
+            stakeholders[s] = stakeholders[stakeholders.length - 1];
+            stakeholders.pop();
+        }
+    }
+
+    // 특정 유저가 스테이킹 한 양을 확인하는 함수
+    function stakeOf(address _stakeholder) public view returns(uint256) {
+        return stakes[_stakeholder];
+    }
+
+    // 모든 스테이크홀더들의 스테이킹 양 총합을 구하는 함수
+    function totalStakes() public view returns(uint256) {
+        uint256 _totalStakes = 0;
+        for(uint256 s = 0; s < stakeholders.length; s++) {
+            _totalStakes = _totalStakes + stakes[stakeholders[s]];
+        }
+        return _totalStakes;
+    }
+
+    // msg.sender의 스테이킹 추가
+    function createStake(uint256 _stake) public returns(uint256) {
+        (bool _isStakeholder, ) = isStakeholder(msg.sender);
+        require(!_isStakeholder, "This msg.sender is already a stakeholder");
+        require(_balances[msg.sender] >= _stake, "lack of coin to stake");
+        
+        _balances[msg.sender] -= _stake;
+        stakes[msg.sender] = _stake;
+        rewards[msg.sender] = _stake / 100;
+        finishAt[msg.sender] = block.timestamp + (3 minutes); /* 스테이킹 기간 반드시 수정하기!!!!! */
+        addStakeholder(msg.sender);
+        return finishAt[msg.sender];
+    }
+
+    // 스테이킹을 취소하는 함수 : 보상X
+    function removeStake() public returns(bool) {
+        (bool _isStakeholder, ) = isStakeholder(msg.sender);
+        require(_isStakeholder, "This msg.sender is not a stakeholder");
+        _balances[msg.sender] += stakes[msg.sender];
+        rewards[msg.sender] = 0;
+        stakes[msg.sender] = 0;
+        removeStakeholder(msg.sender);
+        return true;
+    }
+
+    // 스테이킹 보상을 인출하는 함수 (만료일 지나야 작동)
+    function withdrawReward() public returns(uint256) {
+        require(block.timestamp >= finishAt[msg.sender], "Not withdrawable time yet");
+        uint256 reward = rewards[msg.sender] + stakes[msg.sender];
+        address _owner = owner();
+        _balances[_owner] -= rewards[msg.sender];
+        rewards[msg.sender] = 0;
+        _balances[msg.sender] += reward;
+        stakes[msg.sender] = 0;
+        removeStakeholder(msg.sender);
+        return reward;
+    }
+
+    // 스테이킹한 유저의 보상액 확인 함수
+    function rewardOf(address _stakeholder) public view returns(uint256) {
+        return rewards[_stakeholder];
+    }
+
+    // 모든 스테이크홀더의 보상액 총합을 구하는 함수
+    function totalRewards() public view returns(uint256) {
+        uint256 _totalRewards = 0;
+        for(uint256 s = 0; s < stakeholders.length; s++){
+            _totalRewards = _totalRewards + rewards[stakeholders[s]];
+        }
+        return _totalRewards;
+    }
+
+    // 만료일 보여주는 함수
+    function showFinishAt(address _stakeholder) public view returns(uint256) {
+        return finishAt[_stakeholder];
     }
 }

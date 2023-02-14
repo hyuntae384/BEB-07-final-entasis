@@ -1,18 +1,24 @@
 import axios from 'axios';
 
 // Test URL
-const origin = "http://localhost:5050";
+const origin = "http://52.78.173.200:5050/";
 const getCompanyURL = origin + "/company/"; 
 
 const vote = getCompanyURL + "vote/"
 const pdisclosure = getCompanyURL + "pdisclosure/?cdp="
 
 // Test API Request
-export const Vote = async(st_name,st_amount,ratio,wallet) => {
+export const Vote = async(st_name,ratio,wallet) => {
     if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
-    const resultVote=  axios.post(vote + `{${st_name},${st_amount},${ratio},${wallet}}`)
-    .then(res=>res)
+    const voteJSON = {
+        name:st_name,
+        ratio:ratio,
+        user_wallet:wallet
+    }
+    const resultVote=  axios.post(vote,voteJSON)
+    .then(res=>res.data)
     .then(err=>err)
+    console.log(resultVote)
     return  resultVote
 }
 export const CPD = async(name) => {

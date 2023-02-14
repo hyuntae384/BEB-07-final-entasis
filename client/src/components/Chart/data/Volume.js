@@ -1,7 +1,6 @@
 import {scaleLinear} from 'd3-scale'
 import { useEffect, useState, useRef } from "react"
 import dataToArray from '../../../functions/data_to_array'
-import PublicDisclosure from '../../PublicDisclosure';
 
 const Volume =({ 
     currentPrice,
@@ -90,11 +89,11 @@ const Volume =({
                         x2={x0}
                         y1={y}
                         y2={y}
-                        stroke='#474747'
+                        stroke='#252525'
                     ></line>
                     <text
                         className='select_ven'
-                        x={SVG_VOLUME_WIDTH - 60} y={y + 10} fontSize="10" stroke='#474747' >
+                        x={SVG_VOLUME_WIDTH - 60} y={y + 10} fontSize="10" stroke='#252525' >
                         {typeof yValue !== 'null'&&typeof yValue !== 'undefined'?yValue.toLocaleString():0} 
                     </text>
                     </g>
