@@ -68,7 +68,7 @@ useEffect(()=>{
         const setChartTotal=(async(offset,limit,tokenName) => 
         {try {
             setIsLoading(true)
-            const resultTotal = await axios.get(origin + tokenName + `?offset=${0}&limit=${10000}`)
+            const resultTotal = await axios.get(origin + tokenName + `?offset=${0}&limit=${100000}`)
             setTimeout(()=>{
                 (resultTotal.data.priceinfo.map(e=>limitChartArr.push(Object.values(e))))
                 setIsChartTotal(limitChartArr)
