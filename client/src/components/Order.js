@@ -161,7 +161,7 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
                     <h5>{t("Buy")}</h5>
                     <h5>{t("Max Open")} {stName === 'ENTAToken'? Number(buyMaxST_1).toFixed(3):
                         stName === 'BEBToken'?Number(buyMaxST_2).toFixed(3):
-                        stName === 'LEOToken'?Number(buyMaxST_3).toFixed(3):0} ETH</h5>
+                        stName === 'LEOToken'?Number(buyMaxST_3).toFixed(3):0} {stName.slice(0,stName.length-5)}</h5>
                 </button>
 
 
