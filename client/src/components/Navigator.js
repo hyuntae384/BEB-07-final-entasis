@@ -21,7 +21,7 @@ const Navigator =({isCircuitBreaker,stName,setStName,companyPD,totalCurrentPrice
     const {t} = useTranslation();
     const [userLang, setUserLang] = useState("ko")
 
-    console.log(restrictCnt)
+    // console.log(restrictCnt)
     const modalStyle = {
         
         overlay: {

@@ -115,7 +115,7 @@ const Tutorials =({account,faucetBtn,setUserModalIsOpen,setPdModalIsOpen,setCntH
     }    
     // account={account===typeof 'string'?account:0}
     // tutorialCnt={isEnroll.cnt===typeof 'number'?isEnroll.cnt:0}
-
+console.log()
     
     // console.log(document.body.style.overflow,tutorialCnt)
 if(tutorialScroll>0){
@@ -147,7 +147,7 @@ if(tutorialScroll>0){
                 <h5>For Trading</h5> 
                 <h5>Follow this Tutorial</h5>
             <h5 className='count'>1/10</h5>
-            <div className='skip' onClick={()=>{skipHandler();}}>Skip</div>
+            {/* <div className='skip' onClick={()=>{skipHandler();}}>Skip</div> */}
             <div className='next' onClick={()=>{document.body.style.overflow='unset';setTutorialScroll(tutorialScroll+1);setStart()}}>Next</div>
             </Modal>
         )}
@@ -211,7 +211,7 @@ if(tutorialScroll>0){
         </h6>
         </div>
         <h5 className='count' >2/10</h5>
-        <h5 className='skip' onClick={()=>{skipHandler()}}>Skip</h5>
+        {/* <h5 className='skip' onClick={()=>{skipHandler()}}>Skip</h5> */}
 
         <div className='next' onClick={()=>{document.body.style.overflow='unset';setTutorialScroll(tutorialScroll+1);setChart()}}>Next</div>
         </Modal>
@@ -245,7 +245,7 @@ if(tutorialScroll>0){
 
         </div>
         <h5 className='count' >3/10</h5>
-        <h5 className='skip' onClick={()=>{document.body.style.overflow='unset';skipHandler()}}>Skip</h5>
+        {/* <h5 className='skip' onClick={()=>{document.body.style.overflow='unset';skipHandler()}}>Skip</h5> */}
 
         <div className='next' onClick={()=>{document.body.style.overflow='unset';setTutorialScroll(tutorialScroll+1);setLimitOrderBook();}}>Next</div>
         </Modal>
@@ -280,7 +280,7 @@ if(tutorialScroll>0){
         </div>
 
         <h5 className='count' >4/10</h5>
-        <h5 className='skip' onClick={()=>{document.body.style.overflow='unset';skipHandler()}}>Skip</h5>
+        {/* <h5 className='skip' onClick={()=>{document.body.style.overflow='unset';skipHandler()}}>Skip</h5> */}
 
         <div className='next' onClick={()=>{document.body.style.overflow='unset';setTutorialScroll(tutorialScroll+1);setOrder();}}>Next</div>
         </Modal>
@@ -310,7 +310,7 @@ if(tutorialScroll>0){
             <h6>A public disclosure is any non-confidential communication which an inventor or invention owner makes to one or more members of the public, revealing the existence of the invention and enabling an appropriately experienced individual to reproduce the invention.</h6>
         </div>
         <h5 className='count' >5/10</h5>
-        <h5 className='skip' onClick={()=>{document.body.style.overflow='unset';skipHandler()}}>Skip</h5>
+        {/* <h5 className='skip' onClick={()=>{document.body.style.overflow='unset';skipHandler()}}>Skip</h5> */}
 
         <div className='next' onClick={()=>{document.body.style.overflow='unset';setTutorialScroll(tutorialScroll+1);setPdModalIsOpen(false);setPublicDisclosure();}}>Next</div>
         </Modal>
@@ -341,7 +341,7 @@ if(tutorialScroll>0){
             <h6>Manage Your Assets and Exercise your Voting Rights here.</h6>
         </div>
         <h5 className='count' >6/10</h5>
-        <h5 className='skip' onClick={()=>{document.body.style.overflow='unset';skipHandler();setUserModalIsOpen(false)}}>Skip</h5>
+        {/* <h5 className='skip' onClick={()=>{document.body.style.overflow='unset';skipHandler();setUserModalIsOpen(false)}}>Skip</h5> */}
 
         <div className='next' onClick={()=>{document.body.style.overflow='unset';setTutorialScroll(tutorialScroll+1);setUserModalIsOpen(false);setAssets();}}>Next</div>
         </Modal>
@@ -375,8 +375,7 @@ if(tutorialScroll>0){
             <h2 className='faucet_btn' onClick={()=>{faucetBtn(account);setIsFaucetModalOpen(true)}}>Faucet</h2>
         </div>
         <h5 className='count' >9/10</h5>
-        <h5 className='skip' onClick={()=>{document.body.style.overflow='unset';skipHandler();setUserModalIsOpen(false)}}>Skip</h5>
-        {console.log(myPage)}
+        {/* <h5 className='skip' onClick={()=>{document.body.style.overflow='unset';skipHandler();setUserModalIsOpen(false)}}>Skip</h5> */}
         {myPage!==undefined?
         <Modal
             appElement={document.getElementById('root') || undefined}
@@ -434,7 +433,7 @@ if(tutorialScroll>0){
                 <h4>your voting rights according to your stake.</h4>
             </div>
             <h5 className='count' >9/10</h5>
-            <h5 className='skip' onClick={()=>{document.body.style.overflow='unset';skipHandler();setUserModalIsOpen(false)}}>Skip</h5>
+            {/* <h5 className='skip' onClick={()=>{document.body.style.overflow='unset';skipHandler();setUserModalIsOpen(false)}}>Skip</h5> */}
     
             <div className='next' onClick={()=>{document.body.style.overflow='unset';setTutorialScroll(tutorialScroll+1);setUserModalIsOpen(false);setFaucet();}}>Next</div>
             </Modal>
@@ -466,7 +465,7 @@ if(tutorialScroll>0){
             <h6>Orders, Transaction Hash, Date</h6>
         </div>
         <h5 className='count' >7/10</h5>
-        <h5 className='skip' onClick={()=>{document.body.style.overflow='unset';skipHandler()}}>Skip</h5>
+        {/* <h5 className='skip' onClick={()=>{document.body.style.overflow='unset';skipHandler()}}>Skip</h5> */}
 
         <div className='next' onClick={()=>{document.body.style.overflow='unset';setTutorialScroll(tutorialScroll+1);setHistory()}}>Next</div>
         </Modal>
@@ -498,7 +497,7 @@ if(tutorialScroll>0){
         </div>
 
         <h5 className='count' >8/10</h5>
-        <h5 className='skip' onClick={()=>{document.body.style.overflow='unset';skipHandler()}}>Skip</h5>
+        {/* <h5 className='skip' onClick={()=>{document.body.style.overflow='unset';skipHandler()}}>Skip</h5> */}
 
         <div className='next' onClick={()=>{document.body.style.overflow='unset';setTutorialScroll(tutorialScroll+1);setIsAccount();}}>Next</div>
         </Modal>
@@ -531,7 +530,7 @@ if(tutorialScroll>0){
         </div>
 
         <h5 className='count' >10/10</h5>
-        <h5 className='skip' onClick={()=>{document.body.style.overflow='unset';skipHandler()}}>Skip</h5>
+        {/* <h5 className='skip' onClick={()=>{document.body.style.overflow='unset';skipHandler()}}>Skip</h5> */}
 
         <div className='next' onClick={()=>{document.body.style.overflow='unset';setTutorialScroll(tutorialScroll+1);setTransaction();}}>Next</div>
         </Modal>
@@ -564,7 +563,7 @@ if(tutorialScroll>0){
         </div>
 
         <h5 className='count' >10/10</h5>
-        <h5 className='skip' onClick={()=>{document.body.style.overflow='unset';skipHandler()}}>Skip</h5>
+        {/* <h5 className='skip' onClick={()=>{document.body.style.overflow='unset';skipHandler()}}>Skip</h5> */}
 
         <div className='next' onClick={()=>{document.body.style.overflow='unset';setTutorialScroll(tutorialScroll+1);setCircuitBreaker();}}>Next</div>
 
@@ -585,13 +584,14 @@ if(tutorialScroll>0){
         isOpen={tutorialFinished}
         style={modalStyle}
         className="welcome_tutorial_tutorial_finished" onClick={() => {Tutorial(account,1);setCntHandler(false);document.body.style.overflow='unset';setTutorialScroll(0);setTutorialFinished();}} >
-        <img  onClick={() => {Tutorial(account,1);setCntHandler(false);setTutorialScroll(0);setTutorialFinished();}} className="close" src={require('../assets/images/close.png')} alt="img"></img>
         {window.onwheel = function (e) {
             document.body.style.overflow='unset'
             e.deltaY> 0
             ? setTutorialScroll(tutorialScroll < 0 ? tutorialScroll + 0 : tutorialScroll - 0)
             : setTutorialScroll(tutorialScroll > 14 ? tutorialScroll + 0  : tutorialScroll + 0)
             }}
+        <img  onClick={() => {Tutorial(account,1);setCntHandler(false);setTutorialScroll(0);setTutorialFinished();}} className="close" src={require('../assets/images/close.png')} alt="img"></img>
+
         <h2>Tutorial Finished!</h2>
         <img  onClick={() => {Tutorial(account,1);setCntHandler(false);setTutorialScroll(0);setTutorialFinished();}} className="congratulations" src={require('../assets/images/congratulations.jpeg')} alt="img"></img>
         <h5 onClick={() => {Tutorial(account,1);setCntHandler(false);setTutorialScroll(0);setTutorialFinished();}} >Now Get Your Security Token</h5>
