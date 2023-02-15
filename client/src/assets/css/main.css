@@ -741,6 +741,8 @@ div.history_date{
     margin: 20% 0 ;
     transition: 0.5s;
 }
+
+
 .welcome .logo{
     position:absolute;
 }
@@ -754,7 +756,6 @@ div.history_date{
     transform:translateX(50%) translateY(-50%);
     text-align: center;
     opacity: 0.8;
-
 }
 .welcome_tutorial_wallet{
     width: 200px;
@@ -854,7 +855,24 @@ div.history_date{
     align-items: center;
     text-align: center;
 }
+.welcome_tutorial_vote{
+    width: 400px;
+    height: 400px;
+
+    top: 41%;
+    right: 21%;
+    align-items: center;
+    text-align: center;
+}
+
 .welcome_tutorial_faucet_complete{
+    padding: 1%;
+    position: absolute;
+    width: 20%;
+    height: 52%;
+    top: 50%;
+    right: 50%;
+    transform: translate(35%,20%);
 
 }
 img.ethers{
@@ -876,8 +894,8 @@ img.ethers{
 .welcome_tutorial_transaction{
     width: 200px;
     height: 120px;
-    top: 12%;
-    right: 4.5%;
+    top: 10%;
+    right: 1%;
 
 }
 .welcome_tutorial_circuit_breaker{
@@ -906,13 +924,20 @@ img.ethers{
 .welcome_connection:active{
     opacity: 0.4;
 }
+.welcome_tutorial .congratulations{
+    border-radius: 5px;
+    margin: 1% 0;
+    width: 200%;
+    height: auto;
+    transform:translateX(-25%);
+
+}
 
 .congratulations{
     border-radius: 5px;
     margin: 1% 0;
     width: 100%;
     height: auto;
-    
 }
 .voted{
     border-radius: 5px;
@@ -954,6 +979,7 @@ img.ethers{
 .welcome_tutorial_history,
 .welcome_tutorial_account,
 .welcome_tutorial_faucet,
+.welcome_tutorial_vote,
 .welcome_tutorial_transaction,
 .welcome_tutorial_circuit_breaker,
 .welcome_tutorial_tutorial_finished{
@@ -977,6 +1003,7 @@ img.ethers{
 .welcome_tutorial_history h4,
 .welcome_tutorial_account h4,
 .welcome_tutorial_faucet h4,
+.welcome_tutorial_vote h4,
 .welcome_tutorial_transaction h4,
 .welcome_tutorial_circuit_breaker h4,
 .welcome_tutorial_tutorial_finished h4{
@@ -993,6 +1020,7 @@ body:active .welcome_tutorial_assets,
 body:active .welcome_tutorial_history,
 body:active .welcome_tutorial_account,
 body:active .welcome_tutorial_faucet,
+body:active .welcome_tutorial_vote,
 body:active .welcome_tutorial_transaction,
 body:active .welcome_tutorial_circuit_breaker,
 body:active .welcome_tutorial_tutorial_finished{
@@ -1056,7 +1084,18 @@ select, input{
 input{
     padding: 4%;
 }
-
+.Click_Stake{
+    color: var(--gray-light-color);
+}
+.Click_Stake:hover{
+    filter: brightness(2);
+}
+.Click_Order{
+    color: var(--gray-dark-color);
+}
+.Click_Order:hover{
+    filter: brightness(2);
+}
 .order_mode{
     padding-top: 0;
     display: flex;
@@ -1066,7 +1105,7 @@ input{
     align-items: baseline;
 }
 .order_select{
-    width: 40%;
+    width: 30%;
     align-items: center;    
 }
 .order{
@@ -1094,6 +1133,56 @@ input{
     overflow: hidden;
     padding: 0;
 }
+.make_staking{
+    width: 99.3%;
+    height: 50px;
+    padding: 2% 0 0 0 ;
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 0;
+}
+.staking_stake{
+    width: 100%;
+    height: 100%;
+    border: 0;
+    transition: 0.2s;
+    color: var(--white-color);
+    background-color: rgb(27, 172, 112);
+}
+.staking_reward{
+    width: 100%;
+    height: 100%;
+    border: 0;
+    transition: 0.2s;
+    color: var(--white-color);
+    background-color: var(--Secondary-color);
+}
+.make_reward{
+    width: 99.3%;
+    height: 50px;
+    padding: 2% 0 0 0 ;
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 0;
+}
+.cant_reward{
+    width: 100%;
+    height: 100%;
+    border: 0;
+    transition: 0.2s;
+    color: var(--white-color);
+    background-color: var(--onSecondary-color);
+    filter: brightness(0.7);
+}
+.staking_stake:hover,.staking_reward:hover{
+    filter: brightness(0.7);
+}
+
+.count_down{
+    padding: 2px 5px;
+    background-color: var(--gray-dark-color);
+    color:rgb(27, 172, 112);
+}
 .order_buy,.order_sell{
     width: 50%;
     height: 100%;
@@ -1105,7 +1194,6 @@ input{
 }
 .order_buy h5, .order_sell h5{
     border-bottom: 1px solid var();
-
 }
 .order_buy{
     color: var(--white-color);

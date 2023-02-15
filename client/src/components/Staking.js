@@ -1,13 +1,18 @@
 import { useState , useEffect} from "react"
 import { useTranslation } from "react-i18next";
+import {Stake, Reward} from '../apis/token';
+import SelectBox from "./Select";
 
-const Staking =({setStaking,stName,tokenContract,setTokenName,userAccount,web3,curPrice,userEntaToken,userBebToken,userLeoToken})=>{
+const Staking =({setStaking,stName,tokenContract,setTokenName,userAccount,web3,curPrice,userEntaToken,userBebToken,userLeoToken,bebStakeToken,entaStakeToken,leoStakeToken,entaStakeReward,bebStakeReward,leoStakeReward,tokenName,ST_Name,setStName,staking})=>{
+
+
     const {t} = useTranslation();
     const [restTime, setRestTime] = useState("")
     const [amount, setAmount]  = useState("0")
     const [isStake,setIsStake] = useState(0)
     const [token, setToken] = useState("enta")
-    const [tokenReward, setTokenReward] = useState("0")
+    const [countTime, setCountTime] = useState("-")
+    const [dateTime, setDateTime] = useState("")
 
     // tokenContract.methods.showFinishAt(userAccount).call().then(console.log)
     // tokenContract.methods.stakeOf(userAccount).call().then(console.log)
@@ -23,7 +28,21 @@ const Staking =({setStaking,stName,tokenContract,setTokenName,userAccount,web3,c
 
     function amountChange(e) {
         setAmount(e.target.value)
-        console.log(amount)
+    }
+
+    function changeMonth(month) {
+        if(month =="Jan") return "01"
+        if(month =="Feb") return "02"
+        if(month =="Mar") return "03"
+        if(month =="Apr") return "04"
+        if(month =="May") return "05"
+        if(month =="Jun") return "06"
+        if(month =="Jul") return "07"
+        if(month =="Aug") return "08"
+        if(month =="Sep") return "09"
+        if(month =="Oct") return "10"
+        if(month =="Nov") return "11"
+        if(month =="Dec") return "12"
     }
 
     if(stName === 'ENTAToken') setTokenName('enta')
@@ -31,18 +50,41 @@ const Staking =({setStaking,stName,tokenContract,setTokenName,userAccount,web3,c
     if(stName === 'LEOToken') setTokenName('leo')
 
     async function finishUnixTime(){
-        if(isStake == 0) return setRestTime("Any Token Staked")
+        if(isStake == 0) return (
+            setCountTime(" "),
+            setDateTime(''))
         const time = await tokenContract.methods.showFinishAt(userAccount).call()
-        if(time == 0) return setRestTime("Any Token Staked")
         const date = new Date(time*1000)
-        setRestTime(date.toString())
+        const realTime = String(Date.now()).slice(0,10)
+        const leftTime = time*1000 - realTime*1000
+        if(Number(leftTime) <= 0) return (
+            setCountTime("Able"),
+            setRestTime(0)
+            )
+        const returnTime = leftTime/1000
+        const split = (date.toString()).split(" ")
+        const resultDate = `${split[3]} ${changeMonth(split[1])} ${split[2]} ${split[4]}`
+        setDateTime(resultDate)
+        setRestTime(returnTime)
     }
 
+    function getLeftTime(seconds) {
+        if(seconds === 0) return setCountTime("Able")
+        const hour = parseInt(seconds/3600);
+        const min = parseInt((seconds%3600)/60);
+        const sec = seconds%60;
+        const time = `${hour}:${min}:${sec}`
+        setCountTime(time)
+        }
+
     useEffect(() => {
+        getLeftTime(restTime)
         finishUnixTime()
+    },[new Date().getSeconds()])
+
+    useEffect(() => {
         checkStake()
         getTokenBalance()
-        getRewardOf()
     },[curPrice])
 
     async function stake(){
@@ -56,6 +98,7 @@ const Staking =({setStaking,stName,tokenContract,setTokenName,userAccount,web3,c
         }
         await web3.eth.sendTransaction(tx).then(function(receipt){
             console.log(receipt)
+            Stake(tokenName, String(curPrice), String(amount), userAccount, receipt.transactionHash)
         })
     }
 
@@ -70,6 +113,7 @@ const Staking =({setStaking,stName,tokenContract,setTokenName,userAccount,web3,c
         }
         await web3.eth.sendTransaction(tx).then(function(receipt){
             console.log(receipt)
+            Reward(tokenName, String(curPrice), String(amount), userAccount, receipt.transactionHash)
         })
     }
 
@@ -79,33 +123,115 @@ const Staking =({setStaking,stName,tokenContract,setTokenName,userAccount,web3,c
         if(stName === 'LEOToken') setToken(userLeoToken)
     }
 
-    async function getRewardOf(){
-        const reward = await tokenContract.methods.rewardOf(userAccount).call()
-        setTokenReward(web3.utils.fromWei(reward, 'ether'))
+    function CheckAble() {
+        if(countTime ===" "){
+            return (
+                <h5> </h5>)
+        }
+        if(countTime ==="Able"){
+            return (
+                <div className="make_reward">
+                    <button type="button" className="staking_reward" onClick={reward}>
+                        <h5>Reward</h5>
+                    </button>
+                </div>)
+        }
+        else return (
+            <div className="make_reward">
+                <button type="button" className="cant_reward">
+                    <h5>Reward</h5>
+                </button>
+            </div>)
+
     }
 
+    // 출금까지 남은 시간 표시
+    // 출금 가능 시간에 따라서 버튼 활성 시각화
+    
 
     return(
-        <div>
-            <div>{stName}</div>
-            <h5>{t("Available Token")} : {token}</h5>
-            <input type="text" onChange={e => amountChange(e)} placeholder={"Amount"}></input>
-            <div>
-                <button onClick={stake}>{t("Staking")}</button>
-            </div><br/>
-            <div>
-                <h5>{t("Available Withdraw Time")}</h5>
-                <h6>{restTime}</h6>
-                <button onClick={reward}>{t("Reward")}</button>
+        <div className="order">
+        {staking?
+        <div className="order_mode">
+            {/* <h3>Limit</h3> */}
+
+            <h4 className="Click_Order" onClick={()=>setStaking(false)}>{t("Market Order")}</h4>
+            <h4 className="Click_Stake" onClick={()=>setStaking(true)}>{t("Staking")}</h4>
+
+            <div className="order_select">
+                <SelectBox
+                    set={ST_Name}
+                    termValue={stName}
+                    value={setStName}
+                ></SelectBox>
             </div>
-            <div>
-                <h5>{t("Token Reward")} : {tokenReward}</h5>
+        </div>:
+        <div className="order_mode">
+            {/* <h3>Limit</h3> */}
+
+            <h4 className="Click_Stake" onClick={()=>setStaking(false)}>{t("Market Order")}</h4>
+            <h4 className="Click_Order" onClick={()=>setStaking(true)}>{t("Staking")}</h4>
+
+            <div className="order_select">
+                <SelectBox
+                    set={ST_Name}
+                    termValue={stName}
+                    value={setStName}
+                ></SelectBox>
             </div>
-            <div>
-                <button onClick={changeOrder}>Order</button>
+        </div>
+        }
+            <form>
+                <h6 className="order_available">{t("Available Token")} : {token} {stName}</h6>
+                <input type="text" className="order_price" placeholder={curPrice} readOnly></input>
+                <input type="text" className="order_amount" onChange={e => amountChange(e)} placeholder={t("Amount")}></input>
+                <div className="make_staking">
+                    <button type="button" className="staking_stake" onClick={stake}>
+                        <h5>{t("Staking")}</h5>
+                    </button>
+                </div>
+            </form>
+            <div className='assets'>
+                <div className="total_assets">
+                    <h4>{t("Stake Amount List")}</h4>
+                </div>      
+                <div className='assets_wraper'>
+                    <h6>ENTAToken : {entaStakeToken}</h6>
+                    <h6>BEBToken : {bebStakeToken}</h6>
+                    <h6>LEOToken : {leoStakeToken}</h6>
+                </div>
+            </div>
+            <div className='assets'>
+                <div className="total_assets">
+                    <h4>{t("Staking Reward List")}</h4>
+                </div>      
+                <div className='assets_wraper'>
+                    <h6>{entaStakeReward} ENTA</h6>
+                    <h6>{bebStakeReward} BEB</h6>
+                    <h6>{leoStakeReward} LEO</h6>
+                </div>
+            </div>
+            <div className='deposit'>
+            <div className='deposit_wrapper'>
+            <div className='deposit_faucet'>
+
+                <h4>{t("Available Reward Time")}</h4>
+                <h5 className="count_down">{countTime}</h5>
+
+
+                    </div>
+                    <h5>{dateTime}</h5>
+                </div>
+                <CheckAble/>
+
             </div>
         </div>
     )
 }
+
+
+
+
+
 
 export default Staking

@@ -9,20 +9,19 @@ import SelectBox from './Select';
 import Tutorials from "./Tutorials";
 import { useTranslation } from "react-i18next";
 
-const Navigator =({isCircuitBreaker,stName,setStName,companyPD,totalCurrentPrices,coorpName,circuitBreakerTimer,ST_Name,userModalIsOpen,setUserModalIsOpen,date,currentPrice,pdModalIsOpen,setPdModalIsOpen
+const Navigator =({isCircuitBreaker,stName,setStName,companyPD,totalCurrentPrices,coorpName,circuitBreakerTimer,ST_Name,userModalIsOpen,setUserModalIsOpen,date,currentPrice,pdModalIsOpen,setPdModalIsOpen,mypage,myPage,restrictCnt
 
 })=>{
     const [tutorialsClicked,setTutorialsClicked] = useState(false)
     const [currentPrices, setCurrentPrices] = useState({})
+    const [cntHandler,setCntHandler] = useState(false)
     useEffect(()=>{
         setCurrentPrices(currentPrice.totalCurrentPrices)
     },[date])
     const {t} = useTranslation();
-    const [userLang, setUserLang] = useState("en")
+    const [userLang, setUserLang] = useState("ko")
 
-    // const countNumber=(e)=>{
-    //     return e.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g,",")
-    // }
+    // console.log(restrictCnt)
     const modalStyle = {
         
         overlay: {
@@ -137,6 +136,7 @@ const Navigator =({isCircuitBreaker,stName,setStName,companyPD,totalCurrentPrice
             <h5>{currentPrices.leo}</h5> */}
             {!isCircuitBreaker?
                 <div className="until_the_next_dividend_release">
+
                 <h4>{t("Until the Next Dividend Release")} {date}</h4>
                 </div>
                 : <div className="is_circuit_breaker">
@@ -145,13 +145,16 @@ const Navigator =({isCircuitBreaker,stName,setStName,companyPD,totalCurrentPrice
                 }  
 
             <div className="navigation_right">
-            <Link to='/' onClick={()=>setTutorialsClicked(true)}><h4 >{t("Tutorial")}</h4></Link>
-                {tutorialsClicked?<Tutorials
+            {tutorialsClicked&&account!==undefined?<Tutorials
+                myPage={myPage}
+                setCntHandler={setCntHandler}
                 account={account} 
-                tutorialCnt={0}
+                cntHandler={cntHandler}
+                // tutorialCnt={tutorialCnt}
                 setPdModalIsOpen={setPdModalIsOpen}
                 setUserModalIsOpen={setUserModalIsOpen}
                 />:<></>}
+            <Link to='/' onClick={()=>{setTutorialsClicked(true);setCntHandler(true)}}><h4 >{t("Tutorial")}</h4></Link>
                 <Link to='/transaction'><h4>{t("Transactions")}</h4></Link>
                 <h4><i className="fas fa-globe" onClick={onChange}></i></h4>
             </div>

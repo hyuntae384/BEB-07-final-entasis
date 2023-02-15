@@ -7,11 +7,42 @@ import Web3 from "web3";
 import TokenABI from "../ABIs/ERC1400.json"
 import SelectBox from "./Select";
 import { useTranslation } from "react-i18next";
+import ReactModal from "react-modal";
 
-const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,tokenName,totalCurrentPrices,refresh,setRefresh,ST_Name,setTokenName,amount,price,web3,userAccount,serverAddress,token,tokenContract,setAmount,curPrice,isFaucet,faucetBtn,account,stName,setStName,myPage,setStaking
+const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,tokenName,totalCurrentPrices,refresh,setRefresh,ST_Name,setTokenName,amount,price,web3,userAccount,serverAddress,token,tokenContract,setAmount,curPrice,isFaucet,faucetBtn,account,stName,setStName,myPage,setStaking,bebStakeToken,entaStakeToken,leoStakeToken,staking
 
 })=>{
+    const [isFaucetModalOpen,setIsFaucetModalOpen]=useState(false);
+
     const { t } = useTranslation();
+    const modalStyle_2 = {
+        overlay: {
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            overflow: "hidden",
+            zIndex: 10,
+        },
+        content: {
+            display: "block",
+            justifyContent: "center",
+            background: "#222223",
+            overflow: "hidden",
+            top: "15%",
+            left: "33%",
+            right: "33%",
+            bottom: "15%",
+            border:"0",
+            borderRadius: "20px",
+            WebkitOverflowScrolling: "touch",
+            outline: "none",
+            zIndex: 10,
+            opacity:0.9
+        },
+    };
 
     // 구매
     async function SendETH(){
@@ -46,9 +77,7 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
         setRefresh(!refresh)
     }
 
-    function changeStaking() {
-        setStaking(true)
-    }
+
 
 
     const ST_1 = {
@@ -60,11 +89,11 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
     const ST_3 = {
         name:'LEO',price:(totalCurrentPrices.leo * userLeoToken).toFixed(4) ,amount: userLeoToken
     };
-    let buyMaxST_1 = Math.floor(Number(userEth)/Number(totalCurrentPrices.enta))
+    let buyMaxST_1 = (userEth/totalCurrentPrices.enta)
     let sellMaxST_1 = ST_1.amount
-    let buyMaxST_2 = Math.floor(userEth/totalCurrentPrices.beb)
+    let buyMaxST_2 = (userEth/totalCurrentPrices.beb)
     let sellMaxST_2 = ST_2.amount
-    let buyMaxST_3 = Math.floor(userEth/totalCurrentPrices.leo)
+    let buyMaxST_3 = (userEth/totalCurrentPrices.leo)
     let sellMaxST_3 = ST_3.amount
     let amountMax = (buyMax,sellMax)=>{return Math.max(buyMax,sellMax)}
     function amountChange(e){
@@ -92,9 +121,27 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
 
     return(
     <div className="order">
+        {staking?
         <div className="order_mode">
             {/* <h3>Limit</h3> */}
-            <h3>{t("Market Order")}</h3>
+
+            <h4 className="Click_Order" onClick={()=>setStaking(false)}>{t("Market Order")}</h4>
+            <h4 className="Click_Stake" onClick={()=>setStaking(true)}>{t("Staking")}</h4>
+
+            <div className="order_select">
+                <SelectBox
+                    set={ST_Name}
+                    termValue={stName}
+                    value={setStName}
+                ></SelectBox>
+            </div>
+        </div>:
+        <div className="order_mode">
+            {/* <h3>Limit</h3> */}
+
+            <h4 className="Click_Stake" onClick={()=>setStaking(false)}>{t("Market Order")}</h4>
+            <h4 className="Click_Order" onClick={()=>setStaking(true)}>{t("Staking")}</h4>
+
             <div className="order_select">
                 <SelectBox
                     set={ST_Name}
@@ -103,6 +150,7 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
                 ></SelectBox>
             </div>
         </div>
+        }
         <form>
             <h6 className="order_available">{t("Available Eth")} : {userEth}</h6>
             <input type="text" className="order_price" /* onChange={e => priceChange(e)} */ placeholder={curPrice} readOnly></input>
@@ -111,17 +159,17 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
             <div className="make_order">
                 <button type="button" className="order_buy" onClick={SendETH}>
                     <h5>{t("Buy")}</h5>
-                    <h5>{t("Max Open")} {stName === 'ENTAToken'? buyMaxST_1:
-                        stName === 'BEBToken'?buyMaxST_2:
-                        stName === 'LEOToken'?buyMaxST_3:0} ETH</h5>
+                    <h5>{t("Max Open")} {stName === 'ENTAToken'? Number(buyMaxST_1).toFixed(3):
+                        stName === 'BEBToken'?Number(buyMaxST_2).toFixed(3):
+                        stName === 'LEOToken'?Number(buyMaxST_3).toFixed(3):0} {stName.slice(0,stName.length-5)}</h5>
                 </button>
 
 
                 <button type="button" className="order_sell" onClick={SendToken}>
                     <h5>{t("Sell")}</h5>
-                    <h5>{t("Max Open")} {stName === 'ENTAToken'? sellMaxST_1:
-                        stName === 'BEBToken'?sellMaxST_2:
-                        stName === 'LEOToken'?sellMaxST_3:0} {stName.slice(0,stName.length-5)}</h5>
+                    <h5>{t("Max Open")} {stName === 'ENTAToken'? Number(sellMaxST_1).toFixed(3):
+                        stName === 'BEBToken'?Number(sellMaxST_2).toFixed(3):
+                        stName === 'LEOToken'?Number(sellMaxST_3).toFixed(3):0} {stName.slice(0,stName.length-5)}</h5>
                 </button>
             </div>
         </form>
@@ -140,17 +188,42 @@ const Order =({ST_CurrentPrice,userEth,userEntaToken,userBebToken,userLeoToken,t
             <div className='deposit_wrapper'>
                 <div className='deposit_faucet'>
                     <h5>{isFaucet?50:0}ETH</h5>
-                    <div className='btn' onClick={()=>faucetBtn()}><h5>{t("Faucet")}</h5></div>
+                    <div className='btn' onClick={()=>{faucetBtn(account);setIsFaucetModalOpen(true)}}><h5>{t("Faucet")}</h5></div>
                 </div>
                 <div className='account_address'>
                     <div className='account'><h5>{account}</h5></div>
-                    <div className='btn' onClick={()=>faucetBtn()}><h5>{t("Copy")}</h5></div>
-                </div>
+                    <div className='btn' onClick={()=>faucetBtn(account)}><h5>{t("Copy")}</h5>
+                    {myPage.data!==undefined?
+                    <ReactModal
+                        appElement={document.getElementById('root') || undefined}
+                        onRequestClose={()=>setIsFaucetModalOpen(false)}
 
+                        isOpen={isFaucetModalOpen}
+                        style={modalStyle_2}
+                        className="welcome_tutorial_faucet_complete" onClick={() => setIsFaucetModalOpen(false)} onFocus={document.body.style.overflow='hidden'}
+                        >{myPage.data.faucet?<div className='welcome_connection'>
+                        <img src={require('../assets/images/ENTASIS.png')} alt='entasis'></img>
+                        <img className='close' onClick={()=>setIsFaucetModalOpen(false)} src={require('../assets/images/close.png')} alt='close'></img>
+                        <img className="congratulations" src={require('../assets/images/no.gif')} alt='entasis'></img>
+                        <h4>You Already Got 50.00 ETH</h4>
+                        </div>:
+                        <div className='welcome_connection'>
+                        <img src={require('../assets/images/ENTASIS.png')} alt='entasis'></img><br/>
+                        <img className='close' onClick={()=>setIsFaucetModalOpen(false)} src={require('../assets/images/close.png')} alt='close'></img><br/>
+                        <img className="congratulations" src={require('../assets/images/voted.gif')} alt='entasis'></img>
+                        <h4>Check Your 50.00ETH in Deposit</h4>
+                        </div>}
+                    </ReactModal>:<></>
+                    }
+                    </div>
+                </div>
             </div>
-            <h4>Stake</h4>
+
+            <h4>{t("Staking")}</h4>
                 <div className='deposit_wrapper'>
-                    <button onClick={changeStaking}>Stake</button>
+                    <h6>ENTAToken : {entaStakeToken}</h6>
+                    <h6>BEBToken : {bebStakeToken}</h6>
+                    <h6>LEOToken : {leoStakeToken}</h6>
                 </div>
         </div>
     </div>

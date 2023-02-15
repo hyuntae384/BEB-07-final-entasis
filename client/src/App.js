@@ -32,7 +32,13 @@ function App() {
   const [userBebToken, setUserBebToken] = useState("")
   const [userLeoToken, setUserLeoToken] = useState("")
   const [pdModalIsOpen, setPdModalIsOpen] = useState(false);
-
+  const [entaStakeToken, setEntaStakeToken] = useState("0")
+const [bebStakeToken, setBebStakeToken] = useState("0")
+const [leoStakeToken, setLeoStakeToken] = useState("0")
+const [entaStakeReward, setEntaStakeReward] = useState("0")
+const [bebStakeReward, setBebStakeReward] = useState("0")
+const [leoStakeReward, setLeoStakeReward] = useState("0")
+const [restrictCnt,setRestrictCnt] = useState()
   const [currentPrice, setCurrentPrice] = useState({
     close : "0",
     createdAt : "0",
@@ -43,30 +49,29 @@ function App() {
     totalVolFrom : "0",
     totalVolTo : "0"
 })
-const [stName, setStName] = useState('ENTAToken');
+  const [stName, setStName] = useState('ENTAToken');
 
   const [isWelcome,setIsWelcome]=useState(false)
   const [txs, setTxs] = useState({
     transaction_in:"",
     transaction_out:""
 })
-const [companyPD, setCompanyPD] =useState([]) 
-const [coorpName,setCoorpName] = useState('')
-const [userModalIsOpen, setUserModalIsOpen] = useState(false)
+  const [companyPD, setCompanyPD] =useState([]) 
+  const [coorpName,setCoorpName] = useState('')
+  const [userModalIsOpen, setUserModalIsOpen] = useState(false)
+  const {chainId, account, active, activate, deactivate} = useWeb3React();
 
 
-const {chainId, account, active, activate, deactivate} = useWeb3React();
+    const origin = "http://52.78.173.200:5050/";
+    const getUserURL = origin + "user/"; 
+    const mypage = getUserURL + "mypage/?wallet="
+    const faucet = getUserURL + "faucet/?wallet="
+    let time = new Date()
+    let date = `0${4-time.getMinutes()%5}`+":"+(time.getSeconds()<50?59-time.getSeconds():`0${59-time.getSeconds()}`);
 
-const origin = "http://52.78.173.200:5050/";
-const getUserURL = origin + "user/"; 
-const mypage = getUserURL + "mypage/?wallet="
-const faucet = getUserURL + "faucet/?wallet="
-let time = new Date()
-let date = `0${time.getMinutes()%5}`+":"+(time.getSeconds()<50?59-time.getSeconds():`0${59-time.getSeconds()}`);
-
-useEffect(() => {
-  const loop = setInterval(() => {
-      if(`${time.getSeconds()}`===`59`){
+    useEffect(() => {
+      const loop = setInterval(() => {
+          if(`${time.getSeconds()}`===`59`){
           let index = chartArr[chartArr.length-1]!==undefined?chartArr[chartArr.length-1][0]+1:undefined
           let createdAtB = currentPrice.createdAt;
           let openB= typeof chartArr[chartArr.length-1]==='object'&&!isNaN(chartArr[chartArr.length-1][3]) ?chartArr[chartArr.length-1][3]:currentPrice.open;
@@ -103,14 +108,12 @@ useEffect(() => {
         setChartOriginArr(isChartTotal)
     },[isChartTotal,tokenName])
 
-
-
+// 
 const OPTIONS = [
   { value: "ENTAToken", name: "ENTA" },
   { value: "BEBToken", name: "BEB" },
   { value: "LEOToken", name: "LEO" },
   ];
-
 const onMouseEnterHandler = () => {
   document.body.style.overflow = 'unset';
 }
@@ -161,6 +164,7 @@ const FaucetWallet = async(wallet) => {
   return (
     <BrowserRouter>
         <Header
+          myPage={myPage}
           setPdModalIsOpen={setPdModalIsOpen}
           userModalIsOpen={userModalIsOpen}
           setUserModalIsOpen={setUserModalIsOpen}
@@ -203,7 +207,12 @@ const FaucetWallet = async(wallet) => {
           setVoted={setVoted}
           setRatio={setRatio}
         />
+        {console.log(restrictCnt)}
         <Navigator
+            restrictCnt={restrictCnt}
+            myPage={myPage}
+            tutorialCnt={myPage.data!==undefined?myPage.data.cnt:1}
+            isCircuitBreaker={isCircuitBreaker}
             pdModalIsOpen={pdModalIsOpen}
             setPdModalIsOpen={setPdModalIsOpen}
             currentPrice={currentPrice}
@@ -216,7 +225,6 @@ const FaucetWallet = async(wallet) => {
             stName={stName}
             setStName={setStName}
             companyPD={companyPD}
-            isCircuitBreaker={isCircuitBreaker}
             setIsCircuitBreaker={setIsCircuitBreaker}
             OPTIONS={OPTIONS}
         />
@@ -224,6 +232,11 @@ const FaucetWallet = async(wallet) => {
 
 
         <Route path='/' element={<MainPage
+          restrictCnt={restrictCnt}
+          setRestrictCnt={setRestrictCnt}
+          setStName={setStName}
+          stName={stName}
+          ST_Name={OPTIONS}
           myPage={myPage}
           userEth={userEth}
           setUserEth={setUserEth}
@@ -250,7 +263,6 @@ const FaucetWallet = async(wallet) => {
           isLoading={isLoading}
           setIsLoading={setIsLoading}
           setCompanyPD={setCompanyPD}
-          stName={stName}
           activate={activate}
           setIsEnroll={setIsEnroll}
           ratio={ratio}
@@ -258,7 +270,6 @@ const FaucetWallet = async(wallet) => {
           setIsCircuitBreaker={setIsCircuitBreaker}
           onMouseEnterHandler={onMouseEnterHandler}
           isEnroll={isEnroll}
-          setStName={setStName}
           setTokenName={setTokenName}
           faucetBtn={faucetBtn}
           isFaucet={isFaucet}
@@ -266,6 +277,18 @@ const FaucetWallet = async(wallet) => {
           handleConnect={handleConnect}
           setCurrentPageNum={setCurrentPageNum}
           setCoorpName={setCoorpName}
+          entaStakeToken={entaStakeToken}
+          bebStakeToken={bebStakeToken}
+          leoStakeToken={leoStakeToken}
+          setEntaStakeToken={setEntaStakeToken}
+          setBebStakeToken={setBebStakeToken}
+          setLeoStakeToken={setLeoStakeToken}
+          entaStakeReward={entaStakeReward}
+          bebStakeReward={bebStakeReward}
+          leoStakeReward={leoStakeReward}
+          setEntaStakeReward={setEntaStakeReward}
+          setBebStakeReward={setBebStakeReward}
+          setLeoStakeReward={setLeoStakeReward}
           // ST_CurrentPrice={currentPrice.close} 
           // powerOfMarket={powerOfMarket}
           // userEth={userEth}

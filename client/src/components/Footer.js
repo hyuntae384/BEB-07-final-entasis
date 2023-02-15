@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import ReactModal from 'react-modal';
 import { Link, useLocation } from 'react-router-dom';
 
-const Footer =({setIsCircuitBreaker})=>{
+const Footer =({setIsCircuitBreaker,isCircuitBreaker})=>{
     const [isRestricted,setIsRestricted] = useState({});
     const [circuitModal,setCircuitModal]=useState(false)
     let [circuitBreakerTimer,setCircuitBreakerTimer] = useState(60)
@@ -25,7 +25,6 @@ const Footer =({setIsCircuitBreaker})=>{
             }
         },1000)}
     },[circuitModal,i])
-
 
 
     const{pathName} = useLocation()
@@ -79,6 +78,11 @@ const Footer =({setIsCircuitBreaker})=>{
             opacity:0.9
         },
     };
+    useEffect(()=>{
+        if(isCircuitBreaker){
+            setCircuitModal(true)
+        }else setCircuitModal(false)
+    },[isCircuitBreaker])
         
 
     return(
@@ -135,10 +139,13 @@ const Footer =({setIsCircuitBreaker})=>{
                 </div>
                 <ReactModal
                     appElement={document.getElementById('root') || undefined}
-                    onRequestClose={()=>setCircuitModal(!circuitModal)}
+                    onRequestClose={()=>setCircuitModal(false)}
                     isOpen={circuitModal}
                     style={modalStyle_2}>
                     <div className='warning_circuit_breaker'>
+                    <div className='close'>
+                    <img src={require('../assets/images/close.png')} onClick={()=>setCircuitModal(false)} alt='close'></img>
+                    </div>
                         <h1>Circuit Breaker</h1>
                         <h3>All Security Token Trading is Restricted</h3>
                         <img src={require('../assets/images/warning.gif')}/>

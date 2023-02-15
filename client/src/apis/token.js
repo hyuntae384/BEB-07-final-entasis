@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { useState } from 'react';
 
 // Test API Request
 export const BuyToken = async(token,price,amount,wallet,txin) => {
@@ -18,7 +17,7 @@ export const SellToken = async(token,price,amount,wallet,txin) => {
     return resultSellToken
 }
 
-export const Staking = async(token,price,amount,wallet,txin) => {
+export const Stake = async(token,price,amount,wallet,txin) => {
     if(wallet===null || wallet ===undefined)return new Error('Invalid Request!')
     const resultStaking = await axios.post("http://52.78.173.200:5050/"+token+"/staking", {"price":price,"amount":amount,"wallet":wallet, "txin":txin})
     .then(res=>res)

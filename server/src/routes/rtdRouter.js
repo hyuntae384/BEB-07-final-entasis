@@ -40,6 +40,10 @@ const setStv =()=>{stv = Math.random()*(0.01-(-0.01001))-0.01};
 let circuitBreaker = false;
 let toggle = true;
 let restrictToggle = false;
+let cnt = 0
+let afterM = {"m":(new Date().getMinutes()+1),"s":new Date().getSeconds()}
+
+
 
 //ENTA
 let incomeRatioENTA=0;
@@ -335,11 +339,24 @@ setInterval(async () => {
   dividend_ratio_LEO = (dividend_ratio_LEO * (1 + Number(voted_ratio_LEO))).toFixed(4) 
 }, 600000);
 
+
+
 // ENTA
 router.get('/enta', async (req, res, next) => {
   try {
+
+    const cirtcuitCnt = (e) => {
+      if(e){
+        cnt++
+        if(cnt===1){
+          return afterM;
+        }
+      }else{cnt = 0}
+      return cnt;
+    }
+
     if(!chartDataENTA) return res.status(400).json({message: "No such data"});
-    return res.status(200).json({chartDataENTA, restrictToggle});
+    return res.status(200).json({chartDataENTA, restrictToggle, cnt:cirtcuitCnt(restrictToggle)});
   } catch (err) {
     console.error(err);
     return next(err);
@@ -349,8 +366,17 @@ router.get('/enta', async (req, res, next) => {
 // BEB
 router.get('/beb', async (req, res, next) => {
   try {
+    const cirtcuitCnt = (e) => {
+      if(e){
+        cnt++
+        if(cnt===1){
+          return afterM;
+        }
+      }else{cnt = 0}
+      return cnt;
+    }
     if(!chartDataBEB) return res.status(400).json({message: "No such data"});
-    return res.status(200).json({chartDataBEB, restrictToggle});
+    return res.status(200).json({chartDataBEB, restrictToggle, cnt:cirtcuitCnt(restrictToggle)});
   } catch (err) {
     console.error(err);
     return next(err);
@@ -360,8 +386,17 @@ router.get('/beb', async (req, res, next) => {
 //LEO
 router.get('/leo', async (req, res, next) => {
   try {
+    const cirtcuitCnt = (e) => {
+      if(e){
+        cnt++
+        if(cnt===1){
+          return afterM;
+        }
+      }else{cnt = 0}
+      return cnt;
+    }
     if(!chartDataLEO) return res.status(400).json({message: "No such data"});
-    return res.status(200).json({chartDataLEO, restrictToggle});
+    return res.status(200).json({chartDataLEO, restrictToggle, cnt:cirtcuitCnt(restrictToggle)});
   } catch (err) {
     console.error(err);
     return next(err);

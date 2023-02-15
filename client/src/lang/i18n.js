@@ -18,8 +18,8 @@ i18n
     .init({
         resources: resource,
         // 초기 설정 언어
-        lng: "ko",
-        fallbackLng: "ko",
+        lng: "en",
+        fallbackLng: "en",
         debug: true,
         defaultNS: 'translation',
         ns: 'translation',

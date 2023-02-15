@@ -18,7 +18,9 @@ import { injected } from '../connectors';
 
 // import {FaucetWallet} from '../apis/user'
 
-const MainPage =({setTxs,isWelcome,setIsWelcome,setIsChartTotal,tokenName,account,currentPageNum,circuitBreakerTimer,chartOriginArr,setChartArr,chartArr,currentPrice,setCurrentPrice,isLoading,setIsLoading,setCompanyPD,stName,activate,setIsEnroll,ratio,isCircuitBreaker,setCircuitBreakerTimer,setIsCircuitBreaker,onMouseEnterHandler,isEnroll,setStName,setTokenName,faucetBtn,isFaucet,OPTIONS,handleConnect,setCurrentPageNum,setCoorpName,userEth,userEntaToken,userBebToken,userLeoToken,setUserEntaToken,setUserBebToken,setUserLeoToken,setUserEth,myPage})=>{
+const MainPage =({setTxs,isWelcome,setIsWelcome,setIsChartTotal,tokenName,account,currentPageNum,circuitBreakerTimer,chartOriginArr,setChartArr,chartArr,currentPrice,setCurrentPrice,isLoading,setIsLoading,setCompanyPD,stName,activate,setIsEnroll,ratio,isCircuitBreaker,setCircuitBreakerTimer,setIsCircuitBreaker,onMouseEnterHandler,isEnroll,setStName,setTokenName,faucetBtn,isFaucet,OPTIONS,handleConnect,setCurrentPageNum,setCoorpName,userEth,userEntaToken,userBebToken,userLeoToken,setUserEntaToken,setUserBebToken,setUserLeoToken,setUserEth,myPage,entaStakeToken,bebStakeToken,leoStakeToken,setEntaStakeToken,setBebStakeToken,setLeoStakeToken,entaStakeReward,bebStakeReward,leoStakeReward,setEntaStakeReward,setBebStakeReward,setLeoStakeReward,ST_Name,restrictCnt, setRestrictCnt
+})=>{
+
 
 
     // chart===================================================================
@@ -62,10 +64,11 @@ const MainPage =({setTxs,isWelcome,setIsWelcome,setIsChartTotal,tokenName,accoun
 useEffect(()=>{
     let limitChartArr=[];
     const origin = 'http://52.78.173.200:5050/chart/'
+    console.log(tokenName)
         const setChartTotal=(async(offset,limit,tokenName) => 
         {try {
             setIsLoading(true)
-            const resultTotal = await axios.get(origin + tokenName + `?offset=${0}&limit=${10000}`)
+            const resultTotal = await axios.get(origin + tokenName + `?offset=${0}&limit=${100000}`)
             setTimeout(()=>{
                 (resultTotal.data.priceinfo.map(e=>limitChartArr.push(Object.values(e))))
                 setIsChartTotal(limitChartArr)
@@ -202,7 +205,64 @@ useEffect(()=>{
         }
     }
 
+    // Stake Amount Check ======================================================
 
+    async function getEntaStakeToken(account){
+        if(account === undefined) setEntaStakeToken('0')
+        else {
+            let userStakeToken = await EntaTokenContract.methods.stakeOf(account).call();
+            let TransUserStakeToken = web3.utils.fromWei(userStakeToken)
+            setEntaStakeToken(TransUserStakeToken);
+        }
+    }
+
+    async function getBebStakeToken(account){
+        if(account === undefined) setBebStakeToken('0')
+        else {
+            let userStakeToken = await BebTokenContract.methods.stakeOf(account).call();
+            let TransUserStakeToken = web3.utils.fromWei(userStakeToken)
+            setBebStakeToken(TransUserStakeToken);
+        }
+    }
+
+    async function getLeoStakeToken(account){
+        if(account === undefined) setLeoStakeToken('0')
+        else {
+            let userStakeToken = await LeoTokenContract.methods.stakeOf(account).call();
+            let TransUserStakeToken = web3.utils.fromWei(userStakeToken)
+            setLeoStakeToken(TransUserStakeToken);
+        }
+    }
+
+
+    // Stake Reward Check ======================================================
+
+    async function getEntaStakeReward(account){
+        if(account === undefined) setEntaStakeReward('0')
+        else {
+            let rewardToken = await EntaTokenContract.methods.rewardOf(account).call();
+            let TransRewardToken = web3.utils.fromWei(rewardToken)
+            setEntaStakeReward(TransRewardToken);
+        }
+    }
+
+    async function getBebStakeReward(account){
+        if(account === undefined) setBebStakeReward('0')
+        else {
+            let rewardToken = await BebTokenContract.methods.rewardOf(account).call();
+            let TransRewardToken = web3.utils.fromWei(rewardToken)
+            setBebStakeReward(TransRewardToken);
+        }
+    }
+
+    async function getLeoStakeReward(account){
+        if(account === undefined) setLeoStakeReward('0')
+        else {
+            let rewardToken = await LeoTokenContract.methods.rewardOf(account).call();
+            let TransRewardToken = web3.utils.fromWei(rewardToken)
+            setLeoStakeReward(TransRewardToken);
+        }
+    }
     // chart===================================================================
     let powerOfMarket = (currentPrice.open - currentPrice.close)
     useEffect(()=>{
@@ -211,7 +271,12 @@ useEffect(()=>{
             const setChartRTD=(async () => 
                 {try {
                     currentPrice_ref.current = await axios.get('http://52.78.173.200:5050/rtd/'+tokenName)
-                    setCurrentPrice(currentPrice_ref.current.data)
+                    if(tokenName==='enta'&&currentPrice_ref!==undefined)setCurrentPrice(currentPrice_ref.current.data.chartDataENTA)
+                    if(tokenName==='beb'&&currentPrice_ref!==undefined)setCurrentPrice(currentPrice_ref.current.data.chartDataBEB)
+                    if(tokenName==='leo'&&currentPrice_ref!==undefined)setCurrentPrice(currentPrice_ref.current.data.chartDataLEO)
+                    setIsCircuitBreaker(currentPrice_ref.current.data.restrictToggle)
+                    if(typeof currentPrice_ref.current.data.cnt==='object')setRestrictCnt(currentPrice_ref.current.data.cnt)
+                    
                 } catch (e) {
                     console.log(e) // caught
                 }
@@ -241,6 +306,12 @@ useEffect(()=>{
         getUserEntaToken(userAccount);
         getUserBebToken(userAccount);
         getUserLeoToken(userAccount);
+        getEntaStakeToken(userAccount)
+        getBebStakeToken(userAccount)
+        getLeoStakeToken(userAccount)
+        getEntaStakeReward(userAccount)
+        getBebStakeReward(userAccount)
+        getLeoStakeReward(userAccount)
         Position(account,offsetHis,10)
         if(account!==undefined){
             EnrollWallet(account)
@@ -374,7 +445,7 @@ useEffect(()=>{
                 setCircuitBreakerTimer(i)
             }else{
                 clearInterval(setTime)
-                setIsCircuitBreaker(false)
+                // setIsCircuitBreaker(false)
             }
         },1000)}
     },[isCircuitBreaker,i])
@@ -460,10 +531,14 @@ return(
                 powerOfMarket={-powerOfMarket}
                 ST_CurrentPrice={currentPrice.close} 
             />
+
             {(staking ?
             <Staking
-            setStaking={setStaking}
+            staking={staking}
+            ST_Name={ST_Name}
             stName={stName}
+            setStName={setStName}
+            setStaking={setStaking}
             tokenContract={tokenContract}
             setTokenContract={setTokenContract}
             setTokenName={setTokenName}
@@ -473,9 +548,17 @@ return(
             userEntaToken={userEntaToken}
             userBebToken={userBebToken}
             userLeoToken={userLeoToken}
+            entaStakeToken={entaStakeToken}
+            bebStakeToken={bebStakeToken}
+            leoStakeToken={leoStakeToken}
+            entaStakeReward={entaStakeReward}
+            bebStakeReward={bebStakeReward}
+            leoStakeReward={leoStakeReward}
+            tokenName={tokenName}
             />
             : 
             <Order
+                staking={staking}
                 myPage={myPage}
                 stName={stName}
                 setStName={setStName}
@@ -503,6 +586,9 @@ return(
                 tokenName={tokenName}
                 totalCurrentPrices={currentPrice.totalCurrentPrices}
                 setStaking={setStaking}
+                entaStakeToken={entaStakeToken}
+                bebStakeToken={bebStakeToken}
+                leoStakeToken={leoStakeToken}
             />
             )}
             
@@ -531,6 +617,7 @@ return(
             />
         </div>
         <Footer
+            isCircuitBreaker={isCircuitBreaker}
             setIsCircuitBreaker={setIsCircuitBreaker}
         />
     </div>
