@@ -1,4 +1,7 @@
 # Project_Entasis
+## 소개 영상
+
+https://www.youtube.com/watch?v=0fmODCTVs0g
 
 ## 👨‍👨‍👧‍👧 참여자
 
