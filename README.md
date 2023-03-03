@@ -1,4 +1,5 @@
 # Project_Entasis
+https://www.youtube.com/watch?v=0fmODCTVs0g&embeds_euri=https%3A%2F%2Fcodestates.notion.site%2F&feature=emb_imp_woyt
 
 ## 👨‍👨‍👧‍👧 참여자
 
